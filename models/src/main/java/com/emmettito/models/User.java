@@ -1,4 +1,4 @@
-package com.example.models;
+package com.emmettito.models;
 
 public class User {
     private String username;
