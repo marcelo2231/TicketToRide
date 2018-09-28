@@ -3,9 +3,9 @@ package com.emmettito.tickettorideserver.communication.handlers;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.gameLobby.CreateGameCommand;
 import com.emmettito.tickettorideserver.gameLobby.QuitGameCommand;
-import com.emmettito.tickettorideserver.model.CommandData;
-import com.emmettito.tickettorideserver.model.CommandType;
-import com.emmettito.tickettorideserver.model.Result;
+import com.emmettito.models.CommandData;
+import com.emmettito.models.Result;
+import com.emmettito.models.CommandType;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 

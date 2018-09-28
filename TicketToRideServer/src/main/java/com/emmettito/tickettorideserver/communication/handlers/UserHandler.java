@@ -1,19 +1,17 @@
 package com.emmettito.tickettorideserver.communication.handlers;
 
+import com.emmettito.models.CommandData;
+import com.emmettito.models.Result;
+import com.emmettito.models.CommandType;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.model.CommandData;
-import com.emmettito.tickettorideserver.model.CommandType;
-import com.emmettito.tickettorideserver.model.Result;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 

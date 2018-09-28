@@ -1,4 +1,4 @@
-package com.emmettito.tickettorideserver.model;
+package com.emmettito.models;
 
 public class Result {
     /** Variables */

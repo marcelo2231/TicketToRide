@@ -1,6 +1,6 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
-import com.emmettito.tickettorideserver.model.Result;
+import com.emmettito.models.Result;
 
 public class RemoveGameCommand implements IGameLobbyCommand{
     public Result execute() {
