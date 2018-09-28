@@ -1,4 +1,10 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
-public class JoinGameCommand {
+import com.emmettito.tickettorideserver.model.Result;
+
+public class JoinGameCommand implements IGameLobbyCommand{
+    public Result execute() {
+
+        return new Result();
+    }
 }

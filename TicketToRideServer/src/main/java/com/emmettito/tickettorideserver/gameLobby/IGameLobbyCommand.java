@@ -1,4 +1,7 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
-public class IGameLobbyCommand {
+import com.emmettito.tickettorideserver.model.Result;
+
+public interface IGameLobbyCommand {
+    Result execute();
 }

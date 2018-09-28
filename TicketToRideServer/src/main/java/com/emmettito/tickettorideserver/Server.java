@@ -1,5 +1,7 @@
 package com.emmettito.tickettorideserver;
 
+import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
+import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
 import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -8,6 +10,10 @@ import java.net.InetSocketAddress;
 
 /**Server class: used to serve the Ticket to Ride clients*/
 public class Server {
+
+    /** Variables **/
+    HttpServer server;
+    private static int MAX_WAITING_CONNECTIONS = 100;
 
     /**
      * main: implements the web api commands
@@ -32,12 +38,25 @@ public class Server {
         System.out.println("Server started on port: " + port + "\n");
 
         try {
-            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.createContext("/", new UserHandler());
-            server.start();
+            server = HttpServer.create(new InetSocketAddress(port), MAX_WAITING_CONNECTIONS);
         }
         catch (IOException e) {
             System.out.println("Error: failed to start server on port: " + port + "\n");
+            e.printStackTrace();
+            return;
         }
+
+        server.setExecutor(null); // Using default "executor"
+
+        /** Create ServerZero.Handlers */
+        System.out.println("Creating contexts.");
+        server.createContext("/user", new UserHandler());
+        server.createContext("/game", new GameHandler());
+        server.createContext("/game/lobby", new GameLobbyHandler());
+
+        /**  Start ServerZero */
+        System.out.println("Starting Server");
+        server.start();
+        System.out.println("Server started");
     }
 }
