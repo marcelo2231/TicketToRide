@@ -1,4 +1,4 @@
 package com.emmettito.tickettoride.communication;
 
-public class Poller {
+public class Poller{
 }

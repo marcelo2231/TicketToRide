@@ -1,1 +1,1 @@
-include ':app', ':TicketToRideServer'
+include ':app', ':TicketToRideServer', ':gson-2.8.5', ':models'

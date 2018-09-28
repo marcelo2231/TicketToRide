@@ -10,6 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/TicketToRideServer" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/gson-2.8.5" />
+            <option value="$PROJECT_DIR$/models" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

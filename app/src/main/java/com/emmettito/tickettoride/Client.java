@@ -1,5 +1,5 @@
 package com.emmettito.tickettoride;
 
-public class Client {
+public class Client{
 
 }

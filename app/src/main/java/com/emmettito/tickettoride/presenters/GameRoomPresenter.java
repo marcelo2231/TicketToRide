@@ -1,4 +1,11 @@
 package com.emmettito.tickettoride.presenters;
 
-public class GameRoomPresenter {
+import java.util.Observable;
+import java.util.Observer;
+
+public class GameRoomPresenter implements Observer{
+    @Override
+    public void update(Observable observable, Object o) {
+
+    }
 }

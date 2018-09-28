@@ -12,7 +12,7 @@ import java.net.InetSocketAddress;
 public class Server {
 
     /** Variables **/
-    HttpServer server;
+    private HttpServer server;
     private static int MAX_WAITING_CONNECTIONS = 100;
 
     /**
