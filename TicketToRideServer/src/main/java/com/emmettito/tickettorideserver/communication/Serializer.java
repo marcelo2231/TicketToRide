@@ -1,6 +1,7 @@
 package com.emmettito.tickettorideserver.communication;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,6 @@ public class Serializer {
     }
 
     public String serialize(Object obj) {
-        gson = new GsonBuilder().disableHtmlEscaping().create();
         return gson.toJson(obj);
     }
 
