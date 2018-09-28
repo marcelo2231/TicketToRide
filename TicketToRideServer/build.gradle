@@ -3,6 +3,7 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('/Users/emmettturley/Documents/JavaPrograms/TicketToRide/lib/gson-2.8.5.jar')
+    compile 'com.google.code.gson:gson:2.8.5'
 }
 
 sourceCompatibility = "1.7"
