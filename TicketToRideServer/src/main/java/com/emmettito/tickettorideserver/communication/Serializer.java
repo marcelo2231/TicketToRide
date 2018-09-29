@@ -1,11 +1,12 @@
 package com.emmettito.tickettorideserver.communication;
 
+import com.emmettito.models.CommandModels.GameCommandData;
+import com.emmettito.models.CommandModels.GameLobbyCommandData;
+import com.emmettito.models.CommandModels.UserCommandData;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class Serializer {
 
@@ -19,30 +20,45 @@ public class Serializer {
         return gson.toJson(obj);
     }
 
-    public Object deserialize(InputStream str) throws Exception {
+    public GameLobbyCommandData deserializeGameLobby(InputStream str) throws Exception {
+        Scanner in = new Scanner(str);
         StringBuilder sb = new StringBuilder();
-        InputStreamReader sr = new InputStreamReader(str);
-        char[] buf = new char[1024];
-        int len;
         try {
-            while ((len = sr.read(buf)) > 0) {
-                sb.append(buf, 0, len);
+            while (in.hasNextLine()) {
+                sb.append(in.nextLine());
             }
-
-            return gson.fromJson(sb.toString(), Object.class);
-        } catch (IOException e) {
+            return gson.fromJson(sb.toString(), GameLobbyCommandData.class);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new Exception("Wrong Json input. Unable to parse it.");
+            throw new Exception("Serializer: Invalid Json input, unable to parse it.");
+        }
+    }
+
+    public GameCommandData deserializeGame(InputStream str) throws Exception {
+        Scanner in = new Scanner(str);
+        StringBuilder sb = new StringBuilder();
+        try {
+            while (in.hasNextLine()) {
+                sb.append(in.nextLine());
+            }
+            return gson.fromJson(sb.toString(), GameCommandData.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new Exception("Serializer: Invalid Json input, unable to parse it.");
+        }
+    }
+
+    public UserCommandData deserializeUser(InputStream str) throws Exception {
+        Scanner in = new Scanner(str);
+        StringBuilder sb = new StringBuilder();
+        try {
+            while (in.hasNextLine()) {
+                sb.append(in.nextLine());
+            }
+            return gson.fromJson(sb.toString(), UserCommandData.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new Exception("Serializer: Invalid Json input, unable to parse it.");
         }
     }
 }
-
-//Other option to deserialize:
-//
-//    Scanner in = new Scanner(exchange.getRequestBody());
-//
-//    StringBuilder sb = new StringBuilder();
-//
-//        while (in.hasNextLine()) {
-//        sb.append(in.nextLine());
-//    }

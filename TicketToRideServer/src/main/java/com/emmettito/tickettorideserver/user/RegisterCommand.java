@@ -1,4 +1,11 @@
 package com.emmettito.tickettorideserver.user;
 
-public class RegisterCommand {
+import com.emmettito.models.CommandModels.UserCommand;
+import com.emmettito.models.Result;
+
+public class RegisterCommand implements IUserCommand{
+    @Override
+    public Result execute(UserCommand obj) throws Exception {
+        return new Result();
+    }
 }

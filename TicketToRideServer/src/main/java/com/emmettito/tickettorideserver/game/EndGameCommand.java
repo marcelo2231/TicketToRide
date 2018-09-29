@@ -1,4 +1,11 @@
 package com.emmettito.tickettorideserver.game;
 
-public class EndGameCommand {
+import com.emmettito.models.CommandModels.GameCommand;
+import com.emmettito.models.Result;
+
+public class EndGameCommand implements IGameCommand{
+    @Override
+    public Result execute(GameCommand obj) throws Exception {
+        return new Result();
+    }
 }
