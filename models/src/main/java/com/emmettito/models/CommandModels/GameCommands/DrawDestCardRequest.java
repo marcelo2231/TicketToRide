@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameCommands;
 
-public class DrawDestCardCommandModel {
+public class DrawDestCardRequest {
     /** Variables **/
     String PlayerID;
 

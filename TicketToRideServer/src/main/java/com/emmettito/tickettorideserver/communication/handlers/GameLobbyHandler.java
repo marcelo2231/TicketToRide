@@ -1,11 +1,9 @@
 package com.emmettito.tickettorideserver.communication.handlers;
 
 import com.emmettito.models.CommandModels.GameLobbyCommandType;
+import com.emmettito.models.CommandModels.GameLobbyCommands.*;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.gameLobby.CreateGameCommand;
-import com.emmettito.tickettorideserver.gameLobby.JoinGameCommand;
-import com.emmettito.tickettorideserver.gameLobby.QuitGameCommand;
-import com.emmettito.models.CommandModels.GameLobbyCommandData;
+import com.emmettito.tickettorideserver.gameLobby.*;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.gameLobby.RemoveGameCommand;
 import com.sun.net.httpserver.HttpExchange;
@@ -15,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +26,9 @@ public class GameLobbyHandler implements HttpHandler {
         Serializer serializer = new Serializer();
         Result result = new Result();
         InputStream input = httpExchange.getRequestBody();
+        URI uri;
+        String[] requestURI;
+        String commandType;
 
 /** TEST JSON STRING **/
 /**
@@ -44,26 +46,29 @@ public class GameLobbyHandler implements HttpHandler {
 **/
 
         try {
-            /** Command Data (Create a GameLobbyCommandData Object to store Information */
-            GameLobbyCommandData cd = (GameLobbyCommandData)serializer.deserialize(input, GameLobbyCommandData.class);
+            /** Get Path */
+            uri = httpExchange.getRequestURI();
+            requestURI = uri.getPath().split("/");
 
-            if (cd.getType() == null){
+            if (requestURI.length < 3){
                 List<GameLobbyCommandType> commandTypes = Arrays.asList(GameLobbyCommandType.values());
-                throw new IOException("GameLobbyCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+                throw new IOException("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+            }else{
+                commandType = requestURI[2];
             }
 
-            switch(cd.getType()){
-                case CreateGame:
-                    result = new CreateGameCommand().execute(cd.getData());
+            switch(commandType){
+                case "CreateGame":
+                    result = new CreateGameCommand().execute(input);
                     break;
-                case QuitGame:
-                    result = new QuitGameCommand().execute(cd.getData());
+                case "QuitGame":
+                    result = new QuitGameCommand().execute(input);
                     break;
-                case RemoveGame:
-                    result = new RemoveGameCommand().execute(cd.getData());
+                case "RemoveGame":
+                    result = new RemoveGameCommand().execute(input);
                     break;
-                case JoinGame:
-                    result = new JoinGameCommand().execute(cd.getData());
+                case "JoinGame":
+                    result = new JoinGameCommand().execute(input);
                     break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");

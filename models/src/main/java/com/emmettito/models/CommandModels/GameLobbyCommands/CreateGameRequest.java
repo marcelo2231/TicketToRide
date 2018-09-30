@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameLobbyCommands;
 
-public class JoinGameCommandModel {
+public class CreateGameRequest {
     /** Variables **/
     String gameName;
     String username;

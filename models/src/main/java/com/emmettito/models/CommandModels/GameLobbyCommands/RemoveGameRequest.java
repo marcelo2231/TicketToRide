@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameLobbyCommands;
 
-public class RemoveGameCommandModel {
+public class RemoveGameRequest {
     /** Variables **/
     String gameName;
     String username;

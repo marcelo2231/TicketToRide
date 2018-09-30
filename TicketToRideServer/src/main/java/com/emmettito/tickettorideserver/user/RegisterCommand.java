@@ -1,17 +1,19 @@
 package com.emmettito.tickettorideserver.user;
 
-import com.emmettito.models.CommandModels.UserCommand;
-import com.emmettito.models.CommandModels.UserCommands.RegisterCommandModel;
+import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
 import com.emmettito.models.Results.Result;
+import com.emmettito.tickettorideserver.communication.Serializer;
+
+import java.io.InputStream;
 
 public class RegisterCommand implements IUserCommand{
-    RegisterCommandModel commandModel;
+    RegisterRequest commandModel;
 
     @Override
-    public Result execute(UserCommand obj) throws Exception {
-        if(obj.getRegisterCommandModel() != null) {
-            commandModel = obj.getRegisterCommandModel();
-        }else{
+    public Result execute(Object obj) throws Exception {
+        try{
+            commandModel = (RegisterRequest)new Serializer().deserialize((InputStream)obj, RegisterRequest.class);
+        }catch (Exception e){
             throw new Exception("RegisterCommand: command was null, please, make sure to set the RegisterCommandModel.");
         }
 
