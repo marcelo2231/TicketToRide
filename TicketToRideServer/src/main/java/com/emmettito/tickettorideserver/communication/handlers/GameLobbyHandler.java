@@ -33,16 +33,18 @@ public class GameLobbyHandler implements HttpHandler {
         String inputS = "{\n" +
                 "  \"type\": \"CreateGame\",\n" +
                 "  \"data\": " +
-                            "{\n" +
-                            "  \"GameName\": \"My new game\"\n" +
-                            "}" +
+                    "{\n" +
+                        "  \"createGameCommandModel\": {\n" +
+                        "\"GameName\": \"NewGameMarcy\""+
+                        "\n}\n" +
+                    "}" +
                 "\n}";
         input = new ByteArrayInputStream(inputS.getBytes());
 **/
 
         try {
             /** Command Data (Create a GameLobbyCommandData Object to store Information */
-            GameLobbyCommandData cd = serializer.deserializeGameLobby(input);
+            GameLobbyCommandData cd = (GameLobbyCommandData)serializer.deserialize(input, GameLobbyCommandData.class);
 
             if (cd.getType() == null){
                 List<GameLobbyCommandType> commandTypes = Arrays.asList(GameLobbyCommandType.values());

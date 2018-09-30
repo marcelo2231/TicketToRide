@@ -39,7 +39,9 @@ public class UserHandler implements HttpHandler {
          "  \"type\": \"Login\",\n" +
          "  \"data\": " +
                  "{\n" +
-                 "  \"UserID\": \"123546DSA56465ad\"\n" +
+                     "  \"loginCommandModel\": {\n" +
+                     "\"UserID\": \"123321DSADdfsa\""+
+                     "\n}\n" +
                  "}" +
          "\n}";
          input = new ByteArrayInputStream(inputS.getBytes());
@@ -47,7 +49,7 @@ public class UserHandler implements HttpHandler {
 
         try {
             /** Command Data (Create a UserCommandData Object to store Information */
-            UserCommandData cd = serializer.deserializeUser(input);
+            UserCommandData cd = (UserCommandData) serializer.deserialize(input, UserCommandData.class);
 
             if (cd.getType() == null){
                 List<UserCommandType> commandTypes = Arrays.asList(UserCommandType.values());

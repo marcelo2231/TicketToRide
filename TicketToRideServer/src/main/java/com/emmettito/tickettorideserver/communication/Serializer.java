@@ -20,42 +20,14 @@ public class Serializer {
         return gson.toJson(obj);
     }
 
-    public GameLobbyCommandData deserializeGameLobby(InputStream str) throws Exception {
+    public Object deserialize(InputStream str, Class myClass) throws Exception {
         Scanner in = new Scanner(str);
         StringBuilder sb = new StringBuilder();
         try {
             while (in.hasNextLine()) {
                 sb.append(in.nextLine());
             }
-            return gson.fromJson(sb.toString(), GameLobbyCommandData.class);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new Exception("Serializer: Invalid Json input, unable to parse it.");
-        }
-    }
-
-    public GameCommandData deserializeGame(InputStream str) throws Exception {
-        Scanner in = new Scanner(str);
-        StringBuilder sb = new StringBuilder();
-        try {
-            while (in.hasNextLine()) {
-                sb.append(in.nextLine());
-            }
-            return gson.fromJson(sb.toString(), GameCommandData.class);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new Exception("Serializer: Invalid Json input, unable to parse it.");
-        }
-    }
-
-    public UserCommandData deserializeUser(InputStream str) throws Exception {
-        Scanner in = new Scanner(str);
-        StringBuilder sb = new StringBuilder();
-        try {
-            while (in.hasNextLine()) {
-                sb.append(in.nextLine());
-            }
-            return gson.fromJson(sb.toString(), UserCommandData.class);
+            return gson.fromJson(sb.toString(), myClass);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new Exception("Serializer: Invalid Json input, unable to parse it.");

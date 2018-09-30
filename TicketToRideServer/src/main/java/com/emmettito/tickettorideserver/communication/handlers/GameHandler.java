@@ -27,18 +27,20 @@ public class GameHandler implements HttpHandler {
 
 /**
          String inputS = "{\n" +
-         "  \"type\": \"CompleteDestCard\",\n" +
-         "  \"data\": " +
-             "{\n" +
-             "  \"PlayerID\": \"123546DSA56465ad\"\n" +
-             "}" +
-             "\n}";
+                 "  \"type\": \"CompleteDestCard\",\n" +
+                 "  \"data\": " +
+                     "{\n" +
+                     "  \"completeDestCardCommandModel\": {\n" +
+                            "\"PlayerID\": \"123321DSADdfsa\""+
+                         "\n}\n" +
+                     "}" +
+                     "\n}";
          input = new ByteArrayInputStream(inputS.getBytes());
 **/
 
         try {
             /** Command Data (Create a GameCommandData Object to store Information */
-            GameCommandData cd = serializer.deserializeGame(input);
+            GameCommandData cd = (GameCommandData)serializer.deserialize(input, GameCommandData.class);
 
             if (cd.getType() == null){
                 List<GameCommandType> commandTypes = Arrays.asList(GameCommandType.values());
