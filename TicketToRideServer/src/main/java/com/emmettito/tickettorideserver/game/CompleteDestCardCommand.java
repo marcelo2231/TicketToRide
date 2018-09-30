@@ -17,7 +17,7 @@ public class CompleteDestCardCommand implements IGameCommand{
             throw new Exception("CompleteDestCardCommand: command was null, please, make sure to set the CompleteDestCardCommandModel.");
         }
 
-        // TODO: Store data on Database
+        // TODO: Store data on Database.
 
         return new Result();
     }
