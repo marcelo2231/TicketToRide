@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.user;
 
 import com.emmettito.models.CommandModels.UserCommand;
 import com.emmettito.models.CommandModels.UserCommands.LogoutCommandModel;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 
 public class LogoutCommand implements IUserCommand{
     LogoutCommandModel commandModel;
@@ -14,6 +14,8 @@ public class LogoutCommand implements IUserCommand{
         }else{
             throw new Exception("LogoutCommand: command was null, please, make sure to set the LogoutCommandModel.");
         }
+
+        // TODO: Store data on Database
 
         return new Result();
     }

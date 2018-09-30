@@ -2,13 +2,12 @@ package com.emmettito.tickettorideserver.communication.handlers;
 
 import com.emmettito.models.CommandModels.UserCommandData;
 import com.emmettito.models.CommandModels.UserCommandType;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.user.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -16,8 +15,6 @@ import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
-
-import static java.net.HttpURLConnection.HTTP_OK;
 
 public class UserHandler implements HttpHandler {
 
@@ -34,13 +31,15 @@ public class UserHandler implements HttpHandler {
         Result result = new Result();
         InputStream input = httpExchange.getRequestBody();
 
+/** TEST JSON STRING **/
 /**
          String inputS = "{\n" +
          "  \"type\": \"Login\",\n" +
          "  \"data\": " +
                  "{\n" +
                      "  \"loginCommandModel\": {\n" +
-                     "\"UserID\": \"123321DSADdfsa\""+
+                     "\"username\": \"marceloarchiza\","+
+                     "\"password\": \"123Test_\""+
                      "\n}\n" +
                  "}" +
          "\n}";

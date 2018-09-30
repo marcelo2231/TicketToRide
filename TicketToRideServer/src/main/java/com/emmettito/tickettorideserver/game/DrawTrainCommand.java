@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommand;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainCommandModel;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 
 public class DrawTrainCommand implements IGameCommand{
     DrawTrainCommandModel commandModel;
@@ -14,6 +14,8 @@ public class DrawTrainCommand implements IGameCommand{
         }else{
             throw new Exception("DrawTrainCommand: command was null, please, make sure to set the DrawTrainCommandModel.");
         }
+
+        // TODO: Store data on Database
 
         return new Result();
     }

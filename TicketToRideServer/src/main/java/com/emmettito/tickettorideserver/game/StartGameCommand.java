@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommand;
 import com.emmettito.models.CommandModels.GameCommands.StartGameCommandModel;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 
 public class StartGameCommand implements IGameCommand{
     StartGameCommandModel commandModel;
@@ -14,6 +14,8 @@ public class StartGameCommand implements IGameCommand{
         }else{
             throw new Exception("StartGameCommand: command was null, please, make sure to set the StartGameCommandModel.");
         }
+
+        // TODO: Store data on Database
 
         return new Result();
     }

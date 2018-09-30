@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.gameLobby;
 
 import com.emmettito.models.CommandModels.GameLobbyCommand;
 import com.emmettito.models.CommandModels.GameLobbyCommands.QuitGameCommandModel;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 
 public class QuitGameCommand implements IGameLobbyCommand{
     QuitGameCommandModel commandModel;
@@ -14,6 +14,8 @@ public class QuitGameCommand implements IGameLobbyCommand{
         }else{
             throw new Exception("QuitGameCommand: command was null, please, make sure to set the QuitGameCommandModel.");
         }
+
+        // TODO: Store data on Database
 
         return new Result();
     }

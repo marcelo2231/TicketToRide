@@ -2,13 +2,12 @@ package com.emmettito.tickettorideserver.communication.handlers;
 
 import com.emmettito.models.CommandModels.GameCommandData;
 import com.emmettito.models.CommandModels.GameCommandType;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.game.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -25,6 +24,7 @@ public class GameHandler implements HttpHandler {
         Result result = new Result();
         InputStream input = httpExchange.getRequestBody();
 
+/** TEST JSON STRING **/
 /**
          String inputS = "{\n" +
                  "  \"type\": \"CompleteDestCard\",\n" +

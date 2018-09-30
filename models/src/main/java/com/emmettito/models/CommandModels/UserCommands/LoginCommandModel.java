@@ -2,15 +2,24 @@ package com.emmettito.models.CommandModels.UserCommands;
 
 public class LoginCommandModel {
     /** Variables **/
-    String UserID;
+    String username;
+    String password;
 
     /** Setters **/
-    public void setUserID(String UserID) {
-        this.UserID = UserID;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /** Getters **/
-    public String getUserID() {
-        return UserID;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

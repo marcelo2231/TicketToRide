@@ -8,6 +8,7 @@ public class Player {
         this.name = name;
         this.points = 0;
     }
+
     public int getPoints() {
         return points;
     }

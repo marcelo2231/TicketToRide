@@ -6,12 +6,11 @@ import com.emmettito.tickettorideserver.gameLobby.CreateGameCommand;
 import com.emmettito.tickettorideserver.gameLobby.JoinGameCommand;
 import com.emmettito.tickettorideserver.gameLobby.QuitGameCommand;
 import com.emmettito.models.CommandModels.GameLobbyCommandData;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.gameLobby.RemoveGameCommand;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -29,13 +28,15 @@ public class GameLobbyHandler implements HttpHandler {
         Result result = new Result();
         InputStream input = httpExchange.getRequestBody();
 
+/** TEST JSON STRING **/
 /**
         String inputS = "{\n" +
                 "  \"type\": \"CreateGame\",\n" +
                 "  \"data\": " +
                     "{\n" +
                         "  \"createGameCommandModel\": {\n" +
-                        "\"GameName\": \"NewGameMarcy\""+
+                        "\"gameName\": \"NewGameMarcy\","+
+                        "\"username\": \"marceloarchiza\""+
                         "\n}\n" +
                     "}" +
                 "\n}";

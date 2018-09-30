@@ -2,15 +2,24 @@ package com.emmettito.models.CommandModels.GameLobbyCommands;
 
 public class CreateGameCommandModel {
     /** Variables **/
-    String GameName;
+    String gameName;
+    String username;
 
     /** Setters **/
-    public void setGameName(String GameName) {
-        this.GameName = GameName;
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /** Getters **/
     public String getGameName() {
-        return GameName;
+        return gameName;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

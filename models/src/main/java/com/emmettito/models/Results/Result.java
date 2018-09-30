@@ -1,4 +1,4 @@
-package com.emmettito.models;
+package com.emmettito.models.Results;
 
 public class Result {
     /** Variables */

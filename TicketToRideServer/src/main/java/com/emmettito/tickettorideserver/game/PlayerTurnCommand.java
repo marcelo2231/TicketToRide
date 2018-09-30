@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommand;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnCommandModel;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 
 public class PlayerTurnCommand implements IGameCommand{
     PlayerTurnCommandModel commandModel;
@@ -14,6 +14,8 @@ public class PlayerTurnCommand implements IGameCommand{
         }else{
             throw new Exception("PlayerTurnCommand: command was null, please, make sure to set the PlayerTurnCommandModel.");
         }
+
+        // TODO: Store data on Database
 
         return new Result();
     }

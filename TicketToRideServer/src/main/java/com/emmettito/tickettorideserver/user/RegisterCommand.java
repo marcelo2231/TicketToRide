@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.user;
 
 import com.emmettito.models.CommandModels.UserCommand;
 import com.emmettito.models.CommandModels.UserCommands.RegisterCommandModel;
-import com.emmettito.models.Result;
+import com.emmettito.models.Results.Result;
 
 public class RegisterCommand implements IUserCommand{
     RegisterCommandModel commandModel;
@@ -15,6 +15,9 @@ public class RegisterCommand implements IUserCommand{
             throw new Exception("RegisterCommand: command was null, please, make sure to set the RegisterCommandModel.");
         }
 
+        // TODO: Store data on Database
+
+        // Result Returns am AuthToken
         return new Result();
     }
 }
