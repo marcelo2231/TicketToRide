@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameCommands;
 
-public class StartGameRequest {
+public class PlayerTurnCommandModel {
     /** Variables **/
     String GameName;
 

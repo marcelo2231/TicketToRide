@@ -1,20 +1,18 @@
 package com.emmettito.tickettorideserver.user;
 
-import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
+import com.emmettito.models.CommandModels.UserCommand;
+import com.emmettito.models.CommandModels.UserCommands.LoginCommandModel;
 import com.emmettito.models.Results.Result;
-import com.emmettito.tickettorideserver.communication.Serializer;
-
-import java.io.InputStream;
 
 public class LoginCommand implements IUserCommand{
-    LoginRequest commandModel;
+    LoginCommandModel commandModel;
 
     @Override
-    public Result execute(Object obj) throws Exception {
-        try{
-            commandModel = (LoginRequest)new Serializer().deserialize((InputStream)obj, LoginRequest.class);
-        }catch(Exception e){
-            throw new Exception("LoginCommand: command was on different format, please, make sure to set the LoginCommandModel.");
+    public Result execute(UserCommand obj) throws Exception {
+        if(obj.getLoginCommandModel() != null) {
+            commandModel = obj.getLoginCommandModel();
+        }else{
+            throw new Exception("LoginCommand: command was null, please, make sure to set the LoginCommandModel.");
         }
 
         // TODO: Store data on Database

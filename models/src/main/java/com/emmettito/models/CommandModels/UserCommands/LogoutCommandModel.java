@@ -1,17 +1,12 @@
 package com.emmettito.models.CommandModels.UserCommands;
 
-public class LoginRequest {
+public class LogoutCommandModel {
     /** Variables **/
     String username;
-    String password;
 
     /** Setters **/
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     /** Getters **/
@@ -19,7 +14,4 @@ public class LoginRequest {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
 }

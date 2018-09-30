@@ -1,19 +1,17 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
-import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
+import com.emmettito.models.CommandModels.GameLobbyCommand;
+import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameCommandModel;
 import com.emmettito.models.Results.Result;
-import com.emmettito.tickettorideserver.communication.Serializer;
-
-import java.io.InputStream;
 
 public class JoinGameCommand implements IGameLobbyCommand{
-    JoinGameRequest commandModel;
+    JoinGameCommandModel commandModel;
 
     @Override
-    public Result execute(Object obj) throws Exception {
-        try {
-            commandModel = (JoinGameRequest)new Serializer().deserialize((InputStream)obj, JoinGameRequest.class);
-        }catch (Exception e){
+    public Result execute(GameLobbyCommand obj) throws Exception {
+        if(obj.getJoinGameCommandModel() != null) {
+            commandModel = obj.getJoinGameCommandModel();
+        }else{
             throw new Exception("JoinGameCommand: command was null, please, make sure to set the JoinGameCommandModel.");
         }
 

@@ -1,5 +1,6 @@
 package com.emmettito.tickettorideserver.communication.handlers;
 
+import com.emmettito.models.CommandModels.GameCommandData;
 import com.emmettito.models.CommandModels.GameCommandType;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
@@ -12,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
@@ -24,54 +24,54 @@ public class GameHandler implements HttpHandler {
         Serializer serializer = new Serializer();
         Result result = new Result();
         InputStream input = httpExchange.getRequestBody();
-        URI uri;
-        String[] requestURI;
-        String commandType;
 
 /** TEST JSON STRING **/
 /**
          String inputS = "{\n" +
-                 "  \"PlayerID\": \"123321DSADdfsa\"\n" +
+                 "  \"type\": \"CompleteDestCard\",\n" +
+                 "  \"data\": " +
+                     "{\n" +
+                     "  \"completeDestCardCommandModel\": {\n" +
+                            "\"PlayerID\": \"123321DSADdfsa\""+
+                         "\n}\n" +
+                     "}" +
                      "\n}";
          input = new ByteArrayInputStream(inputS.getBytes());
 **/
 
         try {
-            /** Get Path */
-            uri = httpExchange.getRequestURI();
-            requestURI = uri.getPath().split("/");
+            /** Command Data (Create a GameCommandData Object to store Information */
+            GameCommandData cd = (GameCommandData)serializer.deserialize(input, GameCommandData.class);
 
-            if (requestURI.length < 3){
+            if (cd.getType() == null){
                 List<GameCommandType> commandTypes = Arrays.asList(GameCommandType.values());
                 throw new IOException("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
-            }else{
-                commandType = requestURI[2];
             }
 
-            switch(commandType){
-                case "CompleteDestCard":
-                    result = new CompleteDestCardCommand().execute(input);
+            switch(cd.getType()){
+                case CompleteDestCard:
+                    result = new CompleteDestCardCommand().execute(cd.getData());
                     break;
-                case "EndGame":
-                    result = new EndGameCommand().execute(input);
+                case EndGame:
+                    result = new EndGameCommand().execute(cd.getData());
                     break;
-                case "StartGame":
-                    result = new StartGameCommand().execute(input);
+                case StartGame:
+                    result = new StartGameCommand().execute(cd.getData());
                     break;
-                case "DrawTrain":
-                    result = new DrawTrainCommand().execute(input);
+                case DrawTrain:
+                    result = new DrawTrainCommand().execute(cd.getData());
                     break;
-                case "ClaimRoute":
-                    result = new ClaimRouteCommand().execute(input);
+                case ClaimRoute:
+                    result = new ClaimRouteCommand().execute(cd.getData());
                     break;
-                case "DrawDestCard":
-                    result = new DrawDestCardCommand().execute(input);
+                case DrawDestCard:
+                    result = new DrawDestCardCommand().execute(cd.getData());
                     break;
-                case "GetScore":
-                    result = new GetScoreCommand().execute(input);
+                case GetScore:
+                    result = new GetScoreCommand().execute(cd.getData());
                     break;
-                case "PlayerTurn":
-                    result = new PlayerTurnCommand().execute(input);
+                case PlayerTurn:
+                    result = new PlayerTurnCommand().execute(cd.getData());
                     break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");
