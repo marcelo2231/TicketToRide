@@ -37,12 +37,12 @@ public class GameHandler implements HttpHandler {
 **/
 
         try {
-            /** Command Data (Create a GameLobbyCommandData Object to store Information */
+            /** Command Data (Create a GameCommandData Object to store Information */
             GameCommandData cd = serializer.deserializeGame(input);
 
             if (cd.getType() == null){
                 List<GameCommandType> commandTypes = Arrays.asList(GameCommandType.values());
-                throw new IOException("GameLobbyCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+                throw new IOException("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
             }
 
             switch(cd.getType()){
@@ -75,7 +75,7 @@ public class GameHandler implements HttpHandler {
             }
         }
         catch(Exception e){
-            result = new Result(false, "GameLobbyHandler: " + e.getMessage());
+            result = new Result(false, "GameHandler: " + e.getMessage());
         }
         finally {
             /** Return Result Message */
