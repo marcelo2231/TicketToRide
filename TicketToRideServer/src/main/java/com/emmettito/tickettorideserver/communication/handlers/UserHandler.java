@@ -1,7 +1,7 @@
 package com.emmettito.tickettorideserver.communication.handlers;
 
-import com.emmettito.models.CommandModels.UserCommandData;
 import com.emmettito.models.CommandModels.UserCommandType;
+import com.emmettito.models.CommandModels.UserCommands.*;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.user.*;
@@ -12,16 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
 public class UserHandler implements HttpHandler {
 
-    private Serializer serializer;
-
     public UserHandler() {
-        serializer = new Serializer();
+
     }
 
     @Override
@@ -30,6 +29,9 @@ public class UserHandler implements HttpHandler {
         Serializer serializer = new Serializer();
         Result result = new Result();
         InputStream input = httpExchange.getRequestBody();
+        URI uri;
+        String[] requestURI;
+        String commandType;
 
 /** TEST JSON STRING **/
 /**
@@ -47,23 +49,26 @@ public class UserHandler implements HttpHandler {
 **/
 
         try {
-            /** Command Data (Create a UserCommandData Object to store Information */
-            UserCommandData cd = (UserCommandData) serializer.deserialize(input, UserCommandData.class);
+            /** Get Path */
+            uri = httpExchange.getRequestURI();
+            requestURI = uri.getPath().split("/");
 
-            if (cd.getType() == null){
+            if (requestURI.length < 3){
                 List<UserCommandType> commandTypes = Arrays.asList(UserCommandType.values());
-                throw new IOException("UserHandlerCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+                throw new IOException("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+            }else{
+                commandType = requestURI[2];
             }
 
-            switch(cd.getType()){
-                case Login:
-                    result = new LoginCommand().execute(cd.getData());
+            switch(commandType){
+                case "Login":
+                    result = new LoginCommand().execute(input);
                     break;
-                case Register:
-                    result = new RegisterCommand().execute(cd.getData());
+                case "Register":
+                    result = new RegisterCommand().execute(input);
                     break;
-                case Logout:
-                    result = new LogoutCommand().execute(cd.getData());
+                case "Logout":
+                    result = new LogoutCommand().execute(input);
                     break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");
