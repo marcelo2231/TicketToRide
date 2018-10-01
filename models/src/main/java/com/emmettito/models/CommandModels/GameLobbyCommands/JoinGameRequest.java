@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameLobbyCommands;
 
-public class QuitGameCommandModel {
+public class JoinGameRequest {
     /** Variables **/
     String gameName;
     String username;
