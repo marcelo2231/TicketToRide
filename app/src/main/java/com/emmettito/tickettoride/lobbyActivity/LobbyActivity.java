@@ -9,16 +9,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.presenters.lobbyPresenter;
+import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
 import java.util.Observable;
 import java.util.Observer;
 
-public class lobbyActivity extends FragmentActivity implements lobbyPresenter.lobbyViewInterface, Observer {
+public class LobbyActivity extends FragmentActivity implements LobbyPresenter.lobbyViewInterface, Observer {
     private Button createGameButton;
     private Button joinGameButton;
 
-    private lobbyPresenter presenter;
+    private LobbyPresenter presenter;
 
     public void update(Observable obj, Object arg) {
 
@@ -32,7 +32,7 @@ public class lobbyActivity extends FragmentActivity implements lobbyPresenter.lo
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        presenter = new lobbyPresenter();
+        presenter = new LobbyPresenter();
 
         presenter.addObserver(this);
 
@@ -54,7 +54,7 @@ public class lobbyActivity extends FragmentActivity implements lobbyPresenter.lo
     }
 
     public void displayGamesList() {
-        Fragment fragment = new gameListFragment();
+        Fragment fragment = new GameListFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, fragment);
@@ -62,7 +62,7 @@ public class lobbyActivity extends FragmentActivity implements lobbyPresenter.lo
     }
 
     public void displayNewGameField(){
-        Fragment fragment = new newGameFragment();
+        Fragment fragment = new NewGameFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, fragment);

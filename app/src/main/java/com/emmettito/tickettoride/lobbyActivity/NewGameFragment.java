@@ -13,11 +13,13 @@ import android.widget.Toast;
 
 import com.emmettito.tickettoride.R;
 
-public class newGameFragment extends Fragment {
+public class NewGameFragment extends Fragment {
 
     private EditText gameNameText;
 
     private Button createButton;
+
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

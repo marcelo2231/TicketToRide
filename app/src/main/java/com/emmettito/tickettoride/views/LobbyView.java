@@ -1,8 +1,8 @@
 package com.emmettito.tickettoride.views;
 
-public class lobbyView {
+public class LobbyView {
 
-    public lobbyView() {}
+    public LobbyView() {}
 
     public void displayGamesList() {}
 

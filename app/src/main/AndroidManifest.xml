@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".lobbyActivity.lobbyActivity"
+            android:name=".lobbyActivity.LobbyActivity"
             android:label="lobbyActivity">
 
             <intent-filter>

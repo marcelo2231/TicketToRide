@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.emmettito.tickettoride.R;
 
-public class gameListFragment extends Fragment {
+public class GameListFragment extends Fragment {
 
     private RecyclerView recycle;
     private RecyclerView.Adapter mAdapter;
