@@ -1,21 +1,20 @@
 package com.emmettito.tickettorideserver.communication.handlers;
 
+import com.emmettito.models.CommandModels.UserCommandData;
+import com.emmettito.models.CommandModels.UserCommandType;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.model.CommandData;
-import com.emmettito.tickettorideserver.model.CommandType;
-import com.emmettito.tickettorideserver.model.Result;
+import com.emmettito.tickettorideserver.user.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
-import java.util.Scanner;
-
-import static java.net.HttpURLConnection.HTTP_OK;
+import java.util.Arrays;
+import java.util.List;
 
 public class UserHandler implements HttpHandler {
 
@@ -27,28 +26,52 @@ public class UserHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        httpExchange.sendResponseHeaders(HTTP_OK, 0);
-
         /** Variables */
         Serializer serializer = new Serializer();
         Result result = new Result();
         InputStream input = httpExchange.getRequestBody();
 
-        // De-serializes request
+/** TEST JSON STRING **/
+/**
+         String inputS = "{\n" +
+         "  \"type\": \"Login\",\n" +
+         "  \"data\": " +
+                 "{\n" +
+                     "  \"loginCommandModel\": {\n" +
+                     "\"username\": \"marceloarchiza\","+
+                     "\"password\": \"123Test_\""+
+                     "\n}\n" +
+                 "}" +
+         "\n}";
+         input = new ByteArrayInputStream(inputS.getBytes());
+**/
+
         try {
-            CommandData cd = (CommandData) serializer.deserialize(input);
-            switch (cd.getType()) {
-                case CreateGame:
-                    //result = new CreateGameCommand().execute();
+            /** Command Data (Create a UserCommandData Object to store Information */
+            UserCommandData cd = (UserCommandData) serializer.deserialize(input, UserCommandData.class);
+
+            if (cd.getType() == null){
+                List<UserCommandType> commandTypes = Arrays.asList(UserCommandType.values());
+                throw new IOException("UserHandlerCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+            }
+
+            switch(cd.getType()){
+                case Login:
+                    result = new LoginCommand().execute(cd.getData());
+                    break;
+                case Register:
+                    result = new RegisterCommand().execute(cd.getData());
+                    break;
+                case Logout:
+                    result = new LogoutCommand().execute(cd.getData());
                     break;
                 default:
-                    throw new Exception("CommandType is invalid. Make sure to use one of the following commands: " + CommandType.values());
+                    throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");
             }
         }
         catch(Exception e){
-            result = new Result(false, e.getMessage());
+            result = new Result(false, "UserHandler: " + e.getMessage());
         }
-
         finally {
             /** Return Result Message */
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);

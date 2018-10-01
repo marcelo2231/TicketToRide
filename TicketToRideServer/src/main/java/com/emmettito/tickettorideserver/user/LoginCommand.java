@@ -1,4 +1,23 @@
 package com.emmettito.tickettorideserver.user;
 
-public class LoginCommand {
+import com.emmettito.models.CommandModels.UserCommand;
+import com.emmettito.models.CommandModels.UserCommands.LoginCommandModel;
+import com.emmettito.models.Results.Result;
+
+public class LoginCommand implements IUserCommand{
+    LoginCommandModel commandModel;
+
+    @Override
+    public Result execute(UserCommand obj) throws Exception {
+        if(obj.getLoginCommandModel() != null) {
+            commandModel = obj.getLoginCommandModel();
+        }else{
+            throw new Exception("LoginCommand: command was null, please, make sure to set the LoginCommandModel.");
+        }
+
+        // TODO: Store data on Database
+
+        // Result Returns am AuthToken
+        return new Result();
+    }
 }
