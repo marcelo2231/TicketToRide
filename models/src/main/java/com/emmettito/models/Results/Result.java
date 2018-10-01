@@ -1,4 +1,4 @@
-package com.emmettito.tickettorideserver.model;
+package com.emmettito.models.Results;
 
 public class Result {
     /** Variables */
@@ -44,6 +44,7 @@ public class Result {
     public boolean equals(Object o){
         if(o == null){ return false; }
         if(this == o){ return true; }
+        if (o.getClass() != Result.class){ return false;}
         Result p = (Result) o;
         if(!p.getSuccess().equals(this.success)) { return false; }
         if(!p.getMessage().equals(this.message)) { return false; }
