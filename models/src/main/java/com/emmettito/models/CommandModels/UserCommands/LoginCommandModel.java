@@ -5,7 +5,9 @@ public class LoginCommandModel {
     String username;
     String password;
 
-    /** Constructor **/
+    /** Constructors **/
+    public LoginCommandModel(){}
+
     public LoginCommandModel(String username, String password){
         this.username = username;
         this.password = password;
