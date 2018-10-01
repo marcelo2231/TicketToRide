@@ -2,8 +2,16 @@ package com.emmettito.models.CommandModels.UserCommands;
 
 public class RegisterCommandModel {
     /** Variables **/
-    String username;
-    String password;
+    private String username;
+    private String password;
+
+    /** Constructors **/
+    public RegisterCommandModel(){}
+
+    public RegisterCommandModel(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
 
     /** Setters **/
     public void setUsername(String username) {
