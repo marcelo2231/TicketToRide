@@ -6,9 +6,9 @@ public class LoginRequest {
     String password;
 
     /** Constructors **/
-    public LoginCommandModel(){}
+    public LoginRequest(){}
 
-    public LoginCommandModel(String username, String password){
+    public LoginRequest(String username, String password){
         this.username = username;
         this.password = password;
     }

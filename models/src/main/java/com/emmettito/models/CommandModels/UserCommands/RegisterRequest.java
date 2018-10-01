@@ -6,9 +6,9 @@ public class RegisterRequest {
     private String password;
 
     /** Constructors **/
-    public RegisterCommandModel(){}
+    public RegisterRequest(){}
 
-    public RegisterCommandModel(String username, String password){
+    public RegisterRequest(String username, String password){
         this.username = username;
         this.password = password;
     }
