@@ -20,6 +20,9 @@
         </intent-filter>
         </activity>
 
+        <activity android:name=".lobbyActivity.DummyActivity"
+                  android:label="dummyActivity"/>
+
     </application>
 
 

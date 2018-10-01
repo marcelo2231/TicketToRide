@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride.lobbyActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.views.LobbyView;
 
 public class NewGameFragment extends Fragment {
 
@@ -19,12 +21,14 @@ public class NewGameFragment extends Fragment {
 
     private Button createButton;
 
-    
+    private LobbyView lobbyView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_game, container, false);
+
+        lobbyView = new LobbyView();
 
         gameNameText = (EditText) view.findViewById(R.id.text);
 
@@ -55,8 +59,25 @@ public class NewGameFragment extends Fragment {
         createButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String gameName = gameNameText.getText().toString();
-                Toast toast = Toast.makeText(getContext(), gameName, Toast.LENGTH_SHORT);
+                int gameID = lobbyView.createNewGame(gameName);
+
+                String combined = "Name: " + gameName + "\nID: " + gameID;
+
+                if (gameID < 0) {
+                    Toast toast = Toast.makeText(getContext(), "Error: name already taken", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    return;
+                }
+
+                Toast toast = Toast.makeText(getContext(), combined, Toast.LENGTH_SHORT);
                 toast.show();
+
+                Intent intent = new Intent(getActivity(), DummyActivity.class);
+
+                intent.putExtra("gameID", gameID);
+
+                startActivity(intent);
             }
         });
 

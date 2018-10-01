@@ -8,7 +8,13 @@ public class LobbyView {
 
     public void displayNewGameField(){}
 
-    public void createNewGame(){}
+    public int createNewGame(String gameName){
+        if (gameName.equals("false")) {
+            return -1;
+        }
+
+        return 72834;
+    }
 
     public void joinGame(){}
 }
