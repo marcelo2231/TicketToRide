@@ -1,6 +1,6 @@
-package com.emmettito.tickettoride.lobbyActivity;
+package com.emmettito.tickettoride.views;
 
-public class lobbyView implements lobbyViewInterface{
+public class lobbyView {
 
     public lobbyView() {}
 

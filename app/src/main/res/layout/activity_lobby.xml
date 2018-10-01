@@ -32,4 +32,6 @@
             android:layout_marginTop="40dp"
             android:text="@string/lobby_join_button"/>
     </LinearLayout>
+
+
 </RelativeLayout>
