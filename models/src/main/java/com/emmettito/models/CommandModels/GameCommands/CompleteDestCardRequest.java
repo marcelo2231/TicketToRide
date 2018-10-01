@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameCommands;
 
-public class CompleteDestCardCommandModel {
+public class CompleteDestCardRequest {
     /** Variables **/
     String PlayerID;
 

@@ -1,17 +1,19 @@
 package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.CommandModels.GameCommand;
-import com.emmettito.models.CommandModels.GameCommands.PlayerTurnCommandModel;
+import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.Results.Result;
+import com.emmettito.tickettorideserver.communication.Serializer;
+
+import java.io.InputStream;
 
 public class PlayerTurnCommand implements IGameCommand{
-    PlayerTurnCommandModel commandModel;
+    PlayerTurnRequest commandModel;
 
     @Override
-    public Result execute(GameCommand obj) throws Exception {
-        if(obj.getPlayerTurnCommandModel() != null) {
-            commandModel = obj.getPlayerTurnCommandModel();
-        }else{
+    public Result execute(Object obj) throws Exception {
+        try {
+            commandModel = (PlayerTurnRequest)new Serializer().deserialize((InputStream)obj, PlayerTurnRequest.class);
+        }catch (Exception e){
             throw new Exception("PlayerTurnCommand: command was null, please, make sure to set the PlayerTurnCommandModel.");
         }
 

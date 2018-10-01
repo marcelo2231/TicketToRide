@@ -1,8 +1,5 @@
 package com.emmettito.tickettorideserver.communication;
 
-import com.emmettito.models.CommandModels.GameCommandData;
-import com.emmettito.models.CommandModels.GameLobbyCommandData;
-import com.emmettito.models.CommandModels.UserCommandData;
 import com.google.gson.Gson;
 
 import java.io.InputStream;

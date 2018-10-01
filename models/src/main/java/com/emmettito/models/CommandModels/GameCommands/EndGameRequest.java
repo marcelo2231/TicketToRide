@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameCommands;
 
-public class EndGameCommandModel {
+public class EndGameRequest {
     /** Variables **/
     String GameName;
 

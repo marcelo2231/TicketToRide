@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.GameCommands;
 
-public class ClaimRouteCommandModel {
+public class DrawTrainRequest {
     /** Variables **/
     String PlayerID;
 
