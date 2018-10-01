@@ -5,6 +5,14 @@ public class LoginRequest {
     String username;
     String password;
 
+    /** Constructors **/
+    public LoginCommandModel(){}
+
+    public LoginCommandModel(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     /** Setters **/
     public void setUsername(String username) {
         this.username = username;
