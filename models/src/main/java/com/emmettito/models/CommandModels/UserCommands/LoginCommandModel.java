@@ -5,6 +5,12 @@ public class LoginCommandModel {
     String username;
     String password;
 
+    /** Constructor **/
+    public LoginCommandModel(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     /** Setters **/
     public void setUsername(String username) {
         this.username = username;
