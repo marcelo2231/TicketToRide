@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">TicketToRide</string>
     <string name="lobby_join_button">Join Game</string>
+    <string name="join_button">Join</string>
     <string name="lobby_create_button">Create Game</string>
+    <string name="create_button">Create</string>
+    <string name="status_string">Status</string>
+    <string name="player_num"># of Players</string>
+    <string name="game_list">List of Games</string>
+    <string name="game_name">Game Name</string>
 </resources>

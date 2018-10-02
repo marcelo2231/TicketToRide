@@ -6,19 +6,15 @@ import java.util.Observable;
 
 public class LobbyPresenter extends Observable {
 
-    private List<lobbyViewInterface> observers;
+    private List<lobbyView> observers;
 
     public LobbyPresenter() {
         observers = new ArrayList<>();
     }
 
-    public interface lobbyViewInterface {
-        void displayGamesList();
+    public interface lobbyView {
+        int createNewGame(String gameName);
 
-        void displayNewGameField();
-
-        void createNewGame();
-
-        void joinGame();
+        boolean joinGame(int gameID);
     }
 }

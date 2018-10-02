@@ -10,8 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
-public class GameListFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class GameListFragment extends Fragment implements LobbyPresenter.lobbyView, Observer {
 
     private RecyclerView recycle;
     private RecyclerView.Adapter mAdapter;
@@ -19,10 +23,20 @@ public class GameListFragment extends Fragment {
 
     private Button joinButton;
 
+    private LobbyPresenter presenter;
+
+    public void update(Observable obj, Object arg) {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game_list, container, false);
+
+        presenter = new LobbyPresenter();
+
+        presenter.addObserver(this);
 
         recycle = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
@@ -56,4 +70,15 @@ public class GameListFragment extends Fragment {
 
         return view;
     }
+
+    //Calling this function from GameListFragment is an error
+    public int createNewGame(String gameName){
+        return -1;
+    }
+
+    public boolean joinGame(int gameID){
+        return true;
+    }
+
 }
+

@@ -13,22 +13,31 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.views.LobbyView;
+import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
-public class NewGameFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyView, Observer {
 
     private EditText gameNameText;
 
     private Button createButton;
 
-    private LobbyView lobbyView;
+    private LobbyPresenter presenter;
+
+    public void update(Observable obj, Object arg) {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_game, container, false);
 
-        lobbyView = new LobbyView();
+        presenter = new LobbyPresenter();
+
+        presenter.addObserver(this);
 
         gameNameText = (EditText) view.findViewById(R.id.text);
 
@@ -59,7 +68,7 @@ public class NewGameFragment extends Fragment {
         createButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String gameName = gameNameText.getText().toString();
-                int gameID = lobbyView.createNewGame(gameName);
+                int gameID = createNewGame(gameName);
 
                 String combined = "Name: " + gameName + "\nID: " + gameID;
 
@@ -83,4 +92,18 @@ public class NewGameFragment extends Fragment {
 
         return view;
     }
+
+    public int createNewGame(String gameName){
+        if (gameName.equals("false")) {
+            return -1;
+        }
+
+        return 72834;
+    }
+
+    //Calling this function from the NewGameFragment is an error
+    public boolean joinGame(int gameID){
+        return false;
+    }
+
 }

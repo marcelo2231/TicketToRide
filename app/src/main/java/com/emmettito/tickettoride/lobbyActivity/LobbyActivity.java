@@ -9,20 +9,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class LobbyActivity extends FragmentActivity implements LobbyPresenter.lobbyViewInterface, Observer {
+public class LobbyActivity extends FragmentActivity {
     private Button createGameButton;
     private Button joinGameButton;
-
-    private LobbyPresenter presenter;
-
-    public void update(Observable obj, Object arg) {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +21,6 @@ public class LobbyActivity extends FragmentActivity implements LobbyPresenter.lo
         setContentView(R.layout.activity_lobby);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        presenter = new LobbyPresenter();
-
-        presenter.addObserver(this);
 
         createGameButton = (Button) findViewById(R.id.buttonCreate);
         createGameButton.setEnabled(true);
@@ -68,9 +54,4 @@ public class LobbyActivity extends FragmentActivity implements LobbyPresenter.lo
         transaction.replace(android.R.id.content, fragment);
         transaction.commit();
     }
-
-    public void createNewGame(){}
-
-    public void joinGame(){}
-
 }

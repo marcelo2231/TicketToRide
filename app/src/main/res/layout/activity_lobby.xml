@@ -5,8 +5,8 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background"
                 android:paddingBottom="10dp"
-                android:paddingLeft="13dp"
-                android:paddingRight="12dp"
+                android:paddingStart="13dp"
+                android:paddingEnd="12dp"
                 android:paddingTop="11dp">
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:orientation="vertical">
 
         <Button

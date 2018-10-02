@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/newGameFragment"
               android:orientation="vertical"
-              android:layout_marginLeft="50dp"
+              android:layout_marginStart="50dp"
               android:layout_marginTop="50dp"
               android:layout_marginBottom="25dp"
               android:layout_height="100dp"
@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Game Name"/>
+        android:text="@string/game_name"/>
 
     <EditText
         android:id="@+id/text"
@@ -25,7 +25,7 @@
         android:id="@+id/createbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Create"/>
+        android:layout_gravity="end"
+        android:text="@string/create_button"/>
 
 </LinearLayout>
