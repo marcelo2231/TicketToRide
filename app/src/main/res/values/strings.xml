@@ -2,4 +2,7 @@
     <string name="app_name">TicketToRide</string>
     <string name="lobby_join_button">Join Game</string>
     <string name="lobby_create_button">Create Game</string>
+    <string name="log_out">Log Out</string>
+    <string name="leave_game">Leave Game</string>
+    <string name="cancel_game">Cancel Game</string>
 </resources>
