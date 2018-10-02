@@ -1,5 +1,4 @@
 package com.emmettito.tickettorideserver.database;
 
-public class databaseInterface {
-
+public class gameLobbyDao {
 }
