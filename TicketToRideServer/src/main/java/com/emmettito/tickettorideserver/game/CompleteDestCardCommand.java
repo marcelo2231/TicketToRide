@@ -1,21 +1,23 @@
 package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.CommandModels.GameCommand;
-import com.emmettito.models.CommandModels.GameCommands.CompleteDestCardCommandModel;
+import com.emmettito.models.CommandModels.GameCommands.CompleteDestCardRequest;
 import com.emmettito.models.Results.Result;
+import com.emmettito.tickettorideserver.communication.Serializer;
+
+import java.io.InputStream;
 
 public class CompleteDestCardCommand implements IGameCommand{
-    CompleteDestCardCommandModel commandModel;
+    CompleteDestCardRequest commandModel;
 
     @Override
-    public Result execute(GameCommand obj) throws Exception {
-        if(obj.getCompleteDestCardCommandModel() != null) {
-            commandModel = obj.getCompleteDestCardCommandModel();
-        }else{
+    public Result execute(Object obj) throws Exception {
+        try {
+            commandModel = (CompleteDestCardRequest)new Serializer().deserialize((InputStream)obj, CompleteDestCardRequest.class);
+        }catch(Exception e) {
             throw new Exception("CompleteDestCardCommand: command was null, please, make sure to set the CompleteDestCardCommandModel.");
         }
 
-        // TODO: Store data on Database
+        // TODO: Store data on Database.
 
         return new Result();
     }

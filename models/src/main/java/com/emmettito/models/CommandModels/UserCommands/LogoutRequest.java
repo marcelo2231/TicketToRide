@@ -1,6 +1,6 @@
 package com.emmettito.models.CommandModels.UserCommands;
 
-public class LogoutCommandModel {
+public class LogoutRequest {
     /** Variables **/
     String username;
 

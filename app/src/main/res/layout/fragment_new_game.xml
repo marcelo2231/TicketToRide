@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/newGameFragment"
+              android:orientation="vertical"
+              android:layout_marginLeft="50dp"
+              android:layout_marginTop="50dp"
+              android:layout_marginBottom="25dp"
+              android:layout_height="100dp"
+              android:layout_width="350dp"
+              android:background="#80808080">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game Name"/>
+
+    <EditText
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"/>
+
+    <Button
+        android:id="@+id/createbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Create"/>
+
+</LinearLayout>

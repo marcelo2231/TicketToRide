@@ -1,14 +1,14 @@
 package com.emmettito.models.CommandModels.UserCommands;
 
-public class LoginCommandModel {
+public class RegisterRequest {
     /** Variables **/
-    String username;
-    String password;
+    private String username;
+    private String password;
 
     /** Constructors **/
-    public LoginCommandModel(){}
+    public RegisterRequest(){}
 
-    public LoginCommandModel(String username, String password){
+    public RegisterRequest(String username, String password){
         this.username = username;
         this.password = password;
     }

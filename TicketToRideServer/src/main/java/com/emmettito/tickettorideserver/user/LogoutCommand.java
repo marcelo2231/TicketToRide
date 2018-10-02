@@ -1,17 +1,19 @@
 package com.emmettito.tickettorideserver.user;
 
-import com.emmettito.models.CommandModels.UserCommand;
-import com.emmettito.models.CommandModels.UserCommands.LogoutCommandModel;
+import com.emmettito.models.CommandModels.UserCommands.LogoutRequest;
 import com.emmettito.models.Results.Result;
+import com.emmettito.tickettorideserver.communication.Serializer;
+
+import java.io.InputStream;
 
 public class LogoutCommand implements IUserCommand{
-    LogoutCommandModel commandModel;
+    LogoutRequest commandModel;
 
     @Override
-    public Result execute(UserCommand obj) throws Exception {
-        if(obj.getLogoutCommandModel() != null) {
-            commandModel = obj.getLogoutCommandModel();
-        }else{
+    public Result execute(Object obj) throws Exception {
+        try{
+            commandModel = (LogoutRequest)new Serializer().deserialize((InputStream)obj, LogoutRequest.class);
+        }catch(Exception e){
             throw new Exception("LogoutCommand: command was null, please, make sure to set the LogoutCommandModel.");
         }
 
