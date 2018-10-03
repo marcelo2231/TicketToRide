@@ -10,6 +10,7 @@ public class GetScoreCommand implements IGameCommand{
     GetScoreRequest commandModel;
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (GetScoreRequest)new Serializer().deserialize((InputStream)obj, GetScoreRequest.class);
         }catch (Exception e){

@@ -27,14 +27,6 @@ public class GameHandler implements HttpHandler {
         String[] requestURI;
         String commandType;
 
-/** TEST JSON STRING **/
-/**
- String inputS = "{\n" +
- "  \"PlayerID\": \"123321DSADdfsa\"\n" +
- "\n}";
- input = new ByteArrayInputStream(inputS.getBytes());
- **/
-
         try {
             /** Get Path */
             uri = httpExchange.getRequestURI();
@@ -47,29 +39,29 @@ public class GameHandler implements HttpHandler {
                 commandType = requestURI[2];
             }
 
-            switch(commandType){
-                case "CompleteDestCard":
+            switch(commandType.toLowerCase()){
+                case "completedestcard":
                     result = new CompleteDestCardCommand().execute(input);
                     break;
-                case "EndGame":
+                case "endgame":
                     result = new EndGameCommand().execute(input);
                     break;
-                case "StartGame":
+                case "startgame":
                     result = new StartGameCommand().execute(input);
                     break;
-                case "DrawTrain":
+                case "drawtrain":
                     result = new DrawTrainCommand().execute(input);
                     break;
-                case "ClaimRoute":
+                case "claimroute":
                     result = new ClaimRouteCommand().execute(input);
                     break;
-                case "DrawDestCard":
+                case "drawdestcard":
                     result = new DrawDestCardCommand().execute(input);
                     break;
-                case "GetScore":
+                case "getscore":
                     result = new GetScoreCommand().execute(input);
                     break;
-                case "PlayerTurn":
+                case "playerturn":
                     result = new PlayerTurnCommand().execute(input);
                     break;
                 default:

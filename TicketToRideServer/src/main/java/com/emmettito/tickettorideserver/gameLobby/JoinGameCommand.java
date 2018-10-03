@@ -11,6 +11,7 @@ public class JoinGameCommand implements IGameLobbyCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (JoinGameRequest)new Serializer().deserialize((InputStream)obj, JoinGameRequest.class);
         }catch (Exception e){

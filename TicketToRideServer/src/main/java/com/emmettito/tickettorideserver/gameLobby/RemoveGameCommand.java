@@ -11,6 +11,7 @@ public class RemoveGameCommand implements IGameLobbyCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (RemoveGameRequest)new Serializer().deserialize((InputStream)obj, RemoveGameRequest.class);
         }catch (Exception e){

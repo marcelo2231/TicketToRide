@@ -1,25 +1,46 @@
 package com.emmettito.tickettorideserver.user;
 
+import com.emmettito.models.AuthToken;
 import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
 import com.emmettito.models.Results.Result;
+import com.emmettito.models.User;
 import com.emmettito.tickettorideserver.communication.Serializer;
+
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import java.io.InputStream;
 
 public class RegisterCommand implements IUserCommand{
+    /** Variables **/
     RegisterRequest commandModel;
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try{
             commandModel = (RegisterRequest)new Serializer().deserialize((InputStream)obj, RegisterRequest.class);
         }catch (Exception e){
             throw new Exception("RegisterCommand: command was null, please, make sure to set the RegisterCommandModel.");
         }
 
-        // TODO: Store data on Database
+        /** Create User Object **/
+        User newUser = new User(commandModel.getUsername(), commandModel.getPassword());
+        AuthToken resultAuthToken;
 
-        // Result Returns am AuthToken
-        return new Result();
+        /** Validate **/
+        if(newUser.getUsername() == null || newUser.getUsername().isEmpty() ||
+                newUser.getPassword().isEmpty() || newUser.getPassword() == null){
+            throw new Exception("Username or password empty. Please, do not forget to fill out all fields.");
+        }
+
+        /** Add User to Database **/
+        try {
+            resultAuthToken = userDatabase.registerUser(newUser);
+        }catch(DuplicateName e){
+            throw new Exception("Username already exists. Unable to add to database.");
+        }
+
+        /** Prepare Result **/
+        return new Result(true, resultAuthToken);
     }
 }

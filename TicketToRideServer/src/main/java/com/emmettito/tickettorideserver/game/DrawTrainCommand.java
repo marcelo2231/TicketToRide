@@ -11,6 +11,7 @@ public class DrawTrainCommand implements IGameCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (DrawTrainRequest)new Serializer().deserialize((InputStream)obj, DrawTrainRequest.class);
         }catch(Exception e){
