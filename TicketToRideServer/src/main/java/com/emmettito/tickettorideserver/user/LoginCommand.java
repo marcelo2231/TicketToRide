@@ -27,6 +27,12 @@ public class LoginCommand implements IUserCommand{
         User user = new User(commandModel.getUsername(), commandModel.getPassword());
         AuthToken resultAuthToken;
 
+        /** Validate **/
+        if(user.getUsername() == null || user.getUsername().isEmpty() ||
+                user.getPassword().isEmpty() || user.getPassword() == null){
+            throw new Exception("Username or password empty. Please, do not forget to fill out all fields.");
+        }
+
         /** Add User to Database **/
         try {
             resultAuthToken = userDatabase.loginUser(user);
@@ -36,6 +42,6 @@ public class LoginCommand implements IUserCommand{
 
         /** Prepare Result **/
 
-        return new Result();
+        return new Result(true, resultAuthToken);
     }
 }

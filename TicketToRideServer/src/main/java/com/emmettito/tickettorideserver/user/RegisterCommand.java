@@ -27,6 +27,12 @@ public class RegisterCommand implements IUserCommand{
         User newUser = new User(commandModel.getUsername(), commandModel.getPassword());
         AuthToken resultAuthToken;
 
+        /** Validate **/
+        if(newUser.getUsername() == null || newUser.getUsername().isEmpty() ||
+                newUser.getPassword().isEmpty() || newUser.getPassword() == null){
+            throw new Exception("Username or password empty. Please, do not forget to fill out all fields.");
+        }
+
         /** Add User to Database **/
         try {
             resultAuthToken = userDatabase.registerUser(newUser);

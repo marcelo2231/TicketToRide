@@ -34,15 +34,6 @@ public class UserHandler implements HttpHandler {
         String[] requestURI;
         String commandType;
 
-/** TEST JSON STRING **/
-
- String inputS = "{\n" +
- "  \"username\": \"marcelo\",\n" +
- "  \"password\": \"123test\"\n" +
- "\n}";
- input = new ByteArrayInputStream(inputS.getBytes());
-
-
         try {
             /** Get Path */
             uri = httpExchange.getRequestURI();

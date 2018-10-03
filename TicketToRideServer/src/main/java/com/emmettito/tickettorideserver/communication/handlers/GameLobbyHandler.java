@@ -30,21 +30,6 @@ public class GameLobbyHandler implements HttpHandler {
         String[] requestURI;
         String commandType;
 
-/** TEST JSON STRING **/
-/**
- String inputS = "{\n" +
- "  \"type\": \"CreateGame\",\n" +
- "  \"data\": " +
- "{\n" +
- "  \"createGameCommandModel\": {\n" +
- "\"gameName\": \"NewGameMarcy\","+
- "\"username\": \"marceloarchiza\""+
- "\n}\n" +
- "}" +
- "\n}";
- input = new ByteArrayInputStream(inputS.getBytes());
- **/
-
         try {
             /** Get Path */
             uri = httpExchange.getRequestURI();
