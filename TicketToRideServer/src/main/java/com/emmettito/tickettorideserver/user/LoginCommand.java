@@ -41,7 +41,10 @@ public class LoginCommand implements IUserCommand{
         }
 
         /** Prepare Result **/
-
-        return new Result(true, resultAuthToken);
+        Result result = new Result();
+        result.setSuccess(true);
+        result.setMessage("Logged in Successfully.");
+        result.setData(resultAuthToken.getAuthToken());
+        return result;
     }
 }

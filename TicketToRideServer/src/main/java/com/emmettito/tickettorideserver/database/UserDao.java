@@ -20,8 +20,7 @@ public class UserDao {
             dbInstance.users.add(newUser);
         }
 
-        AuthToken newAuthToken = new AuthToken(newUser.getUsername());
-        dbInstance.tokens.add(newAuthToken);
+        AuthToken newAuthToken = dbInstance.addAuthToken(newUser.getUsername());
         return newAuthToken;
     }
 
@@ -31,8 +30,7 @@ public class UserDao {
             throw new InvalidName();
         }
 
-        AuthToken newAuthToken = new AuthToken(user.getUsername());
-        dbInstance.tokens.add(newAuthToken);
+        AuthToken newAuthToken = dbInstance.addAuthToken(user.getUsername());
         return newAuthToken;
     }
 

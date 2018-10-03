@@ -7,6 +7,10 @@ public class Game {
     String gameName;
     ArrayList<Player> players;
 
+    public Game(){
+        players = new ArrayList<>();
+    }
+
     /** Setters **/
     public void setGameName(String gameName) {
         this.gameName = gameName;

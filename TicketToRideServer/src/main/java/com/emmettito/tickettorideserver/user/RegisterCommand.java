@@ -41,6 +41,10 @@ public class RegisterCommand implements IUserCommand{
         }
 
         /** Prepare Result **/
-        return new Result(true, resultAuthToken);
+        Result result = new Result();
+        result.setSuccess(true);
+        result.setMessage("Registered Successfully.");
+        result.setData(resultAuthToken.getAuthToken());
+        return result;
     }
 }

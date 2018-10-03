@@ -7,5 +7,5 @@ import com.emmettito.tickettorideserver.database.GameLobbyDao;
 public interface IGameLobbyCommand {
     GameLobbyDao gameLobbyDatabase = new GameLobbyDao();
     GameDao gameDatabase = new GameDao();
-    Result execute(Object obj) throws Exception ;
+    Result execute(Object obj, String authToken) throws Exception ;
 }

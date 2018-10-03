@@ -15,12 +15,19 @@ public class CreateGameCommand implements IGameLobbyCommand{
     CreateGameRequest commandModel;
 
     @Override
-    public Result execute(Object obj) throws Exception {
-        /** Cast Object **/
+    public Result execute(Object obj, String authToken) throws Exception {
+        /** Cast Object and Validate AuthToken**/
         try {
             commandModel = (CreateGameRequest)new Serializer().deserialize((InputStream)obj, CreateGameRequest.class);
         }catch (Exception e){
             throw new Exception("CreateGameCommand: command was null, please, make sure to set the CreateGameCommandModel.");
+        }
+        /** Validate **/
+        if(!gameDatabase.authTokenIsValid(authToken)){
+            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
+        }
+        if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
+            throw new Exception("Game name is null or empty. Please, do not forget to fill out all fields.");
         }
 
         /** Create game and player variable **/
@@ -38,6 +45,6 @@ public class CreateGameCommand implements IGameLobbyCommand{
         }
 
         // Result Returns a Player for the user
-        return new Result();
+        return new Result(true, newPlayer);
     }
 }
