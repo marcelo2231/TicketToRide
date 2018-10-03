@@ -1,5 +1,7 @@
 package com.emmettito.models;
 
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -27,5 +29,14 @@ public class Game {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public void addPlayer(Player newPlayer) throws DuplicateName {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(newPlayer.getName())) {
+                throw new DuplicateName();
+            }
+        }
+        players.add(newPlayer);
     }
 }

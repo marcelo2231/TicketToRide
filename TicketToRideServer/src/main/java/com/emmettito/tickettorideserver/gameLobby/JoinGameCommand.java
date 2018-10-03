@@ -37,10 +37,10 @@ public class JoinGameCommand implements IGameLobbyCommand{
         Game targetGame = gameLobbyDao.getGame(commandModel.getGameName());
 
         Player newPlayer = new Player(commandModel.getUsername());
-
         targetGame.addPlayer(newPlayer);
 
-        
+
+
         // TODO: Store data on Database
 
         // Result Returns a Player for the user
