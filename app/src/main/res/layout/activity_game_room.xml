@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/textView"
             android:layout_above="@+id/logoutButton"
-            android:layout_center="true"
+            android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
             android:background="#80808080" />
 
