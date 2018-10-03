@@ -9,12 +9,15 @@ import java.io.InputStream;
 public class DrawDestCardCommand implements IGameCommand{
     DrawDestCardRequest commandModel;
     @Override
-    public Result execute(Object obj) throws Exception {
+    public Result execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
         try {
             commandModel = (DrawDestCardRequest)new Serializer().deserialize((InputStream)obj, DrawDestCardRequest.class);
         }catch (Exception e){
             throw new Exception("DrawDestCardCommand: command was null, please, make sure to set the DrawDestCardCommandModel.");
+        }
+        if(!gameDatabase.authTokenIsValid(authToken)){
+            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
         }
 
         // TODO: Store data on Database

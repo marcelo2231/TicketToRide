@@ -10,12 +10,15 @@ public class CompleteDestCardCommand implements IGameCommand{
     CompleteDestCardRequest commandModel;
 
     @Override
-    public Result execute(Object obj) throws Exception {
+    public Result execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
         try {
             commandModel = (CompleteDestCardRequest)new Serializer().deserialize((InputStream)obj, CompleteDestCardRequest.class);
         }catch(Exception e) {
             throw new Exception("CompleteDestCardCommand: command was null, please, make sure to set the CompleteDestCardCommandModel.");
+        }
+        if(!gameDatabase.authTokenIsValid(authToken)){
+            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
         }
 
         // TODO: Store data on Database.
