@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".lobbyActivity.LobbyActivity"
+            android:name=".presenters.LobbyActivity.LobbyActivity"
             android:label="lobbyActivity">
 
             <intent-filter>
@@ -20,7 +20,7 @@
         </intent-filter>
         </activity>
 
-        <activity android:name=".lobbyActivity.DummyActivity"
+        <activity android:name=".presenters.LobbyActivity.DummyActivity"
                   android:label="dummyActivity"/>
 
     </application>
