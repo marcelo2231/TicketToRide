@@ -12,9 +12,16 @@ public class Game {
         this.gameName = gameName;
     }
 
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
     /** Getters **/
     public String getGameName() {
         return gameName;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 }

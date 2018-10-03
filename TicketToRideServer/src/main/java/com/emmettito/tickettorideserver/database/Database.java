@@ -9,9 +9,22 @@ import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import java.util.ArrayList;
 
-public class gameLobbyDao {
-    private ArrayList<Game> gameLobby = new ArrayList();
+public class Database {
+    /** Constructor and instance **/
+    private Database instance;
+    private Database(){
+    }
+    public Database getInstance(){
+        if (instance == null){
+            instance = new Database();
+        }
+        return instance;
+    }
 
+    /** Stored Variables **/
+    private ArrayList<Game> gameLobby = new ArrayList<Game>();
+
+    /** Modify database **/
     public void addGame(Game newGame) throws DuplicateName {
         if (gameExists(newGame.getGameName())) {
             throw new DuplicateName();
@@ -27,13 +40,26 @@ public class gameLobbyDao {
         }
         for (int i = 0; i < gameLobby.size(); i++) {
             if (gameLobby.get(i).getGameName().equals(gameName)) {
-                gameLobby.get(i).addPlayer(newPlayer);
+                ArrayList<Player> newList = gameLobby.get(i).getPlayers();
+                newList.add(newPlayer);
+                gameLobby.get(i).setPlayers(newList);
             }
         }
     }
 
-    public void removePlayer(Player targetPlayer) {
-        
+    public void removePlayer(String gameName, Player targetPlayer) throws NotFound {
+        if (!gameExists(gameName)) {
+            throw new NotFound();
+        }
+        for (int i = 0; i < gameLobby.size(); i++) {
+            if (gameLobby.get(i).getGameName().equals(gameName)) {
+                ArrayList<Player> newList = gameLobby.get(i).getPlayers();
+                if (!newList.remove(targetPlayer)) {
+                    throw new NotFound();
+                }
+                gameLobby.get(i).setPlayers(newList);
+            }
+        }
     }
 
     public void removeGame(String gameName) throws NotFound {
