@@ -8,6 +8,7 @@ import com.emmettito.tickettorideserver.user.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -34,19 +35,13 @@ public class UserHandler implements HttpHandler {
         String commandType;
 
 /** TEST JSON STRING **/
-/**
+
  String inputS = "{\n" +
- "  \"type\": \"Login\",\n" +
- "  \"data\": " +
- "{\n" +
- "  \"loginCommandModel\": {\n" +
- "\"username\": \"marceloarchiza\","+
- "\"password\": \"123Test_\""+
- "\n}\n" +
- "}" +
+ "  \"username\": \"marcelo\",\n" +
+ "  \"password\": \"123test\"\n" +
  "\n}";
  input = new ByteArrayInputStream(inputS.getBytes());
- **/
+
 
         try {
             /** Get Path */
@@ -60,14 +55,14 @@ public class UserHandler implements HttpHandler {
                 commandType = requestURI[2];
             }
 
-            switch(commandType){
-                case "Login":
+            switch(commandType.toLowerCase()){
+                case "login":
                     result = new LoginCommand().execute(input);
                     break;
-                case "Register":
+                case "register":
                     result = new RegisterCommand().execute(input);
                     break;
-                case "Logout":
+                case "logout":
                     result = new LogoutCommand().execute(input);
                     break;
                 default:

@@ -11,6 +11,7 @@ public class StartGameCommand implements IGameCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (StartGameRequest)new Serializer().deserialize((InputStream)obj, StartGameRequest.class);
         }catch(Exception e){

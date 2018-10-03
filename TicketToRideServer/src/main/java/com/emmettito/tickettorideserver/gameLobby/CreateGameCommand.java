@@ -16,11 +16,13 @@ public class CreateGameCommand implements IGameLobbyCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (CreateGameRequest)new Serializer().deserialize((InputStream)obj, CreateGameRequest.class);
         }catch (Exception e){
             throw new Exception("CreateGameCommand: command was null, please, make sure to set the CreateGameCommandModel.");
         }
+
         /** Create game and player variable **/
         Game newGame = new Game();
         newGame.setGameName(commandModel.getGameName());

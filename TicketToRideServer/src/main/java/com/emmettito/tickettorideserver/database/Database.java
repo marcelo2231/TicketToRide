@@ -22,7 +22,8 @@ public class Database {
     }
 
     /** Stored Variables **/
-    public ArrayList<Game> gameLobby = new ArrayList<Game>();
+    public ArrayList<Game> gameLobby = new ArrayList<>();
+    public ArrayList<User> users = new ArrayList<>();
 
     /** Shared Methods **/
     public boolean gameExists(String gameName) {

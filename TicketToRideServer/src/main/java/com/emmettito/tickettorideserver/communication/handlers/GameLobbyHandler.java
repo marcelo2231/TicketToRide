@@ -57,17 +57,17 @@ public class GameLobbyHandler implements HttpHandler {
                 commandType = requestURI[2];
             }
 
-            switch(commandType){
-                case "CreateGame":
+            switch(commandType.toLowerCase()){
+                case "creategame":
                     result = new CreateGameCommand().execute(input);
                     break;
-                case "QuitGame":
+                case "quitgame":
                     result = new QuitGameCommand().execute(input);
                     break;
-                case "RemoveGame":
+                case "removegame":
                     result = new RemoveGameCommand().execute(input);
                     break;
-                case "JoinGame":
+                case "joingame":
                     result = new JoinGameCommand().execute(input);
                     break;
                 default:

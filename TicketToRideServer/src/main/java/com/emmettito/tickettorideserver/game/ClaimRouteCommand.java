@@ -11,6 +11,7 @@ public class ClaimRouteCommand implements IGameCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (ClaimRouteRequest)new Serializer().deserialize((InputStream)obj, ClaimRouteRequest.class);
         }catch (Exception e){

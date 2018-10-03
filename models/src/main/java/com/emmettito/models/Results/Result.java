@@ -12,6 +12,12 @@ public class Result {
         message = "Default Message";
     }
 
+    public Result(Boolean success, Object data) {
+
+        this.success = success;
+        this.data = data;
+    }
+
     public Result(Boolean success, String message) {
 
         this.success = success;
