@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.GameRoomActivity.GameRoomActivity;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GameListFragment extends Fragment implements LobbyPresenter.lobbyView, Observer {
+public class GameListFragment extends Fragment implements Observer, LobbyPresenter.lobbyView {
 
     private RecyclerView recycle;
     private RecyclerView.Adapter mAdapter;
@@ -60,7 +61,7 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
             public void onClick(View v) {
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
-                        joinGame(Integer.parseInt(games.get(i)[3]));
+                        joinGame(games.get(i)[0]);
                     }
                 }
             }
@@ -113,7 +114,7 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
 
     public void createNewGame(String gameName){}
 
-    public void joinGame(int gameID){
+    public void joinGame(String gameName){
         /***
          *
          * This next section will be replaced with actual code later
@@ -121,14 +122,14 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
          */
 
 
-        if (gameID == 76543) {
+        if (gameName.equals("Game 1")) {
             Toast toast = Toast.makeText(getContext(), "Error: could not join game", Toast.LENGTH_SHORT);
             toast.show();
 
             return;
         }
 
-        Toast toast = Toast.makeText(getContext(), Integer.toString(gameID), Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getContext(), gameName, Toast.LENGTH_SHORT);
         toast.show();
 
         /***
@@ -138,9 +139,9 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
          *
          */
 
-        Intent intent = new Intent(getActivity(), DummyActivity.class);
+        Intent intent = new Intent(getActivity(), GameRoomActivity.class);
 
-        intent.putExtra("gameID", gameID);
+        intent.putExtra("gameName", gameName);
 
         startActivity(intent);
     }

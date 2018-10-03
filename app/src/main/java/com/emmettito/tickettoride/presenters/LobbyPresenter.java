@@ -1,20 +1,23 @@
 package com.emmettito.tickettoride.presenters;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 public class LobbyPresenter extends Observable {
 
-    private List<lobbyView> observers;
+    //private List<Observer> observers;
 
     public LobbyPresenter() {
-        observers = new ArrayList<>();
+        //observers = new ArrayList<>();
     }
+
+    /*@Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }*/
 
     public interface lobbyView {
         void createNewGame(String gameName);
 
-        void joinGame(int gameID);
+        void joinGame(String gameName);
     }
 }

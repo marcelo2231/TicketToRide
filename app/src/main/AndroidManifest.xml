@@ -20,8 +20,8 @@
         </intent-filter>
         </activity>
 
-        <activity android:name=".presenters.LobbyActivity.DummyActivity"
-                  android:label="dummyActivity"/>
+        <activity android:name=".presenters.GameRoomActivity.GameRoomActivity"
+                  android:label="gameRoomActivity"/>
 
     </application>
 

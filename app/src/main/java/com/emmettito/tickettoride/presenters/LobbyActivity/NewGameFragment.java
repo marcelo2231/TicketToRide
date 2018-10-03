@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.GameRoomActivity.GameRoomActivity;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
 import java.util.Observable;
@@ -77,7 +78,6 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
     }
 
     public void createNewGame(String gameName){
-        int gameID;
 
         /***
          *
@@ -92,11 +92,8 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
 
             return;
         }
-        else {
-            gameID = 72834;
-        }
 
-        String combined = "Name: " + gameName + "\nID: " + gameID;
+        String combined = "Name: " + gameName;
 
         Toast toast = Toast.makeText(getContext(), combined, Toast.LENGTH_SHORT);
         toast.show();
@@ -108,13 +105,13 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
          *
          */
 
-        Intent intent = new Intent(getActivity(), DummyActivity.class);
+        Intent intent = new Intent(getActivity(), GameRoomActivity.class);
 
-        intent.putExtra("gameID", gameID);
+        intent.putExtra("gameName", gameName);
 
         startActivity(intent);
     }
 
-    public void joinGame(int gameID){}
+    public void joinGame(String gameName){}
 
 }
