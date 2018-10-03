@@ -10,6 +10,7 @@ public class DrawDestCardCommand implements IGameCommand{
     DrawDestCardRequest commandModel;
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (DrawDestCardRequest)new Serializer().deserialize((InputStream)obj, DrawDestCardRequest.class);
         }catch (Exception e){

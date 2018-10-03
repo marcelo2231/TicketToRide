@@ -11,6 +11,7 @@ public class LogoutCommand implements IUserCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try{
             commandModel = (LogoutRequest)new Serializer().deserialize((InputStream)obj, LogoutRequest.class);
         }catch(Exception e){

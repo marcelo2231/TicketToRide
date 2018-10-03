@@ -11,6 +11,7 @@ public class EndGameCommand implements IGameCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (EndGameRequest)new Serializer().deserialize((InputStream)obj, EndGameRequest.class);
         }catch (Exception e){

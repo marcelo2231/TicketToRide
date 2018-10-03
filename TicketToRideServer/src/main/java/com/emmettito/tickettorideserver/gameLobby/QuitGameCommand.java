@@ -11,6 +11,7 @@ public class QuitGameCommand implements IGameLobbyCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (QuitGameRequest)new Serializer().deserialize((InputStream)obj, QuitGameRequest.class);
         }catch(Exception e){

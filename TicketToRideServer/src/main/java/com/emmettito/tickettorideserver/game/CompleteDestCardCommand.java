@@ -11,6 +11,7 @@ public class CompleteDestCardCommand implements IGameCommand{
 
     @Override
     public Result execute(Object obj) throws Exception {
+        /** Cast Object **/
         try {
             commandModel = (CompleteDestCardRequest)new Serializer().deserialize((InputStream)obj, CompleteDestCardRequest.class);
         }catch(Exception e) {

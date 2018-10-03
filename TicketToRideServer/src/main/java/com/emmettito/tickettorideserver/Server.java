@@ -1,8 +1,6 @@
 package com.emmettito.tickettorideserver;
 
-import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
-import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
-import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
+import com.emmettito.tickettorideserver.communication.handlers.*;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -50,9 +48,10 @@ public class Server {
 
         /** Create ServerZero.Handlers */
         System.out.println("Creating contexts.");
+        server.createContext("/", new DefaultHandler());
         server.createContext("/user", new UserHandler());
         server.createContext("/game", new GameHandler());
-        server.createContext("/game/lobby", new GameLobbyHandler());
+        server.createContext("/gamelobby", new GameLobbyHandler());
 
         /**  Start ServerZero */
         System.out.println("Starting Server");
