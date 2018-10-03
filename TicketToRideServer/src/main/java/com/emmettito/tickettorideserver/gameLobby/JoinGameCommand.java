@@ -2,6 +2,7 @@ package com.emmettito.tickettorideserver.gameLobby;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.Game;
+import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
