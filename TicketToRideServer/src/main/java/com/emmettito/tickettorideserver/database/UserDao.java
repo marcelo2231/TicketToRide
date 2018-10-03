@@ -20,7 +20,8 @@ public class UserDao {
             dbInstance.users.add(newUser);
         }
 
-        AuthToken newAuthToken = new AuthToken();
+        AuthToken newAuthToken = new AuthToken(newUser.getUsername());
+        dbInstance.tokens.add(newAuthToken);
         return newAuthToken;
     }
 
@@ -30,7 +31,17 @@ public class UserDao {
             throw new InvalidName();
         }
 
-        AuthToken newAuthToken = new AuthToken();
+        AuthToken newAuthToken = new AuthToken(user.getUsername());
+        dbInstance.tokens.add(newAuthToken);
         return newAuthToken;
+    }
+
+    public void logoutUser(String username) throws InvalidName {
+
+        if (!dbInstance.removeAuthToken(username)) {
+            throw new InvalidName();
+        }
+
+        return;
     }
 }
