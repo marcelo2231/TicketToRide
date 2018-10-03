@@ -7,12 +7,12 @@ public class AuthToken {
     /** Constructor **/
     public AuthToken(){
         authToken = UUID.randomUUID().toString().replace("-", "");
-        timeCreated = new Date(new Date().getTime() + (1000 * 60 * 60));
+        expirationTime = new Date(new Date().getTime() + (1000 * 60 * 60)); // Time now + 60 minutes
     }
 
     /** Variables **/
     private String authToken;
-    private Date timeCreated;
+    private Date expirationTime;
 
     /** Getters */
     public String getAuthToken() {
@@ -23,7 +23,7 @@ public class AuthToken {
 
     /** Helpers **/
     public boolean isValid(){
-        if (timeCreated.compareTo(new Date()) <= 0){
+        if (expirationTime.compareTo(new Date()) <= 0){
             return false;
         }
         else{
