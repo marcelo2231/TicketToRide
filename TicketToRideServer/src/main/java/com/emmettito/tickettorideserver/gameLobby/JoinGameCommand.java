@@ -1,7 +1,7 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
-import com.emmettito.models.Results.Result;
+import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
 import java.io.InputStream;
@@ -10,7 +10,7 @@ public class JoinGameCommand implements IGameLobbyCommand{
     JoinGameRequest commandModel;
 
     @Override
-    public Result execute(Object obj, String authToken) throws Exception {
+    public GameLobbyResult execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
         try {
             commandModel = (JoinGameRequest)new Serializer().deserialize((InputStream)obj, JoinGameRequest.class);
@@ -24,6 +24,6 @@ public class JoinGameCommand implements IGameLobbyCommand{
         // TODO: Store data on Database
 
         // Result Returns a Player for the user
-        return new Result();
+        return new GameLobbyResult();
     }
 }
