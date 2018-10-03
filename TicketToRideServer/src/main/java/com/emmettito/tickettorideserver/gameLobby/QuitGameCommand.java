@@ -1,7 +1,7 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.QuitGameRequest;
-import com.emmettito.models.Results.Result;
+import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
 import java.io.InputStream;
@@ -10,7 +10,7 @@ public class QuitGameCommand implements IGameLobbyCommand{
     QuitGameRequest commandModel;
 
     @Override
-    public Result execute(Object obj, String authToken) throws Exception {
+    public GameLobbyResult execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
         try {
             commandModel = (QuitGameRequest)new Serializer().deserialize((InputStream)obj, QuitGameRequest.class);
@@ -23,6 +23,6 @@ public class QuitGameCommand implements IGameLobbyCommand{
 
         // TODO: Store data on Database
 
-        return new Result();
+        return new GameLobbyResult();
     }
 }
