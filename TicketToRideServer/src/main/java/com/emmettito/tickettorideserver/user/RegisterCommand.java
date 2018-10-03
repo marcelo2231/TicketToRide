@@ -26,6 +26,7 @@ public class RegisterCommand implements IUserCommand{
         /** Create User Object **/
         User newUser = new User(commandModel.getUsername(), commandModel.getPassword());
         AuthToken resultAuthToken;
+
         /** Add User to Database **/
         try {
             resultAuthToken = userDatabase.registerUser(newUser);

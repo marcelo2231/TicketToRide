@@ -28,9 +28,28 @@ public class Database {
     /** Shared Methods **/
     public boolean gameExists(String gameName) {
         for (int i = 0; i < gameLobby.size(); i++) {
-            Game currGame = gameLobby.get(i);
             if (gameLobby.get(i).getGameName().equals(gameName)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean userExists(String username) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean loginValidation(User user) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(user.getUsername())) {
+                if (users.get(i).getPassword().equals(user.getPassword())) {
+                    return true;
+                }
             }
         }
         return false;
