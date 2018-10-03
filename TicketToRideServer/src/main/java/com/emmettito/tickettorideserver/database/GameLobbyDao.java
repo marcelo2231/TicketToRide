@@ -33,4 +33,14 @@ public class GameLobbyDao {
         }
     }
 
+    public Game getGame(String gameName) throws NotFound {
+        for (int i = 0; i < dbInstance.gameLobby.size(); i++) {
+            if (dbInstance.gameLobby.get(i).getGameName().equals(gameName)) {
+                return dbInstance.gameLobby.get(i);
+            }
+        }
+        throw new NotFound();
+    }
+
+
 }
