@@ -1,0 +1,315 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title> Family Map app server </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+  
+        <!-- Place favicon.ico in the root directory -->
+
+        <!--        <link rel="stylesheet" href="css/normalize.css">    -->
+        <link rel="stylesheet" href="css/main.css">
+   <!--     <script src="js/vendor/modernizr-2.8.3.min.js"></script> -->
+
+        <script type="text/javascript">
+
+            function submit()
+            {
+                var handle = document.getElementById("handleBox").value;
+                var requestBody = document.getElementById("requestBox").value;
+                var token = document.getElementById("authToken").value;
+
+                var method = "post";
+                if(handle.includes("person") || handle.includes("event"))
+                {
+                  method = "get";
+                }
+
+                send(handle,requestBody, method, token);
+                return false;
+            }
+
+            function send(path, params, method, token)
+            {
+                var obj = new XMLHttpRequest();
+                obj.onreadystatechange = function()
+                {
+                    var response = obj.responseText;
+                    var responseJson = JSON.parse(response);
+                    if (responseJson.authToken) {
+                        document.getElementById("authToken").value = responseJson.authToken;
+                    }
+                    document.getElementById("response").value = formatJson(response);
+                };
+                obj.open(method,path,false);
+                obj.setRequestHeader("Content-Type", "application/json");
+                obj.setRequestHeader("Authorization", token);
+                obj.send(params);
+            }
+
+            function formatJson(inputText)
+            {
+                var temp = "";
+                var indent = 0;
+                for(var i in inputText)
+                {
+                    var char = inputText[i];
+                    if(char != null)
+                    {
+                        if(char === ']' || char === '}')
+                        {
+                            temp += "\n";
+                            indent--;
+                            for(var j = 0; j < indent; j++)
+                            {
+                                temp += '\t';
+                            }
+
+                        }
+
+                        temp += char;
+
+                        if (char === ',')
+                        {
+                            temp += "\n";
+
+                            for(j = 0; j < indent; j++)
+                            {
+                                temp += '\t';
+                            }
+
+                        }
+                        if(char === '{' || char === '[')
+                        {
+                            temp += "\n";
+                            indent++;
+                            for(j = 0; j < indent; j++)
+                            {
+                                temp += '\t';
+                            }
+                        }
+                    }
+                }
+
+                return temp;
+            }
+
+            function login()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/user/login";
+                document.getElementById("requestBox").value = formatJson("{\"userName\":\"username\",\"password\":\"password\"}");
+            }
+            function register()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/user/register";
+                document.getElementById("requestBox").value = formatJson("{\"userName\":\"username\",\"password\":\"password\"}");
+            }
+            function creategame()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/gamelobby/creategame";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function joingame()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/gamelobby/joingame";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function logout()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/user/logout";
+                document.getElementById("requestBox").value = "";
+            }
+            function quitgame()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/gamelobby/quitgame";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function removegame()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/gamelobby/removegame";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function claimroute()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/claimroute";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function completedestcard()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/completedestcard";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function drawdestcard()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/drawdestcard";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function drawtrain()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/drawtrain";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function endgame()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/endgame";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function getscore()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/getscore";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function playerturn()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/playerturn";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+            function startgame()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/startgame";
+                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+            }
+        </script>
+    </head>
+    <body>
+        <div style="text-align:center;">
+            <h1>
+                This is the Ticket To Ride server used to power the Ticket To Ride Android app.
+            </h1>
+            <h2>Built to power BYU CS 340 Ticket To Ride Application for Android</h2>
+        </div>
+        <div>
+
+
+                <!-- Commands for the Database -->
+              <div style="border: 2px solid black;">
+                <h1 style="padding-left:1cm; text-decoration: underline;">User Commands</h1>
+                <ul>
+                    <li>
+                      <a href="javascript:login()" >/user/login</a> This API login an user.
+                    </li>
+                    <li>
+                      <a href="javascript:register()">/user/register</a> This API will register a new user.
+                    </li>
+                    <li>
+                      <a href="javascript:logout()" >/user/logout</a> This API will logout a user.</li>
+                  </ul>
+              </div>
+
+              <br/>
+
+              <div style="border: 2px solid black; margin:5px;">
+                  <h1 style="padding-left:1cm; text-decoration: underline;">Game Lobby Commands</h1>
+                <ul>
+                  <li>
+                    <a href="javascript:creategame()" >/gamelobby/creategame</a> Create a game.
+                    </li>
+                  <li>
+                    <a href="javascript:joingame()" >/gamelobby/joingame</a> Joins a game.
+                  </li>
+                  <li>
+                    <a href="javascript:quitgame()">/gamelobby/quitgame</a> Quits game.
+                  </li>
+                  <li>
+                    <a href="javascript:removegame()">/gamelobby/removegame</a> Removes a game.
+                  </li>
+              </ul>
+            </div>
+
+            <br/>
+
+            <div style="border: 2px solid black;">
+                <h1 style="padding-left:1cm; text-decoration: underline;">Game Commands</h1>
+                <ul>
+                    <li>
+                        <a href="javascript:claimroute()" >/game/claimroute</a> This API claim a route.
+                    </li>
+                    <li>
+                        <a href="javascript:completedestcard()" >/game/completedestcard</a> This API complete destination card.
+                    </li>
+                    <li>
+                        <a href="javascript:drawdestcard()" >/game/drawdestcard</a> This API draw destination card.
+                    </li>
+                    <li>
+                        <a href="javascript:drawtraincommand()" >/game/drawtraincommand</a> This API draw train.
+                    </li>
+                    <li>
+                        <a href="javascript:endgame()" >/game/endgame</a> This API ends the game.
+                    </li>
+                    <li>
+                        <a href="javascript:getscore()" >/game/getscore</a> This API gets the score.
+                    </li>
+                    <li>
+                        <a href="javascript:playerturn()" >/game/playerturn</a> This API does something with player turn.
+                    </li>
+                    <li>
+                        <a href="javascript:startgame()" >/game/startgame</a> This API starts the game.
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+        <div>
+            <h5>
+                A few notes:
+                <ul>
+                    <li>
+                        The authorization token is returned from the server in the "Authorization"
+                        attribute of the JSON object returned by the "/user/register" and "/user/login" APIs.
+                        The authorization token must be placed in the "Authorization" header
+                        on all subsequent HTTP requests.
+                    </li>
+                    <li>
+                        If something fails, the returned JSON object contains a "message" attribute
+                        which contains a message describing what happened.
+                        Watch for these as they will give helpful insight into why the server did not
+                        work as expected.
+                    </li>
+                </ul>
+            </h5>
+          <p>Try it out here</p>
+        </div>
+        <div class="w3-row forumDiv">
+            <div class="w3-col m4">
+              Handle:<input type="text" id="handleBox" name="handleBox" style="width: 400px">
+            </div>
+            <div class="w3-col m5">
+              Authorization token: <input type="text" id="authToken" name="authToken" style="width: 400px;">
+              <input type="button" name="Submit" value="Submit" onclick="submit()">
+            </div>
+        </div>
+        <div class="w3-row" style="margin:10px;">
+          <p class="w3-col w3-container center" style="width:3%"/>
+          <div class="w3-col w3-container bottom" style="width:45%">
+            Request Body: <textarea type="text" id="requestBox" name="requestBox" class="requestBody"></textarea>
+          </div>
+          <p class="w3-col w3-container center" style="width:3%"/>
+          <div class="w3-col w3-container bottom" style="width:45%">
+            Response From the server: <textarea type="text" id="response" class="responseBody" readonly></textarea>
+          <div>
+          <p class="w3-col w3-container center" style="width:3%"/>
+        </div>
+    </body>
+</html>
