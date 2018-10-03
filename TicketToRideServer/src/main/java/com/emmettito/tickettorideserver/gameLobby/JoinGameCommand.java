@@ -41,6 +41,7 @@ public class JoinGameCommand implements IGameLobbyCommand{
         targetGame.addPlayer(newPlayer);
 
 
+
         // TODO: Store data on Database
 
         // Result Returns a Player for the user
