@@ -41,7 +41,7 @@ public class UserHandler implements HttpHandler {
 
             if (requestURI.length < 3){
                 List<UserCommandType> commandTypes = Arrays.asList(UserCommandType.values());
-                throw new IOException("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+                throw new Exception("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
             }else{
                 commandType = requestURI[2];
             }

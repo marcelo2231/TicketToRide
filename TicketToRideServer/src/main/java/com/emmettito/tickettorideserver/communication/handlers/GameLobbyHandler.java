@@ -6,6 +6,7 @@ import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.gameLobby.*;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.gameLobby.RemoveGameCommand;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -29,6 +30,8 @@ public class GameLobbyHandler implements HttpHandler {
         URI uri;
         String[] requestURI;
         String commandType;
+        Headers head = httpExchange.getRequestHeaders();
+        String authToken = head.getFirst("Authorization");
 
         try {
             /** Get Path */
@@ -37,23 +40,23 @@ public class GameLobbyHandler implements HttpHandler {
 
             if (requestURI.length < 3){
                 List<GameLobbyCommandType> commandTypes = Arrays.asList(GameLobbyCommandType.values());
-                throw new IOException("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+                throw new Exception("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
             }else{
                 commandType = requestURI[2];
             }
 
             switch(commandType.toLowerCase()){
                 case "creategame":
-                    result = new CreateGameCommand().execute(input);
+                    result = new CreateGameCommand().execute(input, authToken);
                     break;
                 case "quitgame":
-                    result = new QuitGameCommand().execute(input);
+                    result = new QuitGameCommand().execute(input, authToken);
                     break;
                 case "removegame":
-                    result = new RemoveGameCommand().execute(input);
+                    result = new RemoveGameCommand().execute(input, authToken);
                     break;
                 case "joingame":
-                    result = new JoinGameCommand().execute(input);
+                    result = new JoinGameCommand().execute(input, authToken);
                     break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");

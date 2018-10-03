@@ -38,4 +38,12 @@ public class GameDao {
             }
         }
     }
+
+    public boolean authTokenIsValid(String authToken){
+        return dbInstance.authTokenIsValid(authToken);
+    }
+
+    public boolean authTokenAndUserAreValid(String authToken, String username){
+        return dbInstance.authTokenAndUserAreValid(authToken, username);
+    }
 }

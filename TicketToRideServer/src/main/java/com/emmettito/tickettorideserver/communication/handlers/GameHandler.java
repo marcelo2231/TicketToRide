@@ -4,6 +4,7 @@ import com.emmettito.models.CommandModels.GameCommandType;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.game.*;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -26,6 +27,8 @@ public class GameHandler implements HttpHandler {
         URI uri;
         String[] requestURI;
         String commandType;
+        Headers head = httpExchange.getRequestHeaders();
+        String authToken = head.getFirst("Authorization");
 
         try {
             /** Get Path */
@@ -34,35 +37,35 @@ public class GameHandler implements HttpHandler {
 
             if (requestURI.length < 3){
                 List<GameCommandType> commandTypes = Arrays.asList(GameCommandType.values());
-                throw new IOException("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
+                throw new Exception("GameCommandType is invalid. Make sure to use one of the following commands: " + commandTypes);
             }else{
                 commandType = requestURI[2];
             }
 
             switch(commandType.toLowerCase()){
                 case "completedestcard":
-                    result = new CompleteDestCardCommand().execute(input);
+                    result = new CompleteDestCardCommand().execute(input, authToken);
                     break;
                 case "endgame":
-                    result = new EndGameCommand().execute(input);
+                    result = new EndGameCommand().execute(input, authToken);
                     break;
                 case "startgame":
-                    result = new StartGameCommand().execute(input);
+                    result = new StartGameCommand().execute(input, authToken);
                     break;
                 case "drawtrain":
-                    result = new DrawTrainCommand().execute(input);
+                    result = new DrawTrainCommand().execute(input, authToken);
                     break;
                 case "claimroute":
-                    result = new ClaimRouteCommand().execute(input);
+                    result = new ClaimRouteCommand().execute(input, authToken);
                     break;
                 case "drawdestcard":
-                    result = new DrawDestCardCommand().execute(input);
+                    result = new DrawDestCardCommand().execute(input, authToken);
                     break;
                 case "getscore":
-                    result = new GetScoreCommand().execute(input);
+                    result = new GetScoreCommand().execute(input, authToken);
                     break;
                 case "playerturn":
-                    result = new PlayerTurnCommand().execute(input);
+                    result = new PlayerTurnCommand().execute(input, authToken);
                     break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");

@@ -66,4 +66,31 @@ public class Database {
         }
         return false;
     }
+
+    public AuthToken addAuthToken(String username){
+        AuthToken newAuthToken = new AuthToken(username);
+        removeAuthToken(username);
+        tokens.add(newAuthToken);
+        return newAuthToken;
+    }
+
+    public boolean authTokenIsValid(String authToken){
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tokens.get(i).getAuthToken().equals(authToken)) {
+                return tokens.get(i).isValid();
+            }
+        }
+        return false;
+    }
+
+    public boolean authTokenAndUserAreValid(String authToken, String username){
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tokens.get(i).getAuthToken().equals(authToken)) {
+                if(tokens.get(i).getUsername().equals(username)) {
+                    return tokens.get(i).isValid();
+                }
+            }
+        }
+        return false;
+    }
 }
