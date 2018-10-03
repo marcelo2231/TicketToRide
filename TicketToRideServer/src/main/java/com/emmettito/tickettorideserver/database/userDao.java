@@ -1,66 +1,45 @@
 package com.emmettito.tickettorideserver.database;
 
-import com.emmettito.models.Game;
+import com.emmettito.models.AuthToken;
 import com.emmettito.models.User;
 
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
 
-import java.util.ArrayList;
+public class UserDao {
+    /** Database Instance **/
+    private static Database dbInstance = Database.getInstance();
 
+    /** Methods **/
+    public AuthToken registerUser(User newUser) throws DuplicateName{
 
-public class userDao {
-    //these arrays will store that data until the sql database is implemented
-    private ArrayList<User> users = new ArrayList();
-    private ArrayList gamesInProgess = new ArrayList();
-
-    void addUser(User newUser) throws DuplicateName {
-        if (userExists(newUser.getUsername())) {
-            users.add(newUser);
-        }
-        else {
+        if (dbInstance.userExists(newUser.getUsername())) {
             throw new DuplicateName();
         }
+        else {
+            dbInstance.users.add(newUser);
+        }
+
+        AuthToken newAuthToken = dbInstance.addAuthToken(newUser.getUsername());
+        return newAuthToken;
     }
 
-    void removeUser(String userName) throws NotFound {
-        boolean found = false;
-        for (int i = 0; i < users.size(); i++) {
-            User currUser = users.get(i);
-            if (currUser.getUsername().equals(userName)) {
-                users.remove(i);
-                found = true;
-            }
+    public AuthToken loginUser(User user) throws InvalidName {
+
+        if (!dbInstance.loginValidation(user)) {
+            throw new InvalidName();
         }
-        if (!found) {
-            throw new NotFound();
-        }
+
+        AuthToken newAuthToken = dbInstance.addAuthToken(user.getUsername());
+        return newAuthToken;
     }
 
-    public User getUser(String userName) throws NotFound {
-        boolean found = false;
-        for (int i = 0; i < users.size(); i++) {
-            User currUser = users.get(i);
-            if (currUser.getUsername().equals(userName)) {
-                found = true;
-                return currUser;
-            }
+    public void logoutUser(String username) throws InvalidName {
+
+        if (!dbInstance.removeAuthToken(username)) {
+            throw new InvalidName();
         }
-        if (!found) {
-            throw new NotFound();
-        }
-        return null;
+
+        return;
     }
-
-
-    boolean userExists(String userName) {
-        for (int i = 0; i < users.size(); i++) {
-            User currUser = users.get(i);
-            if (currUser.getUsername().equals(userName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

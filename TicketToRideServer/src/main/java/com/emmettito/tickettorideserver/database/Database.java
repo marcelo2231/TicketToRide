@@ -24,17 +24,24 @@ public class Database {
 
     /** Stored Variables **/
     public ArrayList<Game> gameLobby = new ArrayList<>();
+    public ArrayList<Game> activeGame = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
     public ArrayList<AuthToken> tokens = new ArrayList<>();
 
     /** Shared Methods **/
     public boolean gameExists(String gameName) {
+        boolean exists = false;
         for (int i = 0; i < gameLobby.size(); i++) {
             if (gameLobby.get(i).getGameName().equals(gameName)) {
-                return true;
+                exists = true;
             }
         }
-        return false;
+        for (int i = 0; i < activeGame.size(); i++) {
+            if (activeGame.get(i).equals(gameName)) {
+                exists = true;
+            }
+        }
+        return exists;
     }
 
     public boolean userExists(String username) {
