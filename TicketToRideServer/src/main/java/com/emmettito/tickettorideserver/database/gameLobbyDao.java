@@ -2,7 +2,6 @@ package com.emmettito.tickettorideserver.database;
 
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
-import com.emmettito.models.User;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
@@ -27,7 +26,7 @@ public class gameLobbyDao {
         }
         for (int i = 0; i < gameLobby.size(); i++) {
             if (gameLobby.get(i).getGameName().equals(gameName)) {
-                gameLobby.get(i).addPlayer(newPlayer);
+                //gameLobby.get(i).addPlayer(newPlayer);
             }
         }
     }

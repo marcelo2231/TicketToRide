@@ -13,8 +13,8 @@ public class LobbyPresenter extends Observable {
     }
 
     public interface lobbyView {
-        int createNewGame(String gameName);
+        void createNewGame(String gameName);
 
-        boolean joinGame(int gameID);
+        void joinGame(int gameID);
     }
 }

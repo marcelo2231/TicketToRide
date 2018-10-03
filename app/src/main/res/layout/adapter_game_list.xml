@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:weightSum="3"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/game_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/game_list"
+        android:layout_weight="1"
+        android:textAlignment="viewStart"/>
+
+    <TextView
+        android:id="@+id/person_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/player_num"
+        android:layout_weight="1"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/status_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/status_string"
+        android:layout_weight="1"
+        android:textAlignment="viewEnd"/>
+
+</LinearLayout>

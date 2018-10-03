@@ -68,42 +68,53 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
         createButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String gameName = gameNameText.getText().toString();
-                int gameID = createNewGame(gameName);
 
-                String combined = "Name: " + gameName + "\nID: " + gameID;
-
-                if (gameID < 0) {
-                    Toast toast = Toast.makeText(getContext(), "Error: name already taken", Toast.LENGTH_SHORT);
-                    toast.show();
-
-                    return;
-                }
-
-                Toast toast = Toast.makeText(getContext(), combined, Toast.LENGTH_SHORT);
-                toast.show();
-
-                Intent intent = new Intent(getActivity(), DummyActivity.class);
-
-                intent.putExtra("gameID", gameID);
-
-                startActivity(intent);
+                createNewGame(gameName);
             }
         });
 
         return view;
     }
 
-    public int createNewGame(String gameName){
+    public void createNewGame(String gameName){
+        int gameID;
+
+        /***
+         *
+         * This next section will be replaced with actual code later
+         *
+         */
+
+
         if (gameName.equals("false")) {
-            return -1;
+            Toast toast = Toast.makeText(getContext(), "Error: name already taken", Toast.LENGTH_SHORT);
+            toast.show();
+
+            return;
+        }
+        else {
+            gameID = 72834;
         }
 
-        return 72834;
+        String combined = "Name: " + gameName + "\nID: " + gameID;
+
+        Toast toast = Toast.makeText(getContext(), combined, Toast.LENGTH_SHORT);
+        toast.show();
+
+        /***
+         *
+         *
+         * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         *
+         */
+
+        Intent intent = new Intent(getActivity(), DummyActivity.class);
+
+        intent.putExtra("gameID", gameID);
+
+        startActivity(intent);
     }
 
-    //Calling this function from the NewGameFragment is an error
-    public boolean joinGame(int gameID){
-        return false;
-    }
+    public void joinGame(int gameID){}
 
 }
