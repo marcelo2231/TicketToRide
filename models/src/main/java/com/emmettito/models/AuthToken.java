@@ -5,7 +5,8 @@ import java.util.UUID;
 
 public class AuthToken {
     /** Constructor **/
-    public AuthToken(){
+    public AuthToken(String username){
+        this.username = username;
         authToken = UUID.randomUUID().toString().replace("-", "");
         expirationTime = new Date(new Date().getTime() + (1000 * 60 * 60)); // Time now + 60 minutes
     }
@@ -13,10 +14,19 @@ public class AuthToken {
     /** Variables **/
     private String authToken;
     private Date expirationTime;
+    private String username;
 
     /** Getters */
     public String getAuthToken() {
         return authToken;
+    }
+
+    public Date getExpirationTime() {
+        return expirationTime;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     /** Setters */

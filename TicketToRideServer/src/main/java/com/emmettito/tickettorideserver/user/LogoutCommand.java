@@ -3,7 +3,7 @@ package com.emmettito.tickettorideserver.user;
 import com.emmettito.models.CommandModels.UserCommands.LogoutRequest;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
-
+import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
 import java.io.InputStream;
 
 public class LogoutCommand implements IUserCommand{
@@ -18,8 +18,19 @@ public class LogoutCommand implements IUserCommand{
             throw new Exception("LogoutCommand: command was null, please, make sure to set the LogoutCommandModel.");
         }
 
-        // TODO: Store data on Database
+        /** Validate **/
+        if(commandModel.getUsername() == null || commandModel.getUsername().isEmpty()){
+            throw new Exception("Username null or empty. Please, do not forget to fill out all fields.");
+        }
 
-        return new Result();
+        /** Add User to Database **/
+        try {
+            userDatabase.logoutUser(commandModel.getUsername());
+        }catch(InvalidName e){
+            throw new Exception("No username found logged in. Logout failed.");
+        }
+
+        /** Prepare Result **/
+        return new Result(true, "Logout successfully.");
     }
 }

@@ -1,5 +1,6 @@
 package com.emmettito.tickettorideserver.database;
 
+import com.emmettito.models.AuthToken;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.User;
@@ -24,6 +25,7 @@ public class Database {
     /** Stored Variables **/
     public ArrayList<Game> gameLobby = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
+    public ArrayList<AuthToken> tokens = new ArrayList<>();
 
     /** Shared Methods **/
     public boolean gameExists(String gameName) {
@@ -50,6 +52,16 @@ public class Database {
                 if (users.get(i).getPassword().equals(user.getPassword())) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    public boolean removeAuthToken(String username){
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tokens.get(i).getUsername().equals(username)) {
+                tokens.remove(i);
+                return true;
             }
         }
         return false;
