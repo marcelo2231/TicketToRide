@@ -1,11 +1,12 @@
 package com.emmettito.tickettorideserver.communication.handlers;
 
 import com.emmettito.models.CommandModels.GameLobbyCommandType;
-import com.emmettito.models.CommandModels.GameLobbyCommands.*;
 import com.emmettito.models.Results.GameLobbyResult;
-import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.gameLobby.*;
 import com.emmettito.models.Results.Result;
+import com.emmettito.tickettorideserver.communication.Serializer;
+import com.emmettito.tickettorideserver.gameLobby.CreateGameCommand;
+import com.emmettito.tickettorideserver.gameLobby.JoinGameCommand;
+import com.emmettito.tickettorideserver.gameLobby.QuitGameCommand;
 import com.emmettito.tickettorideserver.gameLobby.RemoveGameCommand;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;

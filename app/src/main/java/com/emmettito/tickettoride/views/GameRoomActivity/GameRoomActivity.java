@@ -1,4 +1,4 @@
-package com.emmettito.tickettoride.presenters.GameRoomActivity;
+package com.emmettito.tickettoride.views.GameRoomActivity;
 
 import android.app.Activity;
 import android.os.Bundle;

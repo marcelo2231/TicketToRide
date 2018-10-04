@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.emmettito.tickettoride">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +12,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".presenters.LobbyActivity.LobbyActivity"
+            android:name=".views.LobbyActivity.LobbyActivity"
             android:label="lobbyActivity">
 
             <intent-filter>
@@ -20,7 +22,7 @@
         </intent-filter>
         </activity>
 
-        <activity android:name=".presenters.GameRoomActivity.GameRoomActivity"
+        <activity android:name=".views.GameRoomActivity.GameRoomActivity"
                   android:label="gameRoomActivity"/>
 
     </application>

@@ -1,6 +1,5 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
-import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.database.GameDao;
 import com.emmettito.tickettorideserver.database.GameLobbyDao;
 

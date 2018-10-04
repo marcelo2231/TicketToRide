@@ -1,4 +1,4 @@
-package com.emmettito.tickettoride.presenters.LobbyActivity;
+package com.emmettito.tickettoride.views.LobbyActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.presenters.GameRoomActivity.GameRoomActivity;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
 import java.util.Observable;
@@ -26,6 +26,23 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
     private Button createButton;
 
     private LobbyPresenter presenter;
+
+    /**
+     *
+     * Replace following once login activity is completed
+     *
+     */
+
+    private String authToken = "993ab23d6c564e8db732648ea20a69d6";
+
+    private String username = "username";
+
+
+    /**
+     *
+     * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     *
+     */
 
     public void update(Observable obj, Object arg) {
 
@@ -70,14 +87,15 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             public void onClick(View v) {
                 String gameName = gameNameText.getText().toString();
 
-                createNewGame(gameName);
+                createNewGame(gameName, username, authToken);
             }
         });
 
         return view;
     }
 
-    public void createNewGame(String gameName){
+    public void createNewGame(String gameName, String username, String authToken){
+        GameLobbyResult result = presenter.createNewGame(gameName, username, authToken);
 
         /***
          *
@@ -85,8 +103,7 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
          *
          */
 
-
-        if (gameName.equals("false")) {
+        /*if (gameName.equals("false")) {
             Toast toast = Toast.makeText(getContext(), "Error: name already taken", Toast.LENGTH_SHORT);
             toast.show();
 
@@ -96,7 +113,7 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
         String combined = "Name: " + gameName;
 
         Toast toast = Toast.makeText(getContext(), combined, Toast.LENGTH_SHORT);
-        toast.show();
+        toast.show();*/
 
         /***
          *
@@ -105,13 +122,22 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
          *
          */
 
-        Intent intent = new Intent(getActivity(), GameRoomActivity.class);
+        if (!result.getSuccess()) {
+            Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
+            toast.show();
+
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), DummyActivity.class);
 
         intent.putExtra("gameName", gameName);
+        intent.putExtra("username", username);
+        intent.putExtra("authToken", authToken);
 
         startActivity(intent);
     }
 
-    public void joinGame(String gameName){}
+    public void joinGame(String gameName, String username, String authToken){}
 
 }

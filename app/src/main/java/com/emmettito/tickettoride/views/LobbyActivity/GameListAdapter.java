@@ -1,4 +1,4 @@
-package com.emmettito.tickettoride.presenters.LobbyActivity;
+package com.emmettito.tickettoride.views.LobbyActivity;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

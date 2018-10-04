@@ -1,5 +1,9 @@
 package com.emmettito.tickettoride.presenters;
 
+import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
+import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.tickettoride.communication.proxy.GameLobbyProxy;
+
 import java.util.Observable;
 
 public class LobbyPresenter extends Observable {
@@ -15,9 +19,19 @@ public class LobbyPresenter extends Observable {
         observers.add(observer);
     }*/
 
-    public interface lobbyView {
-        void createNewGame(String gameName);
+    public GameLobbyResult createNewGame(String gameName, String username, String authToken) {
+        CreateGameRequest request = new CreateGameRequest();
+        request.setGameName(gameName);
+        request.setUsername(username);
 
-        void joinGame(String gameName);
+        GameLobbyProxy proxy = new GameLobbyProxy("localhost", "9090");
+
+        return proxy.createGame(request, authToken);
+    }
+
+    public interface lobbyView {
+        void createNewGame(String gameName, String username, String authToken);
+
+        void joinGame(String gameName, String username, String authToken);
     }
 }

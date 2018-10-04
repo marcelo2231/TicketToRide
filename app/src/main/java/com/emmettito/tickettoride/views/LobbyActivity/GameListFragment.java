@@ -1,4 +1,4 @@
-package com.emmettito.tickettoride.presenters.LobbyActivity;
+package com.emmettito.tickettoride.views.LobbyActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.presenters.GameRoomActivity.GameRoomActivity;
+import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
             public void onClick(View v) {
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
-                        joinGame(games.get(i)[0]);
+                        //joinGame(games.get(i)[0], );
                     }
                 }
             }
@@ -112,9 +112,9 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         return view;
     }
 
-    public void createNewGame(String gameName){}
+    public void createNewGame(String gameName, String username, String authToken){}
 
-    public void joinGame(String gameName){
+    public void joinGame(String gameName, String username, String authToken){
         /***
          *
          * This next section will be replaced with actual code later

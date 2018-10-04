@@ -1,4 +1,4 @@
-package com.emmettito.tickettoride.presenters.LobbyActivity;
+package com.emmettito.tickettoride.views.LobbyActivity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
