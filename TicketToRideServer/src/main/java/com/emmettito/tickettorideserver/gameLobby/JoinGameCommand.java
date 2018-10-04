@@ -29,9 +29,6 @@ public class JoinGameCommand implements IGameLobbyCommand{
         if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
             throw new Exception("Invalid authToken or username. You do not have authorization to execute this command.");
         }
-        if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
-            throw new Exception("Game name is null or empty. Please, do not forget to set all variables.");
-        }
 
         /** Creating a player and adding it to the game **/
         GameLobbyResult result = new GameLobbyResult();
