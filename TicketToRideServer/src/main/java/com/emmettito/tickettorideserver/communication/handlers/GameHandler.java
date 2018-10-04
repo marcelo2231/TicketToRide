@@ -67,6 +67,12 @@ public class GameHandler implements HttpHandler {
                 case "playerturn":
                     result = new PlayerTurnCommand().execute(input, authToken);
                     break;
+                case "quitgame":
+                    result = new QuitGameCommand().execute(input, authToken);
+                    break;
+                case "removegame":
+                    result = new RemoveGameCommand().execute(input, authToken);
+                    break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");
             }

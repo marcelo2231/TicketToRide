@@ -22,7 +22,7 @@ public class GameLobbyProxy {
 
         //String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
 
-        String url = "http://localhost:8080/gamelobby/creategame";
+        String url = "http://10.0.2.2:8080/gamelobby/creategame";
 
         String resultString;
 
