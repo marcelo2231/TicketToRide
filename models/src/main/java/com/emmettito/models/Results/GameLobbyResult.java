@@ -7,6 +7,7 @@ public class GameLobbyResult {
     private Boolean success;
     private String message;
     private Player data;
+    private String renewedAuthToken;
 
     /** Constructors */
     public GameLobbyResult() {
@@ -36,6 +37,9 @@ public class GameLobbyResult {
     public Object getData() {
         return data;
     }
+    public String getRenewedAuthToken() {
+        return renewedAuthToken;
+    }
 
     /** Setters */
     public void setSuccess(Boolean success) {
@@ -46,6 +50,9 @@ public class GameLobbyResult {
     }
     public void setData(Player data) {
         this.data = data;
+    }
+    public void setRenewedAuthToken(String renewedAuthToken) {
+        this.renewedAuthToken = renewedAuthToken;
     }
 
     @Override

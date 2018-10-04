@@ -1,5 +1,6 @@
 package com.emmettito.tickettorideserver.database;
 
+import com.emmettito.models.AuthToken;
 import com.emmettito.models.Player;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
@@ -40,6 +41,9 @@ public class GameDao {
                 dbInstance.gameLobby.get(i).setPlayers(newList);
             }
         }
+    }
+    public AuthToken generateAuthToken(String username){
+        return dbInstance.addAuthToken(username);
     }
 
     public boolean authTokenIsValid(String authToken){

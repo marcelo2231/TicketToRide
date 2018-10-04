@@ -1,16 +1,16 @@
-package com.emmettito.tickettorideserver.gameLobby;
+package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.RemoveGameRequest;
-import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
 import java.io.InputStream;
 
-public class RemoveGameCommand implements IGameLobbyCommand{
+public class RemoveGameCommand implements IGameCommand {
     RemoveGameRequest commandModel;
 
     @Override
-    public GameLobbyResult execute(Object obj, String authToken) throws Exception {
+    public Result execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
         try {
             commandModel = (RemoveGameRequest)new Serializer().deserialize((InputStream)obj, RemoveGameRequest.class);
@@ -23,6 +23,6 @@ public class RemoveGameCommand implements IGameLobbyCommand{
 
         // TODO: Store data on Database
 
-        return new GameLobbyResult();
+        return new Result();
     }
 }

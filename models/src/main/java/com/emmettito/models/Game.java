@@ -31,12 +31,4 @@ public class Game {
         return players;
     }
 
-    public void addPlayer(Player newPlayer) throws DuplicateName {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getName().equals(newPlayer.getName())) {
-                throw new DuplicateName();
-            }
-        }
-        players.add(newPlayer);
-    }
 }
