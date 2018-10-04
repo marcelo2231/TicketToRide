@@ -116,79 +116,79 @@
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/gamelobby/creategame";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \", \"username\":\"username\"}");
             }
             function joingame()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/gamelobby/joingame";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \", \"username\":\"username\"}");
             }
             function logout()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/user/logout";
-                document.getElementById("requestBox").value = "";
+                document.getElementById("requestBox").value = formatJson("{\"username\":\"username\"}");
             }
             function quitgame()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/gamelobby/quitgame";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function removegame()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/gamelobby/removegame";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function claimroute()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/claimroute";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function completedestcard()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/completedestcard";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function drawdestcard()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/drawdestcard";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function drawtrain()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/drawtrain";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function endgame()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/endgame";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function getscore()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/getscore";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function playerturn()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/playerturn";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
             function startgame()
             {
                 window.scrollTo(0,document.body.scrollHeight);
                 document.getElementById("handleBox").value = "/game/startgame";
-                document.getElementById("requestBox").value = formatJson("{\"gamename\":\"  \"}");
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"  \"}");
             }
         </script>
     </head>
@@ -228,12 +228,6 @@
                   <li>
                     <a href="javascript:joingame()" >/gamelobby/joingame</a> Joins a game.
                   </li>
-                  <li>
-                    <a href="javascript:quitgame()">/gamelobby/quitgame</a> Quits game.
-                  </li>
-                  <li>
-                    <a href="javascript:removegame()">/gamelobby/removegame</a> Removes a game.
-                  </li>
               </ul>
             </div>
 
@@ -265,6 +259,12 @@
                     </li>
                     <li>
                         <a href="javascript:startgame()" >/game/startgame</a> This API starts the game.
+                    </li>
+                    <li>
+                        <a href="javascript:quitgame()">/gamelobby/quitgame</a> Quits game.
+                    </li>
+                    <li>
+                        <a href="javascript:removegame()">/gamelobby/removegame</a> Removes a game.
                     </li>
                 </ul>
             </div>

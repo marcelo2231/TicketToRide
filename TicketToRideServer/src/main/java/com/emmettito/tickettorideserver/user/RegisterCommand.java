@@ -34,11 +34,15 @@ public class RegisterCommand implements IUserCommand{
         }
 
         /** Add User to Database **/
-        try {
-            resultAuthToken = userDatabase.registerUser(newUser);
-        }catch(DuplicateName e){
+        if(userDatabase.getUser(newUser.getUsername()) != null) {
             throw new Exception("Username already exists. Unable to add to database.");
         }
+        if(!userDatabase.addUser(newUser)){
+            throw new Exception("Unable to add user to database.");
+        }
+
+        /** Generate new Auth Token **/
+        resultAuthToken = userDatabase.generateAuthToken(newUser.getUsername());
 
         /** Prepare Result **/
         Result result = new Result();

@@ -23,15 +23,16 @@ public class CreateGameCommand implements IGameLobbyCommand{
             throw new Exception("CreateGameCommand: command was null, please, make sure to set the CreateGameCommandModel.");
         }
         /** Validate **/
-        if(!gameDatabase.authTokenIsValid(authToken)){
-            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
+        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
+            throw new Exception("Invalid authToken or username. You do not have authorization to execute this command.");
         }
         if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
-            throw new Exception("Game name is null or empty. Please, do not forget to fill out all fields.");
+            throw new Exception("Game name is null or empty. Please, do not forget to set all variables.");
         }
 
         /** Create game and player variable **/
         Game newGame = new Game();
+        GameLobbyResult result = new GameLobbyResult();
         newGame.setGameName(commandModel.getGameName());
 
         Player newPlayer = new Player(commandModel.getUsername());
@@ -40,11 +41,17 @@ public class CreateGameCommand implements IGameLobbyCommand{
         try{
             gameLobbyDatabase.addGame(newGame);
             gameDatabase.addPlayer(newGame.getGameName(), newPlayer);
+            result.setRenewedAuthToken(userDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
         }catch(DuplicateName e){
             throw new Exception("Game name already exists. Unable to add to database.");
+        }catch(Exception e){
+            throw e;
         }
 
         // Result Returns a Player for the user
-        return new GameLobbyResult(true, newPlayer);
+        result.setSuccess(true);
+        result.setData(newPlayer);
+        result.setMessage("Successfully created game.");
+        return result;
     }
 }

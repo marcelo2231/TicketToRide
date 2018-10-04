@@ -34,11 +34,10 @@ public class LoginCommand implements IUserCommand{
         }
 
         /** Add User to Database **/
-        try {
-            resultAuthToken = userDatabase.loginUser(user);
-        }catch(InvalidName e){
+        if(!userDatabase.compareUserAndPassword(user)){
             throw new Exception("Username or Password is Invalid. Login Failed.");
         }
+        resultAuthToken = userDatabase.generateAuthToken(user.getUsername());
 
         /** Prepare Result **/
         Result result = new Result();

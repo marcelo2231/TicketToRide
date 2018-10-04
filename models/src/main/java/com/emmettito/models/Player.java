@@ -1,11 +1,11 @@
 package com.emmettito.models;
 
 public class Player {
-    private String name;
+    private String playerName;
     private int points;
 
-    public Player(String name){
-        this.name = name;
+    public Player(String playerName){
+        this.playerName = playerName;
         this.points = 0;
     }
 
@@ -13,12 +13,12 @@ public class Player {
         return points;
     }
 
-    public String getName() {
-        return name;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public void setPoints(int points) {
