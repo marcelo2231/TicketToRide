@@ -19,11 +19,31 @@ public class GameDao {
         for (int i = 0; i < dbInstance.gameLobby.size(); i++) {
             if (dbInstance.gameLobby.get(i).getGameName().equals(gameName)) {
                 ArrayList<Player> newList = dbInstance.gameLobby.get(i).getPlayers();
-                if (newList.size() > 5) {
-                    throw new Exception("Error, game has max number of players");
+                if (newList.size() >= 5) {
+                    throw new Exception("Error, game has max number of players.");
+                }
+                for (Player p : newList){
+                    if(p.getName().equals(newPlayer.getName())){
+                        throw new Exception("Player already in game.");
+                    }
                 }
                 newList.add(newPlayer);
                 dbInstance.gameLobby.get(i).setPlayers(newList);
+            }
+        }
+        for (int i = 0; i < dbInstance.activeGame.size(); i++) {
+            if (dbInstance.activeGame.get(i).getGameName().equals(gameName)) {
+                ArrayList<Player> newList = dbInstance.activeGame.get(i).getPlayers();
+                if (newList.size() >= 5) {
+                    throw new Exception("Error, game has max number of players.");
+                }
+                for (Player p : newList){
+                    if(p.getName().equals(newPlayer.getName())){
+                        throw new Exception("Player already in game.");
+                    }
+                }
+                newList.add(newPlayer);
+                dbInstance.activeGame.get(i).setPlayers(newList);
             }
         }
     }
@@ -41,7 +61,17 @@ public class GameDao {
                 dbInstance.gameLobby.get(i).setPlayers(newList);
             }
         }
+        for (int i = 0; i < dbInstance.activeGame.size(); i++) {
+            if (dbInstance.activeGame.get(i).getGameName().equals(gameName)) {
+                ArrayList<Player> newList = dbInstance.activeGame.get(i).getPlayers();
+                if (!newList.remove(targetPlayer)) {
+                    throw new NotFound();
+                }
+                dbInstance.activeGame.get(i).setPlayers(newList);
+            }
+        }
     }
+
     public AuthToken generateAuthToken(String username){
         return dbInstance.addAuthToken(username);
     }

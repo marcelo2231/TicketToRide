@@ -31,13 +31,13 @@ public class Database {
     /** Shared Methods **/
     public boolean gameExists(String gameName) {
         boolean exists = false;
-        for (int i = 0; i < gameLobby.size(); i++) {
-            if (gameLobby.get(i).getGameName().equals(gameName)) {
+        for (Game g : gameLobby) {
+            if (g.getGameName().equals(gameName)) {
                 exists = true;
             }
         }
-        for (int i = 0; i < activeGame.size(); i++) {
-            if (activeGame.get(i).equals(gameName)) {
+        for (Game g : activeGame) {
+            if (g.equals(gameName)) {
                 exists = true;
             }
         }

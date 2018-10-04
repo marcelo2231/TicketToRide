@@ -1,4 +1,4 @@
-package com.emmettito.models.CommandModels.GameLobbyCommands;
+package com.emmettito.models.CommandModels.GameCommands;
 
 public class QuitGameRequest {
     /** Variables **/

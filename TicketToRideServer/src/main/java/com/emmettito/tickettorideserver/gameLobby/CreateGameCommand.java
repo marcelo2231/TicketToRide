@@ -29,6 +29,9 @@ public class CreateGameCommand implements IGameLobbyCommand{
         if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
             throw new Exception("Game name is null or empty. Please, do not forget to set all variables.");
         }
+        if(!userDatabase.isValidUsername(commandModel.getUsername())){
+            throw new Exception("Username is invalid, there is no user with that username.");
+        }
 
         /** Create game and player variable **/
         Game newGame = new Game();

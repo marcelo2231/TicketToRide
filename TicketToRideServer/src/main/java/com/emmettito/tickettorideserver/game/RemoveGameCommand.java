@@ -1,6 +1,6 @@
 package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.CommandModels.GameLobbyCommands.RemoveGameRequest;
+import com.emmettito.models.CommandModels.GameCommands.RemoveGameRequest;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 

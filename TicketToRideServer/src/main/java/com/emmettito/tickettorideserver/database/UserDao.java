@@ -44,4 +44,13 @@ public class UserDao {
     public AuthToken generateAuthToken(String username){
         return dbInstance.addAuthToken(username);
     }
+
+    public boolean isValidUsername(String username){
+        for (int i = 0; i < dbInstance.users.size(); i++) {
+            if (dbInstance.users.get(i).getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
