@@ -23,7 +23,7 @@ public class CreateGameCommand implements IGameLobbyCommand{
             throw new Exception("CreateGameCommand: command was null, please, make sure to set the CreateGameCommandModel.");
         }
         /** Validate **/
-        if(!gameDatabase.authTokenIsValid(authToken)){
+        if(!userDatabase.authTokenIsValid(authToken)){
             throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
         }
         if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
@@ -44,7 +44,7 @@ public class CreateGameCommand implements IGameLobbyCommand{
         try{
             gameLobbyDatabase.addGame(newGame);
             gameDatabase.addPlayer(newGame.getGameName(), newPlayer);
-            result.setRenewedAuthToken(gameDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
+            result.setRenewedAuthToken(userDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
         }catch(DuplicateName e){
             throw new Exception("Game name already exists. Unable to add to database.");
         }catch(Exception e){

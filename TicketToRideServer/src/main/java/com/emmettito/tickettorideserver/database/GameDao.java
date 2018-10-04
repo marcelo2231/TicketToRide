@@ -1,6 +1,5 @@
 package com.emmettito.tickettorideserver.database;
 
-import com.emmettito.models.AuthToken;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 
@@ -69,16 +68,4 @@ public class GameDao {
 
     }
 
-    /** AuthToken methods**/
-    public AuthToken generateAuthToken(String username){
-        return dbInstance.addAuthToken(username);
-    }
-
-    public boolean authTokenIsValid(String authToken){
-        return dbInstance.authTokenIsValid(authToken);
-    }
-
-    public boolean authTokenAndUserAreValid(String authToken, String username){
-        return dbInstance.authTokenAndUserAreValid(authToken, username);
-    }
 }

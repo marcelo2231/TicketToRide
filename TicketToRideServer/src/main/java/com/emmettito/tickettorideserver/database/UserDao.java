@@ -10,52 +10,6 @@ public class UserDao {
     /** Database Instance **/
     private static Database dbInstance = Database.getInstance();
 
-    /** Register **/
-    public AuthToken registerUser(User newUser) throws DuplicateName{
-        if (userExists(newUser.getUsername())) {
-            throw new DuplicateName();
-        }
-        else {
-            dbInstance.users.add(newUser);
-        }
-        return generateAuthToken(newUser.getUsername());
-    }
-
-    /** Login **/
-
-    public AuthToken loginUser(User user) throws InvalidName {
-        if (!loginValidation(user)) {
-            throw new InvalidName();
-        }
-
-        return generateAuthToken(user.getUsername());
-    }
-
-    public boolean loginValidation(User user) {
-        for (User u : dbInstance.users) {
-            if (u.getUsername().equals(user.getUsername())) {
-                if (u.getPassword().equals(user.getPassword())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /** Logout **/
-
-    public void logoutUser(String username) throws InvalidName {
-        if (!dbInstance.removeAuthToken(username)) {
-            throw new InvalidName();
-        }
-        return;
-    }
-
-    /** AuthToken **/
-    public AuthToken generateAuthToken(String username){
-        return dbInstance.addAuthToken(username);
-    }
-
 
     /** Users **/
 
@@ -75,10 +29,42 @@ public class UserDao {
         return null;
     }
 
+    public boolean addUser(User newUser){
+        return dbInstance.users.add(newUser);
+    }
+
     public boolean removeUser(String username){
         User toBeRemoved = getUser(username);
         if (toBeRemoved == null){ return false; }
         return dbInstance.users.remove(toBeRemoved);
+    }
+
+    public boolean compareUserAndPassword(User user) {
+        for (User u : dbInstance.users) {
+            if (u.getUsername().equals(user.getUsername())) {
+                if (u.getPassword().equals(user.getPassword())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** AuthToken methods**/
+    public AuthToken generateAuthToken(String username){
+        return dbInstance.addAuthToken(username);
+    }
+
+    public boolean removeAuthToken(String username){
+        return dbInstance.removeAuthToken(username);
+    }
+
+    public boolean authTokenIsValid(String authToken){
+        return dbInstance.authTokenIsValid(authToken);
+    }
+
+    public boolean authTokenAndUserAreValid(String authToken, String username){
+        return dbInstance.authTokenAndUserAreValid(authToken, username);
     }
 
 }

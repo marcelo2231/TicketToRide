@@ -17,7 +17,7 @@ public class CompleteDestCardCommand implements IGameCommand{
         }catch(Exception e) {
             throw new Exception("CompleteDestCardCommand: command was null, please, make sure to set the CompleteDestCardCommandModel.");
         }
-        if(!gameDatabase.authTokenIsValid(authToken)){
+        if(!userDatabase.authTokenIsValid(authToken)){
             throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
         }
 

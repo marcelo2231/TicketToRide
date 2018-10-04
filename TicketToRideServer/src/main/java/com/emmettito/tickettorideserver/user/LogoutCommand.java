@@ -24,10 +24,8 @@ public class LogoutCommand implements IUserCommand{
         }
 
         /** Add User to Database **/
-        try {
-            userDatabase.logoutUser(commandModel.getUsername());
-        }catch(InvalidName e){
-            throw new Exception("No username found logged in. Logout failed.");
+        if(!userDatabase.removeAuthToken(commandModel.getUsername())){
+            throw new Exception("No user logged in with requested username. Logout failed.");
         }
 
         /** Prepare Result **/

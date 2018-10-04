@@ -17,7 +17,7 @@ public class PlayerTurnCommand implements IGameCommand{
         }catch (Exception e){
             throw new Exception("PlayerTurnCommand: command was null, please, make sure to set the PlayerTurnCommandModel.");
         }
-        if(!gameDatabase.authTokenIsValid(authToken)){
+        if(!userDatabase.authTokenIsValid(authToken)){
             throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
         }
 

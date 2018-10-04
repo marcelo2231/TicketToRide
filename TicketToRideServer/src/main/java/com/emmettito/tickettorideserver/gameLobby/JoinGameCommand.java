@@ -24,12 +24,9 @@ public class JoinGameCommand implements IGameLobbyCommand{
         }catch (Exception e){
             throw new Exception("JoinGameCommand: command was null, please, make sure to set the JoinGameCommandModel.");
         }
-        if(!gameDatabase.authTokenIsValid(authToken)){
-            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
-        }
 
         /** Validate **/
-        if(!gameDatabase.authTokenIsValid(authToken)){
+        if(!userDatabase.authTokenIsValid(authToken)){
             throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
         }
         if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
@@ -45,7 +42,7 @@ public class JoinGameCommand implements IGameLobbyCommand{
 
         try {
             gameDatabase.addPlayer(commandModel.getGameName(), newPlayer);
-            result.setRenewedAuthToken(gameDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
+            result.setRenewedAuthToken(userDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
         }catch(Exception e){
             throw e;
         }
