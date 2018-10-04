@@ -52,19 +52,40 @@ public class UserDao {
 
     /** AuthToken methods**/
     public AuthToken generateAuthToken(String username){
-        return dbInstance.addAuthToken(username);
+        AuthToken newAuthToken = new AuthToken(username);
+        removeAuthToken(username);
+        dbInstance.tokens.add(newAuthToken);
+        return newAuthToken;
     }
 
     public boolean removeAuthToken(String username){
-        return dbInstance.removeAuthToken(username);
+        for (AuthToken a : dbInstance.tokens) {
+            if (a.getUsername().equals(username)) {
+                dbInstance.tokens.remove(a);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean authTokenIsValid(String authToken){
-        return dbInstance.authTokenIsValid(authToken);
+        for (AuthToken a : dbInstance.tokens) {
+            if (a.getAuthToken().equals(authToken)) {
+                return a.isValid();
+            }
+        }
+        return false;
     }
 
     public boolean authTokenAndUserAreValid(String authToken, String username){
-        return dbInstance.authTokenAndUserAreValid(authToken, username);
+        for (AuthToken a : dbInstance.tokens) {
+            if (a.getAuthToken().equals(authToken)) {
+                if(a.getUsername().equals(username)) {
+                    return a.isValid();
+                }
+            }
+        }
+        return false;
     }
 
 }
