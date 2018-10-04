@@ -46,8 +46,6 @@ public class JoinGameCommand implements IGameLobbyCommand{
         try {
             gameDatabase.addPlayer(commandModel.getGameName(), newPlayer);
             result.setRenewedAuthToken(gameDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
-        }catch(NotFound e){
-            throw new Exception("Game not found.");
         }catch(Exception e){
             throw e;
         }

@@ -1,6 +1,7 @@
 package com.emmettito.tickettorideserver.database;
 
 import com.emmettito.models.AuthToken;
+import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
@@ -8,70 +9,67 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 import java.util.ArrayList;
 
 public class GameDao {
-    /** Database Instance **/
+    /** Variables **/
     private static Database dbInstance = Database.getInstance();
+    private GameLobbyDao gameDao = new GameLobbyDao();
 
-    /** Methods **/
+    /** Player **/
     public void addPlayer(String gameName, Player newPlayer) throws NotFound, Exception {
-        if (!dbInstance.gameExists(gameName)) {
+        // gameName Validation
+        if (!gameDao.gameExists(gameName)) {
             throw new NotFound();
         }
-        for (int i = 0; i < dbInstance.gameLobby.size(); i++) {
-            if (dbInstance.gameLobby.get(i).getGameName().equals(gameName)) {
-                ArrayList<Player> newList = dbInstance.gameLobby.get(i).getPlayers();
-                if (newList.size() >= 5) {
-                    throw new Exception("Error, game has max number of players.");
-                }
-                for (Player p : newList){
-                    if(p.getName().equals(newPlayer.getName())){
-                        throw new Exception("Player already in game.");
-                    }
-                }
-                newList.add(newPlayer);
-                dbInstance.gameLobby.get(i).setPlayers(newList);
+
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        // Game Validation
+        if (game == null){
+            throw new Exception("Game does not exist.");
+        }
+
+        // Get Players
+        ArrayList<Player> newList = game.getPlayers();
+
+        // Players Validation
+        if (newList.size() >= 5) {
+            throw new Exception("Error, game has max number of players.");
+        }
+        for (Player p : newList){
+            if(p.getName().equals(newPlayer.getName())){
+                throw new Exception("Player already in game.");
             }
         }
-        for (int i = 0; i < dbInstance.activeGame.size(); i++) {
-            if (dbInstance.activeGame.get(i).getGameName().equals(gameName)) {
-                ArrayList<Player> newList = dbInstance.activeGame.get(i).getPlayers();
-                if (newList.size() >= 5) {
-                    throw new Exception("Error, game has max number of players.");
-                }
-                for (Player p : newList){
-                    if(p.getName().equals(newPlayer.getName())){
-                        throw new Exception("Player already in game.");
-                    }
-                }
-                newList.add(newPlayer);
-                dbInstance.activeGame.get(i).setPlayers(newList);
-            }
-        }
+
+        // Add newPlayer
+        newList.add(newPlayer);
     }
 
-    public void removePlayer(String gameName, Player targetPlayer) throws NotFound {
-        if (!dbInstance.gameExists(gameName)) {
+    public void removePlayer(String gameName, Player targetPlayer) throws NotFound, Exception{
+        // gameName Validation
+        if (!gameDao.gameExists(gameName)) {
             throw new NotFound();
         }
-        for (int i = 0; i < dbInstance.gameLobby.size(); i++) {
-            if (dbInstance.gameLobby.get(i).getGameName().equals(gameName)) {
-                ArrayList<Player> newList = dbInstance.gameLobby.get(i).getPlayers();
-                if (!newList.remove(targetPlayer)) {
-                    throw new NotFound();
-                }
-                dbInstance.gameLobby.get(i).setPlayers(newList);
-            }
+
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        // Game Validation
+        if (game == null){
+            throw new Exception("Game does not exist.");
         }
-        for (int i = 0; i < dbInstance.activeGame.size(); i++) {
-            if (dbInstance.activeGame.get(i).getGameName().equals(gameName)) {
-                ArrayList<Player> newList = dbInstance.activeGame.get(i).getPlayers();
-                if (!newList.remove(targetPlayer)) {
-                    throw new NotFound();
-                }
-                dbInstance.activeGame.get(i).setPlayers(newList);
-            }
+
+        // Get Players
+        ArrayList<Player> newList = game.getPlayers();
+
+        // Players Validation
+        if (newList == null || !newList.remove(targetPlayer)) {
+            throw new NotFound();
         }
+
     }
 
+    /** AuthToken methods**/
     public AuthToken generateAuthToken(String username){
         return dbInstance.addAuthToken(username);
     }

@@ -10,47 +10,75 @@ public class UserDao {
     /** Database Instance **/
     private static Database dbInstance = Database.getInstance();
 
-    /** Methods **/
+    /** Register **/
     public AuthToken registerUser(User newUser) throws DuplicateName{
-
-        if (dbInstance.userExists(newUser.getUsername())) {
+        if (userExists(newUser.getUsername())) {
             throw new DuplicateName();
         }
         else {
             dbInstance.users.add(newUser);
         }
-
         return generateAuthToken(newUser.getUsername());
     }
 
-    public AuthToken loginUser(User user) throws InvalidName {
+    /** Login **/
 
-        if (!dbInstance.loginValidation(user)) {
+    public AuthToken loginUser(User user) throws InvalidName {
+        if (!loginValidation(user)) {
             throw new InvalidName();
         }
 
         return generateAuthToken(user.getUsername());
     }
 
-    public void logoutUser(String username) throws InvalidName {
-
-        if (!dbInstance.removeAuthToken(username)) {
-            throw new InvalidName();
-        }
-
-        return;
-    }
-
-    public AuthToken generateAuthToken(String username){
-        return dbInstance.addAuthToken(username);
-    }
-
-    public boolean isValidUsername(String username){
-        for (int i = 0; i < dbInstance.users.size(); i++) {
-            if (dbInstance.users.get(i).getUsername().equals(username)) {
-                return true;
+    public boolean loginValidation(User user) {
+        for (User u : dbInstance.users) {
+            if (u.getUsername().equals(user.getUsername())) {
+                if (u.getPassword().equals(user.getPassword())) {
+                    return true;
+                }
             }
         }
         return false;
     }
+
+    /** Logout **/
+
+    public void logoutUser(String username) throws InvalidName {
+        if (!dbInstance.removeAuthToken(username)) {
+            throw new InvalidName();
+        }
+        return;
+    }
+
+    /** AuthToken **/
+    public AuthToken generateAuthToken(String username){
+        return dbInstance.addAuthToken(username);
+    }
+
+
+    /** Users **/
+
+    public boolean userExists(String username){
+        if (getUser(username) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public User getUser(String username) {
+        for (User u : dbInstance.users) {
+            if (u.getUsername().equals(username)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public boolean removeUser(String username){
+        User toBeRemoved = getUser(username);
+        if (toBeRemoved == null){ return false; }
+        return dbInstance.users.remove(toBeRemoved);
+    }
+
 }

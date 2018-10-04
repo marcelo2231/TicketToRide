@@ -28,46 +28,13 @@ public class Database {
     public ArrayList<User> users = new ArrayList<>();
     public ArrayList<AuthToken> tokens = new ArrayList<>();
 
-    /** Shared Methods **/
-    public boolean gameExists(String gameName) {
-        boolean exists = false;
-        for (Game g : gameLobby) {
-            if (g.getGameName().equals(gameName)) {
-                exists = true;
-            }
-        }
-        for (Game g : activeGame) {
-            if (g.equals(gameName)) {
-                exists = true;
-            }
-        }
-        return exists;
-    }
 
-    public boolean userExists(String username) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean loginValidation(User user) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(user.getUsername())) {
-                if (users.get(i).getPassword().equals(user.getPassword())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    /** AuthToken: They are shared with all Dao **/
 
     public boolean removeAuthToken(String username){
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).getUsername().equals(username)) {
-                tokens.remove(i);
+        for (AuthToken a : tokens) {
+            if (a.getUsername().equals(username)) {
+                tokens.remove(a);
                 return true;
             }
         }
@@ -82,22 +49,23 @@ public class Database {
     }
 
     public boolean authTokenIsValid(String authToken){
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).getAuthToken().equals(authToken)) {
-                return tokens.get(i).isValid();
+        for (AuthToken a : tokens) {
+            if (a.getAuthToken().equals(authToken)) {
+                return a.isValid();
             }
         }
         return false;
     }
 
     public boolean authTokenAndUserAreValid(String authToken, String username){
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).getAuthToken().equals(authToken)) {
-                if(tokens.get(i).getUsername().equals(username)) {
-                    return tokens.get(i).isValid();
+        for (AuthToken a : tokens) {
+            if (a.getAuthToken().equals(authToken)) {
+                if(a.getUsername().equals(username)) {
+                    return a.isValid();
                 }
             }
         }
         return false;
     }
+
 }
