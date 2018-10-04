@@ -11,13 +11,16 @@ public class GameDao {
     private static Database dbInstance = Database.getInstance();
 
     /** Methods **/
-    public void addPlayer(String gameName, Player newPlayer) throws NotFound {
+    public void addPlayer(String gameName, Player newPlayer) throws NotFound, Exception {
         if (!dbInstance.gameExists(gameName)) {
             throw new NotFound();
         }
         for (int i = 0; i < dbInstance.gameLobby.size(); i++) {
             if (dbInstance.gameLobby.get(i).getGameName().equals(gameName)) {
                 ArrayList<Player> newList = dbInstance.gameLobby.get(i).getPlayers();
+                if (newList.size() > 5) {
+                    throw new Exception("Error, game has max number of players");
+                }
                 newList.add(newPlayer);
                 dbInstance.gameLobby.get(i).setPlayers(newList);
             }

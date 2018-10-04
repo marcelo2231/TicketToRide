@@ -2,6 +2,7 @@ package com.emmettito.tickettorideserver.communication.handlers;
 
 import com.emmettito.models.CommandModels.GameLobbyCommandType;
 import com.emmettito.models.CommandModels.GameLobbyCommands.*;
+import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.gameLobby.*;
 import com.emmettito.models.Results.Result;
@@ -25,7 +26,7 @@ public class GameLobbyHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         /** Variables */
         Serializer serializer = new Serializer();
-        Result result = new Result();
+        Object result = new GameLobbyResult();
         InputStream input = httpExchange.getRequestBody();
         URI uri;
         String[] requestURI;

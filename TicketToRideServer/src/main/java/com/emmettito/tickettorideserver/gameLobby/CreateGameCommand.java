@@ -3,7 +3,7 @@ package com.emmettito.tickettorideserver.gameLobby;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
-import com.emmettito.models.Results.Result;
+import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
@@ -15,7 +15,7 @@ public class CreateGameCommand implements IGameLobbyCommand{
     CreateGameRequest commandModel;
 
     @Override
-    public Result execute(Object obj, String authToken) throws Exception {
+    public GameLobbyResult execute(Object obj, String authToken) throws Exception {
         /** Cast Object and Validate AuthToken**/
         try {
             commandModel = (CreateGameRequest)new Serializer().deserialize((InputStream)obj, CreateGameRequest.class);
@@ -45,6 +45,6 @@ public class CreateGameCommand implements IGameLobbyCommand{
         }
 
         // Result Returns a Player for the user
-        return new Result(true, newPlayer);
+        return new GameLobbyResult(true, newPlayer);
     }
 }
