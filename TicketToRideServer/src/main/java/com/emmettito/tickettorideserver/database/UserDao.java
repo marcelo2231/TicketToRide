@@ -13,13 +13,6 @@ public class UserDao {
 
     /** Users **/
 
-    public boolean userExists(String username){
-        if (getUser(username) == null) {
-            return false;
-        }
-        return true;
-    }
-
     public User getUser(String username) {
         for (User u : dbInstance.users) {
             if (u.getUsername().equals(username)) {
@@ -63,15 +56,6 @@ public class UserDao {
             if (a.getUsername().equals(username)) {
                 dbInstance.tokens.remove(a);
                 return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean authTokenIsValid(String authToken){
-        for (AuthToken a : dbInstance.tokens) {
-            if (a.getAuthToken().equals(authToken)) {
-                return a.isValid();
             }
         }
         return false;

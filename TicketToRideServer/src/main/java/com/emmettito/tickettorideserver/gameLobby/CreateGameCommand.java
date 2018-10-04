@@ -23,14 +23,11 @@ public class CreateGameCommand implements IGameLobbyCommand{
             throw new Exception("CreateGameCommand: command was null, please, make sure to set the CreateGameCommandModel.");
         }
         /** Validate **/
-        if(!userDatabase.authTokenIsValid(authToken)){
-            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
+        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
+            throw new Exception("Invalid authToken or username. You do not have authorization to execute this command.");
         }
         if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
             throw new Exception("Game name is null or empty. Please, do not forget to set all variables.");
-        }
-        if(!userDatabase.userExists(commandModel.getUsername())){
-            throw new Exception("Username is invalid, there is no user with that username.");
         }
 
         /** Create game and player variable **/

@@ -13,12 +13,7 @@ public class GameDao {
     private GameLobbyDao gameDao = new GameLobbyDao();
 
     /** Player **/
-    public void addPlayer(String gameName, Player newPlayer) throws NotFound, Exception {
-        // gameName Validation
-        if (!gameDao.gameExists(gameName)) {
-            throw new NotFound();
-        }
-
+    public void addPlayer(String gameName, Player newPlayer) throws Exception {
         // Get Game
         Game game = gameDao.getGame(gameName);
 
@@ -35,7 +30,7 @@ public class GameDao {
             throw new Exception("Error, game has max number of players.");
         }
         for (Player p : newList){
-            if(p.getName().equals(newPlayer.getName())){
+            if(p.getPlayerName().equals(newPlayer.getPlayerName())){
                 throw new Exception("Player already in game.");
             }
         }
@@ -45,11 +40,6 @@ public class GameDao {
     }
 
     public void removePlayer(String gameName, Player targetPlayer) throws NotFound, Exception{
-        // gameName Validation
-        if (!gameDao.gameExists(gameName)) {
-            throw new NotFound();
-        }
-
         // Get Game
         Game game = gameDao.getGame(gameName);
 

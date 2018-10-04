@@ -17,8 +17,8 @@ public class DrawTrainCommand implements IGameCommand{
         }catch(Exception e){
             throw new Exception("DrawTrainCommand: command was null, please, make sure to set the DrawTrainCommandModel.");
         }
-        if(!userDatabase.authTokenIsValid(authToken)){
-            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
+        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+            throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
         // TODO: Store data on Database

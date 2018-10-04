@@ -34,7 +34,7 @@ public class RegisterCommand implements IUserCommand{
         }
 
         /** Add User to Database **/
-        if(userDatabase.userExists(newUser.getUsername())) {
+        if(userDatabase.getUser(newUser.getUsername()) != null) {
             throw new Exception("Username already exists. Unable to add to database.");
         }
         if(!userDatabase.addUser(newUser)){

@@ -13,19 +13,12 @@ public class GameLobbyDao {
     /** Games */
 
     public void addGame(Game newGame) throws DuplicateName {
-        if (gameExists(newGame.getGameName())) {
+        if (getGame(newGame.getGameName()) != null) {
             throw new DuplicateName();
         }
         else {
             dbInstance.gameLobby.add(newGame);
         }
-    }
-
-    public boolean gameExists(String gameName) {
-        if (getGame(gameName) == null){
-            return false;
-        }
-        return true;
     }
 
     public Game getGame(String gameName) {

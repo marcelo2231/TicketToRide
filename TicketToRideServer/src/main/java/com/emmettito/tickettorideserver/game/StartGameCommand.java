@@ -17,8 +17,8 @@ public class StartGameCommand implements IGameCommand{
         }catch(Exception e){
             throw new Exception("StartGameCommand: command was null, please, make sure to set the StartGameCommandModel.");
         }
-        if(!userDatabase.authTokenIsValid(authToken)){
-            throw new Exception("Invalid authToken. You do not have authorization to execute this command.");
+        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+            throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
         // TODO: Store data on Database
