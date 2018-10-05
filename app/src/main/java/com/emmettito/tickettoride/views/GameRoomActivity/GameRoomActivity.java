@@ -9,6 +9,8 @@ import com.emmettito.tickettoride.presenters.GameRoomPresenter;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import com.emmettito.tickettoride.R;
+
 /*import android.support.v7.app.AppCompatActivity;*/
 
 public class GameRoomActivity extends Activity implements GameRoomPresenter.GameRoomView {
@@ -16,7 +18,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_game_room);
+        setContentView(R.layout.activity_game_room);
     }
 
     @Override
