@@ -21,12 +21,15 @@ public class GetPlayersCommand implements IGameLobbyCommand {
         if (targetGame.equals(null)) {
             throw new Exception();
         }
-        else {
-            GetPlayersResult getPlayersResult = new GetPlayersResult();
-            getPlayersResult.setSuccess(true);
-            ArrayList<Player> players = targetGame.getPlayers();
-            getPlayersResult.setData(players);
-            return getPlayersResult;
+
+        GetPlayersResult getPlayersResult = new GetPlayersResult();
+        getPlayersResult.setSuccess(true);
+        ArrayList<Player> players = targetGame.getPlayers();
+        if(players == null){
+            players = new ArrayList<Player>();
         }
+        getPlayersResult.setData(players);
+        return getPlayersResult;
+
     }
 }
