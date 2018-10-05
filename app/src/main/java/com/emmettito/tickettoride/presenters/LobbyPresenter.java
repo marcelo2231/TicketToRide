@@ -1,6 +1,7 @@
 package com.emmettito.tickettoride.presenters;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
+import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettoride.communication.proxy.GameLobbyProxy;
 
@@ -27,6 +28,16 @@ public class LobbyPresenter extends Observable {
         GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
 
         return proxy.createGame(request, authToken);
+    }
+
+    public GameLobbyResult joinGame(String gameName, String username, String authToken) {
+        JoinGameRequest request = new JoinGameRequest();
+        request.setGameName(gameName);
+        request.setUsername(username);
+
+        GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
+
+        return proxy.joinGame(request, authToken);
     }
 
     public interface lobbyView {

@@ -39,9 +39,9 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     private HttpURLConnection getConnection(URL url, String requestType, boolean doOutput, String authToken) throws java.io.IOException {
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
-        System.out.println(requestType);
+        //System.out.println(requestType);
 
-        http.setRequestMethod("POST");
+        http.setRequestMethod(requestType);
 
         http.setReadTimeout(150000);
 
@@ -89,6 +89,9 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     }
 
     private static void writeString(String str, OutputStream os) throws IOException {
+        if (str.equals("")) {
+            return;
+        }
         OutputStreamWriter sw = new OutputStreamWriter(os);
         sw.write(str);
         sw.flush();
@@ -97,9 +100,10 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String urlString = strings[0];
-        String requestData = strings[1];
-        String authToken = strings[2];
-        String requestType = strings[3];
+        String authToken = strings[1];
+        String requestType = strings[2];
+        String requestData = strings[3];
+
 
         try {
 
@@ -107,13 +111,25 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
             URL url = new URL(urlString);
 
-            HttpURLConnection http = getConnection(url, requestType, true, authToken);
+            boolean doOutput;
 
-            OutputStream requestBody = http.getOutputStream();
+            if (requestType.equals("POST")) {
+                doOutput = true;
+            }
+            else {
+                doOutput = false;
+            }
 
-            writeString(requestData, requestBody);
+            HttpURLConnection http = getConnection(url, requestType, doOutput, authToken);
 
-            requestBody.close();
+            if (doOutput) {
+
+                OutputStream requestBody = http.getOutputStream();
+
+                writeString(requestData, requestBody);
+
+                requestBody.close();
+            }
 
             return getResponse(http);
 

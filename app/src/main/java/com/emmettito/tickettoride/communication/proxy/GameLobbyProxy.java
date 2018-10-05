@@ -1,58 +1,55 @@
 package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
+import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
 public class GameLobbyProxy {
     private ClientCommunicator client;
+    private Gson gson;
 
     private String serverHost = "10.0.2.2";
     private String serverPort = "8080";
 
     public GameLobbyProxy(String host, String port)  {
         client = new ClientCommunicator();
+        gson = new Gson();
     }
 
     public GameLobbyResult createGame(CreateGameRequest request, String authToken) {
-        Gson gson = new Gson();
-
         String requestString = gson.toJson(request);
 
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
 
-        //String url = "http://10.0.2.2:8080/gamelobby/creategame";
+        return sendRequest(url, requestString, authToken, "POST");
+    }
 
+    public GameLobbyResult joinGame(JoinGameRequest request, String authToken) {
+        String requestString = gson.toJson(request);
+
+        String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/joingame";
+
+        return sendRequest(url, requestString, authToken, "GET");
+    }
+
+    private GameLobbyResult sendRequest(String url, String requestString, String authToken, String requestType) {
         String resultString;
 
         try {
-            resultString = client.execute(url, requestString, authToken, "POST").get();
+            resultString = client.execute(url, authToken, requestType, requestString).get();
         } catch (Exception e) {
             resultString = "Error: Could not connect to the server.";
         }
 
-        System.out.println(resultString);
-
         if (resultString.equals("Error: Could not connect to the server.")) {
             GameLobbyResult result = new GameLobbyResult();
-            result.setSuccess(false);
+            result.setMessage(resultString);
             result.setMessage(resultString);
             return result;
         }
 
         return gson.fromJson(resultString, GameLobbyResult.class);
     }
-
-    //public String login(String userToLogin) {
-    //    return client.post("/user/login", userToLogin);
-    //}
-
-    //public String person(String authToken) {
-    //    return client.get("/person", authToken);
-    //}
-
-    //public String event(String authToken) {
-    //    return client.get("/event", authToken);
-    //}
 }
