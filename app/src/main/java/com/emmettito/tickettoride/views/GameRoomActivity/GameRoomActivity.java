@@ -87,4 +87,9 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     public void update(Observable observable, Object o) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
+    }
 }
