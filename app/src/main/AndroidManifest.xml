@@ -15,17 +15,21 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.LobbyActivity.LobbyActivity"
-            android:label="lobbyActivity">
+            android:label="lobbyActivity"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".views.GameRoomActivity.GameRoomActivity"
+            android:label="gameRoomActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".views.GameRoomActivity.GameRoomActivity"
-            android:label="gameRoomActivity" />
-        <activity android:name=".views.GameActivity.GameActivity"></activity>
+        <activity android:name=".views.GameActivity.GameActivity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>
