@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.emmettito.models.Player;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.presenters.GameRoomPresenter;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     //private Button logoutButton;
     private Button leaveGameButton;
     private Button startGameButton;
+    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
         setContentView(R.layout.activity_game_room);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        client = Client.getInstance();
 
         /*
         logoutButton = (Button) findViewById(R.id.logoutButton);
@@ -68,7 +72,6 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
         //INSERT LOGIC HERE
 
-        //Might crash haven't tested it yet...
         Intent intent = new Intent(getApplicationContext(), GameActivity.class);
         startActivity(intent);
     }
@@ -86,5 +89,10 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     @Override
     public void update(Observable observable, Object o) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
     }
 }
