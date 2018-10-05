@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
@@ -35,6 +36,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     String authToken = "5117ca79d181443fbb28f54c3b7ce18c";
     String username = "username";
+
+    private Client clientInstance = Client.getInstance();
 
     public void update(Observable obj, Object arg) {
         //games will be initialized and updated here
@@ -113,6 +116,9 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         mAdapter = new GameListAdapter(games, joinButton);
         recycle.setAdapter(mAdapter);
 
+        //authToken = clientInstance.getToken();
+        //username = clientInstance.getUser();
+
         return view;
     }
 
@@ -122,31 +128,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         GameLobbyResult result = presenter.joinGame(gameName, username, authToken);
 
         authToken = result.getRenewedAuthToken();
-
-        /***
-         *
-         * This next section will be replaced with actual code later
-         *
-         */
-
-
-        /*if (gameName.equals("Game 1")) {
-            Toast toast = Toast.makeText(getContext(), "Error: could not join game", Toast.LENGTH_SHORT);
-            toast.show();
-
-            return;
-        }
-
-        Toast toast = Toast.makeText(getContext(), gameName, Toast.LENGTH_SHORT);
-        toast.show();*/
-
-        /***
-         *
-         *
-         * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-         *
-         */
-
+        clientInstance.setToken(authToken);
+        clientInstance.setGameName(gameName);
 
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
@@ -156,10 +139,6 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         }
 
         Intent intent = new Intent(getActivity(), GameRoomActivity.class);
-
-        intent.putExtra("gameName", gameName);
-        intent.putExtra("username", username);
-        intent.putExtra("authToken", authToken);
 
         startActivity(intent);
     }
