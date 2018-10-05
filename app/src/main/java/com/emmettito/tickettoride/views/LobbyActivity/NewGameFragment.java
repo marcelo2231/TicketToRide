@@ -34,7 +34,7 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
      *
      */
 
-    private String authToken = "7463033991224999bbf92da98a2d491e";
+    private String authToken = "1b51761e07e342fca9adffaa2ee7a770";
 
     private String username = "username";
 

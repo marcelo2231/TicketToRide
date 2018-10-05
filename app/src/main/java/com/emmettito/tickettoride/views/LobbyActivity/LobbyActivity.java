@@ -41,6 +41,10 @@ public class LobbyActivity extends FragmentActivity {
         });
     }
 
+
+    @Override
+    public void onBackPressed() {}
+
     public void displayGamesList() {
         Fragment fragment = new GameListFragment();
 
