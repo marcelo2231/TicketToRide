@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
 import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
@@ -27,6 +28,8 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
     private Button createButton;
 
     private LobbyPresenter presenter;
+
+    private Client clientInstance = Client.getInstance();
 
     /**
      *
@@ -90,6 +93,9 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             }
         });
 
+        //authToken = clientInstance.getToken();
+        //username = clientInstance.getUser();
+
         return view;
     }
 
@@ -97,31 +103,8 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
         GameLobbyResult result = presenter.createNewGame(gameName, username, authToken);
 
         authToken = result.getRenewedAuthToken();
-
-        /***
-         *
-         * This next section will be replaced with actual code later
-         *
-         */
-
-        /*if (gameName.equals("false")) {
-            Toast toast = Toast.makeText(getContext(), "Error: name already taken", Toast.LENGTH_SHORT);
-            toast.show();
-
-            return;
-        }
-
-        String combined = "Name: " + gameName;
-
-        Toast toast = Toast.makeText(getContext(), combined, Toast.LENGTH_SHORT);
-        toast.show();*/
-
-        /***
-         *
-         *
-         * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-         *
-         */
+        clientInstance.setToken(authToken);
+        clientInstance.setGameName(gameName);
 
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
@@ -131,10 +114,6 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
         }
 
         Intent intent = new Intent(getActivity(), GameRoomActivity.class);
-
-        intent.putExtra("gameName", gameName);
-        intent.putExtra("username", username);
-        intent.putExtra("authToken", authToken);
 
         startActivity(intent);
     }

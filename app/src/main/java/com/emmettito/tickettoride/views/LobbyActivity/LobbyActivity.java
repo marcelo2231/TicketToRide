@@ -14,8 +14,6 @@ public class LobbyActivity extends FragmentActivity {
     private Button createGameButton;
     private Button joinGameButton;
 
-    //private LobbyPresenter presenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +46,6 @@ public class LobbyActivity extends FragmentActivity {
     public void displayGamesList() {
         Fragment fragment = new GameListFragment();
 
-        //presenter.addObserver((Observer) fragment);
-
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, fragment);
         transaction.commit();
@@ -57,8 +53,6 @@ public class LobbyActivity extends FragmentActivity {
 
     public void displayNewGameField(){
         Fragment fragment = new NewGameFragment();
-
-        //presenter.addObserver((Observer) fragment);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, fragment);
