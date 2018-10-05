@@ -5,6 +5,8 @@ import com.emmettito.models.Game;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
+import java.util.ArrayList;
+
 
 public class GameLobbyDao {
     /** Database Instance **/
@@ -33,6 +35,10 @@ public class GameLobbyDao {
             }
         }
         return null;
+    }
+
+    public ArrayList<Game> getGames(){
+        return dbInstance.gameLobby;
     }
 
     public void removeGame(String gameName) throws NotFound {
