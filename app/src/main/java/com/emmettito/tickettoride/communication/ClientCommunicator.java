@@ -41,17 +41,25 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
         System.out.println(requestType);
 
-        http.setRequestMethod(requestType);
+        http.setRequestMethod("POST");
 
-        http.setConnectTimeout(1000);
+        http.setReadTimeout(150000);
 
-        http.setDoOutput(doOutput);
+        http.setConnectTimeout(150000);
+
+        //http.setDoOutput(doOutput);
 
         http.addRequestProperty("Authorization", authToken);
 
+        http.connect();
+
+        //int responseCode = http.getResponseCode();
+
+        //System.out.println(responseCode);
+
         //http.addRequestProperty("Accept", "application/json");
 
-        http.connect();
+        //
 
         return http;
     }

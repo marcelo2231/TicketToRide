@@ -24,7 +24,7 @@ public class LobbyPresenter extends Observable {
         request.setGameName(gameName);
         request.setUsername(username);
 
-        GameLobbyProxy proxy = new GameLobbyProxy("localhost", "9090");
+        GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
 
         return proxy.createGame(request, authToken);
     }

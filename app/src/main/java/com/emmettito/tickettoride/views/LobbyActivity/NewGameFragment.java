@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
+import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -33,7 +34,7 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
      *
      */
 
-    private String authToken = "993ab23d6c564e8db732648ea20a69d6";
+    private String authToken = "7463033991224999bbf92da98a2d491e";
 
     private String username = "username";
 
@@ -44,9 +45,7 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
      *
      */
 
-    public void update(Observable obj, Object arg) {
-
-    }
+    public void update(Observable obj, Object arg) {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +96,8 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
     public void createNewGame(String gameName, String username, String authToken){
         GameLobbyResult result = presenter.createNewGame(gameName, username, authToken);
 
+        authToken = result.getRenewedAuthToken();
+
         /***
          *
          * This next section will be replaced with actual code later
@@ -129,7 +130,7 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             return;
         }
 
-        Intent intent = new Intent(getActivity(), DummyActivity.class);
+        Intent intent = new Intent(getActivity(), GameRoomActivity.class);
 
         intent.putExtra("gameName", gameName);
         intent.putExtra("username", username);

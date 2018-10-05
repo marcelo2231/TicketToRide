@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 public class GameLobbyProxy {
     private ClientCommunicator client;
 
-    private String serverHost = "localhost";
+    private String serverHost = "10.0.2.2";
     private String serverPort = "8080";
 
     public GameLobbyProxy(String host, String port)  {
@@ -20,9 +20,9 @@ public class GameLobbyProxy {
 
         String requestString = gson.toJson(request);
 
-        //String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
+        String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
 
-        String url = "http://localhost:8080/gamelobby/creategame";
+        //String url = "http://10.0.2.2:8080/gamelobby/creategame";
 
         String resultString;
 
