@@ -1,61 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.GameRoomActivity.GameRoomActivity">
+    android:background="@drawable/background"
+    android:paddingBottom="10dp"
+    android:paddingStart="13dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="11dp">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Players"
+        android:textColor="#000000"
+        android:textSize="24sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/playerList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
-        android:paddingBottom="10dp"
-        android:paddingLeft="13dp"
-        android:paddingRight="12dp"
-        android:paddingTop="11dp">
+        android:layout_below="@+id/textView"
+        android:layout_above="@+id/leaveGameButton"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:background="#80808080" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Players"
-            android:textColor="#000000"
-            android:textSize="24sp" />
+    <!--
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/log_out"
+        android:textColor="@android:color/primary_text_light" />
+        -->
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textView"
-            android:layout_above="@+id/logoutButton"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="20dp"
-            android:background="#80808080" />
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="20dp"
-            android:text="@string/log_out"
-            android:textColor="@android:color/primary_text_light" />
-
-        <Button
-            android:id="@+id/leaveGameButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/logoutButton"
-            android:layout_toEndOf="@+id/logoutButton"
-            android:text="@string/leave_game"
-            android:textColor="@android:color/primary_text_light" />
+    <Button
+        android:id="@+id/leaveGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:text="Leave Game"
+        android:textColor="@android:color/primary_text_light" />
+    
+    <!--android:layout_alignTop="@+id/logoutButton"
+        android:layout_toEndOf="@+id/logoutButton"
+    -->
 
 
-    </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/startGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/playerList"
+        android:layout_alignTop="@+id/leaveGameButton"
+        android:text="Start Game"
+        android:textColor="@android:color/primary_text_light" />
+
+
+</RelativeLayout>
