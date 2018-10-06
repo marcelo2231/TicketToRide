@@ -37,9 +37,9 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
      *
      */
 
-    private String authToken = "1b51761e07e342fca9adffaa2ee7a770";
+    private String authToken;// = "1b51761e07e342fca9adffaa2ee7a770";
 
-    private String username = "username";
+    private String username;// = "username";
 
 
     /**
@@ -93,8 +93,8 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             }
         });
 
-        //authToken = clientInstance.getToken();
-        //username = clientInstance.getUser();
+        authToken = clientInstance.getToken();
+        username = clientInstance.getUser();
 
         return view;
     }

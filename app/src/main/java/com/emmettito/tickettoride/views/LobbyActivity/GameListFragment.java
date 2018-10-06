@@ -41,8 +41,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     private int fragmentID;
 
-    String authToken = "129732fa93934aa0bbfd80686bf1b99a";
-    String username = "username";
+    String authToken;// = "129732fa93934aa0bbfd80686bf1b99a";
+    String username;// = "username";
 
     private Client clientInstance = Client.getInstance();
 
@@ -128,7 +128,9 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         games = new ArrayList<>();
 
-        clientInstance.setToken(authToken);
+        authToken = clientInstance.getToken();
+
+        username = clientInstance.getUser();
 
         recycle = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
