@@ -87,7 +87,9 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
         String newAuthToken = http.getRequestProperty("RenewedAuthToken");
 
-        client.setToken(newAuthToken);
+        if (newAuthToken != null) {
+            client.setToken(newAuthToken);
+        }
 
         return readString(respBody);
         //}

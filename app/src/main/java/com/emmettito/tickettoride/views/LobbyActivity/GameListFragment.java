@@ -2,6 +2,7 @@ package com.emmettito.tickettoride.views.LobbyActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,14 +37,35 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
     private LobbyPresenter presenter;
 
     private List<String[]> games;
+    private String gameString = "";
 
-    String authToken = "81340ebd5a6b4dfe8805977201172a1b";
+    private int fragmentID;
+
+    String authToken = "ddf3c80fe8d0472995f134af0d7cc347";
     String username = "username";
 
     private Client clientInstance = Client.getInstance();
 
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            mAdapter.notifyDataSetChanged();
+            timerHandler.postDelayed(this, 500);
+        }
+    };
+
     public void update(Observable obj, Object arg) {
         String newListString = (String) arg;
+
+        if (newListString.equals(gameString)) {
+            //return;
+        }
+
+        gameString = newListString;
+
+        System.out.println(newListString);
 
         GetGamesResult result = new Gson().fromJson(newListString, GetGamesResult.class);
 
@@ -51,7 +73,10 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         List<String[]> gamesListStrings = new ArrayList<>();
 
+        System.out.printf("Length of the GameList: %d",gamesList.size());
+
         for (Game item : gamesList) {
+            System.out.println("This is a thing");
             String[] tempList = new String[3];
 
             tempList[0] = item.getGameName();
@@ -66,19 +91,40 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
             else {
                 tempList[2] = "Ready";
             }
+
+            gamesListStrings.add(tempList);
         }
 
-        games = gamesListStrings;
+        System.out.printf("This is the number of games: %d", gamesListStrings.size());
 
-       mAdapter.notifyDataSetChanged();
-       mAdapter = new GameListAdapter(games, joinButton);
-       recycle.setAdapter(mAdapter);
+        if (gamesListStrings.size() > 0) {
+                games.clear();
+                games.addAll(gamesListStrings);
+
+                //updateScreen();
+
+                /*Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(fragmentID);
+
+                FragmentTransaction transaction = (getActivity()).getSupportFragmentManager().beginTransaction();
+                transaction.detach(currentFragment);
+                transaction.attach(currentFragment);
+                transaction.commit();*/
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setRetainInstance(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game_list, container, false);
+
+        fragmentID = this.getId();
 
         games = new ArrayList<>();
 
@@ -149,6 +195,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         //authToken = clientInstance.getToken();
         //username = clientInstance.getUser();
 
+        timerHandler.postDelayed(timerRunnable, 500);
 
         presenter = new LobbyPresenter();
 
@@ -158,6 +205,12 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         return view;
     }
+
+    /*@Override
+    public void onDetach() {
+        super.onDetach();
+        onSaveInstanceState();
+    }*/
 
     public void createNewGame(String gameName, String username, String authToken){}
 
@@ -178,6 +231,12 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         Intent intent = new Intent(getActivity(), GameRoomActivity.class);
 
         startActivity(intent);
+    }
+
+    public void updateScreen() {
+        mAdapter.notifyDataSetChanged();
+        mAdapter = new GameListAdapter(games, joinButton);
+        recycle.setAdapter(mAdapter);
     }
 
 }

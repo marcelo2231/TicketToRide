@@ -31,7 +31,10 @@ public class LobbyPresenter extends Observable implements Observer {
     public LobbyPresenter() {}
 
     public void update(Observable obj, Object arg) {
+        setChanged();
         notifyObservers(arg);
+
+        System.out.println("This is a place where I did get");
     }
 
     public GameLobbyResult createNewGame(String gameName, String username, String authToken) {
@@ -62,6 +65,8 @@ public class LobbyPresenter extends Observable implements Observer {
 
     public void startPoller() {
         poller = new Poller(url);
+
+        poller.addObserver(this);
 
         poller.start(3);
     }
