@@ -16,8 +16,6 @@ public class Poller extends Observable {
 
     public Poller(String url) {
         this.url = url;
-        client = ClientCommunicator.getInstance();
-        clientInstance = Client.getInstance();
     }
 
     private void setUpPoller(int initialDelaySec, int delaySec, boolean fixedRate) {
@@ -47,6 +45,7 @@ public class Poller extends Observable {
     }
 
     private void poll() throws Exception {
+        client = new ClientCommunicator();
         response = client.doInBackground(url, clientInstance.getToken(), "GET", "");
         setChanged();
         notifyObservers(response);

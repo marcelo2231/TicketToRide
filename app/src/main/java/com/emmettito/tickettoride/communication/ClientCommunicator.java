@@ -17,21 +17,11 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     // HttpURLConnection connection = (HttpURLConnection)url.openConnection();
     // connection.addRequestProperty("Authorization", authToken);
     private static Client client;
-    private static ClientCommunicator clientCommunicator = null;
     private String host;
 
-    private ClientCommunicator() {
+    public ClientCommunicator() {
        client = Client.getInstance();
        host = "http://" + "10.0.2.2" + ":" + "8080";
-    }
-
-    public static ClientCommunicator getInstance()
-    {
-        if (clientCommunicator == null) {
-            clientCommunicator = new ClientCommunicator();
-        }
-
-        return clientCommunicator;
     }
 
     /*public String post(String path, String requestData, String authToken) {
@@ -126,7 +116,6 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
         String authToken = strings[1];
         String requestType = strings[2];
         String requestData = strings[3];
-
 
         try {
 
