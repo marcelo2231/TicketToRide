@@ -28,8 +28,9 @@
             android:label="gameRoomActivity"
             android:screenOrientation="landscape">
         </activity>
-        <activity android:name=".views.GameActivity.GameActivity"
-            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".views.GameActivity.GameActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
