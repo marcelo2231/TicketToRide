@@ -16,10 +16,22 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     // How to set the authorizationToken:
     // HttpURLConnection connection = (HttpURLConnection)url.openConnection();
     // connection.addRequestProperty("Authorization", authToken);
-    private Client clientInstance;
+    private static Client client;
+    private static ClientCommunicator clientCommunicator = null;
+    private String host;
 
-    public ClientCommunicator() {
-       clientInstance = Client.getInstance();
+    private ClientCommunicator() {
+       client = Client.getInstance();
+       host = "http://" + "10.0.2.2" + ":" + "8080";
+    }
+
+    public static ClientCommunicator getInstance()
+    {
+        if (clientCommunicator == null) {
+            clientCommunicator = new ClientCommunicator();
+        }
+
+        return clientCommunicator;
     }
 
     /*public String post(String path, String requestData, String authToken) {
@@ -75,7 +87,7 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
         String newAuthToken = http.getRequestProperty("RenewedAuthToken");
 
-        clientInstance.setToken(newAuthToken);
+        client.setToken(newAuthToken);
 
         return readString(respBody);
         //}
