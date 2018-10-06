@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride.views.LoginActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -17,6 +18,8 @@ import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.communication.proxy.LoginProxy;
 import com.emmettito.tickettoride.presenters.LoginPresenter;
+import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.views.LobbyActivity.LobbyActivity;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -71,8 +74,11 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
     private RegisterRequest getRegisterRequest() {
         RegisterRequest request = new RegisterRequest();
 
-        request.setUsername("username");
-        request.setPassword("password");
+        EditText usernameSpace = (EditText) findViewById(R.id.usernameEditText);
+        EditText passwordSpace = (EditText) findViewById(R.id.passwordEditText);
+
+        request.setUsername(usernameSpace.getText().toString());
+        request.setPassword(passwordSpace.getText().toString());
 
         return request;
     }
@@ -81,8 +87,20 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
     public void login() {
         LoginRequest request = getLoginRequest();
         Result result = proxy.login(request);
-        Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
 
+        if (result != null) {
+            if (result.getSuccess()) {
+                client.setUser(request.getUsername());
+                client.setToken((String) result.getData());
+                switchToLobby();
+            }
+            else {
+                Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(this, "Error: Could not connect to the server.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -90,20 +108,24 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         RegisterRequest request = getRegisterRequest();
         Result result = proxy.register(request);
 
-        Toast.makeText(this, request.getUsername(), Toast.LENGTH_SHORT).show();
-
         if (result != null) {
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            if (result.getSuccess()) {
+                client.setUser(request.getUsername());
+                client.setToken((String) result.getData());
+                switchToLobby();
+            }
+            else {
+                Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
         else {
-            Toast.makeText(this, "EMPTY", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: Could not connect to the server.", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     private void switchToLobby() {
-
+        Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
+        startActivity(intent);
     }
 
     @Override
