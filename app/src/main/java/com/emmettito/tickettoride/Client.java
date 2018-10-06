@@ -1,18 +1,11 @@
 package com.emmettito.tickettoride;
 
-import com.emmettito.models.AuthToken;
-import com.emmettito.models.User;
-
-import java.util.ArrayList;
-
 public class Client {
 
     private static Client client = null;
 
     String token;
-
     String user;
-
     String gameName;
 
     private Client()
