@@ -13,9 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ClientCommunicator extends AsyncTask<String, Void, String> {
-    // How to set the authorizationToken:
-    // HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-    // connection.addRequestProperty("Authorization", authToken);
+
     private static Client client;
     private String host;
 
@@ -23,25 +21,6 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
        client = Client.getInstance();
        host = "http://" + "10.0.2.2" + ":" + "8080";
     }
-
-    /*public String post(String path, String requestData, String authToken) {
-        return doInBackground(path, requestData, authToken, "POST");
-    }*/
-
-    /*public String get(String path, String authToken) {
-        try {
-            URL url = new URL("http://" + serverHost + ":" + serverPort + path);
-
-            HttpURLConnection http = getConnection(url, "GET", false, authToken);
-
-            return getResponse(http);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "Error: Internal Server Error.";
-    }*/
 
     private HttpURLConnection getConnection(URL url, String requestType, boolean doOutput, String authToken) throws java.io.IOException {
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -54,25 +33,16 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
         http.setConnectTimeout(150000);
 
-        //http.setDoOutput(doOutput);
+        http.setDoOutput(doOutput);
 
         http.addRequestProperty("Authorization", authToken);
 
         http.connect();
 
-        //int responseCode = http.getResponseCode();
-
-        //System.out.println(responseCode);
-
-        //http.addRequestProperty("Accept", "application/json");
-
-        //
-
         return http;
     }
 
     private String getResponse(HttpURLConnection http) throws java.io.IOException {
-        //if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
         InputStream respBody = http.getInputStream();
 
         String newAuthToken = http.getRequestProperty("RenewedAuthToken");
@@ -82,10 +52,6 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
         }
 
         return readString(respBody);
-        //}
-        //else {
-        //    return "Error: Invalid request.";
-        //}
     }
 
     private String readString(InputStream stream) throws IOException {

@@ -41,7 +41,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     private int fragmentID;
 
-    String authToken = "ddf3c80fe8d0472995f134af0d7cc347";
+    String authToken = "129732fa93934aa0bbfd80686bf1b99a";
     String username = "username";
 
     private Client clientInstance = Client.getInstance();
