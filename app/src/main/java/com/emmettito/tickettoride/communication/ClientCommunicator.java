@@ -2,6 +2,8 @@ package com.emmettito.tickettoride.communication;
 
 import android.os.AsyncTask;
 
+import com.emmettito.tickettoride.Client;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,8 +16,11 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     // How to set the authorizationToken:
     // HttpURLConnection connection = (HttpURLConnection)url.openConnection();
     // connection.addRequestProperty("Authorization", authToken);
+    private Client clientInstance;
 
-    public ClientCommunicator() { }
+    public ClientCommunicator() {
+       clientInstance = Client.getInstance();
+    }
 
     /*public String post(String path, String requestData, String authToken) {
         return doInBackground(path, requestData, authToken, "POST");
@@ -66,9 +71,13 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
     private String getResponse(HttpURLConnection http) throws java.io.IOException {
         //if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            InputStream respBody = http.getInputStream();
+        InputStream respBody = http.getInputStream();
 
-            return readString(respBody);
+        String newAuthToken = http.getRequestProperty("RenewedAuthToken");
+
+        clientInstance.setToken(newAuthToken);
+
+        return readString(respBody);
         //}
         //else {
         //    return "Error: Invalid request.";

@@ -37,7 +37,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     private List<String[]> games;
 
-    String authToken = "8101cd210696482e95bd056ba5519e2d";
+    String authToken = "81340ebd5a6b4dfe8805977201172a1b";
     String username = "username";
 
     private Client clientInstance = Client.getInstance();
@@ -71,6 +71,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         games = gamesListStrings;
 
        mAdapter.notifyDataSetChanged();
+       mAdapter = new GameListAdapter(games, joinButton);
+       recycle.setAdapter(mAdapter);
     }
 
     @Override
@@ -79,6 +81,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         View view = inflater.inflate(R.layout.fragment_game_list, container, false);
 
         games = new ArrayList<>();
+
+        clientInstance.setToken(authToken);
 
         recycle = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 

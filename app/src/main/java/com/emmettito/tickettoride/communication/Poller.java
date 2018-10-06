@@ -39,6 +39,7 @@ public class Poller extends Observable {
                 sleepTime = fixedRate ? delaySec * 1000L - (System.currentTimeMillis() - startMillis) : delaySec * 1000L;
             }
             catch (Exception e) {
+                e.printStackTrace();
                 break;
             }
         }
@@ -46,7 +47,7 @@ public class Poller extends Observable {
     }
 
     private void poll() throws Exception {
-        response = client.execute(url, clientInstance.getToken(), "GET", "").get();
+        response = client.doInBackground(url, clientInstance.getToken(), "GET", "");
         notifyObservers(response);
     }
 
