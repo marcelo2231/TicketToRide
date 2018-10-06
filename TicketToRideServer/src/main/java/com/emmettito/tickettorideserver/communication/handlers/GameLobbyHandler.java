@@ -5,6 +5,7 @@ import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.gameLobby.CreateGameCommand;
+import com.emmettito.tickettorideserver.gameLobby.GetGamesCommand;
 import com.emmettito.tickettorideserver.gameLobby.JoinGameCommand;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -52,6 +53,9 @@ public class GameLobbyHandler implements HttpHandler {
                 case "joingame":
                     result = new JoinGameCommand().execute(input, authToken);
                     break;
+                case "getgames":
+                result = new GetGamesCommand().execute(input, authToken);
+                break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");
             }

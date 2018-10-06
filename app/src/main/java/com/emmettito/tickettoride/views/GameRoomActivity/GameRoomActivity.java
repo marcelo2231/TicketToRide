@@ -78,6 +78,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     @Override
     public void leaveGame() {
+        client.deleteGameName();
         finish();
     }
 

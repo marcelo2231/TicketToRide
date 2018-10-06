@@ -1,11 +1,18 @@
 package com.emmettito.tickettoride.presenters;
 
+import com.emmettito.models.Player;
+
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class LoginPresenter implements Observer{
-    @Override
-    public void update(Observable observable, Object o) {
+public class LoginPresenter extends Observable{
 
+
+    public interface LoginView extends Observer{
+
+        void login();
+
+        void register();
     }
 }
