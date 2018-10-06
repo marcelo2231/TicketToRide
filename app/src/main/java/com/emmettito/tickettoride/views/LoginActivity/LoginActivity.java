@@ -18,7 +18,7 @@ import com.emmettito.tickettoride.presenters.LoginPresenter;
 import java.util.Observable;
 import java.util.Observer;
 
-public class LoginFragment extends FragmentActivity implements LoginPresenter.LoginView, Observer {
+public class LoginActivity extends FragmentActivity implements LoginPresenter.LoginView, Observer {
     private LoginRequest request = new LoginRequest();
 
     private Button registerButton;

@@ -4,86 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.LoginActivity.LoginFragment">
+    tools:context=".views.LoginActivity.LoginActivity">
 
     <RelativeLayout
+        android:id="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background"
-        android:id="@+id/relative_layout">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <LinearLayout
-            android:id="@+id/username_layout"
+        <TextView
+            android:id="@+id/usernameTextView"
             android:layout_width="wrap_content"
-            android:layout_height="260dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/usernameEditText"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
+            android:text="Username:"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="152dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:orientation="horizontal">
+            android:layout_alignParentTop="true"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="42dp"
+            android:inputType="text"
+            android:maxLines="1" />
 
-            <TextView
-                android:id="@+id/usernameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:text="Username:"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/usernameEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
-                android:inputType="text"
-                android:maxLines="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/password_layout"
-            android:layout_below="@+id/username_layout"
+        <TextView
+            android:id="@+id/passwordTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_alignStart="@+id/usernameEditText"
+            android:layout_below="@+id/usernameEditText"
+            android:layout_gravity="start"
+            android:text="Password"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/passwordTextView"
-                android:text="Password"
-                android:textSize="15sp"
-                android:layout_gravity="start"
-                />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/passwordEditText"
-                android:layout_gravity="fill_horizontal"
-                android:maxLines="1"
-                android:inputType="textPassword"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/button_layout"
-            android:layout_below="@+id/password_layout"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="152dp"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+            android:layout_alignStart="@+id/passwordTextView"
+            android:layout_below="@+id/passwordTextView"
+            android:layout_gravity="fill_horizontal"
+            android:inputType="textPassword"
+            android:maxLines="1" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/registerButton"
-                android:text="Register" />
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/loginButton"
+            android:layout_toEndOf="@+id/loginButton"
+            android:text="Register" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/loginButton"
-                android:text="Login" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/passwordEditText"
+            android:layout_marginBottom="20dp"
+            android:text="Login" />
 
 
     </RelativeLayout>
