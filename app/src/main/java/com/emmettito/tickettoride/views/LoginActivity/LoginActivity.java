@@ -1,15 +1,13 @@
 package com.emmettito.tickettoride.views.LoginActivity;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
 import com.emmettito.tickettoride.R;

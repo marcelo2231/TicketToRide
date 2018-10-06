@@ -27,11 +27,9 @@ public class GameLobbyProxy {
     }
 
     public GameLobbyResult joinGame(JoinGameRequest request, String authToken) {
-        String requestString = gson.toJson(request);
-
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/joingame";
 
-        return sendRequest(url, requestString, authToken, "GET");
+        return sendRequest(url, "", authToken, "GET");
     }
 
     private GameLobbyResult sendRequest(String url, String requestString, String authToken, String requestType) {

@@ -10,8 +10,9 @@
         android:id="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/background"
-        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintEnd_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
@@ -24,7 +25,7 @@
             android:layout_marginTop="20dp"
             android:text="Username:"
             android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/usernameEditText"
@@ -36,7 +37,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="42dp"
             android:inputType="text"
-            android:maxLines="1" />
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/passwordTextView"
@@ -47,7 +48,7 @@
             android:layout_gravity="start"
             android:text="Password"
             android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -57,7 +58,7 @@
             android:layout_below="@+id/passwordTextView"
             android:layout_gravity="fill_horizontal"
             android:inputType="textPassword"
-            android:maxLines="1" />
+            android:maxLines="1"/>
 
         <Button
             android:id="@+id/registerButton"
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/loginButton"
             android:layout_toEndOf="@+id/loginButton"
-            android:text="Register" />
+            android:text="Register"/>
 
         <Button
             android:id="@+id/loginButton"
@@ -74,7 +75,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/passwordEditText"
             android:layout_marginBottom="20dp"
-            android:text="Login" />
+            android:text="Login"/>
 
 
     </RelativeLayout>

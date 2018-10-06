@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.emmettito.models.Game;
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.models.Results.GetGamesResult;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
+import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +37,40 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     private List<String[]> games;
 
-    String authToken = "5117ca79d181443fbb28f54c3b7ce18c";
+    String authToken = "8101cd210696482e95bd056ba5519e2d";
     String username = "username";
 
     private Client clientInstance = Client.getInstance();
 
     public void update(Observable obj, Object arg) {
-        //games will be initialized and updated here
+        String newListString = (String) arg;
+
+        GetGamesResult result = new Gson().fromJson(newListString, GetGamesResult.class);
+
+        List<Game> gamesList = result.getData();
+
+        List<String[]> gamesListStrings = new ArrayList<>();
+
+        for (Game item : gamesList) {
+            String[] tempList = new String[3];
+
+            tempList[0] = item.getGameName();
+            tempList[1] = Integer.toString(item.getPlayers().size());
+
+            if (tempList[1].equals("1")) {
+                tempList[2] = "Waiting for players";
+            }
+            else if (tempList[1].equals("5")) {
+                tempList[2] = "Game Room Full";
+            }
+            else {
+                tempList[2] = "Ready";
+            }
+        }
+
+        games = gamesListStrings;
+
+       mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -49,10 +79,6 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         View view = inflater.inflate(R.layout.fragment_game_list, container, false);
 
         games = new ArrayList<>();
-
-        presenter = new LobbyPresenter();
-
-        presenter.addObserver(this);
 
         recycle = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
@@ -80,7 +106,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
          *
          */
 
-        String[] string1 = new String[4];
+        /*String[] string1 = new String[4];
         String[] string2 = new String[4];
         String[] string3 = new String[4];
 
@@ -103,7 +129,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         games.add(string1);
         games.add(string2);
-        games.add(string3);
+        games.add(string3);*/
 
         /*
          *
@@ -118,6 +144,13 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         //authToken = clientInstance.getToken();
         //username = clientInstance.getUser();
+
+
+        presenter = new LobbyPresenter();
+
+        presenter.addObserver(this);
+
+        presenter.startPoller();
 
         return view;
     }
