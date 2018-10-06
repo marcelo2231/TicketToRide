@@ -16,7 +16,7 @@ public class Poller extends Observable {
 
     public Poller(String url) {
         this.url = url;
-        client = new ClientCommunicator();
+        client = ClientCommunicator.getInstance();
         clientInstance = Client.getInstance();
     }
 
