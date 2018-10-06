@@ -48,7 +48,9 @@ public class Poller extends Observable {
 
     private void poll() throws Exception {
         response = client.doInBackground(url, clientInstance.getToken(), "GET", "");
+        setChanged();
         notifyObservers(response);
+        System.out.println("I tried to notify the observers");
     }
 
     private String getThreadName() {
