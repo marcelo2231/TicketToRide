@@ -18,9 +18,11 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     // connection.addRequestProperty("Authorization", authToken);
     private static Client client;
     private static ClientCommunicator clientCommunicator = null;
+    private String host;
 
     private ClientCommunicator() {
        client = Client.getInstance();
+       host = "http://" + "10.0.2.2" + ":" + "8080";
     }
 
     public static ClientCommunicator getInstance()
