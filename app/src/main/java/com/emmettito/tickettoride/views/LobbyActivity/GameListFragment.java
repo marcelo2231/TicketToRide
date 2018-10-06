@@ -41,10 +41,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     private int fragmentID;
 
-    String authToken = "ddf3c80fe8d0472995f134af0d7cc347";
-    String username = "username";
-
-    private Client clientInstance = Client.getInstance();
+    private Client client = Client.getInstance();
 
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
@@ -128,7 +125,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         games = new ArrayList<>();
 
-        clientInstance.setToken(authToken);
+        //client.setToken(authToken);
 
         recycle = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
@@ -144,7 +141,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
             public void onClick(View v) {
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
-                        joinGame(games.get(i)[0], username, authToken);
+                        joinGame(games.get(i)[0], client.getUser(), client.getToken());
                     }
                 }
             }
@@ -218,8 +215,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         GameLobbyResult result = presenter.joinGame(gameName, username, authToken);
 
         authToken = result.getRenewedAuthToken();
-        clientInstance.setToken(authToken);
-        clientInstance.setGameName(gameName);
+        client.setToken(authToken);
+        client.setGameName(gameName);
 
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
