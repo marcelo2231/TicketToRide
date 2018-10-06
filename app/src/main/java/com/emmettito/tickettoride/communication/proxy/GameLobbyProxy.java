@@ -14,7 +14,6 @@ public class GameLobbyProxy {
     private String serverPort = "8080";
 
     public GameLobbyProxy(String host, String port)  {
-        client = ClientCommunicator.getInstance();
         gson = new Gson();
     }
 
@@ -34,6 +33,7 @@ public class GameLobbyProxy {
 
     private GameLobbyResult sendRequest(String url, String requestString, String authToken, String requestType) {
         String resultString;
+        client = new ClientCommunicator();
 
         try {
             resultString = client.execute(url, authToken, requestType, requestString).get();

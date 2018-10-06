@@ -8,32 +8,36 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
+import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
+import com.emmettito.models.Results.Result;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.communication.proxy.LoginProxy;
 import com.emmettito.tickettoride.presenters.LoginPresenter;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class LoginActivity extends FragmentActivity implements LoginPresenter.LoginView, Observer {
-    private LoginRequest request = new LoginRequest();
 
-    private Button registerButton;
-    private Button loginButton;
-    private TextView usernameTextView;
-    private TextView passwordTextView;
-    private EditText usernameSpace;
-    private EditText passwordSpace;
+    private Client client;
 
     private LoginPresenter presenter;
+
+    private LoginProxy proxy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        registerButton = (Button) findViewById(R.id.registerButton);
+        client = Client.getInstance();
+        proxy = new LoginProxy();
+
+        Button registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setEnabled(true);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +46,7 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
             }
         });
 
-        loginButton = (Button) findViewById(R.id.loginButton);
+        Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setEnabled(true);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,52 +54,55 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
                 login();
             }
         });
+    }
 
-        usernameTextView = (TextView) findViewById(R.id.usernameTextView);
-        passwordTextView = (TextView) findViewById(R.id.passwordTextView);
+    private LoginRequest getLoginRequest() {
+        LoginRequest request = new LoginRequest();
 
-        usernameSpace = (EditText) findViewById(R.id.usernameEditText);
-        usernameSpace.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+        EditText usernameSpace = (EditText) findViewById(R.id.usernameEditText);
+        EditText passwordSpace = (EditText) findViewById(R.id.passwordEditText);
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+        request.setUsername(usernameSpace.getText().toString());
+        request.setPassword(passwordSpace.getText().toString());
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                request.setUsername(usernameSpace.getText().toString());
-            }
-        });
+        return request;
+    }
 
-        passwordSpace = (EditText) findViewById(R.id.passwordEditText);
-        passwordSpace.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    private RegisterRequest getRegisterRequest() {
+        RegisterRequest request = new RegisterRequest();
 
-            }
+        request.setUsername("username");
+        request.setPassword("password");
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                request.setPassword(passwordSpace.getText().toString());
-            }
-        });
+        return request;
     }
 
     @Override
     public void login() {
+        LoginRequest request = getLoginRequest();
+        Result result = proxy.login(request);
+        Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void register() {
+        RegisterRequest request = getRegisterRequest();
+        Result result = proxy.register(request);
+
+        Toast.makeText(this, request.getUsername(), Toast.LENGTH_SHORT).show();
+
+        if (result != null) {
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "EMPTY", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    private void switchToLobby() {
 
     }
 

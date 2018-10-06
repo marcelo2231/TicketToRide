@@ -17,7 +17,6 @@ public class GameRoomProxy {
     private String serverPort = "8080";
 
     public GameRoomProxy()  {
-        client = ClientCommunicator.getInstance();
         gson = new Gson();
     }
 
@@ -30,6 +29,8 @@ public class GameRoomProxy {
     }
 
     public GetPlayersResult getPlayers(GetPlayersRequest request, String authToken) {
+
+        client = new ClientCommunicator();
 
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame"; // TODO: FIX URL
 
