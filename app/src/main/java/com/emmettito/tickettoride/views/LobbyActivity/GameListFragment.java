@@ -192,6 +192,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
     public void createNewGame(String gameName, String username){}
 
     public void joinGame(String gameName, String username){
+        presenter.shutDownPoller();
         GameLobbyResult result = presenter.joinGame(gameName, username);
 
         String token = result.getRenewedAuthToken();
@@ -200,6 +201,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
             toast.show();
+
+            presenter.startPoller();
 
             return;
         }

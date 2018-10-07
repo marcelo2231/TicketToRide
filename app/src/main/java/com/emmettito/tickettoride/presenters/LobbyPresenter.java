@@ -70,4 +70,8 @@ public class LobbyPresenter extends Observable implements Observer {
 
         poller.start(3);
     }
+
+    public void shutDownPoller() {
+        poller.shutdown();
+    }
 }
