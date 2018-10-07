@@ -41,7 +41,7 @@ public class JoinGameCommand implements IGameLobbyCommand{
             throw e;
         }
 
-        // Result Returns a Player for the user
+        /** Prepare Result **/
         result.setSuccess(true);
         result.setData(newPlayer);
         result.setMessage("Successfully joined game.");

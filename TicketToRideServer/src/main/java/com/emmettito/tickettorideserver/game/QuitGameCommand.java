@@ -1,6 +1,7 @@
 package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommands.QuitGameRequest;
+import com.emmettito.models.Game;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
@@ -11,7 +12,7 @@ public class QuitGameCommand implements IGameCommand {
 
     @Override
     public Result execute(Object obj, String authToken) throws Exception {
-        /** Cast Object **/
+        /** Validate **/
         try {
             commandModel = (QuitGameRequest)new Serializer().deserialize((InputStream)obj, QuitGameRequest.class);
         }catch(Exception e){
@@ -21,8 +22,24 @@ public class QuitGameCommand implements IGameCommand {
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
-        // TODO: Store data on Database
+        /** Get Game **/
+        Game targetGame = gameLobbyDatabase.getGame(commandModel.getGameName());
+        if (targetGame == null) {
+            throw new Exception("Error, game not found");
+        }
 
-        return new Result();
+        /** Remove Player from Game **/
+        if (!targetGame.playerInGame(commandModel.getPlayerName())) {
+            throw new Exception("Player is not in game.");
+        }
+        else {
+            targetGame.removePlayer(commandModel.getPlayerName());
+        }
+
+        /** Prepare Result **/
+        Result result = new Result();
+        result.setSuccess(true);
+        result.setMessage("Successfully left game.");
+        return result;
     }
 }

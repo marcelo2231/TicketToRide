@@ -30,7 +30,7 @@ public class GameLobbyDao {
             }
         }
         for (Game g : dbInstance.activeGame) {
-            if (g.equals(gameName)) {
+            if (g.getGameName().equals(gameName)) {
                 return g;
             }
         }
@@ -48,12 +48,7 @@ public class GameLobbyDao {
     }
 
     public void addActiveGame(Game newGame) { //two active games can have the same name
-//        if (getGame(newGame.getGameName()) != null) {
-//            throw new DuplicateName();
-//        }
-//        else {
-            dbInstance.activeGame.add(newGame);
-//        }
+        dbInstance.activeGame.add(newGame);
     }
 
 

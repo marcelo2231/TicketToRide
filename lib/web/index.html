@@ -133,7 +133,7 @@
             function quitgame()
             {
                 window.scrollTo(0,document.body.scrollHeight);
-                document.getElementById("handleBox").value = "/gamelobby/quitgame";
+                document.getElementById("handleBox").value = "/game/quitgame";
                 document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
             }
             function removegame()
@@ -187,8 +187,20 @@
             function startgame()
             {
                 window.scrollTo(0,document.body.scrollHeight);
-                document.getElementById("handleBox").value = "/game/startgame";
-                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\", \"playerName\":\"username\"}");;
+                document.getElementById("handleBox").value = "/gamelobby/startgame";
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
+            }
+            function getGames()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/getGames";
+                document.getElementById("requestBox").value = "";
+            }
+            function getPlayers()
+            {
+                window.scrollTo(0,document.body.scrollHeight);
+                document.getElementById("handleBox").value = "/game/getPlayers";
+                document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\"}");
             }
         </script>
     </head>
@@ -228,6 +240,15 @@
                   <li>
                     <a href="javascript:joingame()" >/gamelobby/joingame</a> Joins a game.
                   </li>
+                  <li>
+                     <a href="javascript:startgame()" >/game/startgame</a> This API starts the game.
+                  </li>
+                    <li>
+                        <a href="javascript:getGames()" >/game/getgames</a> This API get all games.
+                    </li>
+                    <li>
+                        <a href="javascript:getPlayers()" >/game/getplayers</a> This API get all players in a game.
+                    </li>
               </ul>
             </div>
 
@@ -258,10 +279,7 @@
                         <a href="javascript:playerturn()" >/game/playerturn</a> This API does something with player turn.
                     </li>
                     <li>
-                        <a href="javascript:startgame()" >/game/startgame</a> This API starts the game.
-                    </li>
-                    <li>
-                        <a href="javascript:quitgame()">/gamelobby/quitgame</a> Quits game.
+                        <a href="javascript:quitgame()">/game/quitgame</a> Quits game.
                     </li>
                     <li>
                         <a href="javascript:removegame()">/gamelobby/removegame</a> Removes a game.
