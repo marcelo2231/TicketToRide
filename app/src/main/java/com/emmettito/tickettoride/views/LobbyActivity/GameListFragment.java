@@ -60,18 +60,13 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         gameString = newListString;
 
-        System.out.println(newListString);
-
         GetGamesResult result = new Gson().fromJson(newListString, GetGamesResult.class);
 
         List<Game> gamesList = result.getData();
 
         List<String[]> gamesListStrings = new ArrayList<>();
 
-        System.out.printf("Length of the GameList: %d",gamesList.size());
-
         for (Game item : gamesList) {
-            System.out.println("This is a thing");
             String[] tempList = new String[3];
 
             tempList[0] = item.getGameName();
@@ -89,8 +84,6 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
             gamesListStrings.add(tempList);
         }
-
-        System.out.printf("This is the number of games: %d", gamesListStrings.size());
 
         if (gamesListStrings.size() > 0) {
                 games.clear();
@@ -193,9 +186,6 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     public void joinGame(String gameName, String username){
         presenter.shutDownPoller();
-
-        System.out.println(gameName);
-        System.out.println(username);
 
         GameLobbyResult result = presenter.joinGame(gameName, username);
 

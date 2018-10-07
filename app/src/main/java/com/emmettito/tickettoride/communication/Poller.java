@@ -50,7 +50,6 @@ public class Poller extends Observable {
         response = client.doInBackground(url, "GET", "");
         setChanged();
         notifyObservers(response);
-        System.out.println("I tried to notify the observers");
     }
 
     private String getThreadName() {

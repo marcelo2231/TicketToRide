@@ -25,8 +25,6 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     private HttpURLConnection getConnection(URL url, String requestType, boolean doOutput) throws java.io.IOException {
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
-        //System.out.println(requestType);
-
         http.setRequestMethod(requestType);
 
         http.setReadTimeout(150000);
@@ -34,8 +32,6 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
         http.setConnectTimeout(150000);
 
         http.setDoOutput(doOutput);
-
-        System.out.print(client.getToken());
 
         http.addRequestProperty("Authorization", client.getToken());
 
