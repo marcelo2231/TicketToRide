@@ -29,7 +29,18 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
 
     private LobbyPresenter presenter;
 
-    private Client client = Client.getInstance();
+    private Client clientInstance = Client.getInstance();
+
+    /**
+     *
+     * Replace following once login activity is completed
+     *
+     */
+
+    private String authToken;// = "1b51761e07e342fca9adffaa2ee7a770";
+
+    private String username;// = "username";
+
 
     /**
      *
@@ -78,9 +89,12 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             public void onClick(View v) {
                 String gameName = gameNameText.getText().toString();
 
-                createNewGame(gameName, client.getUser(), client.getToken());
+                createNewGame(gameName, clientInstance.getUser(), clientInstance.getToken());
             }
         });
+
+        authToken = clientInstance.getToken();
+        username = clientInstance.getUser();
 
         return view;
     }
@@ -89,8 +103,8 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
         GameLobbyResult result = presenter.createNewGame(gameName, username, authToken);
 
         authToken = result.getRenewedAuthToken();
-        client.setToken(authToken);
-        client.setGameName(gameName);
+        clientInstance.setToken(authToken);
+        clientInstance.setGameName(gameName);
 
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
