@@ -15,7 +15,7 @@ public class QuitGameCommand implements IGameCommand {
         try {
             commandModel = (QuitGameRequest)new Serializer().deserialize((InputStream)obj, QuitGameRequest.class);
         }catch(Exception e){
-            throw new Exception("QuitGameCommand: command was null, please, make sure to set the QuitGameCommandModel.");
+            throw new Exception("ExitGameCommand: command was null, please, make sure to set the QuitGameCommandModel.");
         }
         if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
