@@ -47,4 +47,14 @@ public class GameLobbyDao {
         if (!dbInstance.gameLobby.remove(toBeRemoved)) { throw new NotFound(); }
     }
 
+    public void addActiveGame(Game newGame) { //two active games can have the same name
+//        if (getGame(newGame.getGameName()) != null) {
+//            throw new DuplicateName();
+//        }
+//        else {
+            dbInstance.activeGame.add(newGame);
+//        }
+    }
+
+
 }

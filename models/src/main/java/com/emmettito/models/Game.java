@@ -31,4 +31,45 @@ public class Game {
         return players;
     }
 
+    public Player getOnePlayer(String userName) {
+        boolean found = false;
+        int index = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerName().equals(userName));
+            index = i;
+            found = true;
+        }
+        if (found) {
+            return players.get(index);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public boolean playerInGame(String userName) {
+        boolean found = false;
+        int index = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerName().equals(userName));
+            index = i;
+            found = true;
+        }
+        return found;
+    }
+
+    public void removePlayer(String userName) {
+        boolean found = false;
+        int index = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerName().equals(userName));
+            index = i;
+            found = true;
+        }
+        if (found) {
+            players.remove(index);
+        }
+    }
+
+
 }
