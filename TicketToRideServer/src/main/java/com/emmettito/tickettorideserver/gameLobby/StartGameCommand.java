@@ -11,7 +11,7 @@ public class StartGameCommand implements IGameLobbyCommand {
     public Object execute(Object obj, String authToken) throws NotFound {
         StartGameRequest startGameRequest = (StartGameRequest) obj;
         Game currGame = gameLobbyDatabase.getGame(startGameRequest.getGameName());
-        if (currGame.equals(null)) {
+        if (currGame == null) {
             throw new NotFound();
         }
         gameLobbyDatabase.removeGame(currGame.getGameName());

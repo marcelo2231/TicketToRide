@@ -12,7 +12,7 @@ public class ExitGameCommand implements IGameLobbyCommand {
         ExitGameRequest exitGameRequest = (ExitGameRequest) obj;
 
         Game targetGame = gameLobbyDatabase.getGame(exitGameRequest.getGameName());
-        if (targetGame.equals(null)) {
+        if (targetGame == null) {
             throw new Exception("Error, game not found");
         }
         if (!targetGame.playerInGame(exitGameRequest.getUserName())) {
