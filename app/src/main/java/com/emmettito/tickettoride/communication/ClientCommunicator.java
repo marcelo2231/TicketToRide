@@ -35,6 +35,8 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
         http.setDoOutput(doOutput);
 
+        System.out.print(client.getToken());
+
         http.addRequestProperty("Authorization", client.getToken());
 
         http.connect();

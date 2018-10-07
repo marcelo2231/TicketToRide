@@ -193,6 +193,10 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     public void joinGame(String gameName, String username){
         presenter.shutDownPoller();
+
+        System.out.println(gameName);
+        System.out.println(username);
+
         GameLobbyResult result = presenter.joinGame(gameName, username);
 
         String token = result.getRenewedAuthToken();
