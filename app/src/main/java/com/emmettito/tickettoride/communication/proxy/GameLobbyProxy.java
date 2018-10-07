@@ -44,7 +44,6 @@ public class GameLobbyProxy {
         if (resultString.equals("Error: Could not connect to the server.")) {
             GameLobbyResult result = new GameLobbyResult();
             result.setMessage(resultString);
-            result.setMessage(resultString);
             return result;
         }
 
