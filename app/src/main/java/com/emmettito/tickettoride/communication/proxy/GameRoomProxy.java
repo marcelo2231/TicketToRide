@@ -1,9 +1,6 @@
 package com.emmettito.tickettoride.communication.proxy;
 
-import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
-import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
-import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
@@ -28,7 +25,7 @@ public class GameRoomProxy {
 
     }
 
-    public GetPlayersResult getPlayers(GetPlayersRequest request, String authToken) {
+    public GetPlayersResult getPlayers(GetPlayersRequest request) {
 
         client = new ClientCommunicator();
 
@@ -39,7 +36,7 @@ public class GameRoomProxy {
 
 
         try {
-            resultBody = client.execute(url, authToken, "POST", requestBody).get();
+            resultBody = client.execute(url, "POST", requestBody).get();
         } catch (Exception e) {
             resultBody = null;
         }

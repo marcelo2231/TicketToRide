@@ -2,10 +2,8 @@ package com.emmettito.tickettoride.communication.proxy;
 
 import android.util.Log;
 
-import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
 import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
-import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
@@ -31,7 +29,7 @@ public class LoginProxy {
         String requestBody = gson.toJson(request);
 
         try {
-            resultBody = client.execute(url, null, "POST", requestBody).get();
+            resultBody = client.execute(url, "POST", requestBody).get();
         } catch (Exception e) {
             resultBody = null;
         }
@@ -53,7 +51,7 @@ public class LoginProxy {
         String requestBody = gson.toJson(request);
 
         try {
-            resultBody = client.execute(url, null, "POST", requestBody).get();
+            resultBody = client.execute(url, "POST", requestBody).get();
         } catch (Exception e) {
             resultBody = null;
             Log.w("myApp", "failed: " + e.toString());

@@ -31,23 +31,6 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
 
     private Client clientInstance = Client.getInstance();
 
-    /**
-     *
-     * Replace following once login activity is completed
-     *
-     */
-
-    private String authToken;// = "1b51761e07e342fca9adffaa2ee7a770";
-
-    private String username;// = "username";
-
-
-    /**
-     *
-     * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     *
-     */
-
     public void update(Observable obj, Object arg) {}
 
     @Override
@@ -89,22 +72,15 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             public void onClick(View v) {
                 String gameName = gameNameText.getText().toString();
 
-                createNewGame(gameName, clientInstance.getUser(), clientInstance.getToken());
+                createNewGame(gameName, clientInstance.getUser());
             }
         });
-
-        authToken = clientInstance.getToken();
-        username = clientInstance.getUser();
 
         return view;
     }
 
-    public void createNewGame(String gameName, String username, String authToken){
-        GameLobbyResult result = presenter.createNewGame(gameName, username, authToken);
-
-        authToken = result.getRenewedAuthToken();
-        clientInstance.setToken(authToken);
-        clientInstance.setGameName(gameName);
+    public void createNewGame(String gameName, String username){
+        GameLobbyResult result = presenter.createNewGame(gameName, username);
 
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
@@ -113,11 +89,19 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             return;
         }
 
+
+        String token = result.getRenewedAuthToken();
+
+        if (!token.equals("")) {
+            clientInstance.setToken(token);
+        }
+        clientInstance.setGameName(gameName);
+
         Intent intent = new Intent(getActivity(), GameRoomActivity.class);
 
         startActivity(intent);
     }
 
-    public void joinGame(String gameName, String username, String authToken){}
+    public void joinGame(String gameName, String username){}
 
 }

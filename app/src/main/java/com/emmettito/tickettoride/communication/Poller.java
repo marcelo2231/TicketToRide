@@ -47,7 +47,7 @@ public class Poller extends Observable {
     private void poll() throws Exception {
         client = new ClientCommunicator();
         clientInstance = Client.getInstance();
-        response = client.doInBackground(url, clientInstance.getToken(), "GET", "");
+        response = client.doInBackground(url, "GET", "");
         setChanged();
         notifyObservers(response);
         System.out.println("I tried to notify the observers");

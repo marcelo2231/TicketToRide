@@ -39,11 +39,6 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
     private List<String[]> games;
     private String gameString = "";
 
-    private int fragmentID;
-
-    String authToken;// = "129732fa93934aa0bbfd80686bf1b99a";
-    String username;// = "username";
-
     private Client clientInstance = Client.getInstance();
 
     Handler timerHandler = new Handler();
@@ -100,15 +95,6 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         if (gamesListStrings.size() > 0) {
                 games.clear();
                 games.addAll(gamesListStrings);
-
-                //updateScreen();
-
-                /*Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(fragmentID);
-
-                FragmentTransaction transaction = (getActivity()).getSupportFragmentManager().beginTransaction();
-                transaction.detach(currentFragment);
-                transaction.attach(currentFragment);
-                transaction.commit();*/
         }
     }
 
@@ -124,13 +110,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game_list, container, false);
 
-        fragmentID = this.getId();
-
         games = new ArrayList<>();
-
-        authToken = clientInstance.getToken();
-
-        username = clientInstance.getUser();
 
         recycle = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
@@ -146,7 +126,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
             public void onClick(View v) {
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
-                        joinGame(games.get(i)[0], clientInstance.getUser(), clientInstance.getToken());
+                        joinGame(games.get(i)[0], clientInstance.getUser());
                     }
                 }
             }
@@ -189,13 +169,8 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
          *
          */
 
-
-        // specify an adapter (see also next example)
         mAdapter = new GameListAdapter(games, joinButton);
         recycle.setAdapter(mAdapter);
-
-        //authToken = clientInstance.getToken();
-        //username = clientInstance.getUser();
 
         timerHandler.postDelayed(timerRunnable, 500);
 
@@ -214,14 +189,13 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         onSaveInstanceState();
     }*/
 
-    public void createNewGame(String gameName, String username, String authToken){}
+    public void createNewGame(String gameName, String username){}
 
-    public void joinGame(String gameName, String username, String authToken){
-        GameLobbyResult result = presenter.joinGame(gameName, username, authToken);
+    public void joinGame(String gameName, String username){
+        GameLobbyResult result = presenter.joinGame(gameName, username);
 
-        authToken = result.getRenewedAuthToken();
-        clientInstance.setToken(authToken);
-        clientInstance.setGameName(gameName);
+        String token = result.getRenewedAuthToken();
+
 
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
@@ -229,6 +203,11 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
             return;
         }
+
+        if (!token.equals("")) {
+            clientInstance.setToken(token);
+        }
+        clientInstance.setGameName(gameName);
 
         Intent intent = new Intent(getActivity(), GameRoomActivity.class);
 

@@ -37,30 +37,30 @@ public class LobbyPresenter extends Observable implements Observer {
         //System.out.println("This is a place where I did get");
     }
 
-    public GameLobbyResult createNewGame(String gameName, String username, String authToken) {
+    public GameLobbyResult createNewGame(String gameName, String username) {
         CreateGameRequest request = new CreateGameRequest();
         request.setGameName(gameName);
         request.setUsername(username);
 
         GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
 
-        return proxy.createGame(request, authToken);
+        return proxy.createGame(request);
     }
 
-    public GameLobbyResult joinGame(String gameName, String username, String authToken) {
+    public GameLobbyResult joinGame(String gameName, String username) {
         JoinGameRequest request = new JoinGameRequest();
         request.setGameName(gameName);
         request.setUsername(username);
 
         GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
 
-        return proxy.joinGame(request, authToken);
+        return proxy.joinGame(request);
     }
 
     public interface lobbyView {
-        void createNewGame(String gameName, String username, String authToken);
+        void createNewGame(String gameName, String username);
 
-        void joinGame(String gameName, String username, String authToken);
+        void joinGame(String gameName, String username);
     }
 
     public void startPoller() {

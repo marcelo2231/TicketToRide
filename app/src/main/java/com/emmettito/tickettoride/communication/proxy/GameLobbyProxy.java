@@ -17,26 +17,26 @@ public class GameLobbyProxy {
         gson = new Gson();
     }
 
-    public GameLobbyResult createGame(CreateGameRequest request, String authToken) {
+    public GameLobbyResult createGame(CreateGameRequest request) {
         String requestString = gson.toJson(request);
 
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
 
-        return sendRequest(url, requestString, authToken, "POST");
+        return sendRequest(url, requestString, "POST");
     }
 
-    public GameLobbyResult joinGame(JoinGameRequest request, String authToken) {
+    public GameLobbyResult joinGame(JoinGameRequest request) {
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/joingame";
 
-        return sendRequest(url, "", authToken, "GET");
+        return sendRequest(url, "", "GET");
     }
 
-    private GameLobbyResult sendRequest(String url, String requestString, String authToken, String requestType) {
+    private GameLobbyResult sendRequest(String url, String requestString, String requestType) {
         String resultString;
         client = new ClientCommunicator();
 
         try {
-            resultString = client.execute(url, authToken, requestType, requestString).get();
+            resultString = client.execute(url, requestType, requestString).get();
         } catch (Exception e) {
             resultString = "Error: Could not connect to the server.";
         }

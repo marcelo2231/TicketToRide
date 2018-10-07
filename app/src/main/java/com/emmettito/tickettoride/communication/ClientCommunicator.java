@@ -22,7 +22,7 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
        host = "http://" + "10.0.2.2" + ":" + "8080";
     }
 
-    private HttpURLConnection getConnection(URL url, String requestType, boolean doOutput, String authToken) throws java.io.IOException {
+    private HttpURLConnection getConnection(URL url, String requestType, boolean doOutput) throws java.io.IOException {
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
         //System.out.println(requestType);
@@ -35,7 +35,7 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
         http.setDoOutput(doOutput);
 
-        http.addRequestProperty("Authorization", authToken);
+        http.addRequestProperty("Authorization", client.getToken());
 
         http.connect();
 
@@ -48,7 +48,9 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
         String newAuthToken = http.getRequestProperty("RenewedAuthToken");
 
         if (newAuthToken != null) {
-            client.setToken(newAuthToken);
+            if (!newAuthToken.equals("")) {
+                client.setToken(newAuthToken);
+            }
         }
 
         return readString(respBody);
@@ -79,9 +81,8 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String urlString = strings[0];
-        String authToken = strings[1];
-        String requestType = strings[2];
-        String requestData = strings[3];
+        String requestType = strings[1];
+        String requestData = strings[2];
 
         try {
 
@@ -98,7 +99,7 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
                 doOutput = false;
             }
 
-            HttpURLConnection http = getConnection(url, requestType, doOutput, authToken);
+            HttpURLConnection http = getConnection(url, requestType, doOutput);
 
             if (doOutput) {
 
