@@ -146,7 +146,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
             public void onClick(View v) {
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
-                        joinGame(games.get(i)[0], username, authToken);
+                        joinGame(games.get(i)[0], client.getUser(), client.getToken());
                     }
                 }
             }

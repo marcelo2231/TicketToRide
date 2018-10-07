@@ -89,7 +89,7 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
             public void onClick(View v) {
                 String gameName = gameNameText.getText().toString();
 
-                createNewGame(gameName, username, authToken);
+                createNewGame(gameName, clientInstance.getUser(), clientInstance.getToken());
             }
         });
 
