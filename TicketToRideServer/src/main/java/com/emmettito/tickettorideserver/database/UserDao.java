@@ -44,11 +44,15 @@ public class UserDao {
     }
 
     /** AuthToken methods**/
-    public AuthToken generateAuthToken(String username){
-        AuthToken newAuthToken = new AuthToken(username);
-        removeAuthToken(username);
-        dbInstance.tokens.add(newAuthToken);
-        return newAuthToken;
+    public AuthToken generateAuthToken(String username) throws Exception{
+        try {
+            AuthToken newAuthToken = new AuthToken(username);
+            removeAuthToken(username);
+            dbInstance.tokens.add(newAuthToken);
+            return newAuthToken;
+        }catch(Exception e){
+            throw new Exception("Unable to remove authToken from database and add a new one");
+        }
     }
 
     public boolean removeAuthToken(String username){
