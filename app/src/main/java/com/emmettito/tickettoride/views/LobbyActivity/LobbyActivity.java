@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride.views.LobbyActivity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,12 +8,21 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.emmettito.models.Results.Result;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.LobbyPresenter;
+import com.emmettito.tickettoride.presenters.LoginPresenter;
+import com.emmettito.tickettoride.views.LoginActivity.LoginActivity;
 
 public class LobbyActivity extends FragmentActivity {
     private Button createGameButton;
     private Button joinGameButton;
+    private Button logoutButton;
+    private LoginPresenter userPresenter;
+    private Client clientInstance = Client.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +47,16 @@ public class LobbyActivity extends FragmentActivity {
                 displayGamesList();
             }
         });
+
+        joinGameButton = (Button) findViewById(R.id.buttonLogout);
+        joinGameButton.setEnabled(true);
+        joinGameButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                logout(clientInstance.getUser());
+            }
+        });
+
+        userPresenter = new LoginPresenter();
     }
 
 
@@ -57,5 +77,19 @@ public class LobbyActivity extends FragmentActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, fragment);
         transaction.commit();
+    }
+
+    public void logout(String username){
+        Result result = userPresenter.logout(username);
+
+        if (!result.getSuccess()) {
+            Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
+        Intent intent = new Intent(this, LoginActivity.class);
+
+        startActivity(intent);
     }
 }

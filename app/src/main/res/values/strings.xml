@@ -11,4 +11,5 @@
     <string name="player_num"># of Players</string>
     <string name="game_list">List of Games</string>
     <string name="game_name">Game Name</string>
+    <string name="lobby_logout_button">Logout</string>
 </resources>

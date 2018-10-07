@@ -2,7 +2,9 @@ package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
+import com.emmettito.models.CommandModels.UserCommands.LogoutRequest;
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
@@ -26,10 +28,10 @@ public class GameLobbyProxy {
     }
 
     public GameLobbyResult joinGame(JoinGameRequest request) {
-        String reqestString = gson.toJson(request);
+        String requestString = gson.toJson(request);
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/joingame";
 
-        return sendRequest(url, reqestString, "POST");
+        return sendRequest(url, requestString, "POST");
     }
 
     private GameLobbyResult sendRequest(String url, String requestString, String requestType) {
