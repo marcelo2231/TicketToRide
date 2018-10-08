@@ -77,17 +77,18 @@ public class Poller extends Observable {
     public void shutdown() {
         boolean done = false;
         int numTries = 0;
-        while (!done) {
-            pollerThread.interrupt();
-            try {
+        try {
+            while (!done) {
+                pollerThread.interrupt();
                 done = threadDoneSignal.await(10, TimeUnit.SECONDS);
+
+                if (!done) {
+                    numTries = numTries + 1;
+                }
             }
-            catch (InterruptedException e) {
-                // ingore InterruptedException here
-            }
-            if (!done) {
-                numTries = numTries + 1;
-            }
+        }
+        catch (InterruptedException e) {
+                // ignore InterruptedException here
         }
     }
 

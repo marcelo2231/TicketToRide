@@ -176,11 +176,12 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         return view;
     }
 
-    /*@Override
+    @Override
     public void onDetach() {
         super.onDetach();
-        onSaveInstanceState();
-    }*/
+
+        presenter.shutDownPoller();
+    }
 
     public void createNewGame(String gameName, String username){}
 
