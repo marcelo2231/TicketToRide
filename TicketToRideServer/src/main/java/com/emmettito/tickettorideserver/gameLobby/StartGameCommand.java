@@ -30,6 +30,10 @@ public class StartGameCommand implements IGameLobbyCommand {
             throw new Exception("Unable to find game.");
         }
 
+        if (currGame.getPlayers().size() < 2){
+            throw new Exception("Unable to start game. You must have at least 2 players.");
+        }
+
         /** Move to active game **/
         gameLobbyDatabase.removeGame(currGame.getGameName());
         gameLobbyDatabase.addActiveGame(currGame);

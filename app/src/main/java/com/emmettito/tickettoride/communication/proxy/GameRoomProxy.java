@@ -56,7 +56,7 @@ public class GameRoomProxy {
         }
     }
 
-    public boolean startGame() {
+    public GameLobbyResult startGame() {
 
         clientCommunicator = new ClientCommunicator();
 
@@ -72,12 +72,12 @@ public class GameRoomProxy {
         try {
             responseBody = clientCommunicator.execute(url, "POST", requestBody).get();
         } catch (Exception e) {
-            return false;
+            return new GameLobbyResult(false, "Error: Could not start the game.");
         }
 
         Log.w("startGameResult", responseBody);
         GameLobbyResult result = gson.fromJson(responseBody, GameLobbyResult.class);
-        return result.getSuccess();
+        return result;
     }
 
     public GetPlayersResult getPlayers(GetPlayersRequest request) {

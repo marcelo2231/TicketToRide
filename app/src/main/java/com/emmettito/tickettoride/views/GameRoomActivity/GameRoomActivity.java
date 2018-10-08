@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.emmettito.models.Player;
+import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.proxy.GameRoomProxy;
 import com.emmettito.tickettoride.presenters.GameRoomPresenter;
@@ -60,12 +62,14 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     @Override
     public void startGame() {
-        if (proxy.startGame()) {
+        GameLobbyResult result = proxy.startGame();
+        if (result.getSuccess()) {
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(intent);
         }
-        else {
-            Toast.makeText(this, "Error: Could not start the game.", Toast.LENGTH_SHORT).show();
+        else{
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
