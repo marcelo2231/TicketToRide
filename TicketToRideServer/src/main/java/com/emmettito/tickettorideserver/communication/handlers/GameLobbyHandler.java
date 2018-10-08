@@ -6,6 +6,7 @@ import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.gameLobby.CreateGameCommand;
 import com.emmettito.tickettorideserver.gameLobby.GetGamesCommand;
+import com.emmettito.tickettorideserver.gameLobby.GetPlayersCommand;
 import com.emmettito.tickettorideserver.gameLobby.JoinGameCommand;
 import com.emmettito.tickettorideserver.gameLobby.StartGameCommand;
 import com.sun.net.httpserver.Headers;
@@ -56,6 +57,9 @@ public class GameLobbyHandler implements HttpHandler {
                     break;
                 case "getgames":
                     result = new GetGamesCommand().execute(input, authToken);
+                    break;
+                case "getplayers":
+                    result = new GetPlayersCommand().execute(input, authToken);
                     break;
                 case "startgame":
                     result = new StartGameCommand().execute(input, authToken);
