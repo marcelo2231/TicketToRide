@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.LoginActivity.LoginActivity">
+    android:background="@drawable/background"
+    android:paddingBottom="10dp"
+    android:paddingStart="13dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="11dp">
 
-    <RelativeLayout
-        android:id="@+id/relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/background"
-        app:layout_constraintEnd_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/usernameTextView"
@@ -46,7 +41,7 @@
             android:layout_alignStart="@+id/usernameEditText"
             android:layout_below="@+id/usernameEditText"
             android:layout_gravity="start"
-            android:text="Password"
+            android:text="Password:"
             android:textColor="@android:color/black"
             android:textSize="15sp"/>
 
@@ -77,9 +72,4 @@
             android:layout_marginBottom="20dp"
             android:text="Login"/>
 
-
-    </RelativeLayout>
-
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

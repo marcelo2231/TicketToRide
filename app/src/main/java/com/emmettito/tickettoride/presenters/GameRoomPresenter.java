@@ -1,5 +1,7 @@
 package com.emmettito.tickettoride.presenters;
 
+import android.util.Log;
+
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
@@ -30,6 +32,8 @@ public class GameRoomPresenter extends Observable {
 
         GetPlayersRequest request = new GetPlayersRequest(client.getGameName());
         String requestBody = gson.toJson(request);
+
+        Log.w("startPoller", requestBody);
 
         poller = new Poller(url, requestBody);
         poller.addObserver(o);

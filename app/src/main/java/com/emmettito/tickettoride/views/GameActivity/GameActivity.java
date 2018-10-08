@@ -13,10 +13,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
     }
 
-    /*
     @Override
-    public void onBackPressed() {
-        // Do Here what ever you want do on back press;
-    }
-    */
+    public void onBackPressed() {}
 }
