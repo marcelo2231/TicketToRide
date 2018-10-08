@@ -184,7 +184,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
     public void createNewGame(String gameName, String username){}
 
-    public void joinGame(String gameName, String username){
+    public void joinGame(String gameName, String username) {
         presenter.shutDownPoller();
 
         GameLobbyResult result = presenter.joinGame(gameName, username);
@@ -210,12 +210,5 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         startActivity(intent);
     }
-
-    public void updateScreen() {
-        mAdapter.notifyDataSetChanged();
-        mAdapter = new GameListAdapter(games, joinButton);
-        recycle.setAdapter(mAdapter);
-    }
-
 }
 
