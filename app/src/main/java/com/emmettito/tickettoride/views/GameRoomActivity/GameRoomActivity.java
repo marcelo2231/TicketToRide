@@ -4,26 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.emmettito.models.Player;
-import com.emmettito.models.Results.GameLobbyResult;
-import com.emmettito.tickettoride.Client;
-import com.emmettito.tickettoride.communication.proxy.GameRoomProxy;
+import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.presenters.GameRoomPresenter;
+import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
 import java.util.ArrayList;
 import java.util.Observable;
-
-import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.views.GameActivity.GameActivity;
-import com.emmettito.tickettoride.views.LobbyActivity.GameListAdapter;
 
 /*import android.support.v7.app.AppCompatActivity;*/
 
@@ -34,9 +27,8 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     private Button leaveGameButton;
     private Button startGameButton;
-
-    private GameRoomProxy proxy;
-    private GameRoomPresenter presenter;
+    //private GameRoomProxy proxy;
+    private ServerFacade facade = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +37,8 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        proxy = new GameRoomProxy();
-        presenter = new GameRoomPresenter();
+        //proxy = new GameRoomProxy();
+        facade = ServerFacade.getInstance();
 
         leaveGameButton = (Button) findViewById(R.id.leaveGameButton);
         leaveGameButton.setEnabled(true);
@@ -63,22 +55,6 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
                 startGame();
             }
         });
-
-        ArrayList<String> players = new ArrayList<>();
-        players.add("Player1");
-        players.add("Player2");
-        players.add("Player3");
-        players.add("Player4");
-        players.add("Player5");
-
-        recycle = (RecyclerView) findViewById(R.id.playerList);
-        recycle.setLayoutManager(new LinearLayoutManager(this));
-
-        mAdapter = new PlayerListAdapter(players);
-        recycle.setHasFixedSize(true);
-        recycle.setAdapter(mAdapter);
-
-        //presenter.startPoller("http://10.0.2.2:8080/gamelobby/getgames", this);
     }
 
     @Override
@@ -88,22 +64,18 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     @Override
     public void startGame() {
-        GameLobbyResult result = proxy.startGame();
-        if (result.getSuccess()) {
-            //presenter.shutDownPoller();
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+        if (facade.startGame()) {
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(intent);
         }
         else {
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: Could not start the game.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void leaveGame() {
-        if (proxy.leaveGame()) {
-            //presenter.shutDownPoller();
+        if (facade.leaveGame()) {
             finish();
         }
     }

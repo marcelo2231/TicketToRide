@@ -3,12 +3,9 @@ package com.emmettito.tickettoride.views.LoginActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
@@ -16,9 +13,8 @@ import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.communication.proxy.LoginProxy;
+import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.presenters.LoginPresenter;
-import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 import com.emmettito.tickettoride.views.LobbyActivity.LobbyActivity;
 
 import java.util.Observable;
@@ -30,7 +26,7 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
 
     private LoginPresenter presenter;
 
-    private LoginProxy proxy;
+    private ServerFacade facade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +34,8 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         setContentView(R.layout.activity_login);
 
         client = Client.getInstance();
-        proxy = new LoginProxy();
+
+        facade = ServerFacade.getInstance();
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setEnabled(true);
@@ -89,7 +86,7 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
     @Override
     public void login() {
         LoginRequest request = getLoginRequest();
-        Result result = proxy.login(request);
+        Result result = facade.login(request);
 
         if (result != null) {
             if (result.getSuccess()) {
@@ -109,7 +106,7 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
     @Override
     public void register() {
         RegisterRequest request = getRegisterRequest();
-        Result result = proxy.register(request);
+        Result result = facade.register(request);
 
         if (result != null) {
             if (result.getSuccess()) {

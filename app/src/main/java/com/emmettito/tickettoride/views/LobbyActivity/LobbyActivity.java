@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.presenters.LobbyPresenter;
 import com.emmettito.tickettoride.presenters.LoginPresenter;
 import com.emmettito.tickettoride.views.LoginActivity.LoginActivity;
 
@@ -48,9 +47,9 @@ public class LobbyActivity extends FragmentActivity {
             }
         });
 
-        joinGameButton = (Button) findViewById(R.id.buttonLogout);
-        joinGameButton.setEnabled(true);
-        joinGameButton.setOnClickListener(new View.OnClickListener() {
+        logoutButton = (Button) findViewById(R.id.buttonLogout);
+        logoutButton.setEnabled(true);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 logout(clientInstance.getUser());
             }
