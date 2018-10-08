@@ -4,17 +4,26 @@ import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.GetPlayersResult;
+import com.emmettito.tickettorideserver.communication.Serializer;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class GetPlayersCommand implements IGameLobbyCommand {
+    GetPlayersRequest commandModel;
+
     @Override
     public Object execute(Object obj, String authToken) throws Exception {
         /** Validate **/
-        GetPlayersRequest getPlayersRequest = (GetPlayersRequest) obj;
+        try{
+            commandModel = (GetPlayersRequest)new Serializer().deserialize((InputStream)obj, GetPlayersRequest.class);
+        }catch(Exception e){
+            throw new Exception("LoginCommand: command was on different format, please, make sure to set the LoginCommandModel.");
+        }
+        /** Validate **/
 
         /** Get game and validate **/
-        String gameName = getPlayersRequest.getGameName();
+        String gameName = commandModel.getGameName();
         Game targetGame = gameLobbyDatabase.getGame(gameName);
 
         if (targetGame.equals(null)) {
