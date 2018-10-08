@@ -6,8 +6,6 @@ import com.emmettito.models.Results.Result;
 import com.emmettito.models.User;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
-
 import java.io.InputStream;
 
 public class RegisterCommand implements IUserCommand{
@@ -27,11 +25,33 @@ public class RegisterCommand implements IUserCommand{
         User newUser = new User(commandModel.getUsername(), commandModel.getPassword());
         AuthToken resultAuthToken;
 
-        /** Validate **/
+        /** Validate Username **/
         if(newUser.getUsername() == null || newUser.getUsername().isEmpty() ||
                 newUser.getPassword().isEmpty() || newUser.getPassword() == null){
             throw new Exception("Username or password empty. Please, do not forget to fill out all fields.");
         }
+
+        if(newUser.getUsername().length() < 6 || newUser.getUsername().length() > 12){
+            throw new Exception("Invalid username. Username length must be between 6 to 12 digits.");
+        }
+
+        for (char c : newUser.getUsername().toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                throw new Exception("Invalid username. Username must not have white space.");
+            }
+        }
+
+        /** Validate Password **/
+        if(newUser.getPassword().length() < 2 || newUser.getPassword().length() > 12){
+            throw new Exception("Invalid password. Password length must be between 2 to 12 digits.");
+        }
+
+        for (char c : newUser.getPassword().toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                throw new Exception("Invalid password. Password must not have white space.");
+            }
+        }
+
 
         /** Add User to Database **/
         if(userDatabase.getUser(newUser.getUsername()) != null) {
