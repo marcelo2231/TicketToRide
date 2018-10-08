@@ -6,9 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.Client;
+import com.emmettito.tickettoride.communication.proxy.GameRoomProxy;
 import com.emmettito.tickettoride.presenters.GameRoomPresenter;
 
 import java.util.ArrayList;
@@ -21,10 +23,9 @@ import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
 public class GameRoomActivity extends Activity implements GameRoomPresenter.GameRoomView {
 
-    //private Button logoutButton;
     private Button leaveGameButton;
     private Button startGameButton;
-    private Client client;
+    private GameRoomProxy proxy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +34,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        client = Client.getInstance();
-
-        /*
-        logoutButton = (Button) findViewById(R.id.logoutButton);
-        logoutButton.setEnabled(true);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                displayNewGameField();
-            }
-        });
-        */
+        proxy = new GameRoomProxy();
 
         leaveGameButton = (Button) findViewById(R.id.leaveGameButton);
         leaveGameButton.setEnabled(true);
@@ -69,22 +60,25 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     @Override
     public void startGame() {
-
-        //INSERT LOGIC HERE
-
-        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-        startActivity(intent);
+        if (proxy.startGame()) {
+            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(this, "Error: Could not start the game.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void leaveGame() {
-        client.deleteGameName();
-        finish();
+        if (proxy.leaveGame()) {
+            finish();
+        }
     }
 
     @Override
     public void cancelGame() {
-
+        // NOT NEEDED FOR PHASE 1
     }
 
     @Override

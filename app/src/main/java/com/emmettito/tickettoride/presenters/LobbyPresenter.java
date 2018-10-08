@@ -2,7 +2,9 @@ package com.emmettito.tickettoride.presenters;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
+import com.emmettito.models.CommandModels.UserCommands.LogoutRequest;
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.communication.proxy.GameLobbyProxy;
 

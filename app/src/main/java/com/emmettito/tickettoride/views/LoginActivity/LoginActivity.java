@@ -59,6 +59,9 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         });
     }
 
+    @Override
+    public void onBackPressed() {}
+
     private LoginRequest getLoginRequest() {
         LoginRequest request = new LoginRequest();
 

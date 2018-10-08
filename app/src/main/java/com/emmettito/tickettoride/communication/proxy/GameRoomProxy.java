@@ -1,52 +1,107 @@
 package com.emmettito.tickettoride.communication.proxy;
 
+import android.util.Log;
+
+import com.emmettito.models.CommandModels.GameCommands.QuitGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
+import com.emmettito.models.CommandModels.GameLobbyCommands.StartGameRequest;
+import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.GetPlayersResult;
+import com.emmettito.models.Results.Result;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
 public class GameRoomProxy {
 
-    private ClientCommunicator client;
+    private ClientCommunicator clientCommunicator;
+    private Client client;
     private Gson gson;
 
     private String serverHost = "10.0.2.2";
     private String serverPort = "8080";
 
     public GameRoomProxy()  {
+        client = Client.getInstance();
         gson = new Gson();
     }
 
-    public void leaveGame() {
+    public boolean leaveGame() {
 
+        clientCommunicator = new ClientCommunicator();
+
+        String url = "http://" + serverHost + ":" + serverPort + "/game/quitgame";
+
+        QuitGameRequest request = new QuitGameRequest();
+        request.setGameName(client.getGameName());
+        request.setPlayerName(client.getUser());
+
+        String responseBody;
+        String requestBody = gson.toJson(request);
+
+        try {
+            responseBody = clientCommunicator.execute(url, "POST", requestBody).get();
+        } catch (Exception e) {
+            return false;
+        }
+
+        Result result = gson.fromJson(responseBody, Result.class);
+
+        if (result.getSuccess()) {
+            client.deleteGameName();
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public void startGame() {
+    public boolean startGame() {
 
+        clientCommunicator = new ClientCommunicator();
+
+        String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/startgame";
+
+        StartGameRequest request = new StartGameRequest();
+        request.setGameName(client.getGameName());
+        request.setPlayerName(client.getUser());
+
+        String responseBody;
+        String requestBody = gson.toJson(request);
+
+        try {
+            responseBody = clientCommunicator.execute(url, "POST", requestBody).get();
+        } catch (Exception e) {
+            return false;
+        }
+
+        Log.w("startGameResult", responseBody);
+        GameLobbyResult result = gson.fromJson(responseBody, GameLobbyResult.class);
+        return result.getSuccess();
     }
 
     public GetPlayersResult getPlayers(GetPlayersRequest request) {
 
-        client = new ClientCommunicator();
+        clientCommunicator = new ClientCommunicator();
 
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame"; // TODO: FIX URL
 
-        String resultBody;
+        String responseBody;
         String requestBody = gson.toJson(request);
 
 
         try {
-            resultBody = client.execute(url, "POST", requestBody).get();
+            responseBody = clientCommunicator.execute(url, "POST", requestBody).get();
         } catch (Exception e) {
-            resultBody = null;
+            responseBody = null;
         }
 
-        if (resultBody == null) {
+        if (responseBody == null) {
             /*GetPlayersResult getPlayersResult = new GetPlayersResult();
             getPlayersResult.setMessage("Error: Could not connect to the server.");*/
             return null;
         }
 
-        return gson.fromJson(resultBody, GetPlayersResult.class);
+        return gson.fromJson(responseBody, GetPlayersResult.class);
     }
 }

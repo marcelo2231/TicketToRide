@@ -33,5 +33,19 @@
             android:text="@string/lobby_join_button"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="end"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lobby_logout_button"/>
+    </LinearLayout>
 
 </RelativeLayout>
