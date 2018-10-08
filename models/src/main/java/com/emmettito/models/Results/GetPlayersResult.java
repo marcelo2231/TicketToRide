@@ -35,7 +35,7 @@ public class GetPlayersResult {
     public String getMessage() {
         return message;
     }
-    public Object getData() {
+    public ArrayList<Player> getData() {
         return data;
     }
 

@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.proxy.GameRoomProxy;
 import com.emmettito.tickettoride.presenters.GameRoomPresenter;
@@ -24,6 +27,7 @@ import java.util.Observable;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 import com.emmettito.tickettoride.views.LobbyActivity.GameListAdapter;
+import com.google.gson.Gson;
 
 /*import android.support.v7.app.AppCompatActivity;*/
 
@@ -37,6 +41,10 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     private GameRoomProxy proxy;
     private GameRoomPresenter presenter;
+
+    ArrayList<Player> players;
+
+    Handler timerHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +72,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
             }
         });
 
-        ArrayList<String> players = new ArrayList<>();
-        players.add("Player1");
-        players.add("Player2");
-        players.add("Player3");
-        players.add("Player4");
-        players.add("Player5");
+        players = new ArrayList<>();
 
         recycle = (RecyclerView) findViewById(R.id.playerList);
         recycle.setLayoutManager(new LinearLayoutManager(this));
@@ -78,7 +81,17 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
         recycle.setHasFixedSize(true);
         recycle.setAdapter(mAdapter);
 
-        //presenter.startPoller("http://10.0.2.2:8080/gamelobby/getgames", this);
+        presenter.startPoller("http://10.0.2.2:8080/game/getplayers", this);
+
+        timerHandler = new Handler();
+        Runnable timerRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+                timerHandler.postDelayed(this, 500);
+            }
+        };
     }
 
     @Override
@@ -102,8 +115,9 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     @Override
     public void leaveGame() {
+        presenter.shutDownPoller();
+
         if (proxy.leaveGame()) {
-            //presenter.shutDownPoller();
             finish();
         }
     }
@@ -115,7 +129,15 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     @Override
     public void update(Observable observable, Object o) {
-
+        if (o != null && o.getClass() == String.class) {
+            Log.w("GameRoomUpdated", "received: " + o.toString());
+            GetPlayersResult results = new Gson().fromJson((String)o, GetPlayersResult.class);
+            players = results.getData();
+            Log.w("GameRoomUpdated", "should have updated " + players.size());
+        }
+        else {
+            Log.w("GameRoomUpdated", o.getClass() + ": " + o.toString());
+        }
     }
 
     @Override

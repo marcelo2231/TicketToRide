@@ -7,12 +7,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.emmettito.models.Player;
 import com.emmettito.tickettoride.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.PlayerListViewHolder> {
-    private List<String> data;
+    private ArrayList<Player> data;
 
     class PlayerListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView playerField;
@@ -27,7 +28,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
         public void onClick(View view) {}
     }
 
-    public PlayerListAdapter(List<String> data) {
+    public PlayerListAdapter(ArrayList<Player> data) {
         this.data = data;
     }
 
@@ -42,7 +43,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
 
     @Override
     public void onBindViewHolder(PlayerListAdapter.PlayerListViewHolder holder, int position) {
-        holder.playerField.setText(data.get(position));
+        holder.playerField.setText(data.get(position).getPlayerName());
     }
 
     @Override

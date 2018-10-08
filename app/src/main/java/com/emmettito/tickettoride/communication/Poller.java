@@ -10,12 +10,19 @@ public class Poller extends Observable {
     private Thread pollerThread;
     private CountDownLatch threadDoneSignal;
     private String url;
+    private String requestBody;
     private ClientCommunicator client;
     private Client clientInstance;
     private String response;
 
     public Poller(String url) {
         this.url = url;
+        this.requestBody = null;
+    }
+
+    public Poller(String url, String requestBody) {
+        this.url = url;
+        this.requestBody = requestBody;
     }
 
     private void setUpPoller(int initialDelaySec, int delaySec, boolean fixedRate) {
@@ -33,7 +40,12 @@ public class Poller extends Observable {
                     Thread.sleep(sleepTime);
 
                 long startMillis = System.currentTimeMillis();
-                poll();
+                if (requestBody != null) {
+                    poll(requestBody);
+                }
+                else {
+                    poll();
+                }
                 sleepTime = fixedRate ? delaySec * 1000L - (System.currentTimeMillis() - startMillis) : delaySec * 1000L;
             }
             catch (Exception e) {
@@ -48,6 +60,14 @@ public class Poller extends Observable {
         client = new ClientCommunicator();
         clientInstance = Client.getInstance();
         response = client.doInBackground(url, "GET", "");
+        setChanged();
+        notifyObservers(response);
+    }
+
+    private void poll(String requestBody) throws Exception {
+        client = new ClientCommunicator();
+        clientInstance = Client.getInstance();
+        response = client.doInBackground(url, "POST", requestBody);
         setChanged();
         notifyObservers(response);
     }
