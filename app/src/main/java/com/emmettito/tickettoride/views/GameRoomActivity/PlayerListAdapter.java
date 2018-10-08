@@ -19,6 +19,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
 
         public PlayerListViewHolder(View v) {
             super(v);
+
+            playerField = v.findViewById(R.id.player_name);
         }
 
         @Override
