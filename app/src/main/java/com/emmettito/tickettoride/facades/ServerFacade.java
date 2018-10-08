@@ -59,7 +59,7 @@ public class ServerFacade {
     public boolean startGame() {
         gameRoomProxy = new GameRoomProxy();
 
-        return gameRoomProxy.startGame();
+        return gameRoomProxy.startGame().getSuccess();
     }
 
     public boolean leaveGame() {
