@@ -90,5 +90,7 @@ public class LobbyActivity extends FragmentActivity {
         Intent intent = new Intent(this, LoginActivity.class);
 
         startActivity(intent);
+
+        finish();
     }
 }
