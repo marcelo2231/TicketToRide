@@ -37,6 +37,15 @@ public class GameLobbyDao {
         return null;
     }
 
+    public Game getActiveGame(String gameName) {
+        for (Game g : dbInstance.activeGame) {
+            if (g.getGameName().equals(gameName)) {
+                return g;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Game> getGames(){
         return dbInstance.gameLobby;
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.emmettito.models.Player;
@@ -33,6 +34,8 @@ import com.google.gson.Gson;
 
 public class GameRoomActivity extends Activity implements GameRoomPresenter.GameRoomView {
 
+    private Client client;
+
     private RecyclerView recycle;
     private RecyclerView.Adapter mAdapter;
 
@@ -42,9 +45,12 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     private GameRoomProxy proxy;
     private GameRoomPresenter presenter;
 
-    ArrayList<Player> players;
+    private ArrayList<Player> players;
 
-    Handler timerHandler;
+    private Handler timerHandler;
+    private Runnable timerRunnable;
+
+    private boolean polling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,11 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
         setContentView(R.layout.activity_game_room);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        client = Client.getInstance();
+
+        TextView gameName = findViewById(R.id.gameNameLabel);
+        gameName.setText(client.getGameName());
 
         proxy = new GameRoomProxy();
         presenter = new GameRoomPresenter();
@@ -81,17 +92,30 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
         recycle.setHasFixedSize(true);
         recycle.setAdapter(mAdapter);
 
-        presenter.startPoller("http://10.0.2.2:8080/game/getplayers", this);
-
         timerHandler = new Handler();
-        Runnable timerRunnable = new Runnable() {
-
+        timerRunnable = new Runnable() {
             @Override
             public void run() {
-                mAdapter.notifyDataSetChanged();
-                timerHandler.postDelayed(this, 500);
+                    mAdapter.notifyDataSetChanged();
+                    if (polling) {
+                        timerHandler.postDelayed(this, 500);
+                    }
+                    Log.w("timerRunnable", "Should have updated display, size: " + players.size());
             }
         };
+
+        startPoller();
+    }
+
+    public void startPoller() {
+        polling = true;
+        presenter.startPoller("http://10.0.2.2:8080/gamelobby/getPlayers", this);
+        timerRunnable.run();
+    }
+
+    public void stopPoller() {
+        polling = false;
+        presenter.shutDownPoller();
     }
 
     @Override
@@ -101,24 +125,29 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     @Override
     public void startGame() {
+        stopPoller();
         GameLobbyResult result = proxy.startGame();
+
         if (result.getSuccess()) {
-            //presenter.shutDownPoller();
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(intent);
         }
         else {
             Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            startPoller();
         }
     }
 
     @Override
     public void leaveGame() {
-        presenter.shutDownPoller();
+        stopPoller();
 
         if (proxy.leaveGame()) {
             finish();
+        }
+        else {
+            Toast.makeText(this, "An error occurred while trying to leave the game", Toast.LENGTH_SHORT).show();
+            // Could restart polling...
         }
     }
 
@@ -128,20 +157,34 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopPoller();
+    }
+
+    @Override
     public void update(Observable observable, Object o) {
-        if (o != null && o.getClass() == String.class) {
-            Log.w("GameRoomUpdated", "received: " + o.toString());
-            GetPlayersResult results = new Gson().fromJson((String)o, GetPlayersResult.class);
-            players = results.getData();
-            Log.w("GameRoomUpdated", "should have updated " + players.size());
-        }
+        if (o != null) {
+            if (o.getClass() == String.class) {
+                Log.w("GameRoomUpdated", "received: " + o.toString());
+                GetPlayersResult results = new Gson().fromJson((String)o, GetPlayersResult.class);
+                if(results.getDidGameStart()){
+                    Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                players.clear();
+                players.addAll(results.getData());
+
+                Log.w("GameRoomUpdated", "should have updated " + players.size());
+            }
         else {
-            Log.w("GameRoomUpdated", o.getClass() + ": " + o.toString());
+                Log.w("GameRoomUpdated", o.getClass() + ": " + o.toString());
+            }
         }
     }
 
     @Override
-    public void onBackPressed() {
-        // Do Here what ever you want do on back press;
-    }
+    public void onBackPressed() {}
 }
