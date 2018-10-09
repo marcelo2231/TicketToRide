@@ -157,21 +157,27 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopPoller();
+    }
+
+    @Override
     public void update(Observable observable, Object o) {
         if (o != null) {
             if (o.getClass() == String.class) {
                 Log.w("GameRoomUpdated", "received: " + o.toString());
                 GetPlayersResult results = new Gson().fromJson((String)o, GetPlayersResult.class);
+                if(results.getDidGameStart()){
+                    Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
                 players.clear();
                 players.addAll(results.getData());
 
                 Log.w("GameRoomUpdated", "should have updated " + players.size());
-
-                if(results.getDidGameStart()){
-                    Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-                    startActivity(intent);
-                    return;
-                }
             }
         else {
                 Log.w("GameRoomUpdated", o.getClass() + ": " + o.toString());
