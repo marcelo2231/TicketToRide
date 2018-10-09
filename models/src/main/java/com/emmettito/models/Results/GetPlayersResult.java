@@ -9,16 +9,19 @@ public class GetPlayersResult {
     private Boolean success;
     private String message;
     private ArrayList<Player> data;
+    private Boolean didGameStart;
 
     /** Constructors */
     public GetPlayersResult() {
         success = false;
+        didGameStart = false;
         message = "Default Message";
     }
 
     public GetPlayersResult(Boolean success, ArrayList<Player> data) {
 
         this.success = success;
+        didGameStart = false;
         this.data = data;
     }
 
@@ -26,6 +29,7 @@ public class GetPlayersResult {
 
         this.success = success;
         this.message = message;
+        didGameStart = false;
     }
 
     /** Getters */
@@ -38,6 +42,9 @@ public class GetPlayersResult {
     public ArrayList<Player> getData() {
         return data;
     }
+    public Boolean getDidGameStart() {
+        return didGameStart;
+    }
 
     /** Setters */
     public void setSuccess(Boolean success) {
@@ -48,6 +55,9 @@ public class GetPlayersResult {
     }
     public void setData(ArrayList<Player> data) {
         this.data = data;
+    }
+    public void setDidGameStart(Boolean didGameStart) {
+        this.didGameStart = didGameStart;
     }
 
     @Override

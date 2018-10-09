@@ -129,7 +129,6 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
         GameLobbyResult result = proxy.startGame();
 
         if (result.getSuccess()) {
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(intent);
         }
@@ -167,6 +166,12 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
                 players.addAll(results.getData());
 
                 Log.w("GameRoomUpdated", "should have updated " + players.size());
+
+                if(results.getDidGameStart()){
+                    Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                    startActivity(intent);
+                    return;
+                }
             }
         else {
                 Log.w("GameRoomUpdated", o.getClass() + ": " + o.toString());

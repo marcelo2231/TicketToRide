@@ -25,9 +25,19 @@ public class GetPlayersCommand implements IGameLobbyCommand {
         /** Get game and validate **/
         String gameName = commandModel.getGameName();
         Game targetGame = gameLobbyDatabase.getGame(gameName);
+        GetPlayersResult getPlayersResult = new GetPlayersResult();
 
         if (targetGame.equals(null)) {
             throw new Exception("Game does not exist on database.");
+        }
+
+        /** Check if game started **/
+        Game game = gameLobbyDatabase.getActiveGame(commandModel.getGameName());
+
+        if (game == null){
+            // Game did not start
+        }else{
+            getPlayersResult.setDidGameStart(true);
         }
 
         /** Get players **/
@@ -37,7 +47,6 @@ public class GetPlayersCommand implements IGameLobbyCommand {
         }
 
         /** Prepare Result **/
-        GetPlayersResult getPlayersResult = new GetPlayersResult();
         getPlayersResult.setSuccess(true);
         getPlayersResult.setData(players);
         return getPlayersResult;
