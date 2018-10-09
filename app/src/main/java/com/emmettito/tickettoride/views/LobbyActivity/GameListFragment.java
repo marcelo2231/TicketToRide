@@ -55,7 +55,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         String newListString = (String) arg;
 
         if (newListString.equals(gameString)) {
-            //return;
+            return;
         }
 
         gameString = newListString;
@@ -72,7 +72,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
             tempList[0] = item.getGameName();
             tempList[1] = Integer.toString(item.getPlayers().size());
 
-            if (tempList[1].equals("1")) {
+            if (tempList[1].equals("1") || tempList[1].equals("0")) {
                 tempList[2] = "Waiting for players";
             }
             else if (tempList[1].equals("5")) {
@@ -119,7 +119,12 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
             public void onClick(View v) {
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
-                        joinGame(games.get(i)[0], clientInstance.getUser());
+                        if (Integer.parseInt(games.get(i)[1]) < 5) {
+                            joinGame(games.get(i)[0], clientInstance.getUser());
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Game room is full. Please choose another game.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
