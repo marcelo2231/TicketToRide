@@ -23,10 +23,8 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-public class GameListFragment extends Fragment implements Observer, LobbyPresenter.lobbyView {
+public class GameListFragment extends Fragment implements LobbyPresenter.lobbyView {
 
     private RecyclerView recycle;
     private RecyclerView.Adapter mAdapter;
@@ -51,7 +49,7 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
         }
     };
 
-    public void update(Observable obj, Object arg) {
+    public void update(Object arg) {
         String newListString = (String) arg;
 
         if (newListString.equals(gameString)) {
@@ -172,9 +170,9 @@ public class GameListFragment extends Fragment implements Observer, LobbyPresent
 
         timerHandler.postDelayed(timerRunnable, 500);
 
-        presenter = new LobbyPresenter();
+        presenter = new LobbyPresenter(this);
 
-        presenter.addObserver(this);
+        //presenter.addObserver(this);
 
         presenter.startPoller();
 

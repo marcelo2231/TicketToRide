@@ -5,15 +5,17 @@ import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
+import com.emmettito.tickettoride.views.LobbyActivity.GameListFragment;
 
 import java.util.Observable;
 import java.util.Observer;
 
-public class LobbyPresenter extends Observable implements Observer {
+public class LobbyPresenter implements Observer {
 
     //private List<Observer> observers;
     private Poller poller;
     private ServerFacade facade = null;
+    private GameListFragment view;
 
     /**
      *
@@ -29,13 +31,16 @@ public class LobbyPresenter extends Observable implements Observer {
      *
      */
 
-    public LobbyPresenter() {
+    public LobbyPresenter(GameListFragment view) {
+        this.view = view;
         facade = ServerFacade.getInstance();
     }
 
     public void update(Observable obj, Object arg) {
-        setChanged();
-        notifyObservers(arg);
+        //setChanged();
+        //notifyObservers(arg);
+
+        view.update(arg);
     }
 
     public GameLobbyResult createNewGame(String gameName, String username) {

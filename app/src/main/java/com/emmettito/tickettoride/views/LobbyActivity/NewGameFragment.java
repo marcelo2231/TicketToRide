@@ -18,10 +18,7 @@ import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
 import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyView, Observer {
+public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyView {
 
     private EditText gameNameText;
 
@@ -31,16 +28,14 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
 
     private Client clientInstance = Client.getInstance();
 
-    public void update(Observable obj, Object arg) {}
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_game, container, false);
 
-        presenter = new LobbyPresenter();
+        presenter = new LobbyPresenter(null);
 
-        presenter.addObserver(this);
+        //presenter.addObserver(this);
 
         gameNameText = (EditText) view.findViewById(R.id.text);
 
