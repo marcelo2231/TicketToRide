@@ -1,6 +1,6 @@
 package com.emmettito.models.Cards;
 
-public class TrainCard {
+public class TrainCard implements Card{
     private TrainColor color;
 
     public TrainColor getColor() {

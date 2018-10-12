@@ -12,7 +12,7 @@ public class DestinationCardDeck implements Deck {
     }
 
     @Override
-    public void addCardToBottom() {
+    public void addCardToBottom(Card cardToAdd) {
 
     }
 
@@ -32,8 +32,17 @@ public class DestinationCardDeck implements Deck {
         return discardPile;
     }
 
+    @Override
     public DestinationCard drawCard(){
         //returns the first available card
-        return null;
+        if(availableCards.get(0) != null){
+            DestinationCard top = availableCards.get(0);
+            availableCards.remove(0);
+            return top;
+        }
+        else{
+            //can't draw since there are no cards: throw an exception
+            return null;
+        }
     }
 }

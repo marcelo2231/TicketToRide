@@ -2,7 +2,7 @@ package com.emmettito.models.Cards;
 
 import com.emmettito.models.City;
 
-public class DestinationCard {
+public class DestinationCard implements Card {
     private City city1;
     private City city2;
     /**

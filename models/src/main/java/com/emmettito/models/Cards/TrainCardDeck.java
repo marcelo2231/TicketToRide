@@ -12,7 +12,7 @@ public class TrainCardDeck implements Deck {
     }
 
     @Override
-    public void addCardToBottom() {
+    public void addCardToBottom(Card cardToAdd) {
 
     }
 
@@ -36,8 +36,17 @@ public class TrainCardDeck implements Deck {
         return available.size();
     }
 
+    @Override
     public TrainCard drawCard(){
         //returns the next available card if possible
-        return null;
+        if(available.get(0) != null){
+            TrainCard top = available.get(0);
+            available.remove(0);
+            return top;
+        }
+        else{
+            //shuffle the discardPile (if it exists) which then becomes the available pile. Take that top card
+            return null;
+        }
     }
 }
