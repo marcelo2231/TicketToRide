@@ -8,6 +8,7 @@ public class Route {
     private TrainColor color1;
     private TrainColor color2;
     private Tuple cities;
+    private int pointValue;
 
     public Boolean getDoubleRoute() {
         return isDoubleRoute;
@@ -21,6 +22,10 @@ public class Route {
         return cities;
     }
 
+    public int getPointValue() {
+        return pointValue;
+    }
+
     public void setCities(Tuple cities) {
         this.cities = cities;
     }
@@ -31,6 +36,7 @@ public class Route {
 
     public void setSize(int size) {
         this.size = size;
+        calculatePointValue(size);
     }
 
     public TrainColor getColor1() {
@@ -47,5 +53,18 @@ public class Route {
 
     public void setColor2(TrainColor color2) {
         this.color2 = color2;
+    }
+
+    private void calculatePointValue(int length){
+        //longest route length is 6
+        switch (length){
+            case 1: pointValue = 1;
+            case 2: pointValue = 2;
+            case 3: pointValue = 4;
+            case 4: pointValue = 7;
+            case 5: pointValue = 10;
+            case 6: pointValue = 15;
+            default: break;
+        }
     }
 }

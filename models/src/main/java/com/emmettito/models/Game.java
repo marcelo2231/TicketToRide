@@ -10,11 +10,12 @@ import java.util.ArrayList;
 
 public class Game {
     /** Variables **/
-    String gameName;
-    ArrayList<Player> players;
-    DestinationCardDeck destinationCardDeck;
-    TrainCardDeck trainCardDeck;
-    ArrayList<TrainCard> faceUpCards;
+    private String gameName;
+    private ArrayList<Player> players;
+    private DestinationCardDeck destinationCardDeck;
+    private TrainCardDeck trainCardDeck;
+    private ArrayList<TrainCard> faceUpCards;
+    //private Tuple longestPath; //Tuple(length, Player)
 
     public Game(){
         players = new ArrayList<>();
@@ -66,9 +67,11 @@ public class Game {
         boolean found = false;
         int index = 0;
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getPlayerName().equals(userName));
-            index = i;
-            found = true;
+            if (players.get(i).getPlayerName().equals(userName)){
+                index = i;
+                found = true;
+                //break;
+            }
         }
         if (found) {
             return players.get(index);
@@ -80,11 +83,11 @@ public class Game {
 
     public boolean playerInGame(String userName) {
         boolean found = false;
-        int index = 0;
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getPlayerName().equals(userName));
-            index = i;
-            found = true;
+            if (players.get(i).getPlayerName().equals(userName)) {
+                found = true;
+                //break;
+            }
         }
         return found;
     }
@@ -93,9 +96,11 @@ public class Game {
         boolean found = false;
         int index = 0;
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getPlayerName().equals(userName));
-            index = i;
-            found = true;
+            if (players.get(i).getPlayerName().equals(userName)) {
+                index = i;
+                found = true;
+                //break;
+            }
         }
         if (found) {
             players.remove(index);
