@@ -15,6 +15,7 @@ public class Game {
     private DestinationCardDeck destinationCardDeck;
     private TrainCardDeck trainCardDeck;
     private ArrayList<TrainCard> faceUpCards;
+    private ArrayList<Tuple> Chat;
     //private Tuple longestPath; //Tuple(length, Player)
 
     public Game(){
