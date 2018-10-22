@@ -1,6 +1,8 @@
 package com.emmettito.tickettorideserver.game;
 
+import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
+import com.emmettito.models.Game;
 import com.emmettito.models.Results.DrawDestCardResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.DeckDao;
@@ -26,10 +28,11 @@ public class DrawDestCardCommand implements IGameCommand{
 
         /** Draw card **/
         DrawDestCardResult result = new DrawDestCardResult();
-
-        result.setData(deckDatabase.getDestCard(commandModel.getGameName()));
-        if(deckDatabase.removeDestCard(commandModel.getGameName(), result.getData()) == null){
-            throw new Exception("Unable to remove card.");
+        Game game = gameLobbyDatabase.getActiveGame(commandModel.getGameName());
+        DestinationCardDeck deck = game.getDestinationCardDeck();
+        result.setData(deck.drawCard());
+        if(result.getData() == null){
+            throw new Exception("Unable to draw card");
         }
 
         /** Prepare Result **/

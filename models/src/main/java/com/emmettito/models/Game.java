@@ -23,6 +23,7 @@ public class Game {
         destinationCardDeck = new DestinationCardDeck();
         trainCardDeck = new TrainCardDeck();
         faceUpCards = new ArrayList<>();
+        Chat = new ArrayList<>();
     }
 
     /** Setters **/
@@ -46,6 +47,10 @@ public class Game {
         this.trainCardDeck = trainCardDeck;
     }
 
+    public void setChat(ArrayList<Tuple> chat) {
+        Chat = chat;
+    }
+
     /** Getters **/
     public String getGameName() {
         return gameName;
@@ -65,6 +70,11 @@ public class Game {
 
     public TrainCardDeck getTrainCardDeck() {
         return trainCardDeck;
+    }
+
+    public ArrayList<Tuple> getChat() {
+
+        return Chat;
     }
 
     public Player getOnePlayer(String userName) {
