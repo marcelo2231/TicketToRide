@@ -13,7 +13,7 @@ public class DeckDao {
 
         return false;
     }
-    public DestinationCard removeDestCard(String gameName){
+    public DestinationCard removeDestCard(String gameName, DestinationCard card){
 
         return new DestinationCard();
     }
@@ -25,7 +25,7 @@ public class DeckDao {
 
         return false;
     }
-    public TrainCard removeTrainCard(String gameName){
+    public TrainCard removeTrainCard(String gameName, TrainCard card){
 
         return new TrainCard(TrainColor.Black);
     }

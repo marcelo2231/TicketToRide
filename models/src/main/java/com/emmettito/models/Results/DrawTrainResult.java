@@ -1,10 +1,12 @@
 package com.emmettito.models.Results;
 
+import com.emmettito.models.Cards.TrainCard;
+
 public class DrawTrainResult {
     /** Variables */
     private Boolean success;
     private String message;
-    private Object data;
+    private TrainCard data;
     private String renewedAuthToken;
 
     /** Constructors */
@@ -13,7 +15,7 @@ public class DrawTrainResult {
         message = "Default Message";
     }
 
-    public DrawTrainResult(Boolean success, Object data) {
+    public DrawTrainResult(Boolean success, TrainCard data) {
 
         this.success = success;
         this.data = data;
@@ -32,7 +34,7 @@ public class DrawTrainResult {
     public String getMessage() {
         return message;
     }
-    public Object getData() {
+    public TrainCard getData() {
         return data;
     }
     public String getRenewedAuthToken() {
@@ -46,7 +48,7 @@ public class DrawTrainResult {
     public void setMessage(String message) {
         this.message = message;
     }
-    public void setData(Object data) {
+    public void setData(TrainCard data) {
         this.data = data;
     }
     public void setRenewedAuthToken(String renewedAuthToken) {

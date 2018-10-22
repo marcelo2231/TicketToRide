@@ -1,20 +1,20 @@
 package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
-import com.emmettito.models.Results.DrawDestCardResult;
+import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.DeckDao;
+import com.emmettito.tickettorideserver.database.ChatDao;
 
 import java.io.InputStream;
 
-public class DrawDestCardCommand implements IGameCommand{
-    DrawDestCardRequest commandModel;
-    DeckDao deckDatabase;
+public class ChatCommand implements IGameCommand {
+    ChatRequest commandModel;
+    ChatDao chatDatabase;
     @Override
-    public DrawDestCardResult execute(Object obj, String authToken) throws Exception {
+    public Result execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
         try {
-            commandModel = (DrawDestCardRequest)new Serializer().deserialize((InputStream)obj, DrawDestCardRequest.class);
+            commandModel = (ChatRequest)new Serializer().deserialize((InputStream)obj, ChatRequest.class);
         }catch (Exception e){
             throw new Exception("DrawDestCardCommand: command was null, please, make sure to set the DrawDestCardCommandModel.");
         }
@@ -25,15 +25,13 @@ public class DrawDestCardCommand implements IGameCommand{
         }
 
         /** Draw card **/
-        DrawDestCardResult result = new DrawDestCardResult();
+        Result result = new Result();
 
-        result.setData(deckDatabase.getDestCard(commandModel.getGameName()));
-        if(deckDatabase.removeDestCard(commandModel.getGameName(), result.getData()) == null){
-            throw new Exception("Unable to remove card.");
-        }
+        chatDatabase.addToChat(commandModel.getGameName(), commandModel.getPlayerName(), commandModel.getMessage());
 
         /** Prepare Result **/
         result.setSuccess(true);
+        result.setData("data");
         result.setMessage("Successfully draw dest card.");
         return result;
     }
