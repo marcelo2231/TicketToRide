@@ -8,6 +8,7 @@ public class DeckDao {
     /** Variables **/
     private static Database dbInstance = Database.getInstance();
 
+    /** Deck **/
     public boolean addDestCard(String gameName){
 
         return false;
