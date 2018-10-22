@@ -9,5 +9,5 @@ public interface IGameCommand {
     GameDao gameDatabase = new GameDao();
     GameLobbyDao gameLobbyDatabase = new GameLobbyDao();
     UserDao userDatabase = new UserDao();
-    Result execute(Object obj, String authToken) throws Exception ;
+    Object execute(Object obj, String authToken) throws Exception ;
 }

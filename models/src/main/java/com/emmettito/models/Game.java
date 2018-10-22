@@ -19,6 +19,9 @@ public class Game {
 
     public Game(){
         players = new ArrayList<>();
+        destinationCardDeck = new DestinationCardDeck();
+        trainCardDeck = new TrainCardDeck();
+        faceUpCards = new ArrayList<>();
     }
 
     /** Setters **/

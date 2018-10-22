@@ -22,7 +22,7 @@ public class GameHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         /** Variables */
         Serializer serializer = new Serializer();
-        Result result = new Result();
+        Object result = new Result();
         InputStream input = httpExchange.getRequestBody();
         URI uri;
         String[] requestURI;
