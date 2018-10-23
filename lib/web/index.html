@@ -186,6 +186,13 @@
                 "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
         }
 
+        function drawtraincard() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/drawtraincard";
+            document.getElementById("requestBox").value = formatJson(
+                "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
+        }
+
         function drawtrain() {
             window.scrollTo(0, document.body.scrollHeight);
             document.getElementById("handleBox").value = "/game/drawtrain";
@@ -325,7 +332,7 @@
                     <a href="javascript:drawdestcard()">/game/drawdestcard</a> This API draw destination card.
                 </li>
                 <li>
-                    <a href="javascript:drawtraincommand()">/game/drawtraincommand</a> This API draw train.
+                    <a href="javascript:drawtraincommand()">/game/drawtraincard</a> This API draw train card.
                 </li>
                 <li>
                     <a href="javascript:endgame()">/game/endgame</a> This API ends the game.

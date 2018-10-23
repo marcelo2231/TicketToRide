@@ -49,7 +49,7 @@ public class GameHandler implements HttpHandler {
                 case "endgame":
                     result = new EndGameCommand().execute(input, authToken);
                     break;
-                case "drawtrain":
+                case "drawtraincard":
                     result = new DrawTrainCommand().execute(input, authToken);
                     break;
                 case "claimroute":

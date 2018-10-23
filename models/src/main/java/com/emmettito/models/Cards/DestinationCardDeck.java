@@ -28,12 +28,6 @@ public class DestinationCardDeck implements Deck {
         Collections.shuffle(discardPile);
     }
 
-    @Override
-    public void addCardToBottom(Card cardToAdd) {
-        DestinationCard card = (DestinationCard) cardToAdd;
-        availableCards.add(card);
-    }
-
     public void setAvailableCards(List<DestinationCard> availableCards) {
         this.availableCards = availableCards;
     }
@@ -50,17 +44,4 @@ public class DestinationCardDeck implements Deck {
         return discardPile;
     }
 
-    @Override
-    public DestinationCard drawCard() throws Exception{
-        //returns the first available card
-        if(availableCards.get(0) != null){
-            DestinationCard top = availableCards.get(0);
-            availableCards.remove(0);
-            return top;
-        }
-        else{
-            //can't draw since there are no cards: throw an exception
-            throw new Exception("There is no destination card left on deck.");  // Exceptions are handled by the server side
-        }
-    }
 }

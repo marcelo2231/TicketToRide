@@ -1,10 +1,7 @@
 package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
-import com.emmettito.models.Game;
 import com.emmettito.models.Results.DrawTrainResult;
-import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.DeckDao;
 
@@ -29,9 +26,8 @@ public class DrawTrainCommand implements IGameCommand{
 
         /** Draw card **/
         DrawTrainResult result = new DrawTrainResult();
-        Game game = gameLobbyDatabase.getActiveGame(commandModel.getGameName());
-        TrainCardDeck deck = game.getTrainCardDeck();
-        result.setData(deck.drawCard());
+        result.setData(deckDatabase.removeTopTrainCardFromDeck(commandModel.getGameName()));
+
         if(result.getData() == null){
             throw new Exception("Unable to draw card");
         }

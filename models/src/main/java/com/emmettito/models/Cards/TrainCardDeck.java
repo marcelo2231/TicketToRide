@@ -36,12 +36,6 @@ public class TrainCardDeck implements Deck {
         Collections.shuffle(discardPile);
     }
 
-    @Override
-    public void addCardToBottom(Card cardToAdd) {
-        TrainCard card = (TrainCard) cardToAdd;
-        available.add(card);
-    }
-
     public void setDiscardPile(List<TrainCard> discardPile) {
         this.discardPile = discardPile;
     }
@@ -62,27 +56,4 @@ public class TrainCardDeck implements Deck {
         return available.size();
     }
 
-    @Override
-    public TrainCard drawCard()throws Exception{
-        TrainCard top;
-        //returns the next available card if possible
-        if(available.get(0) != null){
-            top = available.get(0);
-            available.remove(0);
-            return top;
-        }
-        //the available pile is empty; check the discard pile
-        else{
-            //check if the discard pile is not empty
-            if(discardPile.size() != 0) {
-                available = discardPile;
-                discardPile = new ArrayList<>();
-                shuffle();
-                top = available.get(0);
-                available.remove(0);
-                return top;
-            }
-            else throw new Exception("There is no train card left on deck."); // Exceptions are handled by the server side
-        }
-    }
 }
