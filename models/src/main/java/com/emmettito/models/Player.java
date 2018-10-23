@@ -19,6 +19,8 @@ public class Player {
         this.playerName = playerName;
         this.points = 0;
         plasticTrains = 45;
+        this.trainCards = new ArrayList<>();
+        destinationCards = new ArrayList<>();
 
         // Set random color
         Random rand = new Random();

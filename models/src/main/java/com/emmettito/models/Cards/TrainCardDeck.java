@@ -12,7 +12,6 @@ public class TrainCardDeck implements Deck {
         available = new ArrayList<>();
         discardPile = new ArrayList<>();
 
-        available.add(new TrainCard(TrainColor.Wild));
         for(int i = 0; i <= 12; i++){
             available.add(new TrainCard(TrainColor.Red));
             available.add(new TrainCard(TrainColor.Orange));
@@ -24,6 +23,8 @@ public class TrainCardDeck implements Deck {
             available.add(new TrainCard(TrainColor.Pink));
             available.add(new TrainCard(TrainColor.Wild));
         }
+        // Add two more locomotive, since we need 14 of those
+        available.add(new TrainCard(TrainColor.Wild));
         available.add(new TrainCard(TrainColor.Wild));
 
         shuffle();
@@ -81,7 +82,7 @@ public class TrainCardDeck implements Deck {
                 available.remove(0);
                 return top;
             }
-            else throw new Exception();
+            else throw new Exception("There is no train card left on deck."); // Exceptions are handled by the server side
         }
     }
 }

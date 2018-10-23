@@ -1,5 +1,8 @@
 package com.emmettito.tickettorideserver.gameLobby;
 
+import com.emmettito.models.Cards.DestinationCard;
+import com.emmettito.models.Cards.DestinationCardDeck;
+import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.GameLobbyCommands.StartGameRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -41,6 +44,23 @@ public class StartGameCommand implements IGameLobbyCommand {
         /** Move to active game **/
         gameLobbyDatabase.removeGame(currGame.getGameName());
         gameLobbyDatabase.addActiveGame(currGame);
+
+        /** Add 4 Train Cards per player **/
+        ArrayList<Player> players = currGame.getPlayers();
+        TrainCardDeck trainCardDeck = currGame.getTrainCardDeck();
+        for(Player p : players){
+            for(int i = 0; i < 4; i++){
+                p.getTrainCards().add(trainCardDeck.drawCard());
+            }
+        }
+
+        /** Add 3 Destination Cards per player **/
+        DestinationCardDeck destinationCardDeck = currGame.getDestinationCardDeck();
+        for(Player p : players){
+            for(int i = 0; i < 4; i++){
+                p.getDestinationCards().add(destinationCardDeck.drawCard());
+            }
+        }
 
         /** Prepare Result **/
         GameLobbyResult gameLobbyResult = new GameLobbyResult();

@@ -223,7 +223,13 @@
 
         function getGames() {
             window.scrollTo(0, document.body.scrollHeight);
-            document.getElementById("handleBox").value = "/game/getGames";
+            document.getElementById("handleBox").value = "/gamelobby/getactivegames";
+            document.getElementById("requestBox").value = "";
+        }
+
+        function getActiveGames() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/gamelobby/getActiveGames";
             document.getElementById("requestBox").value = "";
         }
 
@@ -274,7 +280,10 @@
                     <a href="javascript:startgame()">/game/startgame</a> This API starts the game.
                 </li>
                 <li>
-                    <a href="javascript:getGames()">/game/getgames</a> This API get all games.
+                    <a href="javascript:getGames()">/game/getgames</a> This API get all inactive games.
+                </li>
+                <li>
+                    <a href="javascript:getActiveGames()">/game/getactivegames</a> This API get all active games.
                 </li>
                 <li>
                     <a href="javascript:getPlayers()">/game/getplayers</a> This API get all players in a game.
