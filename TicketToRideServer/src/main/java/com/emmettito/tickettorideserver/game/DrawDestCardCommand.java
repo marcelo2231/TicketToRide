@@ -11,7 +11,7 @@ import java.io.InputStream;
 
 public class DrawDestCardCommand implements IGameCommand{
     DrawDestCardRequest commandModel;
-    DeckDao deckDatabase;
+    DeckDao deckDatabase = new DeckDao();
     @Override
     public DrawDestCardResult execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/

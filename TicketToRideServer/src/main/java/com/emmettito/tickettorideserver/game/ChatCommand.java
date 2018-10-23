@@ -1,17 +1,21 @@
 package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.Game;
+import com.emmettito.models.Results.ChatResult;
 import com.emmettito.models.Results.Result;
+import com.emmettito.models.Tuple;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.ChatDao;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class ChatCommand implements IGameCommand {
     ChatRequest commandModel;
-    ChatDao chatDatabase;
+    ChatDao chatDatabase = new ChatDao();
     @Override
-    public Result execute(Object obj, String authToken) throws Exception {
+    public ChatResult execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
         try {
             commandModel = (ChatRequest)new Serializer().deserialize((InputStream)obj, ChatRequest.class);
@@ -24,15 +28,16 @@ public class ChatCommand implements IGameCommand {
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
-        /** Draw card **/
-        Result result = new Result();
+        /** Add to chat **/
+        ChatResult result = new ChatResult();
 
         chatDatabase.addToChat(commandModel.getGameName(), commandModel.getPlayerName(), commandModel.getMessage());
+        ArrayList<Tuple> chat = chatDatabase.getChat(commandModel.getGameName());
 
         /** Prepare Result **/
         result.setSuccess(true);
-        result.setData("data");
-        result.setMessage("Successfully draw dest card.");
+        result.setData(chat);
+        result.setMessage("Successfully added a message to chat.");
         return result;
     }
 }

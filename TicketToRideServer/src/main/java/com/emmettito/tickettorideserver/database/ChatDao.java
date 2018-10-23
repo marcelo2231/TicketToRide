@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ChatDao {
     /** Variables **/
     private static Database dbInstance = Database.getInstance();
-    GameLobbyDao gameLobbyDao;
+    GameLobbyDao gameLobbyDao = new GameLobbyDao();
 
     /** Chat **/
     public boolean addToChat(String gameName, String playerName, String message){

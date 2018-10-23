@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 public class DrawTrainCommand implements IGameCommand{
     DrawTrainRequest commandModel;
-    DeckDao deckDatabase;
+    DeckDao deckDatabase = new DeckDao();
 
     @Override
     public DrawTrainResult execute(Object obj, String authToken) throws Exception {

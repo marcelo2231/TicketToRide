@@ -238,6 +238,18 @@
             document.getElementById("handleBox").value = "/gamelobby/getPlayers";
             document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\"}");
         }
+
+        function chat() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/chat";
+            document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\", \"playerName\":\"username\", \"message\":\"Hello!\"}");
+        }
+
+        function getChat() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/getchat";
+            document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\"}");
+        }
     </script>
 </head>
 
@@ -296,6 +308,12 @@
         <div style="border: 2px solid black;">
             <h1 style="padding-left:1cm; text-decoration: underline;">Game Commands</h1>
             <ul>
+                <li>
+                    <a href="javascript:chat()">/game/chat</a> This API sends a message to be added to chat.
+                </li>
+                <li>
+                    <a href="javascript:getChat()">/game/getchat</a> This API gets the entire chat history.
+                </li>
                 <li>
                     <a href="javascript:claimroute()">/game/claimroute</a> This API claim a route.
                 </li>
