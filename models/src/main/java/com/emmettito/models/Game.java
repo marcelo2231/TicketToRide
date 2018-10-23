@@ -16,6 +16,7 @@ public class Game {
     private TrainCardDeck trainCardDeck;
     private ArrayList<TrainCard> faceUpCards;
     private ArrayList<Tuple> Chat;
+    private int playerTurnIndex; // Index of player on ArrayList<Player> players who has the turn
     //private Tuple longestPath; //Tuple(length, Player)
 
     public Game(){
@@ -24,6 +25,7 @@ public class Game {
         trainCardDeck = new TrainCardDeck();
         faceUpCards = new ArrayList<>();
         Chat = new ArrayList<>();
+        playerTurnIndex = 0;
     }
 
     /** Setters **/
@@ -77,6 +79,10 @@ public class Game {
         return Chat;
     }
 
+    public int getPlayerTurnIndex() {
+        return playerTurnIndex;
+    }
+
     public Player getOnePlayer(String userName) {
         boolean found = false;
         int index = 0;
@@ -121,5 +127,17 @@ public class Game {
         }
     }
 
+    public void incrementTurnIndex(){
+        playerTurnIndex++;
+        if(playerTurnIndex >= players.size()){
+            playerTurnIndex = 0;
+        }
+    }
 
+    public boolean isPlayerTurn(Player player){
+       if (playerTurnIndex == players.indexOf(player)){
+           return true;
+       }
+       return false;
+    }
 }
