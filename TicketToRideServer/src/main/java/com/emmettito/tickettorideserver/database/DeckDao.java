@@ -15,11 +15,11 @@ public class DeckDao {
     }
     public DestinationCard removeDestCard(String gameName, DestinationCard card){
 
-        return new DestinationCard();
+        return new DestinationCard("default", "default", 1);
     }
     public DestinationCard getDestCard(String gameName){
 
-        return new DestinationCard();
+        return new DestinationCard("default", "default", 1);
     }
     public boolean addTrainCard(String gameName){
 
