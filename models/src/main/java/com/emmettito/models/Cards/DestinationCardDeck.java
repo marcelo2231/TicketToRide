@@ -13,10 +13,10 @@ public class DestinationCardDeck implements Deck {
         availableCards = new ArrayList<>();
         discardPile = new ArrayList<>();
 
-        for(int i = 0; i <= 30; i++){
+        for(int i = 1; i <= 30; i++){
             Random r = new Random();
-            int randomPointValue = r.nextInt((23 - 4) + 1) + 23;
-            availableCards.add(new DestinationCard("Provo", "Las Vegas", randomPointValue)); // TODO: Add cities and point values
+            int randomPointValue = r.nextInt(23) + 1;
+            availableCards.add(new DestinationCard("Provo", "Las Vegas", randomPointValue, i)); // TODO: Add cities and point values
         }
 
         shuffle();

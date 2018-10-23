@@ -12,20 +12,20 @@ public class TrainCardDeck implements Deck {
         available = new ArrayList<>();
         discardPile = new ArrayList<>();
 
-        for(int i = 0; i <= 12; i++){
-            available.add(new TrainCard(TrainColor.Red));
-            available.add(new TrainCard(TrainColor.Orange));
-            available.add(new TrainCard(TrainColor.Yellow));
-            available.add(new TrainCard(TrainColor.Green));
-            available.add(new TrainCard(TrainColor.Blue));
-            available.add(new TrainCard(TrainColor.Black));
-            available.add(new TrainCard(TrainColor.White));
-            available.add(new TrainCard(TrainColor.Pink));
-            available.add(new TrainCard(TrainColor.Wild));
+        for(int i = 0; i < 12; i++){
+            available.add(new TrainCard(TrainColor.Red, (i*9)+1));
+            available.add(new TrainCard(TrainColor.Orange,  (i*9)+2));
+            available.add(new TrainCard(TrainColor.Yellow,  (i*9)+3));
+            available.add(new TrainCard(TrainColor.Green,  (i*9)+4));
+            available.add(new TrainCard(TrainColor.Blue,  (i*9)+5));
+            available.add(new TrainCard(TrainColor.Black,  (i*9)+6));
+            available.add(new TrainCard(TrainColor.White,  (i*9)+7));
+            available.add(new TrainCard(TrainColor.Pink,  (i*9)+8));
+            available.add(new TrainCard(TrainColor.Wild,  (i*9)+9));
         }
         // Add two more locomotive, since we need 14 of those
-        available.add(new TrainCard(TrainColor.Wild));
-        available.add(new TrainCard(TrainColor.Wild));
+        available.add(new TrainCard(TrainColor.Wild, 109));
+        available.add(new TrainCard(TrainColor.Wild, 110));
 
         shuffle();
     }
