@@ -6,11 +6,13 @@ import java.util.List;
 
 public class TrainCardDeck implements Deck {
     private List<TrainCard> available;
+    private List<TrainCard> faceUp;
     private List<TrainCard> discardPile;
 
     public TrainCardDeck(){
         available = new ArrayList<>();
         discardPile = new ArrayList<>();
+        faceUp = new ArrayList<>();
 
         for(int i = 0; i < 12; i++){
             available.add(new TrainCard(TrainColor.Red, (i*9)+1));
@@ -28,6 +30,12 @@ public class TrainCardDeck implements Deck {
         available.add(new TrainCard(TrainColor.Wild, 110));
 
         shuffle();
+
+        //take the first 5 cards and place them face-up
+        for(int i = 0; i < 5; i++){
+            faceUp.add(available.get(i));
+            available.remove(i);
+        }
     }
 
     @Override
@@ -56,4 +64,11 @@ public class TrainCardDeck implements Deck {
         return available.size();
     }
 
+    public List<TrainCard> getFaceUp() {
+        return faceUp;
+    }
+
+    public void setFaceUp(List<TrainCard> faceUp) {
+        this.faceUp = faceUp;
+    }
 }
