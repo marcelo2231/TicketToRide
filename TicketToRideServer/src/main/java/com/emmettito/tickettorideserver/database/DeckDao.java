@@ -61,9 +61,14 @@ public class DeckDao {
         return deck.add(card);
     }
 
-    public boolean removeDestCardFromPlayer(String gameName, String playerName, DestinationCard card) throws Exception{
+    public boolean removeDestCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<DestinationCard> deck = getPlayerDestCardDeck(gameName, playerName);
-        return deck.remove(card);
+        for (DestinationCard c : deck){
+            if (c.getCardID() == cardID){
+                return deck.remove(c);
+            }
+        }
+        throw new Exception("Destination card is not in deck");
     }
 
     /** Train Card Deck **/
@@ -71,7 +76,7 @@ public class DeckDao {
         Game game = gameLobbyDao.getActiveGame(gameName);
         if (game == null) { throw new Exception("Invalid game name."); }
         TrainCardDeck deck = game.getTrainCardDeck();
-        if (deck == null) { throw new Exception("Trainn card Deck is null."); }
+        if (deck == null) { throw new Exception("Train card Deck is null."); }
         return deck;
     }
 
@@ -118,8 +123,13 @@ public class DeckDao {
         return deck.add(card);
     }
 
-    public boolean removeTrainCardFromPlayer(String gameName, String playerName, TrainCard card) throws Exception{
+    public boolean removeTrainCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<TrainCard> deck = getPlayerTrainCardDeck(gameName, playerName);
-        return deck.remove(card);
+        for (TrainCard c : deck){
+            if (c.getCardID() == cardID){
+                return deck.remove(c);
+            }
+        }
+        throw new Exception("Train card is not in deck");
     }
 }

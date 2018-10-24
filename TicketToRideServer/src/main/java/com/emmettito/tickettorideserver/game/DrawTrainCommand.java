@@ -1,5 +1,6 @@
 package com.emmettito.tickettorideserver.game;
 
+import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
@@ -26,14 +27,16 @@ public class DrawTrainCommand implements IGameCommand{
 
         /** Draw card **/
         DrawTrainResult result = new DrawTrainResult();
-        result.setData(deckDatabase.removeTopTrainCardFromDeck(commandModel.getGameName()));
+        TrainCard card = deckDatabase.removeTopTrainCardFromDeck(commandModel.getGameName());
+        deckDatabase.addTrainCardToPlayer(commandModel.getGameName(), commandModel.getPlayerName(), card);
 
-        if(result.getData() == null){
+        if(card == null){
             throw new Exception("Unable to draw card");
         }
 
         /** Prepare Result **/
         result.setSuccess(true);
+        result.setData(card);
         result.setMessage("Successfully draw dest card.");
         return result;
     }

@@ -179,14 +179,14 @@
                 "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
         }
 
-        function drawdestcard() {
+        function drawdestcommand() {
             window.scrollTo(0, document.body.scrollHeight);
             document.getElementById("handleBox").value = "/game/drawdestcard";
             document.getElementById("requestBox").value = formatJson(
                 "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
         }
 
-        function drawtraincard() {
+        function drawtraincommand() {
             window.scrollTo(0, document.body.scrollHeight);
             document.getElementById("handleBox").value = "/game/drawtraincard";
             document.getElementById("requestBox").value = formatJson(
@@ -195,9 +195,23 @@
 
         function drawtrain() {
             window.scrollTo(0, document.body.scrollHeight);
-            document.getElementById("handleBox").value = "/game/drawtrain";
+            document.getElementById("handleBox").value = "/game/drawtraincard";
             document.getElementById("requestBox").value = formatJson(
                 "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
+        }
+
+        function discardtraincommand() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/discardtraincard";
+            document.getElementById("requestBox").value = formatJson(
+                "{\"gameName\":\"My Game\", \"playerName\":\"username\", \"cardID\":\"1\"}");
+        }
+
+        function discarddestcommand() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/discarddestcard";
+            document.getElementById("requestBox").value = formatJson(
+                "{\"gameName\":\"My Game\", \"playerName\":\"username\", \"cardID\":\"1\"}");
         }
 
         function endgame() {
@@ -333,6 +347,12 @@
                 </li>
                 <li>
                     <a href="javascript:drawtraincommand()">/game/drawtraincard</a> This API draw train card.
+                </li>
+                <li>
+                    <a href="javascript:discardtraincommand()">/game/discardtraincard</a> This API discards train card from player hand.
+                </li>
+                <li>
+                    <a href="javascript:discarddestcommand()">/game/discarddestcard</a> This API discards destination card from player hand.
                 </li>
                 <li>
                     <a href="javascript:endgame()">/game/endgame</a> This API ends the game.
