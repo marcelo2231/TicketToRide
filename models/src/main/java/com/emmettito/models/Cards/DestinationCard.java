@@ -1,32 +1,39 @@
 package com.emmettito.models.Cards;
 
 import com.emmettito.models.City;
+import com.emmettito.models.Tuple;
 
 public class DestinationCard implements Card {
-    private City city1;
-    private City city2;
-    /**
-     * Could we make it a Tuple of cities instead?
-     */
+    /** Variables **/
+    private Tuple cities;
     private int pointValue;
+    private int cardID;
 
-    public City getCity1() {
-        return city1;
+    /** Constructors **/
+    public DestinationCard(String cityOne, String cityTwo, int pointValue, int cardID){
+        this.cities = new Tuple(cityOne, cityTwo);
+        this.pointValue = pointValue;
+        this.cardID = cardID;
     }
 
-    public City getCity2() {
-        return city2;
+    /** Getters and Setters **/
+    public Tuple getCities() {
+        return cities;
     }
 
     public int getPointValue() {
         return pointValue;
     }
 
-    public void setCity1(City city1) {
-        this.city1 = city1;
+    public int getCardID() { return cardID; }
+
+    public void setCities(Tuple cities) {
+        this.cities = cities;
     }
 
-    public void setCity2(City city2) {
-        this.city2 = city2;
+    public void setPointValue(int pointValue) {
+        this.pointValue = pointValue;
     }
+
+    public void setCardID(int cardID) { this.cardID = cardID; }
 }

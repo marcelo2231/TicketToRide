@@ -1,15 +1,15 @@
 package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
-import com.emmettito.models.Game;
 import com.emmettito.models.Results.DrawTrainResult;
-import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
+import com.emmettito.tickettorideserver.database.DeckDao;
 
 import java.io.InputStream;
 
 public class DrawTrainCommand implements IGameCommand{
     DrawTrainRequest commandModel;
+    DeckDao deckDatabase = new DeckDao();
 
     @Override
     public DrawTrainResult execute(Object obj, String authToken) throws Exception {
@@ -26,14 +26,15 @@ public class DrawTrainCommand implements IGameCommand{
 
         /** Draw card **/
         DrawTrainResult result = new DrawTrainResult();
-        Game game = gameLobbyDatabase.getGame(commandModel.getGameName());
+        result.setData(deckDatabase.removeTopTrainCardFromDeck(commandModel.getGameName()));
 
+        if(result.getData() == null){
+            throw new Exception("Unable to draw card");
+        }
 
         /** Prepare Result **/
         result.setSuccess(true);
-        result.setData("data");
         result.setMessage("Successfully draw dest card.");
         return result;
-
     }
 }

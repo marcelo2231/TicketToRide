@@ -49,7 +49,7 @@ public class GameHandler implements HttpHandler {
                 case "endgame":
                     result = new EndGameCommand().execute(input, authToken);
                     break;
-                case "drawtrain":
+                case "drawtraincard":
                     result = new DrawTrainCommand().execute(input, authToken);
                     break;
                 case "claimroute":
@@ -69,6 +69,12 @@ public class GameHandler implements HttpHandler {
                     break;
                 case "removegame":
                     result = new RemoveGameCommand().execute(input, authToken);
+                    break;
+                case "chat":
+                    result = new ChatCommand().execute(input, authToken);
+                    break;
+                case "getchat":
+                    result = new GetChatCommand().execute(input, authToken);
                     break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");

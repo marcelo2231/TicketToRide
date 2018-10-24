@@ -12,19 +12,20 @@ public class TrainCardDeck implements Deck {
         available = new ArrayList<>();
         discardPile = new ArrayList<>();
 
-        available.add(new TrainCard(TrainColor.Wild));
-        for(int i = 0; i <= 12; i++){
-            available.add(new TrainCard(TrainColor.Red));
-            available.add(new TrainCard(TrainColor.Orange));
-            available.add(new TrainCard(TrainColor.Yellow));
-            available.add(new TrainCard(TrainColor.Green));
-            available.add(new TrainCard(TrainColor.Blue));
-            available.add(new TrainCard(TrainColor.Black));
-            available.add(new TrainCard(TrainColor.White));
-            available.add(new TrainCard(TrainColor.Pink));
-            available.add(new TrainCard(TrainColor.Wild));
+        for(int i = 0; i < 12; i++){
+            available.add(new TrainCard(TrainColor.Red, (i*9)+1));
+            available.add(new TrainCard(TrainColor.Orange,  (i*9)+2));
+            available.add(new TrainCard(TrainColor.Yellow,  (i*9)+3));
+            available.add(new TrainCard(TrainColor.Green,  (i*9)+4));
+            available.add(new TrainCard(TrainColor.Blue,  (i*9)+5));
+            available.add(new TrainCard(TrainColor.Black,  (i*9)+6));
+            available.add(new TrainCard(TrainColor.White,  (i*9)+7));
+            available.add(new TrainCard(TrainColor.Pink,  (i*9)+8));
+            available.add(new TrainCard(TrainColor.Wild,  (i*9)+9));
         }
-        available.add(new TrainCard(TrainColor.Wild));
+        // Add two more locomotive, since we need 14 of those
+        available.add(new TrainCard(TrainColor.Wild, 109));
+        available.add(new TrainCard(TrainColor.Wild, 110));
 
         shuffle();
     }
@@ -33,12 +34,6 @@ public class TrainCardDeck implements Deck {
     public void shuffle() {
         Collections.shuffle(available);
         Collections.shuffle(discardPile);
-    }
-
-    @Override
-    public void addCardToBottom(Card cardToAdd) {
-        TrainCard card = (TrainCard) cardToAdd;
-        available.add(card);
     }
 
     public void setDiscardPile(List<TrainCard> discardPile) {
@@ -61,27 +56,4 @@ public class TrainCardDeck implements Deck {
         return available.size();
     }
 
-    @Override
-    public TrainCard drawCard()throws Exception{
-        TrainCard top;
-        //returns the next available card if possible
-        if(available.get(0) != null){
-            top = available.get(0);
-            available.remove(0);
-            return top;
-        }
-        //the available pile is empty; check the discard pile
-        else{
-            //check if the discard pile is not empty
-            if(discardPile.size() != 0) {
-                available = discardPile;
-                discardPile = new ArrayList<>();
-                shuffle();
-                top = available.get(0);
-                available.remove(0);
-                return top;
-            }
-            else throw new Exception();
-        }
-    }
 }

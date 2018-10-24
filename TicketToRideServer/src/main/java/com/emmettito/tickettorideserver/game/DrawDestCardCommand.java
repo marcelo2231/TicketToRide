@@ -1,15 +1,15 @@
 package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
-import com.emmettito.models.Game;
 import com.emmettito.models.Results.DrawDestCardResult;
-import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
+import com.emmettito.tickettorideserver.database.DeckDao;
 
 import java.io.InputStream;
 
 public class DrawDestCardCommand implements IGameCommand{
     DrawDestCardRequest commandModel;
+    DeckDao deckDatabase = new DeckDao();
     @Override
     public DrawDestCardResult execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/
@@ -26,12 +26,14 @@ public class DrawDestCardCommand implements IGameCommand{
 
         /** Draw card **/
         DrawDestCardResult result = new DrawDestCardResult();
-        Game game = gameLobbyDatabase.getGame(commandModel.getGameName());
+        result.setData(deckDatabase.removeTopDestCardFromDeck(commandModel.getGameName()));
 
+        if(result.getData() == null){
+            throw new Exception("Unable to draw card");
+        }
 
         /** Prepare Result **/
         result.setSuccess(true);
-        result.setData("data");
         result.setMessage("Successfully draw dest card.");
         return result;
     }

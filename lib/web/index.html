@@ -186,6 +186,13 @@
                 "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
         }
 
+        function drawtraincard() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/drawtraincard";
+            document.getElementById("requestBox").value = formatJson(
+                "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
+        }
+
         function drawtrain() {
             window.scrollTo(0, document.body.scrollHeight);
             document.getElementById("handleBox").value = "/game/drawtrain";
@@ -223,13 +230,31 @@
 
         function getGames() {
             window.scrollTo(0, document.body.scrollHeight);
-            document.getElementById("handleBox").value = "/game/getGames";
+            document.getElementById("handleBox").value = "/gamelobby/getactivegames";
+            document.getElementById("requestBox").value = "";
+        }
+
+        function getActiveGames() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/gamelobby/getActiveGames";
             document.getElementById("requestBox").value = "";
         }
 
         function getPlayers() {
             window.scrollTo(0, document.body.scrollHeight);
             document.getElementById("handleBox").value = "/gamelobby/getPlayers";
+            document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\"}");
+        }
+
+        function chat() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/chat";
+            document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\", \"playerName\":\"username\", \"message\":\"Hello!\"}");
+        }
+
+        function getChat() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/getchat";
             document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\"}");
         }
     </script>
@@ -274,7 +299,10 @@
                     <a href="javascript:startgame()">/game/startgame</a> This API starts the game.
                 </li>
                 <li>
-                    <a href="javascript:getGames()">/game/getgames</a> This API get all games.
+                    <a href="javascript:getGames()">/game/getgames</a> This API get all inactive games.
+                </li>
+                <li>
+                    <a href="javascript:getActiveGames()">/game/getactivegames</a> This API get all active games.
                 </li>
                 <li>
                     <a href="javascript:getPlayers()">/game/getplayers</a> This API get all players in a game.
@@ -288,6 +316,12 @@
             <h1 style="padding-left:1cm; text-decoration: underline;">Game Commands</h1>
             <ul>
                 <li>
+                    <a href="javascript:chat()">/game/chat</a> This API sends a message to be added to chat.
+                </li>
+                <li>
+                    <a href="javascript:getChat()">/game/getchat</a> This API gets the entire chat history.
+                </li>
+                <li>
                     <a href="javascript:claimroute()">/game/claimroute</a> This API claim a route.
                 </li>
                 <li>
@@ -298,7 +332,7 @@
                     <a href="javascript:drawdestcard()">/game/drawdestcard</a> This API draw destination card.
                 </li>
                 <li>
-                    <a href="javascript:drawtraincommand()">/game/drawtraincommand</a> This API draw train.
+                    <a href="javascript:drawtraincommand()">/game/drawtraincard</a> This API draw train card.
                 </li>
                 <li>
                     <a href="javascript:endgame()">/game/endgame</a> This API ends the game.

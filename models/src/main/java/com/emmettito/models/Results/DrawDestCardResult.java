@@ -1,10 +1,12 @@
 package com.emmettito.models.Results;
 
+import com.emmettito.models.Cards.DestinationCard;
+
 public class DrawDestCardResult {
     /** Variables */
     private Boolean success;
     private String message;
-    private Object data;
+    private DestinationCard data;
     private String renewedAuthToken;
 
     /** Constructors */
@@ -13,7 +15,7 @@ public class DrawDestCardResult {
         message = "Default Message";
     }
 
-    public DrawDestCardResult(Boolean success, Object data) {
+    public DrawDestCardResult(Boolean success, DestinationCard data) {
 
         this.success = success;
         this.data = data;
@@ -32,7 +34,7 @@ public class DrawDestCardResult {
     public String getMessage() {
         return message;
     }
-    public Object getData() {
+    public DestinationCard getData() {
         return data;
     }
     public String getRenewedAuthToken() {
@@ -46,7 +48,7 @@ public class DrawDestCardResult {
     public void setMessage(String message) {
         this.message = message;
     }
-    public void setData(Object data) {
+    public void setData(DestinationCard data) {
         this.data = data;
     }
     public void setRenewedAuthToken(String renewedAuthToken) {

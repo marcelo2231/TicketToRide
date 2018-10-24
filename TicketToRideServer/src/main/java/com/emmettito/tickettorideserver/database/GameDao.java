@@ -55,7 +55,24 @@ public class GameDao {
         if (newList == null || !newList.remove(targetPlayer)) {
             throw new NotFound();
         }
+    }
 
+    public Player getPlayer(String gameName, String playerName) throws NotFound, Exception{
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        // Game Validation
+        if (game == null){
+            throw new Exception("Game does not exist.");
+        }
+
+        // Find Player
+        for(Player p : game.getPlayers()){
+            if(p.getPlayerName().equals(playerName)){
+                return p;
+            }
+        }
+        return null;
     }
 
 }

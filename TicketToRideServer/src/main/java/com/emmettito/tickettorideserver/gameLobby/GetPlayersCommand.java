@@ -35,7 +35,7 @@ public class GetPlayersCommand implements IGameLobbyCommand {
         Game game = gameLobbyDatabase.getActiveGame(commandModel.getGameName());
 
         if (game == null){
-            // Game did not start
+            // Game have not started, do nothing
         }else{
             getPlayersResult.setDidGameStart(true);
         }
@@ -50,6 +50,5 @@ public class GetPlayersCommand implements IGameLobbyCommand {
         getPlayersResult.setSuccess(true);
         getPlayersResult.setData(players);
         return getPlayersResult;
-
     }
 }

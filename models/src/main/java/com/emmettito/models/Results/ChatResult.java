@@ -1,30 +1,35 @@
 package com.emmettito.models.Results;
 
-import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Tuple;
 
-public class DrawTrainResult {
+import java.util.ArrayList;
+
+public class ChatResult {
     /** Variables */
     private Boolean success;
     private String message;
-    private TrainCard data;
-    private String renewedAuthToken;
+    private ArrayList<Tuple> data;
+    private Boolean didGameStart;
 
     /** Constructors */
-    public DrawTrainResult() {
+    public ChatResult() {
         success = false;
+        didGameStart = false;
         message = "Default Message";
     }
 
-    public DrawTrainResult(Boolean success, TrainCard data) {
+    public ChatResult(Boolean success, ArrayList<Tuple> data) {
 
         this.success = success;
+        didGameStart = false;
         this.data = data;
     }
 
-    public DrawTrainResult(Boolean success, String message) {
+    public ChatResult(Boolean success, String message) {
 
         this.success = success;
         this.message = message;
+        didGameStart = false;
     }
 
     /** Getters */
@@ -34,11 +39,11 @@ public class DrawTrainResult {
     public String getMessage() {
         return message;
     }
-    public TrainCard getData() {
+    public ArrayList<Tuple> getData() {
         return data;
     }
-    public String getRenewedAuthToken() {
-        return renewedAuthToken;
+    public Boolean getDidGameStart() {
+        return didGameStart;
     }
 
     /** Setters */
@@ -48,11 +53,11 @@ public class DrawTrainResult {
     public void setMessage(String message) {
         this.message = message;
     }
-    public void setData(TrainCard data) {
+    public void setData(ArrayList<Tuple> data) {
         this.data = data;
     }
-    public void setRenewedAuthToken(String renewedAuthToken) {
-        this.renewedAuthToken = renewedAuthToken;
+    public void setDidGameStart(Boolean didGameStart) {
+        this.didGameStart = didGameStart;
     }
 
     @Override
