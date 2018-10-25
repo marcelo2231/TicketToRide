@@ -50,6 +50,10 @@ public class GameLobbyDao {
         return dbInstance.gameLobby;
     }
 
+    public ArrayList<Game> getActiveGames(){
+        return dbInstance.activeGame;
+    }
+
     public void removeGame(String gameName) throws NotFound {
         Game toBeRemoved = getGame(gameName);
         if (toBeRemoved == null){ throw new NotFound(); }

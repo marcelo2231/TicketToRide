@@ -22,7 +22,7 @@ public class GameHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         /** Variables */
         Serializer serializer = new Serializer();
-        Result result = new Result();
+        Object result = new Result();
         InputStream input = httpExchange.getRequestBody();
         URI uri;
         String[] requestURI;
@@ -49,11 +49,17 @@ public class GameHandler implements HttpHandler {
                 case "endgame":
                     result = new EndGameCommand().execute(input, authToken);
                     break;
-                case "drawtrain":
+                case "drawtraincard":
                     result = new DrawTrainCommand().execute(input, authToken);
                     break;
                 case "claimroute":
                     result = new ClaimRouteCommand().execute(input, authToken);
+                    break;
+                case "discardtraincard":
+                    result = new DiscardTrainCardCommand().execute(input, authToken);
+                    break;
+                case "discarddestcard":
+                    result = new DiscardDestCardCommand().execute(input, authToken);
                     break;
                 case "drawdestcard":
                     result = new DrawDestCardCommand().execute(input, authToken);
@@ -69,6 +75,12 @@ public class GameHandler implements HttpHandler {
                     break;
                 case "removegame":
                     result = new RemoveGameCommand().execute(input, authToken);
+                    break;
+                case "chat":
+                    result = new ChatCommand().execute(input, authToken);
+                    break;
+                case "getchat":
+                    result = new GetChatCommand().execute(input, authToken);
                     break;
                 default:
                     throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");

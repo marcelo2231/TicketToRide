@@ -51,6 +51,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     private Runnable timerRunnable;
 
     private boolean polling;
+    private boolean gameStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
         client = Client.getInstance();
 
-        TextView gameName = findViewById(R.id.gameNameLabel);
+        final TextView gameName = findViewById(R.id.gameNameLabel);
         gameName.setText(client.getGameName());
 
         proxy = new GameRoomProxy();
@@ -84,6 +85,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
         });
 
         players = new ArrayList<>();
+        gameStart = false;
 
         recycle = (RecyclerView) findViewById(R.id.playerList);
         recycle.setLayoutManager(new LinearLayoutManager(this));
@@ -96,11 +98,16 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                    mAdapter.notifyDataSetChanged();
-                    if (polling) {
-                        timerHandler.postDelayed(this, 500);
-                    }
-                    Log.w("timerRunnable", "Should have updated display, size: " + players.size());
+                if (gameStart) {
+                    switchToGame();
+                    Log.w("timerRunnable", "Should have started the game: " + gameStart);
+                }
+                mAdapter.notifyDataSetChanged();
+                if (polling) {
+                    timerHandler.postDelayed(this, 500);
+                }
+                Log.w("timerRunnable", "Game Start Status: " + gameStart);
+
             }
         };
 
@@ -119,68 +126,51 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     }
 
     @Override
-    public ArrayList<Player> getPlayers() {
-        return null;
-    }
-
-    @Override
     public void startGame() {
-        stopPoller();
+
         GameLobbyResult result = proxy.startGame();
 
         if (result.getSuccess()) {
-            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-            startActivity(intent);
+            switchToGame();
         }
         else {
             Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
-            startPoller();
         }
+    }
+
+    private void switchToGame() {
+        stopPoller();
+        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public void leaveGame() {
-        stopPoller();
 
         if (proxy.leaveGame()) {
             finish();
         }
         else {
             Toast.makeText(this, "An error occurred while trying to leave the game", Toast.LENGTH_SHORT).show();
-            // Could restart polling...
         }
-    }
-
-    @Override
-    public void cancelGame() {
-        // NOT NEEDED FOR PHASE 1
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopPoller();
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
+    public void update(Object o) {
         if (o != null) {
             if (o.getClass() == String.class) {
-                Log.w("GameRoomUpdated", "received: " + o.toString());
+                Log.w("GameRoomUpdated", o.toString());
                 GetPlayersResult results = new Gson().fromJson((String)o, GetPlayersResult.class);
-                if(results.getDidGameStart()){
-                    Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+
+                gameStart = results.getDidGameStart();
 
                 players.clear();
                 players.addAll(results.getData());
-
-                Log.w("GameRoomUpdated", "should have updated " + players.size());
-            }
-        else {
-                Log.w("GameRoomUpdated", o.getClass() + ": " + o.toString());
             }
         }
     }

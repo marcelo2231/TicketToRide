@@ -27,5 +27,4 @@ public class Database {
     public ArrayList<Game> activeGame = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
     public ArrayList<AuthToken> tokens = new ArrayList<>();
-
 }
