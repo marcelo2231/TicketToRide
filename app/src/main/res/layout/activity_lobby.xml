@@ -5,12 +5,12 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background"
                 android:paddingBottom="10dp"
-                android:paddingStart="13dp"
                 android:paddingEnd="12dp"
+                android:paddingStart="13dp"
                 android:paddingTop="11dp">
 
     <LinearLayout
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
