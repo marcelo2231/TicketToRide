@@ -2,9 +2,7 @@ package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
-import com.emmettito.models.CommandModels.UserCommands.LogoutRequest;
 import com.emmettito.models.Results.GameLobbyResult;
-import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
@@ -20,7 +18,11 @@ public class GameLobbyProxy {
     }
 
     public GameLobbyResult createGame(CreateGameRequest request) {
+        System.out.println("This is where we got");
         String requestString = gson.toJson(request);
+        System.out.println("GSON did not fail");
+
+        System.out.println(requestString);
 
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
 
@@ -35,8 +37,15 @@ public class GameLobbyProxy {
     }
 
     private GameLobbyResult sendRequest(String url, String requestString, String requestType) {
+        System.out.println("Got to sendRequest");
         String resultString;
         client = new ClientCommunicator();
+
+        GameLobbyResult results = new GameLobbyResult();
+
+        gson.toJson(results);
+
+        System.out.println("We've got a ClientCommunicator");
 
         try {
             resultString = client.execute(url, requestType, requestString).get();
@@ -49,6 +58,9 @@ public class GameLobbyProxy {
             result.setMessage(resultString);
             return result;
         }
+
+        System.out.println("We ended up getting this far");
+        System.out.println(resultString);
 
         return gson.fromJson(resultString, GameLobbyResult.class);
     }

@@ -48,6 +48,8 @@ public class LobbyPresenter implements Observer {
         request.setGameName(gameName);
         request.setUsername(username);
 
+        System.out.println("createNewGame");
+
         //GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
 
         //return proxy.createGame(request);

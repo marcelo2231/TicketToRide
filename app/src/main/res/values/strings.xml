@@ -12,4 +12,10 @@
     <string name="game_list">List of Games</string>
     <string name="game_name">Game Name</string>
     <string name="lobby_logout_button">Logout</string>
+    <string name="player_name">Player Name</string>
+    <string name="message">Message</string>
+    <string name="exit_chat_button">Exit Chat</string>
+    <string name="send_message_button">Send</string>
+    <string name="enter_message">Enter Message:</string>
+    <string name="openChat">Open Chat</string>
 </resources>

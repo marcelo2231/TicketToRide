@@ -3,13 +3,13 @@ package com.emmettito.models;
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
     private String playerName;
-    private Color color;
+    //private Color color;
     private int points;
     private int plasticTrains;
     private ArrayList<DestinationCard> destinationCards;
@@ -27,13 +27,13 @@ public class Player {
         float r = rand.nextFloat();
         float g = rand.nextFloat();
         float b = rand.nextFloat();
-        color = new Color(r, g, b);
+        //color = new Color(r, g, b);
 
     }
 
-    public Color getColor() {
-        return color;
-    }
+    //public Color getColor() {
+    //    return color;
+    //}
 
     public int getPoints() {
         return points;
@@ -76,9 +76,9 @@ public class Player {
         this.trainCards = trainCards;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
+    //public void setColor(Color color) {
+    //    this.color = color;
+    //}
 
     public void setPlasticTrains(int plasticTrains) {
         this.plasticTrains = plasticTrains;

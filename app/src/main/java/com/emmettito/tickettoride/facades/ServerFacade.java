@@ -33,7 +33,9 @@ public class ServerFacade {
     }
 
     public GameLobbyResult createNewGame(CreateGameRequest request, String host, String port) {
+        System.out.println("Facade 1");
         gameLobbyProxy = new GameLobbyProxy(host, port);
+        System.out.println("Facade 2");
 
         return gameLobbyProxy.createGame(request);
     }

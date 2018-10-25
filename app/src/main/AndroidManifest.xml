@@ -37,6 +37,11 @@
         <activity android:name=".views.GameActivity.GameActivity"
             android:label="GameActivity"
             android:screenOrientation="landscape"/>
+
+        <activity android:name=".views.GameActivity.ChatActivity"
+            android:label="ChatActivity"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>
