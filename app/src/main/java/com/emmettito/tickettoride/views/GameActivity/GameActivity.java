@@ -11,6 +11,15 @@ import com.emmettito.tickettoride.R;
 
 public class GameActivity extends AppCompatActivity {
     private Button chatButton;
+    private Button trainCard1;
+    private Button trainCard2;
+    private Button trainCard3;
+    private Button trainCard4;
+    private Button trainCard5;
+    private Button deckTrainCards;
+    private Button deckDestinationCards;
+    private Button destinationCardsButton;
+    private Button leaveGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +36,92 @@ public class GameActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        leaveGameButton = (Button) findViewById(R.id.leaveGameButton);
+        leaveGameButton.setEnabled(true);
+        leaveGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //return to the join game screen
+            }
+        });
+
+        deckTrainCards = (Button) findViewById(R.id.TrainCardsDeck);
+        //disable all draw-card buttons unless it's the player's turn
+        deckTrainCards.setEnabled(false);
+        deckTrainCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        trainCard1 = (Button) findViewById(R.id.trainCard1);
+        trainCard1.setEnabled(false);
+        trainCard1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        trainCard2 = (Button) findViewById(R.id.trainCard2);
+        trainCard2.setEnabled(false);
+        trainCard2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        trainCard3 = (Button) findViewById(R.id.trainCard3);
+        trainCard3.setEnabled(false);
+        trainCard3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        trainCard4 = (Button) findViewById(R.id.trainCard4);
+        trainCard4.setEnabled(false);
+        trainCard4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        trainCard5 = (Button) findViewById(R.id.trainCard5);
+        trainCard5.setEnabled(false);
+        trainCard5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        deckDestinationCards = (Button) findViewById(R.id.deckDestinationCards);
+        deckDestinationCards.setEnabled(false);
+        deckDestinationCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        destinationCardsButton = (Button) findViewById(R.id.desinationCardsButton);
+        destinationCardsButton.setEnabled(true);
+        destinationCardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 }
