@@ -3,16 +3,24 @@ package com.emmettito.tickettoride.views.GameActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.emmettito.models.Game;
+import com.emmettito.models.Player;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.GamePresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
     private Game game;
     private Button chatButton;
+    GamePresenter presenter = new GamePresenter();
     private Button trainCard1;
     private Button trainCard2;
     private Button trainCard3;
@@ -22,12 +30,20 @@ public class GameActivity extends AppCompatActivity {
     private Button deckDestinationCards;
     private Button viewDestinationCardsButton;
     private Button leaveGameButton;
+    private RecyclerView playerListRecycle;
+    private RecyclerView.Adapter playerListAdapter;
+    private RecyclerView.LayoutManager playerListLayoutManager;
+    private List<String[]> players = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         game = new Game();
+        // Get players
+        ArrayList<Player> playerList = presenter.getPlayers();
+        setupPlayerList(playerList);
         Toast.makeText(this, "Game Started!", Toast.LENGTH_SHORT).show();
 
         chatButton = (Button) findViewById(R.id.openChatButton);
@@ -124,6 +140,12 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        /** Set up recycler view **/
+        playerListRecycle = (RecyclerView) findViewById(R.id.my_recycler_view);
+        playerListLayoutManager = new LinearLayoutManager(this);
+        playerListRecycle.setLayoutManager(playerListLayoutManager);
+        playerListAdapter = new PlayerInfoAdapter(players);
+        playerListRecycle.setAdapter(playerListAdapter);
 
         //after setting up/inflating, initialize the game-starting processes
         startGame();
@@ -140,5 +162,16 @@ public class GameActivity extends AppCompatActivity {
         //have the server randomly select select 4 train cards for each player
         //have the server select 3 destination cards for each player.
             //and allow the player to discard 0 or 1 of them
+    }
+
+    private void setupPlayerList(ArrayList<Player> playerList){
+        for (Player p : playerList){
+            String[] newPlayer = new String[4];
+            newPlayer[0] = p.getColor().toString();
+            newPlayer[1] = p.getPlayerName();
+            newPlayer[2] = Integer.toString(p.getPoints());
+            newPlayer[3] = Integer.toString(p.getPosition());
+            players.add(newPlayer);
+        }
     }
 }

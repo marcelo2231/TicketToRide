@@ -66,6 +66,9 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
 
     @Override
     public int getItemCount() {
+        if (data == null){
+            return 0;
+        }
         return data.size();
     }
 }

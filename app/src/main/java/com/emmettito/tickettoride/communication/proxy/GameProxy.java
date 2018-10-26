@@ -1,7 +1,9 @@
 package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Results.ChatResult;
+import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
@@ -37,5 +39,28 @@ public class GameProxy {
         }
 
         return gson.fromJson(resultString, ChatResult.class);
+    }
+
+
+    public GetPlayersResult getPlayers(GetPlayersRequest request) {
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/getplayers";
+
+        try {
+            resultString = client.execute(url, "POST", requestString).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultString = "Error: Could not connect to the server.";
+        }
+
+        if (resultString.equals("Error: Could not connect to the server.")) {
+            GetPlayersResult result = new GetPlayersResult();
+            result.setMessage(resultString);
+            return result;
+        }
+
+        return gson.fromJson(resultString, GetPlayersResult.class);
     }
 }

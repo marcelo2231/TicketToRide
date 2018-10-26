@@ -24,12 +24,12 @@
             android:text="@string/leave_game"
             android:layout_above="@+id/openChatButton"/>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="417dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="This is the game. Thanks for playing. The buttons will eventually be re-sized. The draw cards buttons will activate once it's the player's turn" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"/>
 
         <Button
             android:id="@+id/TrainCardsDeck"
