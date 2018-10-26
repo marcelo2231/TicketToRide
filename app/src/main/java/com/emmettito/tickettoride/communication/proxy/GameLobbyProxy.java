@@ -18,11 +18,7 @@ public class GameLobbyProxy {
     }
 
     public GameLobbyResult createGame(CreateGameRequest request) {
-        System.out.println("This is where we got");
         String requestString = gson.toJson(request);
-        System.out.println("GSON did not fail");
-
-        System.out.println(requestString);
 
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
 
@@ -37,15 +33,8 @@ public class GameLobbyProxy {
     }
 
     private GameLobbyResult sendRequest(String url, String requestString, String requestType) {
-        System.out.println("Got to sendRequest");
         String resultString;
         client = new ClientCommunicator();
-
-        GameLobbyResult results = new GameLobbyResult();
-
-        gson.toJson(results);
-
-        System.out.println("We've got a ClientCommunicator");
 
         try {
             resultString = client.execute(url, requestType, requestString).get();
@@ -58,9 +47,6 @@ public class GameLobbyProxy {
             result.setMessage(resultString);
             return result;
         }
-
-        System.out.println("We ended up getting this far");
-        System.out.println(resultString);
 
         return gson.fromJson(resultString, GameLobbyResult.class);
     }

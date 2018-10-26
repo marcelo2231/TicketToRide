@@ -1,10 +1,12 @@
 package com.emmettito.tickettoride.facades;
 
 
+import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
 import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
+import com.emmettito.models.Results.ChatResult;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.proxy.GameLobbyProxy;
@@ -33,9 +35,7 @@ public class ServerFacade {
     }
 
     public GameLobbyResult createNewGame(CreateGameRequest request, String host, String port) {
-        System.out.println("Facade 1");
         gameLobbyProxy = new GameLobbyProxy(host, port);
-        System.out.println("Facade 2");
 
         return gameLobbyProxy.createGame(request);
     }
@@ -44,6 +44,12 @@ public class ServerFacade {
         gameLobbyProxy = new GameLobbyProxy(host, port);
 
         return gameLobbyProxy.joinGame(request);
+    }
+
+    public ChatResult sendChatMessage(ChatRequest request, String host, String port) {
+        gameProxy = new GameProxy(host, port);
+
+        return gameProxy.sendChatMessage(request);
     }
 
     public Result login(LoginRequest request) {
