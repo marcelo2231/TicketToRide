@@ -10,12 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.emmettito.models.Results.ChatResult;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.ChatPresenter;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements ChatPresenter.chatView {
     private Button exitChatButton;
     private Button sendMessageButton;
     private EditText messageText;
+
+    private ChatPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,8 @@ public class ChatActivity extends AppCompatActivity {
         exitChatButton.setEnabled(true);
         exitChatButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "You Can't Exit The Chat!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "You Can't Exit The Chat!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
@@ -39,7 +44,9 @@ public class ChatActivity extends AppCompatActivity {
         sendMessageButton.setEnabled(false);
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "You Can't Send Messages!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "You Can't Send Messages!", Toast.LENGTH_SHORT).show();
+
+                sendMessage(messageText.getText().toString());
             }
         });
 
@@ -65,8 +72,31 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+        presenter = new ChatPresenter(this);
+        presenter.startPoller();
+    }
+
+    public void update(Object arg) {
+        Toast.makeText(this, "We're being updated", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onBackPressed() {}
+
+    public void sendMessage(String message) {
+        presenter.shutDownPoller();
+
+        ChatResult result = presenter.sendMessage(message);
+
+        if (!result.getSuccess()) {
+            Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);
+            toast.show();
+
+            presenter.startPoller();
+        }
+
+        Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);
+        toast.show();
+    }
 }
