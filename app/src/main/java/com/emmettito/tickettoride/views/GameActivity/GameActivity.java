@@ -46,12 +46,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //return to the join game screen
+                Toast.makeText(v.getContext(), "Leaving game", Toast.LENGTH_SHORT).show();
             }
         });
 
         deckTrainCards = (Button) findViewById(R.id.TrainCardsDeck);
         //disable all draw-card buttons unless it's the player's turn
         deckTrainCards.setEnabled(false);
+        //deckTrainCards.setText(game.getTrainCardDeck().getSizeAvailable());
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +115,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        viewDestinationCardsButton = (Button) findViewById(R.id.desinationCardsButton);
+        viewDestinationCardsButton = (Button) findViewById(R.id.viewDesinationCardsButton);
         viewDestinationCardsButton.setEnabled(true);
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,10 +123,22 @@ public class GameActivity extends AppCompatActivity {
                 Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        //after setting up/inflating, initialize the game-starting processes
+        startGame();
     }
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
+    }
+
+    private void startGame(){
+        //assign each player a color: DONE
+        //determine player order: DONE
+        //have the server randomly select select 4 train cards for each player
+        //have the server select 3 destination cards for each player.
+            //and allow the player to discard 0 or 1 of them
     }
 }
