@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.emmettito.tickettoride.R;
 
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -23,7 +25,7 @@ public class PlayerInfoFragment extends Fragment {
     private RecyclerView recycle;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    private List<String[]> players; // player_color, player_name, player_points, player_position;
 
     public PlayerInfoFragment() {
         // Required empty public constructor
@@ -42,10 +44,12 @@ public class PlayerInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_player_info, container, false);
 
-
+        /** Set up recycler view **/
         recycle = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         mLayoutManager = new LinearLayoutManager(view.getContext());
         recycle.setLayoutManager(mLayoutManager);
+        mAdapter = new PlayerInfoAdapter(players);
+        recycle.setAdapter(mAdapter);
 
         return view;
     }

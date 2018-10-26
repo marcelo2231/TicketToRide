@@ -35,7 +35,7 @@ public class CreateGameCommand implements IGameLobbyCommand{
         GameLobbyResult result = new GameLobbyResult();
         newGame.setGameName(commandModel.getGameName());
 
-        Player newPlayer = new Player(commandModel.getUsername());
+        Player newPlayer = new Player(commandModel.getUsername(), 0);
 
         /** Store data on Database **/
         try{
