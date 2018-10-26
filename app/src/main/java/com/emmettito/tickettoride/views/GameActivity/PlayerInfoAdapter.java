@@ -55,7 +55,23 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
 
     @Override
     public void onBindViewHolder(PlayerInfoHolder holder, int position) {
-        // TODO: Set player_color based on the enum value of data.get(position)[0]
+        switch(data.get(position)[0]){
+            case "Red":
+                holder.player_color.setBackgroundResource(R.color.redPlayer);
+                break;
+            case "Green":
+                holder.player_color.setBackgroundResource(R.color.greenPlayer);
+                break;
+            case "Blue":
+                holder.player_color.setBackgroundResource(R.color.bluePlayer);
+                break;
+            case "Orange":
+                holder.player_color.setBackgroundResource(R.color.orangePlayer);
+                break;
+            case "Yellow":
+                holder.player_color.setBackgroundResource(R.color.yellowPlayer);
+                break;
+        }
         holder.player_name.setText(data.get(position)[1]);
         holder.player_points.setText(data.get(position)[2]);
         holder.player_position.setText(data.get(position)[3]);

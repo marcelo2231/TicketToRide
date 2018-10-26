@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="defaultPlayerColor">#90EE90</color>
+    <color name="redPlayer">#FA6464</color>
+    <color name="greenPlayer">#64FA6E</color>
+    <color name="bluePlayer">#6482FA</color>
+    <color name="orangePlayer">#FABE64</color>
+    <color name="yellowPlayer">#F0FA64</color>
 </resources>

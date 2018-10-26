@@ -165,13 +165,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setupPlayerList(ArrayList<Player> playerList){
+        List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
             String[] newPlayer = new String[4];
             newPlayer[0] = p.getColor().toString();
             newPlayer[1] = p.getPlayerName();
             newPlayer[2] = Integer.toString(p.getPoints());
             newPlayer[3] = Integer.toString(p.getPosition());
-            players.add(newPlayer);
+            newPlayersList.add(newPlayer);
+        }
+        if (newPlayersList.size() > 0){
+            players.clear();
+            players.addAll(newPlayersList);
         }
     }
 }
