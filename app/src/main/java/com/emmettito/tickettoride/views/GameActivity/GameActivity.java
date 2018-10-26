@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.emmettito.models.Game;
 import com.emmettito.tickettoride.R;
 
 public class GameActivity extends AppCompatActivity {
+    private Game game;
     private Button chatButton;
     private Button trainCard1;
     private Button trainCard2;
@@ -18,13 +20,14 @@ public class GameActivity extends AppCompatActivity {
     private Button trainCard5;
     private Button deckTrainCards;
     private Button deckDestinationCards;
-    private Button destinationCardsButton;
+    private Button viewDestinationCardsButton;
     private Button leaveGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        game = new Game();
         Toast.makeText(this, "Game Started!", Toast.LENGTH_SHORT).show();
 
         chatButton = (Button) findViewById(R.id.openChatButton);
@@ -110,9 +113,9 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        destinationCardsButton = (Button) findViewById(R.id.desinationCardsButton);
-        destinationCardsButton.setEnabled(true);
-        destinationCardsButton.setOnClickListener(new View.OnClickListener() {
+        viewDestinationCardsButton = (Button) findViewById(R.id.desinationCardsButton);
+        viewDestinationCardsButton.setEnabled(true);
+        viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
