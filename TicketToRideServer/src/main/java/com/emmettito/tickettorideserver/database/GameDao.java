@@ -75,4 +75,17 @@ public class GameDao {
         return null;
     }
 
+    public ArrayList<Player> getPlayers(String gameName) throws NotFound, Exception{
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        // Game Validation
+        if (game == null){
+            throw new Exception("Game does not exist.");
+        }
+
+        // Return Player
+        return game.getPlayers();
+    }
+
 }

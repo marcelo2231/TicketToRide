@@ -12,6 +12,7 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class JoinGameCommand implements IGameLobbyCommand{
     JoinGameRequest commandModel;
@@ -32,7 +33,8 @@ public class JoinGameCommand implements IGameLobbyCommand{
 
         /** Creating a player and adding it to the game **/
         GameLobbyResult result = new GameLobbyResult();
-        Player newPlayer = new Player(commandModel.getUsername());
+        ArrayList<Player> players = gameDatabase.getPlayers(commandModel.getGameName());
+        Player newPlayer = new Player(commandModel.getUsername(), players.size());
 
         try {
             gameDatabase.addPlayer(commandModel.getGameName(), newPlayer);

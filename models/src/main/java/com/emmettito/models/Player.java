@@ -9,31 +9,34 @@ import java.util.Random;
 
 public class Player {
     private String playerName;
-    //private Color color;
+    private PlayerColor color;
     private int points;
     private int plasticTrains;
     private ArrayList<DestinationCard> destinationCards;
     private ArrayList<TrainCard> trainCards;
+    private int position;
 
-    public Player(String playerName){
+    public Player(String playerName, int playerIndex){
         this.playerName = playerName;
         this.points = 0;
         plasticTrains = 45;
         this.trainCards = new ArrayList<>();
         destinationCards = new ArrayList<>();
-
-        // Set random color
-        Random rand = new Random();
-        float r = rand.nextFloat();
-        float g = rand.nextFloat();
-        float b = rand.nextFloat();
-        //color = new Color(r, g, b);
-
+        this.color = PlayerColor.values()[playerIndex];
+        this.position = playerIndex + 1; // Indexes start from 0, position starts from 1
     }
 
-    //public Color getColor() {
-    //    return color;
-    //}
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public PlayerColor getColor() {
+        return color;
+    }
 
     public int getPoints() {
         return points;
@@ -76,9 +79,9 @@ public class Player {
         this.trainCards = trainCards;
     }
 
-    //public void setColor(Color color) {
-    //    this.color = color;
-    //}
+    public void setColor(PlayerColor color) {
+        this.color = color;
+    }
 
     public void setPlasticTrains(int plasticTrains) {
         this.plasticTrains = plasticTrains;
