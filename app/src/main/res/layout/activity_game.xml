@@ -6,16 +6,98 @@
     android:layout_height="match_parent"
     tools:context=".views.GameActivity.GameActivity">
 
-    <TextView
-        android:id="@+id/textView2"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is the game. Thanks for playing."
-        />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/openChatButton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/openChat"/>
+        <Button
+            android:id="@+id/openChatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/openChat"
+            android:layout_alignParentBottom="true"/>
+
+        <Button
+            android:id="@+id/leaveGameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/leave_game"
+            android:layout_above="@+id/openChatButton"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="417dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="This is the game. Thanks for playing. The buttons will eventually be re-sized. The draw cards buttons will activate once it's the player's turn" />
+
+        <Button
+            android:id="@+id/TrainCardsDeck"
+            android:layout_width="97dp"
+            android:layout_height="46dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/back_of_train_card"
+            android:text="Draw Train Card" />
+
+
+        <Button
+            android:id="@+id/trainCard1"
+            android:layout_width="75dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/TrainCardsDeck"
+            android:text="Draw Faceup Card 1" />
+
+        <Button
+            android:id="@+id/trainCard2"
+            android:layout_width="76dp"
+            android:layout_height="39dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/trainCard1"
+            android:text="Draw Faceup Card 2" />
+
+        <Button
+            android:id="@+id/trainCard3"
+            android:layout_width="75dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/trainCard2"
+            android:text="Draw Faceup Card 3" />
+
+        <Button
+            android:id="@+id/trainCard4"
+            android:layout_width="76dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/trainCard3"
+            android:text="Draw Faceup Card 4" />
+
+        <Button
+            android:id="@+id/trainCard5"
+            android:layout_width="76dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/trainCard4"
+            android:text="Draw Faceup Card 5" />
+
+        <Button
+            android:id="@+id/deckDestinationCards"
+            android:layout_width="103dp"
+            android:layout_height="61dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/trainCard5"
+            android:background="@drawable/back_of_dest_card"
+            android:text="Draw Destination Cards" />
+
+        <Button
+            android:id="@+id/viewDesinationCardsButton"
+            android:layout_width="102dp"
+            android:layout_height="46dp"
+            android:layout_above="@+id/leaveGameButton"
+            android:background="@drawable/back_of_dest_card"
+            android:text="Player's Destination Cards" />
+
+    </RelativeLayout>
+
+
 </android.support.constraint.ConstraintLayout>

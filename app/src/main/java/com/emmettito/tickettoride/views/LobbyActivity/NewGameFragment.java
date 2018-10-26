@@ -75,7 +75,6 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
     }
 
     public void createNewGame(String gameName, String username){
-        System.out.println("I got here");
         GameLobbyResult result = presenter.createNewGame(gameName, username);
 
         if (!result.getSuccess()) {

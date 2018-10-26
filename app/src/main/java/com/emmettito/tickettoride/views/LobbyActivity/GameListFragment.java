@@ -52,39 +52,21 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
     public void update(Object arg) {
         String newListString = (String) arg;
 
-        System.out.println("Things1");
-
         if (newListString.equals(gameString)) {
             return;
         }
 
         gameString = newListString;
 
-        System.out.println("Things2");
-
-        System.out.println(gameString);
-
         GetGamesResult resultString = new GetGamesResult();
-
-        System.out.println("Things 0");
 
         String stringy = new Gson().toJson(resultString);
 
-        System.out.println("Things2.25");
-
-        System.out.println(stringy);
-
         GetGamesResult result = new Gson().fromJson(newListString, GetGamesResult.class);
-
-        System.out.println("Things2.5");
 
         List<Game> gamesList = result.getData();
 
-        System.out.println("Things2.75");
-
         List<String[]> gamesListStrings = new ArrayList<>();
-
-        System.out.println("Things3");
 
         for (Game item : gamesList) {
             String[] tempList = new String[3];
@@ -104,8 +86,6 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
 
             gamesListStrings.add(tempList);
         }
-
-        System.out.println("Things4");
 
         if (gamesListStrings.size() > 0) {
                 games.clear();
