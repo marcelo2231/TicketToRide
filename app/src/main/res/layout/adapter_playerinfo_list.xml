@@ -4,18 +4,18 @@
     android:minWidth="25px"
     android:minHeight="25px"
     android:layout_width="95dp"
-    android:layout_height="match_parent"
+    android:layout_height="30dp"
     android:gravity="center"
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
-    android:visibility="gone">
+    android:layout_marginBottom="5dp">
 
     <TextView
         android:text="1"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/player_position"/>
