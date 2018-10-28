@@ -6,6 +6,7 @@ import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.ChatActivity;
+import com.google.gson.Gson;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -22,7 +23,7 @@ public class ChatPresenter implements Observer {
      *
      */
 
-    String url = "http://10.0.2.2:8080/game/chat";
+    String url = "http://10.0.2.2:8080/game/getchat";
 
     /**
      *
@@ -37,6 +38,10 @@ public class ChatPresenter implements Observer {
 
     @Override
     public void update(Observable obj, Object arg) {
+        String string = (String) arg;
+
+        System.out.println(string);
+
         view.update(arg);
     }
 
@@ -50,7 +55,12 @@ public class ChatPresenter implements Observer {
     }
 
     public void startPoller() {
-        poller = new Poller(url);
+        ChatRequest request = new ChatRequest();
+        request.setGameName(client.getGameName());
+
+        String requestString = new Gson().toJson(request);
+
+        poller = new Poller(url, requestString);
 
         poller.addObserver(this);
 

@@ -2,7 +2,10 @@ package com.emmettito.tickettoride.views.GameActivity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,15 +14,40 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.emmettito.models.Results.ChatResult;
+import com.emmettito.models.Tuple;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.ChatPresenter;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity implements ChatPresenter.chatView {
+    private RecyclerView recycle;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private Button exitChatButton;
     private Button sendMessageButton;
     private EditText messageText;
 
     private ChatPresenter presenter;
+
+    private List<String[]> messages;
+    private String chatString = "";
+
+    private Client clientInstance = Client.getInstance();
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            mAdapter.notifyDataSetChanged();
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +58,15 @@ public class ChatActivity extends AppCompatActivity implements ChatPresenter.cha
         setContentView(R.layout.activity_chat);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        recycle = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        recycle.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        recycle.setLayoutManager(mLayoutManager);
+
+        messages = new ArrayList<>();
 
         exitChatButton = (Button) findViewById(R.id.exitchatbutton);
         exitChatButton.setEnabled(true);
@@ -73,27 +110,58 @@ public class ChatActivity extends AppCompatActivity implements ChatPresenter.cha
             }
         });
 
+        mAdapter = new ChatAdapter(messages, clientInstance.getUser());
+        recycle.setAdapter(mAdapter);
+
+        timerHandler.postDelayed(timerRunnable, 500);
+
         presenter = new ChatPresenter(this);
         presenter.startPoller();
     }
 
     public void update(Object arg) {
-        Toast.makeText(this, "We're being updated", Toast.LENGTH_SHORT).show();
+        String newListString = (String) arg;
+
+        if (newListString.equals(chatString)) {
+            return;
+        }
+
+        chatString = newListString;
+
+        ChatResult result = new Gson().fromJson(newListString, ChatResult.class);
+
+        List<Tuple> chatList = result.getData();
+
+        List<String[]> chatStringsList = new ArrayList<>();
+
+        if (chatList == null) {
+            return;
+        }
+
+        for (Tuple item : chatList) {
+            String[] tempList = new String[2];
+
+            tempList[0] = (String) item.getX();
+            tempList[1] = (String) item.getY();
+
+            chatStringsList.add(tempList);
+        }
+
+        if (chatStringsList.size() > 0) {
+            messages.clear();
+            messages.addAll(chatStringsList);
+        }
     }
 
     @Override
     public void onBackPressed() {}
 
     public void sendMessage(String message) {
-        presenter.shutDownPoller();
-
         ChatResult result = presenter.sendMessage(message);
 
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);
             toast.show();
-
-            presenter.startPoller();
         }
 
         Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);

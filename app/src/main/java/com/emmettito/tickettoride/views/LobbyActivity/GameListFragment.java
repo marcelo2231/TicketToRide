@@ -58,10 +58,6 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
 
         gameString = newListString;
 
-        GetGamesResult resultString = new GetGamesResult();
-
-        String stringy = new Gson().toJson(resultString);
-
         GetGamesResult result = new Gson().fromJson(newListString, GetGamesResult.class);
 
         List<Game> gamesList = result.getData();
