@@ -57,13 +57,13 @@ public class StartGameCommand implements IGameLobbyCommand {
             }
         }
 
-        /** Add 3 Destination Cards per player **/
-        for(Player p : players){
-            for(int i = 0; i < 4; i++){
-                DestinationCard card = deckDao.removeTopDestCardFromDeck(commandModel.getGameName());
-                deckDao.addDestCardToPlayer(commandModel.getGameName(), p.getPlayerName(), card);
-            }
-        }
+//        /** Add 3 Destination Cards per player **/
+//        for(Player p : players){
+//            for(int i = 0; i < 4; i++){
+//                DestinationCard card = deckDao.removeTopDestCardFromDeck(commandModel.getGameName());
+//                deckDao.addDestCardToPlayer(commandModel.getGameName(), p.getPlayerName(), card);
+//            }
+//        }
 
         /** Prepare Result **/
         GameLobbyResult gameLobbyResult = new GameLobbyResult();
