@@ -36,8 +36,7 @@
             android:layout_width="97dp"
             android:layout_height="46dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/back_of_train_card"
-            android:text="Draw Train Card" />
+            android:background="@drawable/back_of_train_card"/>
 
 
         <Button
@@ -45,40 +44,35 @@
             android:layout_width="75dp"
             android:layout_height="41dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/TrainCardsDeck"
-            android:text="Draw Faceup Card 1" />
+            android:layout_below="@+id/TrainCardsDeck"/>
 
         <Button
             android:id="@+id/trainCard2"
             android:layout_width="76dp"
             android:layout_height="39dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/trainCard1"
-            android:text="Draw Faceup Card 2" />
+            android:layout_below="@+id/trainCard1"/>
 
         <Button
             android:id="@+id/trainCard3"
             android:layout_width="75dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/trainCard2"
-            android:text="Draw Faceup Card 3" />
+            android:layout_below="@id/trainCard2"/>
 
         <Button
             android:id="@+id/trainCard4"
             android:layout_width="76dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/trainCard3"
-            android:text="Draw Faceup Card 4" />
+            android:layout_below="@+id/trainCard3"/>
 
         <Button
             android:id="@+id/trainCard5"
             android:layout_width="76dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/trainCard4"
-            android:text="Draw Faceup Card 5" />
+            android:layout_below="@id/trainCard4"/>
 
         <Button
             android:id="@+id/deckDestinationCards"
