@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class HardCodedRoute {
     private Tuple citiesIds;
     private String id;
-    private HardCodedSpace space;
+    private ArrayList<HardCodedSpace> spaces;
 
-    public HardCodedRoute(String city1, String city2, String id, HardCodedSpace space){
+    public HardCodedRoute(String city1, String city2, String id, ArrayList<HardCodedSpace> spaces){
         this.citiesIds = new Tuple(city1, city2);
         this.id = id;
-        this.space = space;
+        this.spaces = spaces;
     }
 
     public Tuple getCitiesIds() {
@@ -23,7 +23,7 @@ public class HardCodedRoute {
         return id;
     }
 
-    public HardCodedSpace getSpace() {
-        return space;
+    public ArrayList<HardCodedSpace> getSpaces() {
+        return spaces;
     }
 }
