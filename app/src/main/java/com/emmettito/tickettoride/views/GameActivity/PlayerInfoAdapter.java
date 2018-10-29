@@ -21,6 +21,8 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
         public TextView player_name;
         public TextView player_points;
         public TextView player_position;
+        public TextView player_train_cards;
+        public TextView player_dest_cards;
 
         public PlayerInfoHolder(View v) {
             super(v);
@@ -28,6 +30,8 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
             player_name = v.findViewById(R.id.player_name);
             player_points = v.findViewById(R.id.player_points);
             player_position = v.findViewById(R.id.player_position);
+            player_train_cards = v.findViewById(R.id.player_train_cards);
+            player_dest_cards = v.findViewById(R.id.player_dest_cards);
 
             v.setOnClickListener(this);
         }
@@ -75,6 +79,8 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
         holder.player_name.setText(data.get(position)[1]);
         holder.player_points.setText(data.get(position)[2]);
         holder.player_position.setText(data.get(position)[3]);
+        holder.player_train_cards.setText(data.get(position)[4]);
+        holder.player_dest_cards.setText(data.get(position)[5]);
 
         holder.itemView.setSelected(selectedPosition == position);
 
