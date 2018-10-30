@@ -1,43 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".views.GameActivity.GameActivity">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/mainGameView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        >
 
-        <Button
-            android:id="@+id/openChatButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/leftHandView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/openChat"
-            android:layout_alignParentBottom="true"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/leaveGameButton"
-            android:layout_width="wrap_content"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/playerListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="horizontal"/>
+
+            <Button
+                android:id="@+id/openChatButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/openChat"
+                />
+
+            <Button
+                android:id="@+id/leaveGameButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/leave_game"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mapFragmentHolder"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/leave_game"
-            android:layout_above="@+id/openChatButton"/>
+            android:layout_weight="8">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:scrollbars="horizontal"/>
+            <fragment
+                android:id="@+id/mapFragment"
+                android:name="com.emmettito.tickettoride.views.GameActivity.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rightHandView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
         <Button
             android:id="@+id/TrainCardsDeck"
-            android:layout_width="97dp"
+            android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/back_of_train_card"/>
-
 
         <Button
             android:id="@+id/trainCard1"
@@ -82,16 +113,27 @@
             android:layout_below="@id/trainCard5"
             android:background="@drawable/back_of_dest_card"
             android:text="Draw Destination Cards" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottomView"
+        android:layout_below="@+id/mainGameView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/holo_orange_dark">
 
         <Button
             android:id="@+id/viewDesinationCardsButton"
-            android:layout_width="102dp"
-            android:layout_height="46dp"
-            android:layout_above="@+id/leaveGameButton"
+            android:layout_width="103dp"
+            android:layout_height="61dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/back_of_dest_card"
-            android:text="Player's Destination Cards" />
+            android:text="Player's Destination Cards"
+            />
 
     </RelativeLayout>
 
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

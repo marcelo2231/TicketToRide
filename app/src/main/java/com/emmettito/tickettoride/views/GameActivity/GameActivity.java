@@ -1,13 +1,20 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
@@ -19,10 +26,11 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends FragmentActivity {
+
     private Game game;
     private Button chatButton;
-    GamePresenter presenter = new GamePresenter();
+    private GamePresenter presenter = new GamePresenter();
     private Button trainCard1;
     private Button trainCard2;
     private Button trainCard3;
@@ -37,16 +45,51 @@ public class GameActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager playerListLayoutManager;
     private List<String[]> players = new ArrayList<>();
 
+    // MAP VARIABLES
+    private int map_width = 0;
+    private int map_height = 0;
+
+    private  MapView mapView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         setContentView(R.layout.activity_game);
+
         game = new Game();
         // Get players
         ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
         game.setPlayers(playerList);
         Toast.makeText(this, "Game Started!", Toast.LENGTH_SHORT).show();
+
+
+        // SETS UP MAP VIEW
+
+        final View rootView = getWindow().getDecorView().getRootView();
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    boolean onCreated = false;
+
+                    @Override
+                    public void onGlobalLayout() {
+
+                        if (!onCreated) {
+                            onCreated = true;
+                            setMapDimensions();
+                            setMapView();
+                        }
+                    }
+                });
 
         chatButton = (Button) findViewById(R.id.openChatButton);
         chatButton.setEnabled(true);
@@ -205,7 +248,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         /** Set up recycler view **/
-        playerListRecycle = (RecyclerView) findViewById(R.id.my_recycler_view);
+        playerListRecycle = (RecyclerView) findViewById(R.id.playerListView);
         playerListLayoutManager = new LinearLayoutManager(this);
         playerListRecycle.setLayoutManager(playerListLayoutManager);
         playerListAdapter = new PlayerInfoAdapter(players);
@@ -226,6 +269,20 @@ public class GameActivity extends AppCompatActivity {
         //have the server randomly select select 4 train cards for each player
         //have the server select 3 destination cards for each player.
             //and allow the player to discard 0 or 1 of them
+    }
+
+    private void setMapDimensions() {
+        LinearLayout layout = findViewById(R.id.mapFragmentHolder);
+        map_width = layout.getWidth();
+        map_height = layout.getHeight();
+    }
+
+    private void setMapView() {
+        mapView = new MapView(this, map_width, map_height);
+
+        ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
+        parent.removeAllViews();
+        parent.addView(mapView);
     }
 
     private void setupPlayerList(ArrayList<Player> playerList){
