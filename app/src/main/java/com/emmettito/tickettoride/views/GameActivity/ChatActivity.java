@@ -53,7 +53,7 @@ public class ChatActivity extends AppCompatActivity implements ChatPresenter.cha
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        Toast.makeText(this, "Chat entered!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Chat entered!", Toast.LENGTH_SHORT).show();
 
         setContentView(R.layout.activity_chat);
 
@@ -84,6 +84,8 @@ public class ChatActivity extends AppCompatActivity implements ChatPresenter.cha
                 //Toast.makeText(getApplicationContext(), "You Can't Send Messages!", Toast.LENGTH_SHORT).show();
 
                 sendMessage(messageText.getText().toString());
+
+                messageText.getText().clear();
             }
         });
 
@@ -164,7 +166,7 @@ public class ChatActivity extends AppCompatActivity implements ChatPresenter.cha
             toast.show();
         }
 
-        Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);
-        toast.show();
+        //Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);
+        //toast.show();
     }
 }

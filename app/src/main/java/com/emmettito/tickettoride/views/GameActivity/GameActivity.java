@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.TestDriver;
 import com.emmettito.tickettoride.presenters.GamePresenter;
 
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ public class GameActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager playerListLayoutManager;
     private List<String[]> players = new ArrayList<>();
 
+
+    private Button testDriverButton;
+    private GameActivity mGameActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +150,26 @@ public class GameActivity extends AppCompatActivity {
         playerListRecycle.setLayoutManager(playerListLayoutManager);
         playerListAdapter = new PlayerInfoAdapter(players);
         playerListRecycle.setAdapter(playerListAdapter);
+
+        mGameActivity = this;
+
+        testDriverButton = (Button) findViewById(R.id.testDriverButton);
+        testDriverButton.setEnabled(true);
+        testDriverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
+
+                TestDriver driver = new TestDriver(mGameActivity);
+
+                try {
+                    driver.runTests();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         //after setting up/inflating, initialize the game-starting processes
         startGame();
