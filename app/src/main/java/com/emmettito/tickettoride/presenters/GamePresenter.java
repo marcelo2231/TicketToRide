@@ -1,5 +1,7 @@
 package com.emmettito.tickettoride.presenters;
 
+import com.emmettito.models.Cards.DestinationCardDeck;
+import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -29,6 +31,14 @@ public class GamePresenter implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         game.updatePlayerDisplay();
+
+        if(o.getClass().equals(TrainCardDeck.class)) {
+            game.updateCardDeck();
+        }
+
+        if (o.getClass().equals(DestinationCardDeck.class)) {
+            game.updateDestinationCardDeck();
+        }
     }
 
 

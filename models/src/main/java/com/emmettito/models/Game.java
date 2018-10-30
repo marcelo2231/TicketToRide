@@ -49,10 +49,16 @@ public class Game extends Observable {
 
     public void setDestinationCardDeck(DestinationCardDeck destinationCardDeck) {
         this.destinationCardDeck = destinationCardDeck;
+
+        setChanged();
+        notifyObservers(destinationCardDeck);
     }
 
     public void setTrainCardDeck(TrainCardDeck trainCardDeck) {
         this.trainCardDeck = trainCardDeck;
+
+        setChanged();
+        notifyObservers(trainCardDeck);
     }
 
     public void setChat(ArrayList<Tuple> chat) {

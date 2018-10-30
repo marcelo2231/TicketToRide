@@ -53,6 +53,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="9dp" />
+            <TextView
+                android:text="  PT: "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="9dp"/>
+            <TextView
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="9dp"
+                android:id="@+id/player_trains" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -74,7 +87,7 @@
                 android:textSize="9dp"
                 android:id="@+id/player_train_cards" />
             <TextView
-                android:text="   DC: "
+                android:text="  DC: "
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

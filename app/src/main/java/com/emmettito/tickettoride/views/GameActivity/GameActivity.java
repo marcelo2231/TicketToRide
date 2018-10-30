@@ -79,12 +79,15 @@ public class GameActivity extends AppCompatActivity {
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
                 //helper function that makes sure there's cards in the deck
                 if(checkTrainCardDeck()){
                     game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                       game.getTrainCardDeck().getAvailable().remove(0));
+                    game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                            game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                     deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                    updatePlayerDisplay();
                 }
                 else{
                     Toast.makeText(v.getContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
@@ -96,10 +99,12 @@ public class GameActivity extends AppCompatActivity {
         trainCard1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
                 //remove the card from faceUp and add it to the player's hand
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(0));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 //substitute the card from the available deck for the card in the faceUp array
                 TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                 game.getTrainCardDeck().getFaceUpCards().add(0, newCard);
@@ -107,6 +112,7 @@ public class GameActivity extends AppCompatActivity {
                 trainCard1.setBackground(updateFaceUpCard(newCard));
                 //update the available train cards
                 deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                updatePlayerDisplay();
             }
         });
         //when the game starts, we don't have to check if there's at least 5 cards in the faceUp pile
@@ -116,13 +122,16 @@ public class GameActivity extends AppCompatActivity {
         trainCard2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                   game.getTrainCardDeck().getFaceUpCards().remove(1));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                 game.getTrainCardDeck().getFaceUpCards().add(1, newCard);
                 trainCard2.setBackground(updateFaceUpCard(newCard));
                 deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                updatePlayerDisplay();
             }
         });
         trainCard2.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(1)));
@@ -131,13 +140,16 @@ public class GameActivity extends AppCompatActivity {
         trainCard3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(2));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                 game.getTrainCardDeck().getFaceUpCards().add(2, newCard);
                 trainCard3.setBackground(updateFaceUpCard(newCard));
                 deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                updatePlayerDisplay();
             }
         });
         trainCard3.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(2)));
@@ -146,13 +158,16 @@ public class GameActivity extends AppCompatActivity {
         trainCard4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(3));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                 game.getTrainCardDeck().getFaceUpCards().add(3, newCard);
                 trainCard4.setBackground(updateFaceUpCard(newCard));
                 deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                updatePlayerDisplay();
             }
         });
         trainCard4.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(3)));
@@ -161,18 +176,27 @@ public class GameActivity extends AppCompatActivity {
         trainCard5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(4));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                 game.getTrainCardDeck().getFaceUpCards().add(4, newCard);
                 trainCard5.setBackground(updateFaceUpCard(newCard));
                 deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                updatePlayerDisplay();
             }
         });
         trainCard5.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(4)));
 
+
+        String numberOfDestinationCards = Integer.toString(game.getDestinationCardDeck().getAvailableCards().size());
+
+        String destinationCardButtonText = numberOfDestinationCards + "\nDestination";
+
         deckDestinationCards = (Button) findViewById(R.id.deckDestinationCards);
+        deckDestinationCards.setText(destinationCardButtonText);
         deckDestinationCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -254,7 +278,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void updatePlayerDisplay() {
-        System.out.println(players);
+        //System.out.println(players);
         setupPlayerList(game.getPlayers());
 
         if (playerListAdapter == null) {
@@ -262,19 +286,29 @@ public class GameActivity extends AppCompatActivity {
         }
 
         playerListAdapter.notifyDataSetChanged();
-        System.out.println(players);
+        //System.out.println(players);
+    }
+
+    public void updateCardDeck() {
+        deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+    }
+
+    public void updateDestinationCardDeck() {
+        String update = String.valueOf(game.getDestinationCardDeck().getAvailableCards().size()) + "\nDestination";
+        deckDestinationCards.setText(update);
     }
 
     private void setupPlayerList(ArrayList<Player> playerList){
         List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
-            String[] newPlayer = new String[6];
+            String[] newPlayer = new String[7];
             newPlayer[0] = p.getColor().toString();
             newPlayer[1] = p.getPlayerName();
             newPlayer[2] = Integer.toString(p.getPoints());
             newPlayer[3] = Integer.toString(p.getPosition());
             newPlayer[4] = Integer.toString(p.getTrainCards().size());
             newPlayer[5] = Integer.toString(p.getDestinationCards().size());
+            newPlayer[6] = Integer.toString(p.getPlasticTrains());
             newPlayersList.add(newPlayer);
         }
         if (newPlayersList.size() > 0){
