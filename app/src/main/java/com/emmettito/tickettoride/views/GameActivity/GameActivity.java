@@ -23,7 +23,7 @@ import java.util.List;
 public class GameActivity extends AppCompatActivity {
     private Game game;
     private Button chatButton;
-    GamePresenter presenter = new GamePresenter();
+    GamePresenter presenter = new GamePresenter(this);
     private Button trainCard1;
     private Button trainCard2;
     private Button trainCard3;
@@ -46,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        game = new Game();
+        game = Game.getInstance();
         // Get players
         ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
@@ -225,7 +225,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
 
-                TestDriver driver = new TestDriver(mGameActivity);
+                TestDriver driver = new TestDriver(mGameActivity, game);
 
                 try {
                     driver.runTests();
@@ -251,6 +251,18 @@ public class GameActivity extends AppCompatActivity {
         //have the server randomly select select 4 train cards for each player
         //have the server select 3 destination cards for each player.
             //and allow the player to discard 0 or 1 of them
+    }
+
+    public void updatePlayerDisplay() {
+        System.out.println(players);
+        setupPlayerList(game.getPlayers());
+
+        if (playerListAdapter == null) {
+            return;
+        }
+
+        playerListAdapter.notifyDataSetChanged();
+        System.out.println(players);
     }
 
     private void setupPlayerList(ArrayList<Player> playerList){

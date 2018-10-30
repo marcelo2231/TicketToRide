@@ -2,19 +2,28 @@ package com.emmettito.tickettoride;
 
 import android.widget.Toast;
 
+import com.emmettito.models.Game;
+import com.emmettito.models.Player;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+
+import java.util.ArrayList;
 
 public class TestDriver {
     private Client client;
     private GameActivity activity;
+    private Game game;
 
-    public TestDriver(GameActivity activity) {
+    public TestDriver(GameActivity activity, Game game) {
         client = Client.getInstance();
         this.activity = activity;
+        this.game = game;
     }
 
     public void runTests() throws java.lang.InterruptedException {
         updatePlayerPoints();
+        //wait(5000);
+
+        //updateOpponentPoints();
         //wait(5000);
 
         //addTrainCards();
@@ -54,8 +63,20 @@ public class TestDriver {
         //wait(5000);
     }
 
-    private void updatePlayerPoints() {
+    private void updatePlayerPoints() throws java.lang.InterruptedException {
         Toast.makeText(activity, "Updating player's points", Toast.LENGTH_SHORT).show();
+
+        ArrayList<Player> players = game.getPlayers();
+
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            System.out.printf("Old number of points: %d\n", players.get(i).getPoints());
+            players.get(i).setPoints(players.get(i).getPoints() + 5);
+            //sleep(1000);
+
+            System.out.printf("New number of points: %d\n", players.get(i).getPoints());
+        }
+
+        game.setPlayers(players);
     }
 
     private void addTrainCards() {
