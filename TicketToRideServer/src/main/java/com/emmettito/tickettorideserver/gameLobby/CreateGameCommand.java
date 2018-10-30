@@ -31,7 +31,7 @@ public class CreateGameCommand implements IGameLobbyCommand{
         }
 
         /** Create game and player variable **/
-        Game newGame = new Game();
+        Game newGame = Game.getInstance();
         GameLobbyResult result = new GameLobbyResult();
         newGame.setGameName(commandModel.getGameName());
 
