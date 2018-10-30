@@ -16,9 +16,9 @@ public class Game extends Observable {
     private int playerTurnIndex; // Index of player on ArrayList<Player> players who has the turn
     //private Tuple longestPath; //Tuple(length, Player)
 
-    private static Game instance;
+    //private static Game instance;
 
-    private Game() {
+    public Game() {
         players = new ArrayList<>();
         destinationCardDeck = new DestinationCardDeck();
         trainCardDeck = new TrainCardDeck();
@@ -26,14 +26,14 @@ public class Game extends Observable {
         playerTurnIndex = 0;
     }
 
-    public static Game getInstance()
+    /*public static Game getInstance()
     {
         if (instance == null) {
             instance = new Game();
         }
 
         return instance;
-    }
+    }*/
 
     /** Setters **/
     public void setGameName(String gameName) {

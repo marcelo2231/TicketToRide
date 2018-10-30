@@ -7,14 +7,7 @@ import android.graphics.Paint;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.emmettito.models.City;
-import com.emmettito.models.HardCoded.HardCodedData;
-import com.emmettito.models.Route;
-import com.emmettito.models.Space;
-import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.R;
-
-import java.util.List;
 
 public class MapView extends View {
 

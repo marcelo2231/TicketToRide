@@ -4,28 +4,17 @@
     android:minWidth="25px"
     android:minHeight="25px"
     android:layout_width="95dp"
-    android:layout_height="36dp"
-    android:gravity="center"
-    android:layout_marginRight="5dp"
-    android:layout_marginLeft="5dp">
+    android:layout_height="48dp"
+    android:layout_marginLeft="5dp"
+    android:gravity="center">
 
-    <TextView
-        android:text="1"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/player_position"/>
     <LinearLayout
         android:orientation="vertical"
         android:minWidth="25px"
         android:layout_width="75dp"
         android:layout_height="match_parent"
         android:background="@color/defaultPlayerColor"
-        android:gravity="center"
-        android:layout_marginRight="5dp"
+        android:gravity="left"
         android:id="@+id/player_background">
         <TextView
             android:text="Spot Open"
@@ -38,7 +27,7 @@
             android:orientation="horizontal"
             android:minWidth="25px"
             android:layout_width="match_parent"
-            android:gravity="center"
+            android:gravity="left"
             android:layout_height="wrap_content">
             <TextView
                 android:text="0"
@@ -53,8 +42,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="9dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:layout_width="match_parent"
+            android:gravity="left"
+            android:layout_height="wrap_content">
             <TextView
-                android:text="  PT: "
+                android:text="Trains: "
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,11 +63,12 @@
                 android:textSize="9dp"
                 android:id="@+id/player_trains" />
         </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:minWidth="25px"
             android:layout_width="match_parent"
-            android:gravity="center"
+            android:gravity="left"
             android:layout_height="wrap_content">
             <TextView
                 android:text="TC: "
@@ -101,5 +98,14 @@
                 android:id="@+id/player_dest_cards" />
         </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/player_position"/>
 
 </android.widget.LinearLayout>

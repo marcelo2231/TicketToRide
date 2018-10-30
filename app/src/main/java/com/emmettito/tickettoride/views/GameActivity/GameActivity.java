@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -68,7 +67,7 @@ public class GameActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_game);
-        game = Game.getInstance();
+        game = new Game();
         // Get players
         ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
@@ -349,6 +348,7 @@ public class GameActivity extends FragmentActivity {
             }
         });
 
+        presenter.addGame(game);
 
         //after setting up/inflating, initialize the game-starting processes
         startGame();

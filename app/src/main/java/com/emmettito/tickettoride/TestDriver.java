@@ -1,5 +1,8 @@
 package com.emmettito.tickettoride;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -23,10 +26,19 @@ public class TestDriver {
     }
 
     public void runTests() throws java.lang.InterruptedException {
-        updatePlayerPoints();
-        //wait(5000);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 
-        //updateOpponentPoints();
+        AlertDialog dialog = alertDialogBuilder.setMessage("Updating the player's points").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updatePlayerPoints();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
         //addTrainCards();
@@ -41,22 +53,95 @@ public class TestDriver {
         //removeDestinationCards();
         //wait(5000);
 
-        updateVisibleTrainCards();
+        dialog = alertDialogBuilder.setMessage("Updating destination card deck").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateDestinationCardDeck();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
-        updateInvisibleCards();
+        dialog = alertDialogBuilder.setMessage("Updating face-up train cards").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateVisibleTrainCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
-        updateOpponentTrainCards();
+        dialog = alertDialogBuilder.setMessage("Updating train card deck").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateInvisibleCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
-        updateOpponentTrains();
+        dialog = alertDialogBuilder.setMessage("Updating the opponent's points").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateOpponentPoints();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
-        updateOpponentDestinationCards();
+        dialog = alertDialogBuilder.setMessage("Updating opponent's train cards").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateOpponentTrainCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
-        //updateDestinationCardDeck();
+        dialog = alertDialogBuilder.setMessage("Updating opponent's trains").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateOpponentTrains();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
+        //wait(5000);
+
+        dialog = alertDialogBuilder.setMessage("Updating opponent's destination cards").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateOpponentDestinationCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
         //addPlayerRoute();
@@ -66,17 +151,19 @@ public class TestDriver {
         //wait(5000);
     }
 
-    private void updatePlayerPoints() throws java.lang.InterruptedException {
-        Toast.makeText(activity, "Updating player's points", Toast.LENGTH_SHORT).show();
+    private void updatePlayerPoints() {
+        //Toast.makeText(activity, "Updating the player's points", Toast.LENGTH_SHORT).show();
 
         ArrayList<Player> players = game.getPlayers();
 
         for (int i = 0; i < game.getPlayers().size(); i++) {
-            System.out.printf("Old number of points: %d\n", players.get(i).getPoints());
-            players.get(i).setPoints(players.get(i).getPoints() + 5);
+            //System.out.printf("Old number of points: %d\n", players.get(i).getPoints());
+            if (players.get(i).getPlayerName().equals(client.getUser())) {
+                players.get(i).setPoints(players.get(i).getPoints() + 5);
+            }
             //sleep(1000);
 
-            System.out.printf("New number of points: %d\n", players.get(i).getPoints());
+            //System.out.printf("New number of points: %d\n", players.get(i).getPoints());
         }
 
         game.setPlayers(players);
@@ -98,8 +185,19 @@ public class TestDriver {
         Toast.makeText(activity, "Removing destination cards from the player's hand", Toast.LENGTH_SHORT).show();
     }
 
+    private void updateDestinationCardDeck() {
+        //Toast.makeText(activity, "Updating destination card deck", Toast.LENGTH_SHORT).show();
+
+        ArrayList<DestinationCard> deck = (ArrayList) game.getDestinationCardDeck().getAvailableCards();
+
+        deck.remove(0);
+        game.getDestinationCardDeck().setAvailableCards(deck);
+
+        game.setDestinationCardDeck(game.getDestinationCardDeck());
+    }
+
     private void updateVisibleTrainCards() {
-        Toast.makeText(activity, "Updating face-up train cards", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Updating face-up train cards", Toast.LENGTH_SHORT).show();
 
         Button trainCard1 = activity.findViewById(R.id.trainCard1);
         Button trainCard2 = activity.findViewById(R.id.trainCard2);
@@ -115,7 +213,7 @@ public class TestDriver {
     }
 
     private void updateInvisibleCards() {
-        Toast.makeText(activity, "Updating train card deck", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Updating train card deck", Toast.LENGTH_SHORT).show();
 
         ArrayList<TrainCard> deck = (ArrayList) game.getTrainCardDeck().getAvailable();
 
@@ -124,8 +222,26 @@ public class TestDriver {
         game.setTrainCardDeck(game.getTrainCardDeck());
     }
 
+    private void updateOpponentPoints() {
+        //Toast.makeText(activity, "Updating the opponent's points", Toast.LENGTH_SHORT).show();
+
+        ArrayList<Player> players = game.getPlayers();
+
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            //System.out.printf("Old number of points: %d\n", players.get(i).getPoints());
+            if (!players.get(i).getPlayerName().equals(client.getUser())) {
+                players.get(i).setPoints(players.get(i).getPoints() + 5);
+            }
+            //sleep(1000);
+
+            //System.out.printf("New number of points: %d\n", players.get(i).getPoints());
+        }
+
+        game.setPlayers(players);
+    }
+
     private void updateOpponentTrainCards() {
-        Toast.makeText(activity, "Updating opponent's train cards", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Updating opponent's train cards", Toast.LENGTH_SHORT).show();
 
         ArrayList<Player> players = game.getPlayers();
 
@@ -151,7 +267,7 @@ public class TestDriver {
     }
 
     private void updateOpponentTrains() {
-        Toast.makeText(activity, "Updating opponent's trains", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Updating opponent's trains", Toast.LENGTH_SHORT).show();
 
         ArrayList<Player> players = game.getPlayers();
 
@@ -165,7 +281,7 @@ public class TestDriver {
     }
 
     private void updateOpponentDestinationCards() {
-        Toast.makeText(activity, "Updating opponent's destination cards", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Updating opponent's destination cards", Toast.LENGTH_SHORT).show();
 
         ArrayList<Player> players = game.getPlayers();
 
@@ -188,10 +304,6 @@ public class TestDriver {
             //sleep(1000);
         }
         game.setPlayers(players);
-    }
-
-    private void updateDestinationCardDeck() {
-        Toast.makeText(activity, "Updating destination card deck", Toast.LENGTH_SHORT).show();
     }
 
     private void addPlayerRoute() {

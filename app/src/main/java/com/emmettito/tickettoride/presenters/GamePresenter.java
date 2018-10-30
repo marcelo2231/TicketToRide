@@ -22,10 +22,10 @@ public class GamePresenter implements Observer {
 
     private GameActivity game;
 
+    private Game gameObject;
+
     public GamePresenter(GameActivity game) {
         this.game = game;
-
-        Game.getInstance().addObserver(this);
     }
 
     @Override
@@ -41,6 +41,11 @@ public class GamePresenter implements Observer {
         }
     }
 
+    public void addGame(Game gameObject) {
+        this.gameObject = gameObject;
+
+        gameObject.addObserver(this);
+    }
 
     public ArrayList<Player> getPlayers(){
         facade = ServerFacade.getInstance();
