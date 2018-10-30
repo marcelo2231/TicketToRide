@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -68,7 +67,7 @@ public class GameActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_game);
-        game = Game.getInstance();
+        game = new Game();
         // Get players
         ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
@@ -121,12 +120,15 @@ public class GameActivity extends FragmentActivity {
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
                 //helper function that makes sure there's cards in the deck
                 if(checkTrainCardDeck()){
                     game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                       game.getTrainCardDeck().getAvailable().remove(0));
+                    game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                            game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                     deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                    updatePlayerDisplay();
                 }
                 else{
                     Toast.makeText(v.getContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
@@ -142,6 +144,8 @@ public class GameActivity extends FragmentActivity {
                 //remove the card from faceUp and add it to the player's hand
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(0));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 //check if the deck is empty
                 if(checkTrainCardDeck()) {
                     //substitute the card from the available deck for the card in the faceUp array
@@ -165,6 +169,7 @@ public class GameActivity extends FragmentActivity {
                      * TODO: A listener/poller that refreshes the button when cards become available (after someone discards)
                      */
                 }
+                updatePlayerDisplay();
             }
         });
         //when the game starts, we don't have to check if there's at least 5 cards in the faceUp pile
@@ -177,6 +182,8 @@ public class GameActivity extends FragmentActivity {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                   game.getTrainCardDeck().getFaceUpCards().remove(1));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(1, newCard);
@@ -189,6 +196,7 @@ public class GameActivity extends FragmentActivity {
                     game.getTrainCardDeck().getFaceUpCards().add(1, null);
                     trainCard2.setEnabled(false);
                 }
+                updatePlayerDisplay();
             }
         });
         trainCard2.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(1)));
@@ -200,6 +208,8 @@ public class GameActivity extends FragmentActivity {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(2));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(2, newCard);
@@ -212,6 +222,7 @@ public class GameActivity extends FragmentActivity {
                     trainCard3.setEnabled(false);
                     game.getTrainCardDeck().getFaceUpCards().add(2, null);
                 }
+                updatePlayerDisplay();
             }
         });
         trainCard3.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(2)));
@@ -223,6 +234,8 @@ public class GameActivity extends FragmentActivity {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(3));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(3, newCard);
@@ -235,6 +248,7 @@ public class GameActivity extends FragmentActivity {
                     trainCard4.setEnabled(false);
                     game.getTrainCardDeck().getFaceUpCards().add(3, null);
                 }
+                updatePlayerDisplay();
             }
         });
         trainCard4.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(3)));
@@ -243,9 +257,11 @@ public class GameActivity extends FragmentActivity {
         trainCard5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(4));
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
+                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(4, newCard);
@@ -258,11 +274,18 @@ public class GameActivity extends FragmentActivity {
                     trainCard5.setEnabled(false);
                     game.getTrainCardDeck().getFaceUpCards().add(4, null);
                 }
+                updatePlayerDisplay();
             }
         });
         trainCard5.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(4)));
 
+
+        String numberOfDestinationCards = Integer.toString(game.getDestinationCardDeck().getAvailableCards().size());
+
+        String destinationCardButtonText = numberOfDestinationCards + "\nDestination";
+
         deckDestinationCards = (Button) findViewById(R.id.deckDestinationCards);
+        deckDestinationCards.setText(destinationCardButtonText);
         deckDestinationCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,6 +348,7 @@ public class GameActivity extends FragmentActivity {
             }
         });
 
+        presenter.addGame(game);
 
         //after setting up/inflating, initialize the game-starting processes
         startGame();
@@ -358,7 +382,7 @@ public class GameActivity extends FragmentActivity {
     }
 
     public void updatePlayerDisplay() {
-        System.out.println(players);
+        //System.out.println(players);
         setupPlayerList(game.getPlayers());
 
         if (playerListAdapter == null) {
@@ -366,19 +390,29 @@ public class GameActivity extends FragmentActivity {
         }
 
         playerListAdapter.notifyDataSetChanged();
-        System.out.println(players);
+        //System.out.println(players);
+    }
+
+    public void updateCardDeck() {
+        deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+    }
+
+    public void updateDestinationCardDeck() {
+        String update = String.valueOf(game.getDestinationCardDeck().getAvailableCards().size()) + "\nDestination";
+        deckDestinationCards.setText(update);
     }
 
     private void setupPlayerList(ArrayList<Player> playerList){
         List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
-            String[] newPlayer = new String[6];
+            String[] newPlayer = new String[7];
             newPlayer[0] = p.getColor().toString();
             newPlayer[1] = p.getPlayerName();
             newPlayer[2] = Integer.toString(p.getPoints());
             newPlayer[3] = Integer.toString(p.getPosition());
             newPlayer[4] = Integer.toString(p.getTrainCards().size());
             newPlayer[5] = Integer.toString(p.getDestinationCards().size());
+            newPlayer[6] = Integer.toString(p.getPlasticTrains());
             newPlayersList.add(newPlayer);
         }
         if (newPlayersList.size() > 0){
