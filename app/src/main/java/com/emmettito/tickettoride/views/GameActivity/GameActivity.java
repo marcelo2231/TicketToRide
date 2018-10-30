@@ -1,13 +1,20 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
@@ -20,7 +27,8 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends FragmentActivity {
+
     private Game game;
     private Button chatButton;
     GamePresenter presenter = new GamePresenter(this);
@@ -38,6 +46,12 @@ public class GameActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager playerListLayoutManager;
     private List<String[]> players = new ArrayList<>();
 
+    // MAP VARIABLES
+    private int map_width = 0;
+    private int map_height = 0;
+
+    private  MapView mapView = null;
+
 
     private Button testDriverButton;
     private GameActivity mGameActivity;
@@ -45,6 +59,14 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         setContentView(R.layout.activity_game);
         game = Game.getInstance();
         // Get players
@@ -52,6 +74,26 @@ public class GameActivity extends AppCompatActivity {
         setupPlayerList(playerList);
         game.setPlayers(playerList);
         Toast.makeText(this, "Game Started!", Toast.LENGTH_SHORT).show();
+
+
+        // SETS UP MAP VIEW
+
+        final View rootView = getWindow().getDecorView().getRootView();
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    boolean onCreated = false;
+
+                    @Override
+                    public void onGlobalLayout() {
+
+                        if (!onCreated) {
+                            onCreated = true;
+                            setMapDimensions();
+                            setMapView();
+                        }
+                    }
+                });
 
         chatButton = (Button) findViewById(R.id.openChatButton);
         chatButton.setEnabled(true);
@@ -105,13 +147,29 @@ public class GameActivity extends AppCompatActivity {
                         game.getTrainCardDeck().getFaceUpCards().remove(0));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
                         game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
-                //substitute the card from the available deck for the card in the faceUp array
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(0, newCard);
-                //update the faceUp card's background
-                trainCard1.setBackground(updateFaceUpCard(newCard));
-                //update the available train cards
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                //check if the deck is empty
+                if(checkTrainCardDeck()) {
+                    //substitute the card from the available deck for the card in the faceUp array
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(0, newCard);
+                    //update the faceUp card's background
+                    trainCard1.setBackground(updateFaceUpCard(newCard));
+                    //update the available train cards
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                //no available cards
+                else{
+                    //set the background as nothing
+                    trainCard1.setBackgroundColor(0x00);
+                    trainCard1.setBackgroundResource(android.R.drawable.btn_default);
+                    //insert a null object into the array (so the other cards don't shift indexes)
+                    game.getTrainCardDeck().getFaceUpCards().add(0, null);
+                    //turn off the button
+                    trainCard1.setEnabled(false);
+                    /**
+                     * TODO: A listener/poller that refreshes the button when cards become available (after someone discards)
+                     */
+                }
                 updatePlayerDisplay();
             }
         });
@@ -127,10 +185,18 @@ public class GameActivity extends AppCompatActivity {
                   game.getTrainCardDeck().getFaceUpCards().remove(1));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
                         game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(1, newCard);
-                trainCard2.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(1, newCard);
+                    trainCard2.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard2.setBackgroundColor(0x00);
+                    trainCard2.setBackgroundResource(android.R.drawable.btn_default);
+                    game.getTrainCardDeck().getFaceUpCards().add(1, null);
+                    trainCard2.setEnabled(false);
+                }
                 updatePlayerDisplay();
             }
         });
@@ -145,10 +211,18 @@ public class GameActivity extends AppCompatActivity {
                         game.getTrainCardDeck().getFaceUpCards().remove(2));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
                         game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(2, newCard);
-                trainCard3.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(2, newCard);
+                    trainCard3.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard3.setBackgroundColor(0x00);
+                    trainCard3.setBackgroundResource(android.R.drawable.btn_default);
+                    trainCard3.setEnabled(false);
+                    game.getTrainCardDeck().getFaceUpCards().add(2, null);
+                }
                 updatePlayerDisplay();
             }
         });
@@ -163,10 +237,18 @@ public class GameActivity extends AppCompatActivity {
                         game.getTrainCardDeck().getFaceUpCards().remove(3));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
                         game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(3, newCard);
-                trainCard4.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(3, newCard);
+                    trainCard4.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard4.setBackgroundColor(0x00);
+                    trainCard4.setBackgroundResource(android.R.drawable.btn_default);
+                    trainCard4.setEnabled(false);
+                    game.getTrainCardDeck().getFaceUpCards().add(3, null);
+                }
                 updatePlayerDisplay();
             }
         });
@@ -181,10 +263,18 @@ public class GameActivity extends AppCompatActivity {
                         game.getTrainCardDeck().getFaceUpCards().remove(4));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
                         game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(4, newCard);
-                trainCard5.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(4, newCard);
+                    trainCard5.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard5.setBackgroundColor(0x00);
+                    trainCard5.setBackgroundResource(android.R.drawable.btn_default);
+                    trainCard5.setEnabled(false);
+                    game.getTrainCardDeck().getFaceUpCards().add(4, null);
+                }
                 updatePlayerDisplay();
             }
         });
@@ -234,7 +324,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         /** Set up recycler view **/
-        playerListRecycle = (RecyclerView) findViewById(R.id.my_recycler_view);
+        playerListRecycle = (RecyclerView) findViewById(R.id.playerListView);
         playerListLayoutManager = new LinearLayoutManager(this);
         playerListRecycle.setLayoutManager(playerListLayoutManager);
         playerListAdapter = new PlayerInfoAdapter(players);
@@ -275,6 +365,20 @@ public class GameActivity extends AppCompatActivity {
         //have the server randomly select select 4 train cards for each player
         //have the server select 3 destination cards for each player.
             //and allow the player to discard 0 or 1 of them
+    }
+
+    private void setMapDimensions() {
+        LinearLayout layout = findViewById(R.id.mapFragmentHolder);
+        map_width = layout.getWidth();
+        map_height = layout.getHeight();
+    }
+
+    private void setMapView() {
+        mapView = new MapView(this, map_width, map_height);
+
+        ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
+        parent.removeAllViews();
+        parent.addView(mapView);
     }
 
     public void updatePlayerDisplay() {
@@ -356,7 +460,7 @@ public class GameActivity extends AppCompatActivity {
             game.getTrainCardDeck().setDiscardPile(new ArrayList<TrainCard>());
             //shuffle the deck
             game.getTrainCardDeck().shuffle();
-            //reset the button size
+            //reset the deck size
             deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
             return true;
         }

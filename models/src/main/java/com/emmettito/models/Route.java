@@ -1,70 +1,75 @@
 package com.emmettito.models;
 
+
 import com.emmettito.models.Cards.TrainColor;
 
-public class Route {
-    private int size;
-    private Boolean isDoubleRoute;
-    private TrainColor color1;
-    private TrainColor color2;
-    private Tuple cities;
-    private int pointValue;
+import java.util.List;
 
-    public Boolean getDoubleRoute() {
-        return isDoubleRoute;
+public class Route {
+
+    private int ID;
+    private Tuple cities;
+    private List<Space> spaces;
+    private int pointValue;
+    private Boolean isDoubleRoute;
+    private TrainColor trainColor; //the required train color
+    private PlayerColor playerColor; //the color of the player who played there
+
+    public Route(int ID, Tuple cities, List<Space> spaces, boolean isDoubleRoute, TrainColor c1, PlayerColor c2) {
+        this.ID = ID;
+        this.cities = cities;
+        this.spaces = spaces;
+        this.isDoubleRoute = isDoubleRoute;
+        this.trainColor = c1;
+        this.playerColor = c2;
+
+        calculatePointValue(spaces.size());
     }
 
-    public int getSize() {
-        return size;
+    public int getID() {
+        return ID;
     }
 
     public Tuple getCities() {
         return cities;
     }
 
+    public List<Space> getSpaces() {
+        return spaces;
+    }
+
     public int getPointValue() {
         return pointValue;
     }
 
-    public void setCities(Tuple cities) {
-        this.cities = cities;
+    public Boolean isDoubleRoute() {
+        return isDoubleRoute;
     }
 
-    public void setDoubleRoute(Boolean doubleRoute) {
-        isDoubleRoute = doubleRoute;
+    public TrainColor getTrainColor() {
+        return trainColor;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-        calculatePointValue(size);
+    public PlayerColor getPlayerColor() {
+        return playerColor;
     }
 
-    public TrainColor getColor1() {
-        return color1;
+    public void setPlayerColor(PlayerColor playerColor) {
+        this.playerColor = playerColor;
     }
 
-    public TrainColor getColor2() {
-        return color2;
-    }
+    private int calculatePointValue(int length){
 
-    public void setColor1(TrainColor color1) {
-        this.color1 = color1;
-    }
-
-    public void setColor2(TrainColor color2) {
-        this.color2 = color2;
-    }
-
-    private void calculatePointValue(int length){
         //longest route length is 6
         switch (length){
-            case 1: pointValue = 1;
-            case 2: pointValue = 2;
-            case 3: pointValue = 4;
-            case 4: pointValue = 7;
-            case 5: pointValue = 10;
-            case 6: pointValue = 15;
-            default: break;
+            case 1: return 1;
+            case 2: return 2;
+            case 3: return 4;
+            case 4: return 7;
+            case 5: return 10;
+            case 6: return 15;
+            default: return -1;
         }
     }
 }
+

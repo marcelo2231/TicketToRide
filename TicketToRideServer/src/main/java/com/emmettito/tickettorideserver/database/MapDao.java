@@ -14,12 +14,14 @@ public class MapDao {
 
     public Route removeRoute(String gameName){
 
-        return new Route();
+        //return new Route();
+        return null;
     }
 
     public Route getRoute(String gameName){
 
-        return new Route();
+        //return new Route();
+        return null;
     }
 
 }
