@@ -125,6 +125,18 @@
         android:background="@android:color/holo_orange_dark">
 
         <Button
+            android:id="@+id/testDriverButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:text="Run Test Driver"/>
+
+
+        <Button
             android:id="@+id/viewDesinationCardsButton"
             android:layout_width="103dp"
             android:layout_height="61dp"

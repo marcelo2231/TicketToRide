@@ -21,6 +21,7 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.TestDriver;
 import com.emmettito.tickettoride.presenters.GamePresenter;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class GameActivity extends FragmentActivity {
 
     private Game game;
     private Button chatButton;
-    private GamePresenter presenter = new GamePresenter();
+    GamePresenter presenter = new GamePresenter(this);
     private Button trainCard1;
     private Button trainCard2;
     private Button trainCard3;
@@ -51,6 +52,10 @@ public class GameActivity extends FragmentActivity {
 
     private  MapView mapView = null;
 
+
+    private Button testDriverButton;
+    private GameActivity mGameActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +68,7 @@ public class GameActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_game);
-
-        game = new Game();
+        game = Game.getInstance();
         // Get players
         ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
@@ -254,6 +258,26 @@ public class GameActivity extends FragmentActivity {
         playerListAdapter = new PlayerInfoAdapter(players);
         playerListRecycle.setAdapter(playerListAdapter);
 
+        mGameActivity = this;
+
+        testDriverButton = (Button) findViewById(R.id.testDriverButton);
+        testDriverButton.setEnabled(true);
+        testDriverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
+
+                TestDriver driver = new TestDriver(mGameActivity, game);
+
+                try {
+                    driver.runTests();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         //after setting up/inflating, initialize the game-starting processes
         startGame();
     }
@@ -283,6 +307,18 @@ public class GameActivity extends FragmentActivity {
         ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
         parent.removeAllViews();
         parent.addView(mapView);
+    }
+
+    public void updatePlayerDisplay() {
+        System.out.println(players);
+        setupPlayerList(game.getPlayers());
+
+        if (playerListAdapter == null) {
+            return;
+        }
+
+        playerListAdapter.notifyDataSetChanged();
+        System.out.println(players);
     }
 
     private void setupPlayerList(ArrayList<Player> playerList){

@@ -1,14 +1,12 @@
 package com.emmettito.models;
 
 import com.emmettito.models.Cards.DestinationCardDeck;
-import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
 
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
-
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Game {
+public class Game extends Observable {
     /** Variables **/
     private String gameName;
     private ArrayList<Player> players;
@@ -18,12 +16,23 @@ public class Game {
     private int playerTurnIndex; // Index of player on ArrayList<Player> players who has the turn
     //private Tuple longestPath; //Tuple(length, Player)
 
-    public Game(){
+    private static Game instance;
+
+    private Game() {
         players = new ArrayList<>();
         destinationCardDeck = new DestinationCardDeck();
         trainCardDeck = new TrainCardDeck();
         Chat = new ArrayList<>();
         playerTurnIndex = 0;
+    }
+
+    public static Game getInstance()
+    {
+        if (instance == null) {
+            instance = new Game();
+        }
+
+        return instance;
     }
 
     /** Setters **/
@@ -33,6 +42,9 @@ public class Game {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
+
+        setChanged();
+        notifyObservers(players);
     }
 
     public void setDestinationCardDeck(DestinationCardDeck destinationCardDeck) {

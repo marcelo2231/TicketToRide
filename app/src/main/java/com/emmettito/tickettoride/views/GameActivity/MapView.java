@@ -7,9 +7,11 @@ import android.graphics.Paint;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.emmettito.models.City;
 import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.Route;
 import com.emmettito.models.Space;
+import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.R;
 
 import java.util.List;
@@ -35,25 +37,25 @@ public class MapView extends View {
         super.onDraw(canvas);
         setBackgroundResource(R.drawable.ticket_to_ride_map_v2);
 
+        // TODO: FOR PROOF THAT THE MAP COORDINATES WORK, UNCOMMENT THE LINES BELOW:
+        // NOTE: THE COORDINATES HAVE ONLY BEEN TESTED ON A NEXUS 5
 
-        HardCodedData data = new HardCodedData();
-        List<Route> routes = data.getRoutes();
-        
-//        List<City> cities = d.getCities();
-//        List<Route> routes = d.getRoutes();
+//        HardCodedData data = new HardCodedData();
+//        List<Route> routes = data.getRoutes();
+//        List<City> cities = data.getCities();
 //
 //        for (int i = 0; i < cities.size(); i++) {
 //            Tuple t = cities.get(i).getLocation();
-//            drawCircle(canvas, (float)t.x, (float)t.y);
+//            drawCircle(canvas, (float)t.getX(), (float)t.getY());
 //        }
-
-        for (int i = 0; i < routes.size(); i++) {
-            List<Space> spaces = routes.get(i).getSpaces();
-            for (int j = 0; j < spaces.size(); j++) {
-                Space s = spaces.get(j);
-                drawRect(canvas, s.getX(), s.getY(), s.getAngle());
-            }
-        }
+//
+//        for (int i = 0; i < routes.size(); i++) {
+//            List<Space> spaces = routes.get(i).getSpaces();
+//            for (int j = 0; j < spaces.size(); j++) {
+//                Space s = spaces.get(j);
+//                drawRect(canvas, s.getX(), s.getY(), s.getAngle());
+//            }
+//        }
     }
 
     private void drawCircle(Canvas canvas, float x, float y) {
