@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.emmettito.tickettoride.R;
 
@@ -28,6 +31,16 @@ public class DrawDestCardFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private boolean mFirstTime;
+
+    private TextView destCard1;
+    private TextView destCard2;
+    private TextView destCard3;
+
+    private ToggleButton cardToggle1;
+    private ToggleButton cardToggle2;
+    private ToggleButton cardToggle3;
+
+    private Button finishButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,11 +73,23 @@ public class DrawDestCardFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        destCard1 = (TextView) getView().findViewById(R.id.destCard1);
+        destCard2 = (TextView) getView().findViewById(R.id.destCard2);
+        destCard3 = (TextView) getView().findViewById(R.id.destCard3);
+
+        cardToggle1 = (ToggleButton) getView().findViewById(R.id.toggleDest1);
+        cardToggle2 = (ToggleButton) getView().findViewById(R.id.toggleDest2);
+        cardToggle3 = (ToggleButton) getView().findViewById(R.id.toggleDest3);
+
+        finishButton = (Button) getView().findViewById(R.id.dest_card_button_end);
+        finishButton.setEnabled(true);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_draw_dest_card, container, false);
     }

@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride.presenters;
 
+import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
@@ -53,4 +54,6 @@ public class GamePresenter implements Observer {
         GetPlayersResult result = facade.getPlayers(request, "10.0.2.2", "8080");
         return result.getData();
     }
+
+
 }
