@@ -37,7 +37,6 @@ public class GameActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager playerListLayoutManager;
     private List<String[]> players = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -250,6 +249,8 @@ public class GameActivity extends AppCompatActivity {
     //this will update the chosen faceUp card background
     private Drawable updateFaceUpCard(TrainCard newCard){
         switch (newCard.getColor()){
+            case Wild:
+                return getDrawable(R.drawable.wild_train_card);
             case Red:
                 return getDrawable(R.drawable.red_train_card);
             case Blue:
@@ -266,8 +267,9 @@ public class GameActivity extends AppCompatActivity {
                 return  getDrawable(R.drawable.orange_train_card);
             case Yellow:
                 return getDrawable(R.drawable.yellow_train_card);
-            default: //wild card
-                return getDrawable(R.drawable.wild_train_card);
+
+            default: //should be unreachable
+                return getDrawable(R.drawable.back_of_train_card);
         }
     }
 
