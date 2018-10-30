@@ -138,17 +138,33 @@ public class GameActivity extends FragmentActivity {
         trainCard1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
                 //remove the card from faceUp and add it to the player's hand
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(0));
-                //substitute the card from the available deck for the card in the faceUp array
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(0, newCard);
-                //update the faceUp card's background
-                trainCard1.setBackground(updateFaceUpCard(newCard));
-                //update the available train cards
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                //check if the deck is empty
+                if(checkTrainCardDeck()) {
+                    //substitute the card from the available deck for the card in the faceUp array
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(0, newCard);
+                    //update the faceUp card's background
+                    trainCard1.setBackground(updateFaceUpCard(newCard));
+                    //update the available train cards
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                //no available cards
+                else{
+                    //set the background as nothing
+                    trainCard1.setBackgroundColor(0x00);
+                    trainCard1.setBackgroundResource(android.R.drawable.btn_default);
+                    //insert a null object into the array (so the other cards don't shift indexes)
+                    game.getTrainCardDeck().getFaceUpCards().add(0, null);
+                    //turn off the button
+                    trainCard1.setEnabled(false);
+                    /**
+                     * TODO: A listener/poller that refreshes the button when cards become available (after someone discards)
+                     */
+                }
             }
         });
         //when the game starts, we don't have to check if there's at least 5 cards in the faceUp pile
@@ -158,13 +174,21 @@ public class GameActivity extends FragmentActivity {
         trainCard2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                   game.getTrainCardDeck().getFaceUpCards().remove(1));
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(1, newCard);
-                trainCard2.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(1, newCard);
+                    trainCard2.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard2.setBackgroundColor(0x00);
+                    trainCard2.setBackgroundResource(android.R.drawable.btn_default);
+                    game.getTrainCardDeck().getFaceUpCards().add(1, null);
+                    trainCard2.setEnabled(false);
+                }
             }
         });
         trainCard2.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(1)));
@@ -173,13 +197,21 @@ public class GameActivity extends FragmentActivity {
         trainCard3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(2));
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(2, newCard);
-                trainCard3.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(2, newCard);
+                    trainCard3.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard3.setBackgroundColor(0x00);
+                    trainCard3.setBackgroundResource(android.R.drawable.btn_default);
+                    trainCard3.setEnabled(false);
+                    game.getTrainCardDeck().getFaceUpCards().add(2, null);
+                }
             }
         });
         trainCard3.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(2)));
@@ -188,13 +220,21 @@ public class GameActivity extends FragmentActivity {
         trainCard4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(3));
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(3, newCard);
-                trainCard4.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(3, newCard);
+                    trainCard4.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard4.setBackgroundColor(0x00);
+                    trainCard4.setBackgroundResource(android.R.drawable.btn_default);
+                    trainCard4.setEnabled(false);
+                    game.getTrainCardDeck().getFaceUpCards().add(3, null);
+                }
             }
         });
         trainCard4.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(3)));
@@ -203,13 +243,21 @@ public class GameActivity extends FragmentActivity {
         trainCard5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(4));
-                TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-                game.getTrainCardDeck().getFaceUpCards().add(4, newCard);
-                trainCard5.setBackground(updateFaceUpCard(newCard));
-                deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                if(checkTrainCardDeck()) {
+                    TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getTrainCardDeck().getFaceUpCards().add(4, newCard);
+                    trainCard5.setBackground(updateFaceUpCard(newCard));
+                    deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+                }
+                else{
+                    trainCard5.setBackgroundColor(0x00);
+                    trainCard5.setBackgroundResource(android.R.drawable.btn_default);
+                    trainCard5.setEnabled(false);
+                    game.getTrainCardDeck().getFaceUpCards().add(4, null);
+                }
             }
         });
         trainCard5.setBackground(updateFaceUpCard(game.getTrainCardDeck().getFaceUpCards().get(4)));
@@ -378,7 +426,7 @@ public class GameActivity extends FragmentActivity {
             game.getTrainCardDeck().setDiscardPile(new ArrayList<TrainCard>());
             //shuffle the deck
             game.getTrainCardDeck().shuffle();
-            //reset the button size
+            //reset the deck size
             deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
             return true;
         }
