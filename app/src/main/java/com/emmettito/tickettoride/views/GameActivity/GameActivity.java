@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -24,6 +25,7 @@ import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.TestDriver;
 import com.emmettito.tickettoride.presenters.GamePresenter;
@@ -49,6 +51,7 @@ public class GameActivity extends FragmentActivity {
     private RecyclerView.Adapter playerListAdapter;
     private RecyclerView.LayoutManager playerListLayoutManager;
     private List<String[]> players = new ArrayList<>();
+    private Client data;
 
     // MAP VARIABLES
     private int map_width = 0;
@@ -72,6 +75,8 @@ public class GameActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_game);
+
+        data = Client.getInstance();
         game = new Game();
         // Get players
         ArrayList<Player> playerList = presenter.getPlayers();
@@ -344,7 +349,7 @@ public class GameActivity extends FragmentActivity {
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
 
-                TestDriver driver = new TestDriver(mGameActivity, game);
+                TestDriver driver = new TestDriver(mGameActivity, game, mapView);
 
                 try {
                     driver.runTests();
@@ -396,11 +401,28 @@ public class GameActivity extends FragmentActivity {
     }
 
     private void setMapView() {
-        mapView = new MapView(this, map_width, map_height);
+        mapView = new MapView(this, map_width, map_height, game);
 
         ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
         parent.removeAllViews();
         parent.addView(mapView);
+
+        mapView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+
+                    int val = mapView.onRoute(event.getX(), event.getY());
+
+                    if (val != -1) {
+                        //TODO: check that it is already taken and that the user has the right cards
+                        data.addToTakenRoutes(val);
+                        mapView.invalidate();
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     public void updatePlayerDisplay() {
@@ -427,7 +449,7 @@ public class GameActivity extends FragmentActivity {
     private void setupPlayerList(ArrayList<Player> playerList){
         List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
-            String[] newPlayer = new String[7];
+            String[] newPlayer = new String[8];
             newPlayer[0] = p.getColor().toString();
             newPlayer[1] = p.getPlayerName();
             newPlayer[2] = Integer.toString(p.getPoints());
@@ -435,6 +457,7 @@ public class GameActivity extends FragmentActivity {
             newPlayer[4] = Integer.toString(p.getTrainCards().size());
             newPlayer[5] = Integer.toString(p.getDestinationCards().size());
             newPlayer[6] = Integer.toString(p.getPlasticTrains());
+            newPlayer[7] = Integer.toString(game.getPlayerTurnIndex()+1);
             newPlayersList.add(newPlayer);
         }
         if (newPlayersList.size() > 0){

@@ -30,7 +30,7 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
             player_color = v.findViewById(R.id.player_background);
             player_name = v.findViewById(R.id.player_name);
             player_points = v.findViewById(R.id.player_points);
-            player_position = v.findViewById(R.id.player_position);
+            //player_position = v.findViewById(R.id.player_position);
             player_train_cards = v.findViewById(R.id.player_train_cards);
             player_dest_cards = v.findViewById(R.id.player_dest_cards);
             player_trains = v.findViewById(R.id.player_trains);
@@ -61,7 +61,7 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
 
     @Override
     public void onBindViewHolder(PlayerInfoHolder holder, int position) {
-        switch(data.get(position)[0]){
+        switch (data.get(position)[0]) {
             case "Red":
                 holder.player_color.setBackgroundResource(R.color.redPlayer);
                 break;
@@ -78,12 +78,17 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
                 holder.player_color.setBackgroundResource(R.color.yellowPlayer);
                 break;
         }
-        holder.player_name.setText(data.get(position)[1]);
         holder.player_points.setText(data.get(position)[2]);
-        holder.player_position.setText(data.get(position)[3]);
+        //holder.player_position.setText(data.get(position)[3]);
         holder.player_train_cards.setText(data.get(position)[4]);
         holder.player_dest_cards.setText(data.get(position)[5]);
         holder.player_trains.setText(data.get(position)[6]);
+        if (data.get(position)[7].equals(data.get(position)[3])) // if playerTurn == position
+        {
+            holder.player_name.setText("*" + data.get(position)[1] + "*");
+        }else{
+            holder.player_name.setText(data.get(position)[1]);
+        }
 
         holder.itemView.setSelected(selectedPosition == position);
 

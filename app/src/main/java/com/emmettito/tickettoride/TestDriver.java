@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.WindowManager;
@@ -11,6 +12,7 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.views.GameActivity.MapView;
 
 import java.util.ArrayList;
 
@@ -18,11 +20,13 @@ public class TestDriver {
     private Client client;
     private GameActivity activity;
     private Game game;
+    private MapView map;
 
-    public TestDriver(GameActivity activity, Game game) {
+    public TestDriver(GameActivity activity, Game game, MapView map) {
         client = Client.getInstance();
         this.activity = activity;
         this.game = game;
+        this.map = map;
     }
 
     public void runTests() throws java.lang.InterruptedException {
@@ -144,7 +148,17 @@ public class TestDriver {
 
         //wait(5000);
 
-        //addPlayerRoute();
+        dialog = alertDialogBuilder.setMessage("Adding a route earned by the current player").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addPlayerRoute();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
         //addOpponentRoute();
@@ -306,8 +320,16 @@ public class TestDriver {
         game.setPlayers(players);
     }
 
+    @TargetApi(24)
     private void addPlayerRoute() {
-        Toast.makeText(activity, "Adding a route earned by the current player", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Adding a route earned by the current player", Toast.LENGTH_SHORT).show();
+
+        map.performContextClick(0.24057873f, 0.051575135f);
+        map.performContextClick(0.27683744f, 0.031673957f);
+        map.performContextClick(0.31448987f, 0.024623612f);
+        map.performContextClick(0.3528283f, 0.025806865f);
+        map.performContextClick(0.39115855f, 0.0375016f);
+        map.performContextClick(0.4267367f, 0.059807878f);
     }
 
     private void addOpponentRoute() {
