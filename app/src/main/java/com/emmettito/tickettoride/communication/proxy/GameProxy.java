@@ -1,9 +1,11 @@
 package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Results.ChatResult;
 import com.emmettito.models.Results.GetPlayersResult;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
@@ -62,5 +64,26 @@ public class GameProxy {
         }
 
         return gson.fromJson(resultString, GetPlayersResult.class);
+    }
+
+    public Result endTurn(PlayerTurnRequest request){
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        String url = "http://" + serverHost + ":" + serverPort + "/game/playerturn";
+
+        try{
+            resultString = client.execute(url, "POST", requestString).get();
+        } catch (Exception e){
+            e.printStackTrace();
+            resultString = "Error: could not connect to server";
+        }
+
+        if(resultString.equalsIgnoreCase("Error: could not connect to server")){
+            Result result = new Result();
+            result.setMessage(resultString);
+            return result;
+        }
+        return gson.fromJson(resultString, Result.class);
     }
 }

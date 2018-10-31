@@ -56,6 +56,7 @@ public class GameActivity extends FragmentActivity {
 
 
     private Button testDriverButton;
+    private Button endTurnButton;
     private GameActivity mGameActivity;
 
     @Override
@@ -74,7 +75,7 @@ public class GameActivity extends FragmentActivity {
         data = Client.getInstance();
         game = new Game();
         // Get players
-        ArrayList<Player> playerList = presenter.getPlayers();
+        final ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
         game.setPlayers(playerList);
         Toast.makeText(this, "Game Started!", Toast.LENGTH_SHORT).show();
@@ -318,7 +319,7 @@ public class GameActivity extends FragmentActivity {
             deckDestinationCards.setEnabled(false);
         }
 
-        viewDestinationCardsButton = (Button) findViewById(R.id.viewDesinationCardsButton);
+        viewDestinationCardsButton = (Button) findViewById(R.id.viewDestinationCardsButton);
         viewDestinationCardsButton.setEnabled(true);
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,6 +350,34 @@ public class GameActivity extends FragmentActivity {
                     driver.runTests();
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+            }
+        });
+
+        endTurnButton = (Button) findViewById(R.id.endTurnButton);
+        endTurnButton.setEnabled(true);
+        endTurnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //if the turn successfully changed
+                if(presenter.endPlayerTurn(game) != game.getPlayerTurnIndex()){
+                    //turn off their draw buttons
+                    deckTrainCards.setEnabled(false);
+                    trainCard5.setEnabled(false);
+                    trainCard4.setEnabled(false);
+                    trainCard3.setEnabled(false);
+                    trainCard2.setEnabled(false);
+                    trainCard1.setEnabled(false);
+                    deckDestinationCards.setEnabled(false);
+                    endTurnButton.setEnabled(false);
+                    //change the index
+                    game.incrementTurnIndex();
+                    //notify the adapter
+                    playerListAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(v.getContext(), "Turn couldn't end!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

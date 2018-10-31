@@ -134,9 +134,18 @@
             android:layout_alignParentBottom="true"
             android:text="Run Test Driver"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:id="@+id/endTurnButton"
+            android:layout_alignRight="@+id/testDriverButton"/>
+
 
         <Button
-            android:id="@+id/viewDesinationCardsButton"
+            android:id="@+id/viewDestinationCardsButton"
             android:layout_width="100dp"
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
