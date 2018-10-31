@@ -24,7 +24,44 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *
+ * ChatActivity.java
+ *
+ * The ChatActivity is the View class (using Model-View-Presenter) corresponding to the Game Chat.
+ * It contains two buttons, exitChat and sendMessage buttons. They will direct the user to either
+ * back to the game activity or it will send a message to the server depending on which button was pressed.
+ * This activity is created from within the GameActivity class.
+ *
+ * Domain:
+ *      exitChatButton: Button, leads to the GameActivity
+ *      sendMessageButton: Button, sends a chat message to the server
+ *      recycle:
+ *      mAdapter:
+ *      mLayoutManager:
+ *      messageText:
+ *      presenter:
+ *      messages:
+ *      chatString:
+ *      clientInstance: 
+ *
+ * LobbyActivity extends FragmentActivity.
+ *
+ * @author  Marcelo Archiza Almeida
+ * @since   2018
+ *
+ * @invariant recycle refers to an actual GUI recycler view
+ * @invariant mAdapter refers to
+ * @invariant mLayoutManager refers to
+ * @invariant exitChatButton refers to an actual GUI button
+ * @invariant sendMessageButton refers to an actual GUI button
+ * @invariant messageText refers to an actual GUI edit text
+ * @invariant presenter refers to the chat presenter
+ * @invariant messages refers to the list of messages on chat
+ * @invariant chatString refers to the chat string displayed on GUI
+ * @invariant clientInstance refers to the instance of the client
+ *
+ */
 public class ChatActivity extends FragmentActivity implements ChatPresenter.chatView {
     private RecyclerView recycle;
     private RecyclerView.Adapter mAdapter;

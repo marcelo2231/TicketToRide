@@ -59,6 +59,8 @@ public class ChatAdapter extends RecyclerView.Adapter<com.emmettito.tickettoride
          *
          * This method defines the behavior of the Android click functionality.
          *
+         * @param view refers to the view object
+         *
          * @pre None
          *
          * @post None
@@ -72,29 +74,40 @@ public class ChatAdapter extends RecyclerView.Adapter<com.emmettito.tickettoride
     /**
      * ChatAdatpter
      *
-     * This method defines the behavior of the Android back button and is inherited and overridden
-     * from the FragmentActivity parent class. This implementation disables the back button.
+     * This Constructor initializes the class and it sets the data and currentPlayer
+     * equal to the variables sent to it.
      *
-     * @pre None
+     * @param data refers to the list of strings that will be added on each view holder
+     * @param currentPlayer refers to the name of the current player
+     *
+     * @pre data is not null
+     * @pre currentPlayer is not null
      *
      * @post None
      *
      *
      */
     public ChatAdapter(List<String[]> data, String currentPlayer) {
-        this.data = data;
-        this.currentPlayer = currentPlayer;
+        if (data != null) {
+            this.data = data;
+        }
+        if(currentPlayer != null) {
+            this.currentPlayer = currentPlayer;
+        }
     }
 
     /**
      * onCreateViewHolder
      *
-     * This method defines the behavior of the Android back button and is inherited and overridden
-     * from the FragmentActivity parent class. This implementation disables the back button.
+     * This method defines the behavior of the creation of view holder and overridden
+     * from the RecyclerView parent class. This implementation Inflates the layout.
+     *
+     * @param parent refers to the view that holds the recycler view
+     * @param viewType refers to the view type id
      *
      * @pre None
      *
-     * @post None
+     * @post layout is inflated
      *
      *
      */
@@ -110,13 +123,17 @@ public class ChatAdapter extends RecyclerView.Adapter<com.emmettito.tickettoride
     /**
      * onBindViewHolder
      *
-     * This method defines the behavior of the Android back button and is inherited and overridden
-     * from the FragmentActivity parent class. This implementation disables the back button.
+     * This method defines the behavior of the creation of view holder and overridden
+     * from the RecyclerView parent class. This implementation Inflates the layout.
      *
-     * @pre None
+     * @param holder refers to the chat view holder
+     * @param position refers to the position on the recycler view
      *
-     * @post None
+     * @pre 0 < position < data.size()
+     * @pre holder is not null
      *
+     * @post holder playerField was set
+     * @post holder messageField was set
      *
      */
     @Override

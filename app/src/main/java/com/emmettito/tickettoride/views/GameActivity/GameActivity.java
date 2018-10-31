@@ -48,6 +48,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     private Button deckDestinationCards;
     private Button viewDestinationCardsButton;
     private Button leaveGameButton;
+    private Button displayCommandsButton;
     private RecyclerView playerListRecycle;
     private RecyclerView.Adapter playerListAdapter;
     private RecyclerView.LayoutManager playerListLayoutManager;
@@ -124,6 +125,23 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                 //return to the join game screen
                 Toast.makeText(v.getContext(), "Leaving game", Toast.LENGTH_SHORT).show();
                 //GameActivity.super.onBackPressed();
+            }
+        });
+
+        displayCommandsButton = (Button) findViewById(R.id.displayCommandsButton);
+        displayCommandsButton.setEnabled(true);
+        displayCommandsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Print list of commands and display toast
+
+                ArrayList<String> commands = presenter.getCommands(0);
+                if (commands != null) {
+                    for (String s : commands) {
+                        System.out.println(s);
+                    }
+                }
+                Toast.makeText(v.getContext(), "List of commands was printed on your console.", Toast.LENGTH_SHORT).show();
             }
         });
 
