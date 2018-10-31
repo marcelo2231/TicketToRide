@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -17,6 +20,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.emmettito.models.Cards.DestinationCard;
+import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -296,6 +301,7 @@ public class GameActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
+                drawDestCard(false);
             }
         });
 
@@ -344,7 +350,7 @@ public class GameActivity extends FragmentActivity {
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
 
-                TestDriver driver = new TestDriver(mGameActivity, game);
+                TestDriver driver = new TestDriver(mGameActivity, game, mapView);
 
                 try {
                     driver.runTests();
@@ -388,10 +394,26 @@ public class GameActivity extends FragmentActivity {
         startGame();
     }
 
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
     }
+
+    public void drawDestCard(boolean isFirstTime) {
+        Fragment drawDestCardFragment = new DrawDestCardFragment();
+        ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
+        ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(game.getDestinationCardDeck().drawnThreeCards());
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isFirst", isFirstTime);
+        DestinationCardDeck deck = game.getDestinationCardDeck();
+        List<DestinationCard> drawnCards = deck.drawnThreeCards();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(android.R.id.content, drawDestCardFragment);
+    }
+
 
     private void startGame(){
         //assign each player a color: DONE
@@ -408,7 +430,7 @@ public class GameActivity extends FragmentActivity {
     }
 
     private void setMapView() {
-        mapView = new MapView(this, map_width, map_height);
+        mapView = new MapView(this, map_width, map_height, game);
 
         ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
         parent.removeAllViews();
@@ -456,7 +478,7 @@ public class GameActivity extends FragmentActivity {
     private void setupPlayerList(ArrayList<Player> playerList){
         List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
-            String[] newPlayer = new String[7];
+            String[] newPlayer = new String[8];
             newPlayer[0] = p.getColor().toString();
             newPlayer[1] = p.getPlayerName();
             newPlayer[2] = Integer.toString(p.getPoints());
@@ -464,6 +486,7 @@ public class GameActivity extends FragmentActivity {
             newPlayer[4] = Integer.toString(p.getTrainCards().size());
             newPlayer[5] = Integer.toString(p.getDestinationCards().size());
             newPlayer[6] = Integer.toString(p.getPlasticTrains());
+            newPlayer[7] = Integer.toString(game.getPlayerTurnIndex()+1);
             newPlayersList.add(newPlayer);
         }
         if (newPlayersList.size() > 0){

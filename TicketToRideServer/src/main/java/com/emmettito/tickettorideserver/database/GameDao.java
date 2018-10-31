@@ -88,4 +88,18 @@ public class GameDao {
         return game.getPlayers();
     }
 
+    public int incrementTurn(String gameName) throws Exception{
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        // Game Validation
+        if (game == null){
+            throw new Exception("Game does not exist.");
+        }
+
+        // Increment turn
+        game.incrementTurnIndex();
+        return game.getPlayerTurnIndex();
+    }
+
 }
