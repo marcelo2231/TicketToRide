@@ -118,6 +118,13 @@ public class DrawDestCardFragment extends Fragment {
         });
 
         cardToggle3 = (ToggleButton) getView().findViewById(R.id.toggleDest3);
+        cardToggle3.setEnabled(true);
+        cardToggle3.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                toggle3Status = b;
+            }
+        });
 
         finishButton = (Button) getView().findViewById(R.id.dest_card_button_end);
         finishButton.setEnabled(true);
