@@ -305,25 +305,7 @@ public class GameActivity extends FragmentActivity {
             }
         });
 
-        //activate the draw card buttons if it's the player's turn
-        if(game.isPlayerTurn(game.getPlayers().get(game.getPlayerTurnIndex()))) {
-            deckTrainCards.setEnabled(true);
-            trainCard1.setEnabled(true);
-            trainCard2.setEnabled(true);
-            trainCard3.setEnabled(true);
-            trainCard4.setEnabled(true);
-            trainCard5.setEnabled(true);
-            deckDestinationCards.setEnabled(true);
-        }
-        else{
-            deckTrainCards.setEnabled(false);
-            trainCard5.setEnabled(false);
-            trainCard4.setEnabled(false);
-            trainCard3.setEnabled(false);
-            trainCard2.setEnabled(false);
-            trainCard1.setEnabled(false);
-            deckDestinationCards.setEnabled(false);
-        }
+
 
         viewDestinationCardsButton = (Button) findViewById(R.id.viewDestinationCardsButton);
         viewDestinationCardsButton.setEnabled(true);
@@ -365,7 +347,6 @@ public class GameActivity extends FragmentActivity {
         endTurnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //if the turn successfully changed
                 if(presenter.endPlayerTurn(game) != game.getPlayerTurnIndex()){
                     //turn off their draw buttons
@@ -380,6 +361,7 @@ public class GameActivity extends FragmentActivity {
                     //change the index
                     game.incrementTurnIndex();
                     //notify the adapter
+                    updatePlayerDisplay();
                     playerListAdapter.notifyDataSetChanged();
                 }
                 else{
@@ -388,6 +370,27 @@ public class GameActivity extends FragmentActivity {
             }
         });
 
+        //activate the draw card buttons if it's the player's turn
+        if(game.isPlayerTurn(game.getOnePlayer(data.getUser()))){
+            deckTrainCards.setEnabled(true);
+            trainCard1.setEnabled(true);
+            trainCard2.setEnabled(true);
+            trainCard3.setEnabled(true);
+            trainCard4.setEnabled(true);
+            trainCard5.setEnabled(true);
+            deckDestinationCards.setEnabled(true);
+            endTurnButton.setEnabled(true);
+        }
+        else{
+            deckTrainCards.setEnabled(false);
+            trainCard5.setEnabled(false);
+            trainCard4.setEnabled(false);
+            trainCard3.setEnabled(false);
+            trainCard2.setEnabled(false);
+            trainCard1.setEnabled(false);
+            deckDestinationCards.setEnabled(false);
+            endTurnButton.setEnabled(false);
+        }
         presenter.addGame(game);
 
         //after setting up/inflating, initialize the game-starting processes
