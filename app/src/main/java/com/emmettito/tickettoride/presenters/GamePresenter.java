@@ -1,12 +1,13 @@
 package com.emmettito.tickettoride.presenters;
 
-import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCardDeck;
+import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.GetPlayersResult;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
@@ -53,6 +54,30 @@ public class GamePresenter implements Observer {
         GetPlayersRequest request = new GetPlayersRequest(client.getGameName());
         GetPlayersResult result = facade.getPlayers(request, "10.0.2.2", "8080");
         return result.getData();
+    }
+
+    public int endPlayerTurn(Game game){
+        facade = ServerFacade.getInstance();
+        PlayerTurnRequest request = new PlayerTurnRequest();
+        //gets the name of the player whose turn it is
+        request.setPlayerName(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName());
+        request.setGameName(game.getGameName());
+        request.setGameIndex(game.getPlayerTurnIndex());
+        Result result = facade.endTurn(request, "10.0.2.2", "8080");
+        int newIndex = -1;
+        try{
+            newIndex = (int) result.getData();
+        }catch (Exception e){
+            //testing that it works right
+            if(game.getPlayerTurnIndex()+1 >= game.getPlayers().size()){
+                return 0;
+            }
+            return game.getPlayerTurnIndex()+1;
+
+            //if something went wrong, return the original index
+            //return game.getPlayerTurnIndex();
+        }
+        return newIndex;
     }
 
 

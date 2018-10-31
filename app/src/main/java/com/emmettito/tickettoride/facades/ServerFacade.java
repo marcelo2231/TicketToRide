@@ -2,6 +2,7 @@ package com.emmettito.tickettoride.facades;
 
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
@@ -82,5 +83,10 @@ public class ServerFacade {
         gameRoomProxy = new GameRoomProxy();
 
         return gameRoomProxy.leaveGame();
+    }
+
+    public Result endTurn(PlayerTurnRequest request, String host, String port){
+        gameProxy = new GameProxy(host, port);
+        return gameProxy.endTurn(request);
     }
 }
