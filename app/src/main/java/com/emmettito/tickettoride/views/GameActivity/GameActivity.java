@@ -427,7 +427,7 @@ public class GameActivity extends FragmentActivity {
     private void setupPlayerList(ArrayList<Player> playerList){
         List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
-            String[] newPlayer = new String[7];
+            String[] newPlayer = new String[8];
             newPlayer[0] = p.getColor().toString();
             newPlayer[1] = p.getPlayerName();
             newPlayer[2] = Integer.toString(p.getPoints());
@@ -435,6 +435,7 @@ public class GameActivity extends FragmentActivity {
             newPlayer[4] = Integer.toString(p.getTrainCards().size());
             newPlayer[5] = Integer.toString(p.getDestinationCards().size());
             newPlayer[6] = Integer.toString(p.getPlasticTrains());
+            newPlayer[7] = Integer.toString(game.getPlayerTurnIndex()+1);
             newPlayersList.add(newPlayer);
         }
         if (newPlayersList.size() > 0){

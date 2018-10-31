@@ -38,9 +38,8 @@ public class PlayerTurnCommand implements IGameCommand{
             throw new Exception("It is not your turn yet!");
         }
 
-        // TODO: Store data on Database
-        // call incrementTurnIndex() on game after players turn
+        int newPosition = gameDatabase.incrementTurn(commandModel.getGameName());
 
-        return new Result();
+        return new Result(true, newPosition);
     }
 }
