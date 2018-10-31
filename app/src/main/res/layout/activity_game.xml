@@ -30,14 +30,20 @@
                 android:id="@+id/openChatButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="5dp"
                 android:text="@string/openChat"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 />
 
             <Button
                 android:id="@+id/leaveGameButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="5dp"
                 android:text="@string/leave_game"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 />
 
         </LinearLayout>
