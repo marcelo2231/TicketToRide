@@ -343,7 +343,7 @@ public class GameActivity extends FragmentActivity {
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
 
-                TestDriver driver = new TestDriver(mGameActivity, game);
+                TestDriver driver = new TestDriver(mGameActivity, game, mapView);
 
                 try {
                     driver.runTests();
@@ -379,7 +379,7 @@ public class GameActivity extends FragmentActivity {
     }
 
     private void setMapView() {
-        mapView = new MapView(this, map_width, map_height);
+        mapView = new MapView(this, map_width, map_height, game);
 
         ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
         parent.removeAllViews();

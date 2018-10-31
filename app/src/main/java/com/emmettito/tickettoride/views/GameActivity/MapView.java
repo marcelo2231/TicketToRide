@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.emmettito.models.Game;
+import com.emmettito.models.Player;
 import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Route;
 import com.emmettito.models.Space;
@@ -15,9 +17,12 @@ import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapView extends View {
+
+    private Game game;
 
     private int width;
     private int height;
@@ -28,11 +33,12 @@ public class MapView extends View {
     private float rect_width_padding;
     private float rect_height_padding;
 
-    public MapView(Context context) {
+    public MapView(Context context, Game game) {
         super(context);
+        this.game = game;
     }
 
-    public MapView(Context context, int width, int height) {
+    public MapView(Context context, int width, int height, Game game) {
         super(context);
         this.height = height;
         this.width = width;
@@ -43,6 +49,8 @@ public class MapView extends View {
 
         this.rect_width_padding = 0.02f;
         this.rect_height_padding = 0.01f;
+
+        this.game = game;
 
         setLayoutParams(new FrameLayout.LayoutParams(this.width,this.height));
     }
@@ -135,6 +143,21 @@ public class MapView extends View {
 
     private String getColorHex(PlayerColor color) {
         int colorID;
+
+        if (color == null) {
+            String currentUser = Client.getInstance().getUser();
+
+            ArrayList<Player> players = game.getPlayers();
+
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getPlayerName().equals(currentUser)) {
+                    Player currentPlayer = players.get(i);
+
+                    color = currentPlayer.getColor();
+                    break;
+                }
+            }
+        }
 
         if (color != null) {
             switch(color) {
