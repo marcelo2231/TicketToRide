@@ -3,6 +3,7 @@ package com.emmettito.tickettoride.views.GameActivity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,7 +34,7 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends FragmentActivity {
+public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener {
 
     private Game game;
     private Button chatButton;
@@ -301,6 +302,7 @@ public class GameActivity extends FragmentActivity {
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
                 drawDestCard(false);
+
             }
         });
 
@@ -365,24 +367,29 @@ public class GameActivity extends FragmentActivity {
         startGame();
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
     }
 
+
+
     public void drawDestCard(boolean isFirstTime) {
         Fragment drawDestCardFragment = new DrawDestCardFragment();
         ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
         ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(game.getDestinationCardDeck().drawnThreeCards());
 
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("isFirst", isFirstTime);
         DestinationCardDeck deck = game.getDestinationCardDeck();
         List<DestinationCard> drawnCards = deck.drawnThreeCards();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, drawDestCardFragment);
+        transaction.commit();
     }
 
 
