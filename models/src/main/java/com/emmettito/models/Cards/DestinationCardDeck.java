@@ -12,7 +12,6 @@ public class DestinationCardDeck implements Deck {
     public DestinationCardDeck(){
         availableCards = new ArrayList<>();
         discardPile = new ArrayList<>();
-
         for(int i = 1; i <= 30; i++){
             Random r = new Random();
             int randomPointValue = r.nextInt(23) + 1;
