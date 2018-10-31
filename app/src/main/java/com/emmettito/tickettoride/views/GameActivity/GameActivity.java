@@ -3,8 +3,12 @@ package com.emmettito.tickettoride.views.GameActivity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -17,6 +21,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.emmettito.models.Cards.DestinationCard;
+import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -28,7 +34,7 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends FragmentActivity {
+public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener {
 
     private Game game;
     private Button chatButton;
@@ -56,6 +62,7 @@ public class GameActivity extends FragmentActivity {
 
 
     private Button testDriverButton;
+    private Button endTurnButton;
     private GameActivity mGameActivity;
 
     @Override
@@ -74,7 +81,7 @@ public class GameActivity extends FragmentActivity {
         data = Client.getInstance();
         game = new Game();
         // Get players
-        ArrayList<Player> playerList = presenter.getPlayers();
+        final ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
         game.setPlayers(playerList);
         Toast.makeText(this, "Game Started!", Toast.LENGTH_SHORT).show();
@@ -295,6 +302,8 @@ public class GameActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
+                drawDestCard(false);
+
             }
         });
 
@@ -318,7 +327,7 @@ public class GameActivity extends FragmentActivity {
             deckDestinationCards.setEnabled(false);
         }
 
-        viewDestinationCardsButton = (Button) findViewById(R.id.viewDesinationCardsButton);
+        viewDestinationCardsButton = (Button) findViewById(R.id.viewDestinationCardsButton);
         viewDestinationCardsButton.setEnabled(true);
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -353,6 +362,34 @@ public class GameActivity extends FragmentActivity {
             }
         });
 
+        endTurnButton = (Button) findViewById(R.id.endTurnButton);
+        endTurnButton.setEnabled(true);
+        endTurnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //if the turn successfully changed
+                if(presenter.endPlayerTurn(game) != game.getPlayerTurnIndex()){
+                    //turn off their draw buttons
+                    deckTrainCards.setEnabled(false);
+                    trainCard5.setEnabled(false);
+                    trainCard4.setEnabled(false);
+                    trainCard3.setEnabled(false);
+                    trainCard2.setEnabled(false);
+                    trainCard1.setEnabled(false);
+                    deckDestinationCards.setEnabled(false);
+                    endTurnButton.setEnabled(false);
+                    //change the index
+                    game.incrementTurnIndex();
+                    //notify the adapter
+                    playerListAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(v.getContext(), "Turn couldn't end!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         presenter.addGame(game);
 
         //after setting up/inflating, initialize the game-starting processes
@@ -360,9 +397,30 @@ public class GameActivity extends FragmentActivity {
     }
 
     @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
     public void onBackPressed() {
         //super.onBackPressed();
     }
+
+
+
+    public void drawDestCard(boolean isFirstTime) {
+        Fragment drawDestCardFragment = new DrawDestCardFragment();
+        ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
+        ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(game.getDestinationCardDeck().drawnThreeCards());
+
+        DestinationCardDeck deck = game.getDestinationCardDeck();
+        List<DestinationCard> drawnCards = deck.drawnThreeCards();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(android.R.id.content, drawDestCardFragment);
+        transaction.commit();
+    }
+
 
     private void startGame(){
         //assign each player a color: DONE

@@ -17,6 +17,7 @@ import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.tickettoride.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +60,7 @@ public class DrawDestCardFragment extends Fragment {
 
     public DrawDestCardFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -157,11 +159,11 @@ public class DrawDestCardFragment extends Fragment {
                         Toast.makeText(getActivity(), "Please select at least 2 Destination Cards", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        //finish
+                        finish();
                     }
                 }
                 else {
-                    //finish
+                    finish();
                 }
 
             }
@@ -177,6 +179,12 @@ public class DrawDestCardFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+    public void finish() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
+
 
 
     @Override
@@ -211,7 +219,13 @@ public class DrawDestCardFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void drawDestCards() {
+    public void setIsFirst(boolean isFirst) {
+        this.mFirstTime = isFirst;
+    }
 
+    public void setDrawnDestCards(List<DestinationCard> cards) {
+        mDrawnCard1 = cards.get(0);
+        mDrawnCard2 = cards.get(1);
+        mDrawnCard3 = cards.get(2);
     }
 }
