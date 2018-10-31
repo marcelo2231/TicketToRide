@@ -459,7 +459,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         //have the server select 3 destination cards for each player.
             //and allow the player to discard 0 or 1 of them
 
-        FthisS.add("Start Game Command");
+        FthisS.add("Start Game Command: Player order was decided, player color was added");
+        FthisS.add("Draw 3 DestCardsFor each player Command");
     }
 
     private void setMapDimensions() {
