@@ -1,9 +1,11 @@
 package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Results.ChatResult;
+import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
@@ -64,6 +66,28 @@ public class GameProxy {
         }
 
         return gson.fromJson(resultString, GetPlayersResult.class);
+    }
+
+    public GetCommandsResult getCommands(GetCommandsRequest request) {
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        String url = "http://" + serverHost + ":" + serverPort + "/game/getcommands";
+
+        try {
+            resultString = client.execute(url, "POST", requestString).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultString = "Error: Could not connect to the server.";
+        }
+
+        if (resultString.equals("Error: Could not connect to the server.")) {
+            GetCommandsResult result = new GetCommandsResult();
+            result.setMessage(resultString);
+            return result;
+        }
+
+        return gson.fromJson(resultString, GetCommandsResult.class);
     }
 
     public Result endTurn(PlayerTurnRequest request){

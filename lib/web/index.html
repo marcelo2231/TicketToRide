@@ -269,7 +269,12 @@
         function getChat() {
             window.scrollTo(0, document.body.scrollHeight);
             document.getElementById("handleBox").value = "/game/getchat";
-            document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\"}");
+            document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\", \"currIndex\":\"0\"}");
+        }
+        function getCommands() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/getcommands";
+            document.getElementById("requestBox").value = formatJson("{\"gameName\":\"My Game\", \"currIndex\":\"0\"}");
         }
     </script>
 </head>
@@ -331,6 +336,9 @@
             <ul>
                 <li>
                     <a href="javascript:chat()">/game/chat</a> This API sends a message to be added to chat.
+                </li>
+                <li>
+                    <a href="javascript:getCommands()">/game/getcommands</a> This API get the list of commands used.
                 </li>
                 <li>
                     <a href="javascript:getChat()">/game/getchat</a> This API gets the entire chat history.

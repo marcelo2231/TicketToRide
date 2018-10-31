@@ -40,6 +40,13 @@ public class PlayerTurnCommand implements IGameCommand{
 
         int newPosition = gameDatabase.incrementTurn(commandModel.getGameName());
 
-        return new Result(true, newPosition);
+        Result result = new Result(true, newPosition);
+
+        // Add to command list
+        String serializedRequest = new Serializer().serialize(commandModel);
+        String serializedResult = new Serializer().serialize(result);
+        gameDatabase.addCommand(commandModel.getGameName(), this.getClass(), serializedRequest, serializedResult);
+
+        return result;
     }
 }

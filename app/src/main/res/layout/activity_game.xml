@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginLeft="-5dp"
         android:weightSum="10"
         >
 
@@ -24,21 +25,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="-5dp"
                 android:scrollbars="horizontal"/>
 
             <Button
                 android:id="@+id/openChatButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="5dp"
+                android:layout_marginTop="-8dp"
                 android:text="@string/openChat"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 />
 
             <Button
                 android:id="@+id/leaveGameButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="5dp"
+                android:layout_marginTop="-8dp"
                 android:text="@string/leave_game"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 />
+
+            <Button
+                android:id="@+id/displayCommandsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/display_commands"
+                android:textSize="5dp" />
+
 
         </LinearLayout>
 
@@ -135,6 +156,7 @@
             android:text="Run Test Driver"/>
 
         <Button
+            android:text="End Turn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

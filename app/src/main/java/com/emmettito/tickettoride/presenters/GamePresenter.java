@@ -2,10 +2,12 @@ package com.emmettito.tickettoride.presenters;
 
 import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCardDeck;
+import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
@@ -53,6 +55,13 @@ public class GamePresenter implements Observer {
         facade = ServerFacade.getInstance();
         GetPlayersRequest request = new GetPlayersRequest(client.getGameName());
         GetPlayersResult result = facade.getPlayers(request, "10.0.2.2", "8080");
+        return result.getData();
+    }
+
+    public ArrayList<String> getCommands(int atIndex){
+        facade = ServerFacade.getInstance();
+        GetCommandsRequest request = new GetCommandsRequest(client.getGameName(), atIndex);
+        GetCommandsResult result = facade.getCommands(request, "10.0.2.2", "8080");
         return result.getData();
     }
 
