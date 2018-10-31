@@ -36,4 +36,12 @@ public class DestinationCard implements Card {
     }
 
     public void setCardID(int cardID) { this.cardID = cardID; }
+
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append(cities.getX());
+        string.append(" to ");
+        string.append(cities.getY());
+        return string.toString();
+    }
 }

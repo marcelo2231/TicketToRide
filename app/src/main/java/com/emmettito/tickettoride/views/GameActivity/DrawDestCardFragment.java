@@ -8,10 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.tickettoride.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +37,10 @@ public class DrawDestCardFragment extends Fragment {
     private String mParam2;
     private boolean mFirstTime;
 
+    private DestinationCard mDrawnCard1;
+    private DestinationCard mDrawnCard2;
+    private DestinationCard mDrawnCard3;
+
     private TextView destCard1;
     private TextView destCard2;
     private TextView destCard3;
@@ -39,6 +48,10 @@ public class DrawDestCardFragment extends Fragment {
     private ToggleButton cardToggle1;
     private ToggleButton cardToggle2;
     private ToggleButton cardToggle3;
+
+    private boolean toggle1Status = false;
+    private boolean toggle2Status = false;
+    private boolean toggle3Status = false;
 
     private Button finishButton;
 
@@ -80,15 +93,72 @@ public class DrawDestCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         destCard1 = (TextView) getView().findViewById(R.id.destCard1);
+        destCard1.setText(mDrawnCard1.toString());
         destCard2 = (TextView) getView().findViewById(R.id.destCard2);
+        destCard1.setText(mDrawnCard2.toString());
         destCard3 = (TextView) getView().findViewById(R.id.destCard3);
+        destCard3.setText(mDrawnCard3.toString());
 
         cardToggle1 = (ToggleButton) getView().findViewById(R.id.toggleDest1);
+        cardToggle1.setEnabled(true);
+        cardToggle1.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                toggle1Status = b;
+            }
+        });
+
         cardToggle2 = (ToggleButton) getView().findViewById(R.id.toggleDest2);
+        cardToggle2.setEnabled(true);
+        cardToggle2.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                toggle2Status = b;
+            }
+        });
+
         cardToggle3 = (ToggleButton) getView().findViewById(R.id.toggleDest3);
 
         finishButton = (Button) getView().findViewById(R.id.dest_card_button_end);
         finishButton.setEnabled(true);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //send the unselected cards to the server
+                ArrayList<DestinationCard> selected = new ArrayList<>();
+                ArrayList<DestinationCard> discarded = new ArrayList<>();
+                if (toggle1Status) {
+                    selected.add(mDrawnCard1);
+                }
+                else {
+                    discarded.add(mDrawnCard1);
+                }
+                if (toggle2Status) {
+                    selected.add(mDrawnCard2);
+                }
+                else {
+                    discarded.add(mDrawnCard2);
+                }
+                if (toggle3Status) {
+                    selected.add(mDrawnCard3);
+                }
+                else {
+                    discarded.add(mDrawnCard3);
+                }
+                if (mFirstTime) {
+                    if (selected.size() < 2) {
+                        Toast.makeText(getActivity(), "Please select at least 2 Destination Cards", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        //finish
+                    }
+                }
+                else {
+                    //finish
+                }
+
+            }
+        });
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_draw_dest_card, container, false);
@@ -100,6 +170,7 @@ public class DrawDestCardFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
 
     @Override
     public void onAttach(Context context) {
