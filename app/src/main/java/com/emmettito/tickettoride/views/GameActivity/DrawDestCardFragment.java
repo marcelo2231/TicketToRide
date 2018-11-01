@@ -164,10 +164,13 @@ public class DrawDestCardFragment extends Fragment {
                     }
                     else {
                         Client client = Client.getInstance();
+                        client.addDestCards(selected);
                         finish();
                     }
                 }
                 else {
+                    Client client = Client.getInstance();
+                    client.addDestCards(selected);
                     finish();
                 }
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.GameActivity.DrawDestCardFragment">
+    tools:context=".views.GameActivity.DrawDestCardFragment"
+    android:background="@color/colorPrimary">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -14,8 +15,8 @@
 
         <TextView
             android:id="@+id/draw_dest_title"
-            android:layout_width="wrap_content"
-            android:layout_height="14dp"
+            android:layout_width="217dp"
+            android:layout_height="25dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -29,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="ToggleButton"
             android:textOff="Not Selected"
             android:textOn="Selected"
@@ -41,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="ToggleButton"
             android:textOff="Not Selected"
@@ -54,7 +55,7 @@
             android:id="@+id/toggleDest3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="ToggleButton"
             android:textOff="Not Selected"
