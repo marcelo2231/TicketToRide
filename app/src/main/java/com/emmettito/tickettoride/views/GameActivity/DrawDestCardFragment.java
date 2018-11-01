@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,6 +159,10 @@ public class DrawDestCardFragment extends Fragment {
                 else {
                     discarded.add(mDrawnCard3);
                 }
+                for (int i = 0; i < selected.size(); i++) {
+                    Log.w("destCard", selected.get(i).toString());
+                }
+
                 if (mFirstTime) {
                     if (selected.size() < 2) {
                         Toast.makeText(getActivity(), "Please select at least 2 Destination Cards", Toast.LENGTH_SHORT).show();

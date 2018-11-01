@@ -49,8 +49,6 @@ public class DestCardAdapter extends RecyclerView.Adapter<DestCardAdapter.DestCa
 
     @Override
     public void onBindViewHolder(DestCardHolder holder, int position) {
-        holder.displayCard.setText(destCards.get(position).toString());
+        holder.displayCard.setText(destCards.get(position).toString() + "\n");
     }
-
-
 }
