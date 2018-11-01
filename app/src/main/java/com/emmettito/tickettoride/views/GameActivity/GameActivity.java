@@ -436,6 +436,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         presenter.addGame(game);
 
         //after setting up/inflating, initialize the game-starting processes
+        drawDestCard(true);
         startGame();
     }
 
