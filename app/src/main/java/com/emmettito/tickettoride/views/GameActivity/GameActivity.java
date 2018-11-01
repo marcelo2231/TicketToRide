@@ -163,10 +163,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                 //helper function that makes sure there's cards in the deck
                 if(checkTrainCardDeck()){
                     tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
-                    game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
-                      game.getTrainCardDeck().getAvailable().remove(0));
-                    game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
-                            game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+
+                    TrainCard card = game.getTrainCardDeck().getAvailable().remove(0);
+                    game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
+                    data.addTrainCard(card);
+//                    game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                     deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
                     updatePlayerDisplay();
                 }
