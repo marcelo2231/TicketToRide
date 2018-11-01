@@ -135,6 +135,14 @@
             android:layout_alignParentBottom="true"
             android:text="Run Test Driver"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/playerTrainCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/testDriverButton"
+            android:layout_toLeftOf="@id/viewDesinationCardsButton"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"/>
 
         <Button
             android:id="@+id/viewDesinationCardsButton"

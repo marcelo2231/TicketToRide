@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride;
 
+import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.City;
 import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.PlayerColor;
@@ -21,6 +22,8 @@ public class Client {
 
     private List<Integer> takenRoutes;
 
+    private List<TrainCard> playerTrainCards;
+
     private Client() {
         token = null;
         user = null;
@@ -31,6 +34,7 @@ public class Client {
         allRoutes = data.getRoutes();
 
         takenRoutes = new ArrayList<>();
+        playerTrainCards = new ArrayList<>();
     }
 
     public static Client getInstance() {
@@ -101,5 +105,21 @@ public class Client {
         Route route = getAllRoutes().get(routeID);
         route.setPlayerColor(color);
         getAllRoutes().set(routeID, route); //replaces the route with an updated (colored) one
+    }
+
+    /*
+    Player's Cards
+     */
+
+    public List<TrainCard> getPlayerTrainCards() {
+        return playerTrainCards;
+    }
+
+    public void addTrainCard(TrainCard card) {
+        playerTrainCards.add(card);
+    }
+
+    public void removeTrainCard(TrainCard card) {
+        playerTrainCards.remove(card);
     }
 }

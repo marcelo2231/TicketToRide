@@ -48,12 +48,14 @@ public class GameActivity extends FragmentActivity {
     private List<String[]> players = new ArrayList<>();
     private Client data;
 
+
     // MAP VARIABLES
     private int map_width = 0;
     private int map_height = 0;
-
     private  MapView mapView = null;
 
+    // TRAINCARD VARIABLES
+    private RecyclerView.Adapter playerTrainCardsAdapter;
 
     private Button testDriverButton;
     private GameActivity mGameActivity;
@@ -403,6 +405,41 @@ public class GameActivity extends FragmentActivity {
         });
     }
 
+    /*
+    Player's train cards
+     */
+
+    private void setPlayerTrainCards() {
+        RecyclerView trainCardsView = findViewById(R.id.playerTrainCards);
+        LinearLayoutManager mgr = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        trainCardsView.setLayoutManager(mgr);
+        playerTrainCardsAdapter = new PlayerTrainCardsAdapter(data.getPlayerTrainCards());
+        trainCardsView.setAdapter(playerTrainCardsAdapter);
+    }
+
+    private void updatePlayerTrainCards() {
+        playerTrainCardsAdapter.notifyDataSetChanged();
+    }
+
+    private void addTrainCardToPlayer(TrainCard card) {
+        data.addTrainCard(card);
+        updatePlayerTrainCards();
+    }
+
+    private void removeTrainCardFromPlayer(TrainCard card) {
+        data.removeTrainCard(card);
+        updatePlayerTrainCards();
+    }
+
+    /*
+    Player's destination cards
+     */
+
+
+    /*
+
+     */
+
     public void updatePlayerDisplay() {
         //System.out.println(players);
         setupPlayerList(game.getPlayers());
@@ -444,8 +481,8 @@ public class GameActivity extends FragmentActivity {
     }
 
     //this will update the chosen faceUp card background
-    private Drawable updateFaceUpCard(TrainCard newCard){
-        switch (newCard.getColor()){
+    private Drawable updateFaceUpCard(TrainCard card){
+        switch (card.getColor()){
             case Wild:
                 return getDrawable(R.drawable.wild_train_card);
             case Red:
