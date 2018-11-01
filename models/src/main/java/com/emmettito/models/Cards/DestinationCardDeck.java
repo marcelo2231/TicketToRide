@@ -5,7 +5,6 @@ import com.emmettito.models.HardCoded.HardCodedData;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class DestinationCardDeck implements Deck {
     private List<DestinationCard> availableCards;
@@ -38,7 +37,7 @@ public class DestinationCardDeck implements Deck {
         }
         else {
             List<DestinationCard> drawnCards =  new ArrayList<>();
-            for (int i = 0; i <= 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 DestinationCard drawn = availableCards.get(0);
                 availableCards.remove(0);
                 drawnCards.add(drawn);

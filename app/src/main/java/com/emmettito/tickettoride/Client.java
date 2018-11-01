@@ -24,7 +24,7 @@ public class Client {
     private List<Integer> takenRoutes;
 
     private List<TrainCard> playerTrainCards;
-    private List<DestinationCard> playerDestinationCards;
+    private ArrayList<DestinationCard> playerDestinationCards;
 
     private Client() {
         token = null;
@@ -130,7 +130,7 @@ public class Client {
     Player's Destination Cards
      */
 
-    public List<DestinationCard> getPlayerDestCards() {
+    public ArrayList<DestinationCard> getPlayerDestCards() {
         return playerDestinationCards;
     }
 

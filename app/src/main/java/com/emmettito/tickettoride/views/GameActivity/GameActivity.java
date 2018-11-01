@@ -20,8 +20,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.emmettito.models.Cards.DestinationCard;
-import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -184,7 +182,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
                 TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(0);
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
-//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 addTrainCardToPlayer(card);
 
                 //check if the deck is empty
@@ -225,7 +223,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
                 TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(1);
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
-//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 addTrainCardToPlayer(card);
 
                 if(checkTrainCardDeck()) {
@@ -254,7 +252,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
                 TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(2);
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
-//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 addTrainCardToPlayer(card);
 
                 if(checkTrainCardDeck()) {
@@ -283,7 +281,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
                 TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(3);
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
-//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 addTrainCardToPlayer(card);
 
                 if(checkTrainCardDeck()) {
@@ -312,7 +310,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
                 TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(4);
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
-//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                 addTrainCardToPlayer(card);
 
                 if(checkTrainCardDeck()) {
@@ -344,6 +342,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
                 drawDestCard(false);
+                //System.out.printf("This is the number of destination cards: %d", game.getOnePlayer(data.getUser()).getDestinationCards().size());
+                game.getOnePlayer(data.getUser()).setDestinationCards((ArrayList) data.getPlayerDestCards());
+                //System.out.printf("This is the number of destination cards: %d", game.getOnePlayer(data.getUser()).getDestinationCards().size());
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                updatePlayerDisplay();
+                updateDestinationCardDeck();
+                //System.out.printf("This is the number of destination cards: %d", game.getOnePlayer(data.getUser()).getDestinationCards().size());
 
             }
         });
@@ -358,6 +363,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                 transaction.replace(android.R.id.content, displayDestCardFragment);
                 transaction.commit();
                 //Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
+                game.getOnePlayer(data.getUser()).setDestinationCards((ArrayList) data.getPlayerDestCards());
+                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                updatePlayerDisplay();
+                updateDestinationCardDeck();
             }
         });
 
@@ -461,12 +470,18 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
         ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(game.getDestinationCardDeck().drawnThreeCards());
 
-        DestinationCardDeck deck = game.getDestinationCardDeck();
-        List<DestinationCard> drawnCards = deck.drawnThreeCards();
+        //DestinationCardDeck deck = game.getDestinationCardDeck();
+        //List<DestinationCard> drawnCards = deck.drawnThreeCards();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, drawDestCardFragment);
         transaction.commit();
+
+        game.getOnePlayer(data.getUser()).setDestinationCards(data.getPlayerDestCards());
+        //System.out.printf("This is the number of destination cards: %d", game.getOnePlayer(data.getUser()).getDestinationCards().size());
+        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+        updatePlayerDisplay();
+        updateDestinationCardDeck();
     }
 
 
@@ -479,6 +494,17 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         tempCommands.add("Start Game Command: Player order was decided, player color was added");
         tempCommands.add("Draw 3 DestCardsFor each player Command");
+
+        game.getOnePlayer(data.getUser()).setDestinationCards((ArrayList) data.getPlayerDestCards());
+        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+        updatePlayerDisplay();
+        updateDestinationCardDeck();
+
+        ArrayList<TrainCard> currentCards = game.getOnePlayer(data.getUser()).getTrainCards();
+
+        for (int i = 0; i < currentCards.size(); i++) {
+            addTrainCardToPlayer(currentCards.get(i));
+        }
     }
 
     /*
@@ -537,7 +563,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         updatePlayerTrainCards();
     }
 
-    private void removeTrainCardFromPlayer(TrainCard card) {
+    public void removeTrainCardFromPlayer(TrainCard card) {
         data.removeTrainCard(card);
         updatePlayerTrainCards();
     }

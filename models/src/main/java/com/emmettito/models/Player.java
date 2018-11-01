@@ -3,9 +3,9 @@ package com.emmettito.models;
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
 
-//import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Random;
+
+//import java.awt.Color;
 
 public class Player {
     private String playerName;

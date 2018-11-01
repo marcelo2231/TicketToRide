@@ -155,10 +155,31 @@ public class TestDriver {
         //addDestinationCards();
         //wait(5000);
 
+        dialog = alertDialogBuilder.setMessage("Removing train cards from the player's hand").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        removeTrainCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //removeTrainCards();
         //wait(5000);
 
-        //addTrainCards();
+        dialog = alertDialogBuilder.setMessage("Adding train cards to the player's hand").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addTrainCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
         dialog = alertDialogBuilder.setMessage("Updating the player's points").
@@ -194,11 +215,37 @@ public class TestDriver {
     }
 
     private void addTrainCards() {
-        Toast.makeText(activity, "Adding train cards to the player's hand", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Adding train cards to the player's hand", Toast.LENGTH_SHORT).show();
+
+        Button trainCard1 = activity.findViewById(R.id.trainCard1);
+        trainCard1.performClick();
     }
 
     private void removeTrainCards() {
-        Toast.makeText(activity, "Removing train cards from the player's hand", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Removing train cards from the player's hand", Toast.LENGTH_SHORT).show();
+
+        ArrayList<Player> players = game.getPlayers();
+
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            //System.out.printf("Old number of points: %d\n", players.get(i).getPoints());
+            if (players.get(i).getPlayerName().equals(client.getUser())) {
+                //players.get(i).setPoints(players.get(i).getPoints() + 5);
+
+                ArrayList<TrainCard> cards = players.get(i).getTrainCards();
+
+                activity.removeTrainCardFromPlayer(cards.get(0));
+                cards.remove(0);
+
+                players.get(i).setTrainCards(cards);
+
+                break;
+            }
+            //sleep(1000);
+
+            //System.out.printf("New number of points: %d\n", players.get(i).getPoints());
+        }
+
+        game.setPlayers(players);
     }
 
     private void addDestinationCards() {
@@ -311,7 +358,7 @@ public class TestDriver {
 
         for (int i = 0; i < game.getPlayers().size(); i++) {
             if (!players.get(i).getPlayerName().equals(client.getUser())) {     //If current player is not the user
-                ArrayList<DestinationCard> destinationCards = players.get(i).getDestinationCards();
+                ArrayList<DestinationCard> destinationCards = (ArrayList) players.get(i).getDestinationCards();
 
                 ArrayList<DestinationCard> deck = (ArrayList) game.getDestinationCardDeck().getAvailableCards();
 

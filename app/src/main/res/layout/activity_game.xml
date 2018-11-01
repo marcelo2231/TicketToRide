@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="-5dp"
-        android:weightSum="10">
+        android:weightSum="10"
+        >
 
         <LinearLayout
             android:id="@+id/leftHandView"
@@ -24,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="-5dp"
                 android:scrollbars="horizontal"/>
 
             <Button
@@ -32,7 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="5dp"
-                android:layout_marginTop="-8dp"
                 android:text="@string/openChat"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
@@ -43,22 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="5dp"
-                android:layout_marginTop="-8dp"
                 android:text="@string/leave_game"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 />
-
-            <Button
-                android:id="@+id/displayCommandsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-8dp"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="@string/display_commands"
-                android:textSize="5dp" />
-
 
         </LinearLayout>
 
@@ -114,7 +100,7 @@
         <Button
             android:id="@+id/trainCard4"
             android:layout_width="75dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/trainCard3"/>
 
@@ -154,17 +140,7 @@
             android:layout_alignParentBottom="true"
             android:text="Run Test Driver"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/playerTrainCards"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/testDriverButton"
-            android:layout_toLeftOf="@id/viewDestinationCardsButton"
-            android:orientation="horizontal"
-            android:scrollbars="horizontal"/>
-
         <Button
-            android:text="End Turn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

@@ -169,9 +169,14 @@ public class DrawDestCardFragment extends Fragment {
                     }
                 }
                 else {
-                    Client client = Client.getInstance();
-                    client.addDestCards(selected);
-                    finish();
+                    if (selected.size() < 1) {
+                        Toast.makeText(getActivity(), "Please select at least 1 Destination Card", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Client client = Client.getInstance();
+                        client.addDestCards(selected);
+                        finish();
+                    }
                 }
 
             }
@@ -191,9 +196,6 @@ public class DrawDestCardFragment extends Fragment {
     public void finish() {
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
-
-
-
 
     @Override
     public void onAttach(Context context) {

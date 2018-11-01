@@ -113,6 +113,16 @@ public class Game extends Observable {
         }
     }
 
+    public void setOnePlayer(Player player) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerName().equals(player.getPlayerName())) {
+                players.set(i, player);
+
+                break;
+            }
+        }
+    }
+
     public boolean playerInGame(String userName) {
         boolean found = false;
         for (int i = 0; i < players.size(); i++) {

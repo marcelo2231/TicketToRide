@@ -1,7 +1,6 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,11 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.emmettito.models.Cards.Card;
 import com.emmettito.models.Cards.TrainCard;
-import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.tickettoride.R;
 
 import java.util.List;
@@ -75,5 +71,16 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
     public int getItemCount() {
         return data.size();
     }
+
+    /*@Override
+    public void onClick(View view) {
+        System.out.println("This");
+        PlayerTrainCardsHolder holder = (PlayerTrainCardsHolder) view.getTag();
+        if (view.getId() == holder.trainCard.getId()) {
+            data.remove(holder.getAdapterPosition());
+
+            notifyDataSetChanged();
+        }
+    }*/
 }
 

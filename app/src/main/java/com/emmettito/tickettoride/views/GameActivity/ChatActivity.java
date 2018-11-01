@@ -130,8 +130,6 @@ public class ChatActivity extends FragmentActivity implements ChatPresenter.chat
         setContentView(R.layout.activity_chat);
         //Toast.makeText(this, "Chat entered!", Toast.LENGTH_SHORT).show();
 
-        setContentView(R.layout.activity_chat);
-
         recycle = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         recycle.setHasFixedSize(true);

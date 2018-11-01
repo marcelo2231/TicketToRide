@@ -81,6 +81,7 @@ public class DestCardDisplayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dest_card_display, container, false);
         // Inflate the layout for this fragment
         mRecyclerView = view.findViewById(R.id.dest_card_display_recycler);
+        mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mgr = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mgr);
         DestCardAdapter adapter = new DestCardAdapter(destCards);
