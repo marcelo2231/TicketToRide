@@ -166,7 +166,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
                     TrainCard card = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
-                    data.addTrainCard(card);
+                    addTrainCardToPlayer(card);
+
+
+
 //                    game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
                     deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
                     updatePlayerDisplay();
