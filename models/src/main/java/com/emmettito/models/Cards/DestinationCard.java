@@ -1,7 +1,10 @@
 package com.emmettito.models.Cards;
 
 import com.emmettito.models.City;
+import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.Tuple;
+
+
 
 public class DestinationCard implements Card {
     /** Variables **/

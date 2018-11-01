@@ -34,7 +34,7 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener {
+public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener, DestCardDisplayFragment.OnFragmentInteractionListener {
 
     private Game game;
     private Button chatButton;
@@ -374,7 +374,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
+                Fragment displayDestCardFragment = new DestCardDisplayFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(android.R.id.content, displayDestCardFragment);
+                transaction.commit();
+                //Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
             }
         });
 
