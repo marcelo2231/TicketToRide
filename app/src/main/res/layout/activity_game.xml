@@ -115,7 +115,7 @@
         <Button
             android:id="@+id/trainCard4"
             android:layout_width="75dp"
-            android:layout_height="42dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/trainCard3"/>
 
@@ -154,6 +154,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:text="Run Test Driver"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/playerTrainCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/testDriverButton"
+            android:layout_toLeftOf="@id/viewDestinationCardsButton"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"/>
 
         <Button
             android:text="End Turn"
