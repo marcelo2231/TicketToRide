@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.WindowManager;
@@ -11,6 +12,7 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.views.GameActivity.MapView;
 
 import java.util.ArrayList;
 
@@ -18,21 +20,23 @@ public class TestDriver {
     private Client client;
     private GameActivity activity;
     private Game game;
+    private MapView map;
 
-    public TestDriver(GameActivity activity, Game game) {
+    public TestDriver(GameActivity activity, Game game, MapView map) {
         client = Client.getInstance();
         this.activity = activity;
         this.game = game;
+        this.map = map;
     }
 
     public void runTests() throws java.lang.InterruptedException {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 
-        AlertDialog dialog = alertDialogBuilder.setMessage("Updating the player's points").
+        AlertDialog dialog = alertDialogBuilder.setMessage("Adding a route owned by an opponent").
                 setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        updatePlayerPoints();
+                        addOpponentRoute();
                     }
                 }).create();
 
@@ -41,88 +45,11 @@ public class TestDriver {
 
         //wait(5000);
 
-        //addTrainCards();
-        //wait(5000);
-
-        //removeTrainCards();
-        //wait(5000);
-
-        //addDestinationCards();
-        //wait(5000);
-
-        //removeDestinationCards();
-        //wait(5000);
-
-        dialog = alertDialogBuilder.setMessage("Updating destination card deck").
+        dialog = alertDialogBuilder.setMessage("Adding a route earned by the current player").
                 setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        updateDestinationCardDeck();
-                    }
-                }).create();
-
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.show();
-
-        //wait(5000);
-
-        dialog = alertDialogBuilder.setMessage("Updating face-up train cards").
-                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updateVisibleTrainCards();
-                    }
-                }).create();
-
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.show();
-
-        //wait(5000);
-
-        dialog = alertDialogBuilder.setMessage("Updating train card deck").
-                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updateInvisibleCards();
-                    }
-                }).create();
-
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.show();
-
-        //wait(5000);
-
-        dialog = alertDialogBuilder.setMessage("Updating the opponent's points").
-                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updateOpponentPoints();
-                    }
-                }).create();
-
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.show();
-
-        //wait(5000);
-
-        dialog = alertDialogBuilder.setMessage("Updating opponent's train cards").
-                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updateOpponentTrainCards();
-                    }
-                }).create();
-
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.show();
-
-        //wait(5000);
-
-        dialog = alertDialogBuilder.setMessage("Updating opponent's trains").
-                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updateOpponentTrains();
+                        addPlayerRoute();
                     }
                 }).create();
 
@@ -144,10 +71,107 @@ public class TestDriver {
 
         //wait(5000);
 
-        //addPlayerRoute();
+        dialog = alertDialogBuilder.setMessage("Updating opponent's trains").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateOpponentTrains();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
 
-        //addOpponentRoute();
+        dialog = alertDialogBuilder.setMessage("Updating opponent's train cards").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateOpponentTrainCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
+        //wait(5000);
+
+        dialog = alertDialogBuilder.setMessage("Updating the opponent's points").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateOpponentPoints();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
+        //wait(5000);
+
+        dialog = alertDialogBuilder.setMessage("Updating train card deck").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateInvisibleCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
+        //wait(5000);
+
+        dialog = alertDialogBuilder.setMessage("Updating face-up train cards").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateVisibleTrainCards();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
+        //wait(5000);
+
+        dialog = alertDialogBuilder.setMessage("Updating destination card deck").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateDestinationCardDeck();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
+        //wait(5000);
+
+        //removeDestinationCards();
+        //wait(5000);
+
+        //addDestinationCards();
+        //wait(5000);
+
+        //removeTrainCards();
+        //wait(5000);
+
+        //addTrainCards();
+        //wait(5000);
+
+        dialog = alertDialogBuilder.setMessage("Updating the player's points").
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updatePlayerPoints();
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+
         //wait(5000);
     }
 
@@ -306,11 +330,30 @@ public class TestDriver {
         game.setPlayers(players);
     }
 
+    @TargetApi(24)
     private void addPlayerRoute() {
-        Toast.makeText(activity, "Adding a route earned by the current player", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, "Adding a route earned by the current player", Toast.LENGTH_SHORT).show();
+
+        client.addToTakenRoutes(1);
+        client.changeRouteColor(1, game.getOnePlayer(client.getUser()).getColor());
+        map.invalidate();
     }
 
     private void addOpponentRoute() {
         Toast.makeText(activity, "Adding a route owned by an opponent", Toast.LENGTH_SHORT).show();
+
+        String currentUsername = client.getUser();
+
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            if (!client.getUser().equals(game.getPlayers().get(i).getPlayerName())) {
+                client.setUser(game.getPlayers().get(i).getPlayerName());
+
+                client.addToTakenRoutes(i + 2);
+                client.changeRouteColor(i + 2, game.getOnePlayer(client.getUser()).getColor());
+                map.invalidate();
+            }
+        }
+
+        client.setUser(currentUsername);
     }
 }

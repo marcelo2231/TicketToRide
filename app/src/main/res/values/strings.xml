@@ -10,6 +10,7 @@
     <string name="status_string">Status</string>
     <string name="player_num"># of Players</string>
     <string name="game_list">List of Games</string>
+    <string name="display_commands">Commands</string>
     <string name="game_name">Game Name</string>
     <string name="lobby_logout_button">Logout</string>
     <string name="player_name">Player Name</string>

@@ -5,7 +5,6 @@
     android:minHeight="25px"
     android:layout_width="95dp"
     android:layout_height="48dp"
-    android:layout_marginLeft="5dp"
     android:gravity="center">
 
     <LinearLayout
@@ -98,14 +97,4 @@
                 android:id="@+id/player_dest_cards" />
         </LinearLayout>
     </LinearLayout>
-    <TextView
-        android:text="1"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/player_position"/>
-
 </android.widget.LinearLayout>

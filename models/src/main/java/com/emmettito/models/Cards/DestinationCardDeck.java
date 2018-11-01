@@ -12,7 +12,6 @@ public class DestinationCardDeck implements Deck {
     public DestinationCardDeck(){
         availableCards = new ArrayList<>();
         discardPile = new ArrayList<>();
-
         for(int i = 1; i <= 30; i++){
             Random r = new Random();
             int randomPointValue = r.nextInt(23) + 1;
@@ -34,6 +33,21 @@ public class DestinationCardDeck implements Deck {
 
     public void setDiscardPile(List<DestinationCard> discardPile) {
         this.discardPile = discardPile;
+    }
+
+    public List<DestinationCard> drawnThreeCards() {
+        if (availableCards.size() < 3) {
+            return null;
+        }
+        else {
+            List<DestinationCard> drawnCards =  new ArrayList<>();
+            for (int i = 0; i <= 3; i++) {
+                DestinationCard drawn = availableCards.get(0);
+                availableCards.remove(0);
+                drawnCards.add(drawn);
+            }
+            return drawnCards;
+        }
     }
 
     public List<DestinationCard> getAvailableCards() {

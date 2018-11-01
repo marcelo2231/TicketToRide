@@ -2,6 +2,8 @@ package com.emmettito.tickettoride.facades;
 
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
+import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
@@ -9,6 +11,7 @@ import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
 import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
 import com.emmettito.models.Results.ChatResult;
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.proxy.GameLobbyProxy;
@@ -60,6 +63,12 @@ public class ServerFacade {
         return gameProxy.getPlayers(request);
     }
 
+    public GetCommandsResult getCommands(GetCommandsRequest request, String host, String port) {
+        gameProxy = new GameProxy(host, port);
+
+        return gameProxy.getCommands(request);
+    }
+
     public Result login(LoginRequest request) {
         loginProxy = new LoginProxy();
 
@@ -82,5 +91,10 @@ public class ServerFacade {
         gameRoomProxy = new GameRoomProxy();
 
         return gameRoomProxy.leaveGame();
+    }
+
+    public Result endTurn(PlayerTurnRequest request, String host, String port){
+        gameProxy = new GameProxy(host, port);
+        return gameProxy.endTurn(request);
     }
 }

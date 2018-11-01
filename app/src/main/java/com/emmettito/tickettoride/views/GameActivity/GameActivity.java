@@ -3,8 +3,12 @@ package com.emmettito.tickettoride.views.GameActivity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -17,6 +21,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.emmettito.models.Cards.DestinationCard;
+import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -28,7 +34,7 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends FragmentActivity {
+public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener {
 
     private Game game;
     private Button chatButton;
@@ -42,11 +48,13 @@ public class GameActivity extends FragmentActivity {
     private Button deckDestinationCards;
     private Button viewDestinationCardsButton;
     private Button leaveGameButton;
+    private Button displayCommandsButton;
     private RecyclerView playerListRecycle;
     private RecyclerView.Adapter playerListAdapter;
     private RecyclerView.LayoutManager playerListLayoutManager;
     private List<String[]> players = new ArrayList<>();
     private Client data;
+    private ArrayList<String> FthisS = new ArrayList<>();
 
 
     // MAP VARIABLES
@@ -58,6 +66,7 @@ public class GameActivity extends FragmentActivity {
     private RecyclerView.Adapter playerTrainCardsAdapter;
 
     private Button testDriverButton;
+    private Button endTurnButton;
     private GameActivity mGameActivity;
 
     @Override
@@ -76,7 +85,7 @@ public class GameActivity extends FragmentActivity {
         data = Client.getInstance();
         game = new Game();
         // Get players
-        ArrayList<Player> playerList = presenter.getPlayers();
+        final ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
         game.setPlayers(playerList);
         Toast.makeText(this, "Game Started!", Toast.LENGTH_SHORT).show();
@@ -122,6 +131,26 @@ public class GameActivity extends FragmentActivity {
             }
         });
 
+        displayCommandsButton = (Button) findViewById(R.id.displayCommandsButton);
+        displayCommandsButton.setEnabled(true);
+        displayCommandsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Print list of commands and display toast
+
+                for(String s : FthisS){
+                    System.out.println(s);
+                }
+                ArrayList<String> commands = presenter.getCommands(0);
+                if (commands != null) {
+                    for (String s : commands) {
+                        System.out.println(s);
+                    }
+                }
+                Toast.makeText(v.getContext(), "List of commands was printed on your console.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         deckTrainCards = (Button) findViewById(R.id.TrainCardsDeck);
         deckTrainCards.setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +159,7 @@ public class GameActivity extends FragmentActivity {
                 //Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
                 //helper function that makes sure there's cards in the deck
                 if(checkTrainCardDeck()){
+                    FthisS.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
                     game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                       game.getTrainCardDeck().getAvailable().remove(0));
                     game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
@@ -149,6 +179,7 @@ public class GameActivity extends FragmentActivity {
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
                 //remove the card from faceUp and add it to the player's hand
+                FthisS.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(0));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
@@ -187,6 +218,7 @@ public class GameActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
+                FthisS.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                   game.getTrainCardDeck().getFaceUpCards().remove(1));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
@@ -213,6 +245,7 @@ public class GameActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
+                FthisS.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(2));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
@@ -239,6 +272,7 @@ public class GameActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
+                FthisS.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(3));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
@@ -265,6 +299,7 @@ public class GameActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
+                FthisS.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
                 game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                         game.getTrainCardDeck().getFaceUpCards().remove(4));
                 game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
@@ -297,6 +332,8 @@ public class GameActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
+                drawDestCard(false);
+
             }
         });
 
@@ -320,7 +357,7 @@ public class GameActivity extends FragmentActivity {
             deckDestinationCards.setEnabled(false);
         }
 
-        viewDestinationCardsButton = (Button) findViewById(R.id.viewDesinationCardsButton);
+        viewDestinationCardsButton = (Button) findViewById(R.id.viewDestinationCardsButton);
         viewDestinationCardsButton.setEnabled(true);
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,12 +382,41 @@ public class GameActivity extends FragmentActivity {
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
 
-                TestDriver driver = new TestDriver(mGameActivity, game);
+                TestDriver driver = new TestDriver(mGameActivity, game, mapView);
 
                 try {
                     driver.runTests();
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+            }
+        });
+
+        endTurnButton = (Button) findViewById(R.id.endTurnButton);
+        endTurnButton.setEnabled(true);
+        endTurnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FthisS.add("End Turn Command");
+
+                //if the turn successfully changed
+                if(presenter.endPlayerTurn(game) != game.getPlayerTurnIndex()){
+                    //turn off their draw buttons
+                    deckTrainCards.setEnabled(false);
+                    trainCard5.setEnabled(false);
+                    trainCard4.setEnabled(false);
+                    trainCard3.setEnabled(false);
+                    trainCard2.setEnabled(false);
+                    trainCard1.setEnabled(false);
+                    deckDestinationCards.setEnabled(false);
+                    endTurnButton.setEnabled(false);
+                    //change the index
+                    game.incrementTurnIndex();
+                    //notify the adapter
+                    playerListAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(v.getContext(), "Turn couldn't end!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -362,9 +428,31 @@ public class GameActivity extends FragmentActivity {
     }
 
     @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
     public void onBackPressed() {
         //super.onBackPressed();
     }
+
+
+
+    public void drawDestCard(boolean isFirstTime) {
+        FthisS.add("Draw Destination Card Command");
+        Fragment drawDestCardFragment = new DrawDestCardFragment();
+        ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
+        ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(game.getDestinationCardDeck().drawnThreeCards());
+
+        DestinationCardDeck deck = game.getDestinationCardDeck();
+        List<DestinationCard> drawnCards = deck.drawnThreeCards();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(android.R.id.content, drawDestCardFragment);
+        transaction.commit();
+    }
+
 
     private void startGame(){
         //assign each player a color: DONE
@@ -372,6 +460,9 @@ public class GameActivity extends FragmentActivity {
         //have the server randomly select select 4 train cards for each player
         //have the server select 3 destination cards for each player.
             //and allow the player to discard 0 or 1 of them
+
+        FthisS.add("Start Game Command: Player order was decided, player color was added");
+        FthisS.add("Draw 3 DestCardsFor each player Command");
     }
 
     private void setMapDimensions() {
@@ -381,7 +472,7 @@ public class GameActivity extends FragmentActivity {
     }
 
     private void setMapView() {
-        mapView = new MapView(this, map_width, map_height);
+        mapView = new MapView(this, map_width, map_height, game);
 
         ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
         parent.removeAllViews();
@@ -464,7 +555,7 @@ public class GameActivity extends FragmentActivity {
     private void setupPlayerList(ArrayList<Player> playerList){
         List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
-            String[] newPlayer = new String[7];
+            String[] newPlayer = new String[8];
             newPlayer[0] = p.getColor().toString();
             newPlayer[1] = p.getPlayerName();
             newPlayer[2] = Integer.toString(p.getPoints());
@@ -472,6 +563,7 @@ public class GameActivity extends FragmentActivity {
             newPlayer[4] = Integer.toString(p.getTrainCards().size());
             newPlayer[5] = Integer.toString(p.getDestinationCards().size());
             newPlayer[6] = Integer.toString(p.getPlasticTrains());
+            newPlayer[7] = Integer.toString(game.getPlayerTurnIndex()+1);
             newPlayersList.add(newPlayer);
         }
         if (newPlayersList.size() > 0){

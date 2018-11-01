@@ -1,5 +1,6 @@
 package com.emmettito.tickettorideserver.database;
 
+import com.emmettito.models.CommandModels.Commands;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 
@@ -86,6 +87,54 @@ public class GameDao {
 
         // Return Player
         return game.getPlayers();
+    }
+
+    public int incrementTurn(String gameName) throws Exception{
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        // Game Validation
+        if (game == null){
+            throw new Exception("Game does not exist.");
+        }
+
+        // Increment turn
+        game.incrementTurnIndex();
+        return game.getPlayerTurnIndex();
+    }
+
+    public ArrayList<String> getCommands(String gameName, int currentIndex) throws Exception{
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        if (game == null) { throw new Exception("Invalid game name."); }
+
+        ArrayList<Commands> commands = game.getCommands();
+
+        if (commands == null) { throw new Exception("Commands list is null"); }
+
+        if (currentIndex > commands.size()){
+            throw new Exception("Invalid size");
+        }
+        if(currentIndex == commands.size()){
+            throw new Exception("You are up to date");
+        }
+        ArrayList<Commands> newList = new ArrayList<>(commands.subList(currentIndex, commands.size()));
+
+        ArrayList<String> listOfCommands = new ArrayList<>();
+        for(Commands c : newList){
+            listOfCommands.add(c.getCommandType().toString());
+        }
+        return listOfCommands;
+    }
+
+    public void addCommand(String gameName, Class commandType, String requestJson, String resultJson){
+        // Get Game
+        Game game = gameDao.getGame(gameName);
+
+        Commands newCommads = new Commands(commandType, requestJson, resultJson);
+
+        game.getCommands().add(newCommads);
     }
 
 }

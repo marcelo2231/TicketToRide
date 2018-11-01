@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginLeft="-5dp"
         android:weightSum="10"
         >
 
@@ -24,21 +25,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="-5dp"
                 android:scrollbars="horizontal"/>
 
             <Button
                 android:id="@+id/openChatButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="5dp"
+                android:layout_marginTop="-8dp"
                 android:text="@string/openChat"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 />
 
             <Button
                 android:id="@+id/leaveGameButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="5dp"
+                android:layout_marginTop="-8dp"
                 android:text="@string/leave_game"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 />
+
+            <Button
+                android:id="@+id/displayCommandsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/display_commands"
+                android:textSize="5dp" />
+
 
         </LinearLayout>
 
@@ -65,54 +86,53 @@
 
         <Button
             android:id="@+id/TrainCardsDeck"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/back_of_train_card"/>
 
         <Button
             android:id="@+id/trainCard1"
             android:layout_width="75dp"
-            android:layout_height="41dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/TrainCardsDeck"/>
 
         <Button
             android:id="@+id/trainCard2"
-            android:layout_width="76dp"
-            android:layout_height="39dp"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/trainCard1"/>
 
         <Button
             android:id="@+id/trainCard3"
             android:layout_width="75dp"
-            android:layout_height="42dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/trainCard2"/>
 
         <Button
             android:id="@+id/trainCard4"
-            android:layout_width="76dp"
+            android:layout_width="75dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/trainCard3"/>
 
         <Button
             android:id="@+id/trainCard5"
-            android:layout_width="76dp"
+            android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/trainCard4"/>
 
         <Button
             android:id="@+id/deckDestinationCards"
-            android:layout_width="103dp"
-            android:layout_height="61dp"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/trainCard5"
-            android:background="@drawable/back_of_dest_card"
-            android:text="Draw Destination Cards" />
+            android:background="@drawable/back_of_dest_card"/>
         </RelativeLayout>
 
     </LinearLayout>
@@ -140,14 +160,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/testDriverButton"
-            android:layout_toLeftOf="@id/viewDesinationCardsButton"
+            android:layout_toLeftOf="@id/viewDestinationCardsButton"
             android:orientation="horizontal"
             android:scrollbars="horizontal"/>
 
         <Button
-            android:id="@+id/viewDesinationCardsButton"
-            android:layout_width="103dp"
-            android:layout_height="61dp"
+            android:text="End Turn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:id="@+id/endTurnButton"
+            android:layout_alignRight="@+id/testDriverButton"/>
+
+
+        <Button
+            android:id="@+id/viewDestinationCardsButton"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/back_of_dest_card"
