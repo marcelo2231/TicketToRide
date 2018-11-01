@@ -42,6 +42,9 @@ public class DestinationCard implements Card {
         string.append(cities.getX());
         string.append(" to ");
         string.append(cities.getY());
+        string.append("\n");
+        string.append(this.pointValue);
+        string.append(" points");
         return string.toString();
     }
 }
