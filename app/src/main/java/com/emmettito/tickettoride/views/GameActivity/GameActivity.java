@@ -33,7 +33,7 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener {
+public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener, DestCardDisplayFragment.OnFragmentInteractionListener {
 
     private Game game;
     private Button chatButton;
@@ -53,13 +53,16 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     private RecyclerView.LayoutManager playerListLayoutManager;
     private List<String[]> players = new ArrayList<>();
     private Client data;
+    private ArrayList<String> tempCommands = new ArrayList<>();
+
 
     // MAP VARIABLES
     private int map_width = 0;
     private int map_height = 0;
-
     private  MapView mapView = null;
 
+    // TRAINCARD VARIABLES
+    private RecyclerView.Adapter playerTrainCardsAdapter;
 
     private Button testDriverButton;
     private Button endTurnButton;
@@ -106,6 +109,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                     }
                 });
 
+        setPlayerTrainCards();
+
         chatButton = (Button) findViewById(R.id.openChatButton);
         chatButton.setEnabled(true);
         chatButton.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +139,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             public void onClick(View v) {
                 // Print list of commands and display toast
 
+                for(String s : tempCommands){
+                    System.out.println(s);
+                }
                 ArrayList<String> commands = presenter.getCommands(0);
                 if (commands != null) {
                     for (String s : commands) {
@@ -152,6 +160,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                 //Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
                 //helper function that makes sure there's cards in the deck
                 if(checkTrainCardDeck()){
+                    tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
                     game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
                       game.getTrainCardDeck().getAvailable().remove(0));
                     game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
@@ -171,10 +180,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
                 //remove the card from faceUp and add it to the player's hand
-                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
-                        game.getTrainCardDeck().getFaceUpCards().remove(0));
-                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
-                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
+
+                TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(0);
+                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
+//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                addTrainCardToPlayer(card);
+
                 //check if the deck is empty
                 if(checkTrainCardDeck()) {
                     //substitute the card from the available deck for the card in the faceUp array
@@ -209,10 +221,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 2", Toast.LENGTH_SHORT).show();
-                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
-                  game.getTrainCardDeck().getFaceUpCards().remove(1));
-                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
-                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
+
+                TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(1);
+                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
+//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                addTrainCardToPlayer(card);
+
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(1, newCard);
@@ -235,10 +250,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 3", Toast.LENGTH_SHORT).show();
-                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
-                        game.getTrainCardDeck().getFaceUpCards().remove(2));
-                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
-                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
+
+                TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(2);
+                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
+//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                addTrainCardToPlayer(card);
+
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(2, newCard);
@@ -261,10 +279,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 4", Toast.LENGTH_SHORT).show();
-                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
-                        game.getTrainCardDeck().getFaceUpCards().remove(3));
-                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
-                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
+
+                TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(3);
+                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
+//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                addTrainCardToPlayer(card);
+
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(3, newCard);
@@ -287,10 +308,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "Drawing face-up card 5", Toast.LENGTH_SHORT).show();
-                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(
-                        game.getTrainCardDeck().getFaceUpCards().remove(4));
-                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(
-                        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
+
+                TrainCard card = game.getTrainCardDeck().getFaceUpCards().remove(4);
+                game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(card);
+//                game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+                addTrainCardToPlayer(card);
+
                 if(checkTrainCardDeck()) {
                     TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
                     game.getTrainCardDeck().getFaceUpCards().add(4, newCard);
@@ -324,32 +348,16 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             }
         });
 
-        //activate the draw card buttons if it's the player's turn
-        if(game.isPlayerTurn(game.getPlayers().get(game.getPlayerTurnIndex()))) {
-            deckTrainCards.setEnabled(true);
-            trainCard1.setEnabled(true);
-            trainCard2.setEnabled(true);
-            trainCard3.setEnabled(true);
-            trainCard4.setEnabled(true);
-            trainCard5.setEnabled(true);
-            deckDestinationCards.setEnabled(true);
-        }
-        else{
-            deckTrainCards.setEnabled(false);
-            trainCard5.setEnabled(false);
-            trainCard4.setEnabled(false);
-            trainCard3.setEnabled(false);
-            trainCard2.setEnabled(false);
-            trainCard1.setEnabled(false);
-            deckDestinationCards.setEnabled(false);
-        }
-
         viewDestinationCardsButton = (Button) findViewById(R.id.viewDestinationCardsButton);
         viewDestinationCardsButton.setEnabled(true);
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
+                Fragment displayDestCardFragment = new DestCardDisplayFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(android.R.id.content, displayDestCardFragment);
+                transaction.commit();
+                //Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -384,6 +392,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         endTurnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tempCommands.add("End Turn Command");
 
                 //if the turn successfully changed
                 if(presenter.endPlayerTurn(game) != game.getPlayerTurnIndex()){
@@ -408,9 +417,29 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             }
         });
 
+        //activate the draw card buttons if it's the player's turn
+        if(game.isPlayerTurn(game.getOnePlayer(data.getUser()))){
+            deckTrainCards.setEnabled(true);
+            trainCard1.setEnabled(true);
+            trainCard2.setEnabled(true);
+            trainCard3.setEnabled(true);
+            trainCard4.setEnabled(true);
+            trainCard5.setEnabled(true);
+            deckDestinationCards.setEnabled(true);
+        }
+        else{
+            deckTrainCards.setEnabled(false);
+            trainCard5.setEnabled(false);
+            trainCard4.setEnabled(false);
+            trainCard3.setEnabled(false);
+            trainCard2.setEnabled(false);
+            trainCard1.setEnabled(false);
+            deckDestinationCards.setEnabled(false);
+        }
         presenter.addGame(game);
 
         //after setting up/inflating, initialize the game-starting processes
+        drawDestCard(true);
         startGame();
     }
 
@@ -427,6 +456,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
 
     public void drawDestCard(boolean isFirstTime) {
+        tempCommands.add("Draw Destination Card Command");
         Fragment drawDestCardFragment = new DrawDestCardFragment();
         ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
         ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(game.getDestinationCardDeck().drawnThreeCards());
@@ -446,7 +476,14 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         //have the server randomly select select 4 train cards for each player
         //have the server select 3 destination cards for each player.
             //and allow the player to discard 0 or 1 of them
+
+        tempCommands.add("Start Game Command: Player order was decided, player color was added");
+        tempCommands.add("Draw 3 DestCardsFor each player Command");
     }
+
+    /*
+    MapView functions
+     */
 
     private void setMapDimensions() {
         LinearLayout layout = findViewById(R.id.mapFragmentHolder);
@@ -478,6 +515,41 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             }
         });
     }
+
+    /*
+    Player's Train Cards
+     */
+
+    private void setPlayerTrainCards() {
+        RecyclerView trainCardsView = findViewById(R.id.playerTrainCards);
+        LinearLayoutManager mgr = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        trainCardsView.setLayoutManager(mgr);
+        playerTrainCardsAdapter = new PlayerTrainCardsAdapter(data.getPlayerTrainCards());
+        trainCardsView.setAdapter(playerTrainCardsAdapter);
+    }
+
+    private void updatePlayerTrainCards() {
+        playerTrainCardsAdapter.notifyDataSetChanged();
+    }
+
+    private void addTrainCardToPlayer(TrainCard card) {
+        data.addTrainCard(card);
+        updatePlayerTrainCards();
+    }
+
+    private void removeTrainCardFromPlayer(TrainCard card) {
+        data.removeTrainCard(card);
+        updatePlayerTrainCards();
+    }
+
+    /*
+    Player's Destination Cards
+     */
+
+
+    /*
+
+     */
 
     public void updatePlayerDisplay() {
         //System.out.println(players);
@@ -521,8 +593,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     //this will update the chosen faceUp card background
-    private Drawable updateFaceUpCard(TrainCard newCard){
-        switch (newCard.getColor()){
+    private Drawable updateFaceUpCard(TrainCard card){
+        switch (card.getColor()){
             case Wild:
                 return getDrawable(R.drawable.wild_train_card);
             case Red:
