@@ -14,6 +14,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.emmettito.models.Cards.DestinationCard;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 
 import java.util.ArrayList;
@@ -94,14 +95,17 @@ public class DrawDestCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        destCard1 = (TextView) getView().findViewById(R.id.destCard1);
+
+        View view = inflater.inflate(R.layout.fragment_draw_dest_card, container, false);
+
+        destCard1 = (TextView) view.findViewById(R.id.destCard1);
         destCard1.setText(mDrawnCard1.toString());
-        destCard2 = (TextView) getView().findViewById(R.id.destCard2);
-        destCard1.setText(mDrawnCard2.toString());
-        destCard3 = (TextView) getView().findViewById(R.id.destCard3);
+        destCard2 = (TextView) view.findViewById(R.id.destCard2);
+        destCard2.setText(mDrawnCard2.toString());
+        destCard3 = (TextView) view.findViewById(R.id.destCard3);
         destCard3.setText(mDrawnCard3.toString());
 
-        cardToggle1 = (ToggleButton) getView().findViewById(R.id.toggleDest1);
+        cardToggle1 = (ToggleButton) view.findViewById(R.id.toggleDest1);
         cardToggle1.setEnabled(true);
         cardToggle1.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
             @Override
@@ -110,7 +114,7 @@ public class DrawDestCardFragment extends Fragment {
             }
         });
 
-        cardToggle2 = (ToggleButton) getView().findViewById(R.id.toggleDest2);
+        cardToggle2 = (ToggleButton) view.findViewById(R.id.toggleDest2);
         cardToggle2.setEnabled(true);
         cardToggle2.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
             @Override
@@ -119,7 +123,7 @@ public class DrawDestCardFragment extends Fragment {
             }
         });
 
-        cardToggle3 = (ToggleButton) getView().findViewById(R.id.toggleDest3);
+        cardToggle3 = (ToggleButton) view.findViewById(R.id.toggleDest3);
         cardToggle3.setEnabled(true);
         cardToggle3.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
             @Override
@@ -128,7 +132,7 @@ public class DrawDestCardFragment extends Fragment {
             }
         });
 
-        finishButton = (Button) getView().findViewById(R.id.dest_card_button_end);
+        finishButton = (Button) view.findViewById(R.id.dest_card_button_end);
         finishButton.setEnabled(true);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +163,7 @@ public class DrawDestCardFragment extends Fragment {
                         Toast.makeText(getActivity(), "Please select at least 2 Destination Cards", Toast.LENGTH_SHORT).show();
                     }
                     else {
+                        Client client = Client.getInstance();
                         finish();
                     }
                 }
@@ -170,7 +175,7 @@ public class DrawDestCardFragment extends Fragment {
         });
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_draw_dest_card, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -227,5 +232,6 @@ public class DrawDestCardFragment extends Fragment {
         mDrawnCard1 = cards.get(0);
         mDrawnCard2 = cards.get(1);
         mDrawnCard3 = cards.get(2);
+        System.out.println(mDrawnCard3.toString());
     }
 }
