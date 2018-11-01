@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride;
 
+import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.City;
 import com.emmettito.models.HardCoded.HardCodedData;
@@ -23,6 +24,7 @@ public class Client {
     private List<Integer> takenRoutes;
 
     private List<TrainCard> playerTrainCards;
+    private List<DestinationCard> playerDestinationCards;
 
     private Client() {
         token = null;
@@ -35,6 +37,7 @@ public class Client {
 
         takenRoutes = new ArrayList<>();
         playerTrainCards = new ArrayList<>();
+        playerDestinationCards = new ArrayList<>();
     }
 
     public static Client getInstance() {
@@ -82,7 +85,7 @@ public class Client {
     }
 
     /*
-    The following could be moved to a different class/activity, but MapView needs to access them somehow
+    MapView data
      */
 
     public List<City> getAllCities() {
@@ -108,7 +111,7 @@ public class Client {
     }
 
     /*
-    Player's Cards
+    Player's Train Cards
      */
 
     public List<TrainCard> getPlayerTrainCards() {
@@ -122,4 +125,25 @@ public class Client {
     public void removeTrainCard(TrainCard card) {
         playerTrainCards.remove(card);
     }
+
+    /*
+    Player's Destination Cards
+     */
+
+    public List<DestinationCard> getPlayerDestCards() {
+        return playerDestinationCards;
+    }
+
+    public void addDestCard(DestinationCard card) {
+        playerDestinationCards.add(card);
+    }
+
+    public void addDestCards(List<DestinationCard> cards) {
+        playerDestinationCards.addAll(cards);
+    }
+
+    public void removeDestCard(DestinationCard card) {
+        playerDestinationCards.remove(card);
+    }
+
 }
