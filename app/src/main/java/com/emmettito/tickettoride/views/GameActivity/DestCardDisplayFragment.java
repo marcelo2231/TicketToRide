@@ -103,6 +103,7 @@ public class DestCardDisplayFragment extends Fragment {
     }
 
     public void finish() {
+        super.onResume();
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 

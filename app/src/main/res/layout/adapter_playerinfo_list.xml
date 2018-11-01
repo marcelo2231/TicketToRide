@@ -5,7 +5,7 @@
     android:minHeight="25px"
     android:layout_width="95dp"
     android:layout_height="48dp"
-    android:gravity="center">
+    android:gravity="start">
 
     <LinearLayout
         android:orientation="vertical"

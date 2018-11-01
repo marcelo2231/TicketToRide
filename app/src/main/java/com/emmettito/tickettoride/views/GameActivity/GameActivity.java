@@ -467,7 +467,15 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         //super.onBackPressed();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        game.getOnePlayer(data.getUser()).setDestinationCards((ArrayList) data.getPlayerDestCards());
+        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+        updatePlayerDisplay();
+        updateDestinationCardDeck();
+    }
 
     public void drawDestCard(boolean isFirstTime) {
         tempCommands.add("Draw Destination Card Command");

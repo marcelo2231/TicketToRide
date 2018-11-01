@@ -49,6 +49,8 @@ public class GamePresenter implements Observer {
         this.gameObject = gameObject;
 
         gameObject.addObserver(this);
+
+        client.addObserver(this);
     }
 
     public ArrayList<Player> getPlayers(){

@@ -9,8 +9,9 @@ import com.emmettito.models.Route;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Client {
+public class Client extends Observable {
 
     private static Client client = null;
 
@@ -140,6 +141,9 @@ public class Client {
 
     public void addDestCards(List<DestinationCard> cards) {
         playerDestinationCards.addAll(cards);
+
+        setChanged();
+        notifyObservers(cards);
     }
 
     public void removeDestCard(DestinationCard card) {
