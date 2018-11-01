@@ -129,6 +129,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             public void onClick(View v) {
                 //return to the join game screen
                 Toast.makeText(v.getContext(), "Leaving game", Toast.LENGTH_SHORT).show();
+                finish();
                 //GameActivity.super.onBackPressed();
             }
         });
