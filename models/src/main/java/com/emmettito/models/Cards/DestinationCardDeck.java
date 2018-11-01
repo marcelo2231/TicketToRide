@@ -1,5 +1,7 @@
 package com.emmettito.models.Cards;
 
+import com.emmettito.models.HardCoded.HardCodedData;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,13 +12,8 @@ public class DestinationCardDeck implements Deck {
     private List<DestinationCard> discardPile;
 
     public DestinationCardDeck(){
-        availableCards = new ArrayList<>();
+        availableCards = new HardCodedData().getDestinationCards();
         discardPile = new ArrayList<>();
-        for(int i = 1; i <= 30; i++){
-            Random r = new Random();
-            int randomPointValue = r.nextInt(23) + 1;
-            availableCards.add(new DestinationCard("Provo", "Las Vegas", randomPointValue, i)); // TODO: Add cities and point values
-        }
 
         shuffle();
     }
