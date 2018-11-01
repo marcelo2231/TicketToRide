@@ -232,9 +232,11 @@ public class DrawDestCardFragment extends Fragment {
     }
 
     public void setDrawnDestCards(List<DestinationCard> cards) {
-        mDrawnCard1 = cards.get(0);
-        mDrawnCard2 = cards.get(1);
-        mDrawnCard3 = cards.get(2);
-        System.out.println(mDrawnCard3.toString());
+        if (cards.size() > 2) {
+            mDrawnCard1 = cards.get(0);
+            mDrawnCard2 = cards.get(1);
+            mDrawnCard3 = cards.get(2);
+            System.out.println(mDrawnCard3.toString());
+        }
     }
 }
