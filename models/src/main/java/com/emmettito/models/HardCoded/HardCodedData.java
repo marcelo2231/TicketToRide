@@ -1,5 +1,6 @@
 package com.emmettito.models.HardCoded;
 
+import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.City;
 import com.emmettito.models.Route;
 import com.emmettito.models.Space;
@@ -7,6 +8,8 @@ import com.emmettito.models.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import sun.security.krb5.internal.crypto.Des;
 
 public class HardCodedData {
 
@@ -54,6 +57,43 @@ public class HardCodedData {
         cities.add(new City(35, "Saint Louis", null, 0.6519191f, 0.55203056f));
 
         return cities;
+    }
+
+    public List<DestinationCard> getDestinationCards() {
+        ArrayList<DestinationCard> cards = new ArrayList<>();
+
+        cards.add(new DestinationCard(0, 15, "Los Angeles", 6, "New York", 21));
+        cards.add(new DestinationCard(1, 20, "Duluth", 12, "Houston", 8));
+        cards.add(new DestinationCard(2, 3, "Sault St. Marie", 25, "Nashville", 8));
+        cards.add(new DestinationCard(3, 6, "New York", 23, "Atlanta", 6));
+        cards.add(new DestinationCard(4, 17, "Portland", 25, "Nashville", 17));
+        cards.add(new DestinationCard(5, 0, "Vancouver", 4, "Montreal", 20));
+        cards.add(new DestinationCard(6, 20, "Duluth", 13, "El Paso", 10));
+        cards.add(new DestinationCard(7, 21, "Toronto", 10, "Miami", 10));
+        cards.add(new DestinationCard(8, 17, "Portland", 14, "Phoenix", 11));
+        cards.add(new DestinationCard(9, 26, "Dallas", 6, "New York", 11));
+        cards.add(new DestinationCard(10, 1, "Calgary", 30, "Salt Lake City", 7));
+        cards.add(new DestinationCard(11, 1, "Calgary", 14, "Phoenix", 13));
+        cards.add(new DestinationCard(12, 15, "Los Angeles", 10, "Miami", 20));
+        cards.add(new DestinationCard(13, 2, "Winnipeg", 24, "Little Rock", 11));
+        cards.add(new DestinationCard(14, 16, "San Francisco", 23, "Atlanta", 17));
+        cards.add(new DestinationCard(15, 34, "Kansas City", 12, "Houston", 5));
+        cards.add(new DestinationCard(16, 15, "Los Angeles", 33, "Chicago", 16));
+        cards.add(new DestinationCard(17, 31, "Denver", 22, "Pittsburgh", 11));
+        cards.add(new DestinationCard(18, 33, "Chicago", 28, "Santa Fe", 9));
+        cards.add(new DestinationCard(19, 0, "Vancouver", 28, "Santa Fe", 13));
+        cards.add(new DestinationCard(20, 5, "Boston", 10, "Miami", 12));
+        cards.add(new DestinationCard(21, 33, "Chicago", 11, "New Orleans", 7));
+        cards.add(new DestinationCard(22, 4, "Montreal", 23, "Atlanta", 9));
+        cards.add(new DestinationCard(23, 18, "Seattle", 6, "New York", 22));
+        cards.add(new DestinationCard(24, 31, "Denver", 13, "El Paso", 4));
+        cards.add(new DestinationCard(25, 19, "Helena", 15, "Los Angeles", 8));
+        cards.add(new DestinationCard(26, 2, "Winnipeg", 12, "Houston", 12));
+        cards.add(new DestinationCard(27, 4, "Montreal", 11, "New Orleans", 13));
+        cards.add(new DestinationCard(28, 3, "Sault St. Marie", 27, "Oklahoma City", 9));
+        cards.add(new DestinationCard(29, 18, "Seattle", 15, "Los Angeles", 9));
+
+        return cards;
     }
 
     public List<Route> getRoutes() {
