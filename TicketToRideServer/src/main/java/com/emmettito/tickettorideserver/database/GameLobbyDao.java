@@ -9,11 +9,20 @@ import java.util.ArrayList;
 
 
 public class GameLobbyDao {
-    /** Database Instance **/
+    /** Database Instance used to access the required data**/
     private static Database dbInstance = Database.getInstance();
 
     /** Games */
 
+
+    /*
+     * adds the included game into the database
+     * @param newGame: The game that is to be added to the database
+     *
+     * @pre newGame must have a unique game name
+     * @post gameList.size() at beginning must equal gameList.size() + 1 at end
+     *
+     */
     public void addGame(Game newGame) throws DuplicateName {
         if (getGame(newGame.getGameName()) != null) {
             throw new DuplicateName();
@@ -23,6 +32,13 @@ public class GameLobbyDao {
         }
     }
 
+    /*
+     * Finds ard returns the game with the selected game name
+     *
+     * @param gameName The name of the desired game
+     *
+     *
+     */
     public Game getGame(String gameName) {
         for (Game g : dbInstance.gameLobby) {
             if (g.getGameName().equals(gameName)) {

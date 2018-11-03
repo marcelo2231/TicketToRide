@@ -22,44 +22,89 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DrawDestCardFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DrawDestCardFragment#newInstance} factory method to
- * create an instance of this fragment.
+ *
+ * DrawDestCardFragment.java
+ *
+ * The DrawDestCardFragment is one of the View classes used as part of the game (in the
+ * Model-View-Presenter layout). It contains three toggle buttons for selecting cards, three text
+ * views for displaying destination cards and one finish button to end the selection process. The
+ * user will have three randomly selected destination cards from the deck presented in front of
+ * them. They then will have the option of selected any of none of the three cards, which will then
+ * be placed into their hand. The class requires a boolean to be set determining if it is the
+ * players first time in the game drawing destination cards. If it is, then they must draw at least
+ * 2 destination cards. The fragment is created, the boolean set and loaded onto the page in the
+ * game activity.
+ *
+ *
+ *
+ * Domain:
+ *      destCard1: TextView, displays the information about the first destination card
+ *      destCard2: TextView, displays the information about the second destination card
+ *      destCard3: TextView, displays the information about the third destination card
+ *
+ *      cardToggle1: ToggleButton, toggles the selection of the first destination card
+ *      cardToggle2: ToggleButton, toggles the selection of the first destination card
+ *      cardToggle3: ToggleButton, toggles the selection of the first destination card
+ *
+ *      finishButton: Button, ends the selection process and adds the cards to the players hand
+ *
+ *      firstTime: Boolean, is set by game activity, determines whether its the first time drawing
+ *
+ *      mDrawnCard1: DestinationCard, the first destination card to be displayed
+ *      mDrawnCard2: DestinationCard, the second destination card to be displayed
+ *      mDrawnCard3: DestinationCard, the third destination card to be displayed
+ *
+ *      toggle1Status: boolean, determines whether the first card has been selected
+ *      toggle2Status: boolean, determines whether the second card has been selected
+ *      toggle3Status: boolean, determines whether the third card has been selected
+ *
+ * DrawDestCardFragment extends Fragment.
+ *
+ * @author  Jason McAllister
+ * @since   2018
+ *
+ *
  */
 public class DrawDestCardFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    //true if its the players first time drawing
     private boolean mFirstTime;
 
+
+    //the destination cards to be displayed and selected from
     private DestinationCard mDrawnCard1;
     private DestinationCard mDrawnCard2;
     private DestinationCard mDrawnCard3;
 
+    //the TextVies to display information about the destination cards
     private TextView destCard1;
     private TextView destCard2;
     private TextView destCard3;
 
+    //the toggle buttons to control the selection of the destination cards
     private ToggleButton cardToggle1;
     private ToggleButton cardToggle2;
     private ToggleButton cardToggle3;
 
+    //The booleans to track whether a card has been selected
     private boolean toggle1Status = false;
     private boolean toggle2Status = false;
     private boolean toggle3Status = false;
 
+    //The button to end the selection process
     private Button finishButton;
 
     private OnFragmentInteractionListener mListener;
 
+    /*
+     * DrawDestCardFragment is intentionally left blank as pre fragment requirements
+     */
     public DrawDestCardFragment() {
         // Required empty public constructor
 
@@ -69,9 +114,12 @@ public class DrawDestCardFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param param1 Parameter 1 is not used but left for future expansion
+     * @param param2 Parameter 2 is not used but left for future expansion
      * @return A new instance of fragment DrawDestCardFragment.
+     *
+     * @pre none
+     * @post not null instance of the fragment
      */
     // TODO: Rename and change types and number of parameters
     public static DrawDestCardFragment newInstance(String param1, String param2) {
@@ -83,6 +131,19 @@ public class DrawDestCardFragment extends Fragment {
         return fragment;
     }
 
+    /*
+     * onCreate
+     *
+     * Overrides the Fragment parent class and allows for the addition of steps at the creation
+     * stage of the fragment
+     *
+     * @param savedInstanceState a bundle that can be used to load in a previous saved state or add
+     * additional data at the creation of the object
+     *
+     * @pre none
+     * @post none
+     *
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +154,27 @@ public class DrawDestCardFragment extends Fragment {
 
     }
 
+
+    /*
+     * onCreateView
+     *
+     * This method generates and returns the view which is to be displayed in the fragment manager,
+     * called from the activity. It inflates the view, assigns all proper view objects and sets the
+     * listeners to each view object.
+     *
+     * @param inflater The inflater from the object creating the fragment
+     * @param container The container from which the fragment is being created and displayed
+     * @param savedInstanceState a bundle that can be used to load in a previous saved state or add
+     * additional data at the creation of the object
+     *
+     * @pre The parent has set the isFirst variable and the destination cards using their proper
+     * setters
+     * @post all view objects are linked to the layout
+     * @post all click listeners are set
+     * @post the clients hand contains the selected cards, if it is the players first draw, the must
+     * select at least two cards
+     *
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -191,18 +273,32 @@ public class DrawDestCardFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
+    /*
+     * finish
+     *
+     * ends the fragment and returns to the activity
+     *
+     * @pre none
+     * @post none
+     */
     public void finish() {
         super.onResume();
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
+
+    /*
+     * onAttach
+     *
+     * defines behavior to take place at the moment the fragment is placed on the screen
+     *
+     * @param context a variable containing the context to be used to attach the fragment to the
+     * page
+     *
+     * @pre none
+     * @post none
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -214,6 +310,17 @@ public class DrawDestCardFragment extends Fragment {
         }
     }
 
+
+    /*
+     * onDetach
+     *
+     * a function defining behavior to be preformed the moment the fragment is removed from the
+     * activity
+     *
+     * @pre none
+     * @post none
+     *
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -221,24 +328,45 @@ public class DrawDestCardFragment extends Fragment {
     }
 
     /**
+     * OnFragmentInteractionListener
+     *
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     *
+     * @pre none
+     * @post none
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * setIsFirst
+     *
+     * a setter used to set whether its the players first time drawing a dest card
+     *
+     * @param isFirst a boolean determining if it is the first time or not
+     *
+     * @pre isFirst must be a valid boolean
+     * @post the setter must set the correct value to mIsFirst
+     */
     public void setIsFirst(boolean isFirst) {
         this.mFirstTime = isFirst;
     }
 
+
+    /**
+     * setDrawnDestCards
+     *
+     * sets the destination cards in the fragment to the selected values
+     *
+     * @param cards a List of size 3 containing the destination cards from the deck
+     *
+     * @pre cards.size() == 3
+     * @post the mDrawnCard variables must all be non null
+     */
     public void setDrawnDestCards(List<DestinationCard> cards) {
         if (cards.size() > 2) {
             mDrawnCard1 = cards.get(0);
