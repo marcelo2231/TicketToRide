@@ -25,7 +25,6 @@ import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.TestDriver;
 import com.emmettito.tickettoride.presenters.GamePresenter;
 
 import java.util.ArrayList;
@@ -62,8 +61,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     // TRAINCARD VARIABLES
     private RecyclerView.Adapter playerTrainCardsAdapter;
 
-    private Button testDriverButton;
-    private Button endTurnButton;
     private GameActivity mGameActivity;
 
     @Override
@@ -383,53 +380,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         playerListRecycle.setAdapter(playerListAdapter);
 
         mGameActivity = this;
-
-        testDriverButton = (Button) findViewById(R.id.testDriverButton);
-        testDriverButton.setEnabled(true);
-        testDriverButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Starting test driver", Toast.LENGTH_SHORT).show();
-
-                TestDriver driver = new TestDriver(mGameActivity, game, mapView);
-
-                try {
-                    driver.runTests();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        endTurnButton = (Button) findViewById(R.id.endTurnButton);
-        endTurnButton.setEnabled(true);
-        endTurnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tempCommands.add("End Turn Command");
-
-                //if the turn successfully changed
-                if(presenter.endPlayerTurn(game) != game.getPlayerTurnIndex()){
-                    //turn off their draw buttons
-                    deckTrainCards.setEnabled(false);
-                    trainCard5.setEnabled(false);
-                    trainCard4.setEnabled(false);
-                    trainCard3.setEnabled(false);
-                    trainCard2.setEnabled(false);
-                    trainCard1.setEnabled(false);
-                    deckDestinationCards.setEnabled(false);
-                    endTurnButton.setEnabled(false);
-                    //change the index
-                    game.incrementTurnIndex();
-                    //notify the adapter
-                    updatePlayerDisplay();
-                    playerListAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Toast.makeText(v.getContext(), "Turn couldn't end!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         //activate the draw card buttons if it's the player's turn
         if(game.isPlayerTurn(game.getOnePlayer(data.getUser()))){
