@@ -1,43 +1,53 @@
 package com.emmettito.tickettoride.views.GameActivity.Turns;
 
+import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+
 public class MyTurnNoAction implements Turn {
+
+    public MyTurnNoAction(){}
+
     @Override
-    public void enterChat() {
+    public void enterChat(GameActivity context) {
 
     }
 
     @Override
-    public void leaveGame() {
+    public void leaveGame(GameActivity context) {
 
     }
 
     @Override
-    public void viewDestCard() {
+    public void viewDestCard(GameActivity context) {
 
     }
 
     @Override
-    public void claimRoute() {
+    public void viewCommands(GameActivity context) {
 
     }
 
     @Override
-    public void drawFaceUpLocomotive() {
+    public void claimRoute(GameActivity context) {
 
     }
 
     @Override
-    public void drawFaceDownTrainCard() {
+    public void drawFaceUpLocomotive(GameActivity context) {
 
     }
 
     @Override
-    public void drawFaceUpTrainCard() {
+    public void drawFaceDownTrainCard(GameActivity context) {
 
     }
 
     @Override
-    public void drawDestCards() {
+    public void drawFaceUpTrainCard(GameActivity context) {
+
+    }
+
+    @Override
+    public void drawDestCards(GameActivity context) {
 
     }
 }
