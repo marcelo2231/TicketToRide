@@ -1,4 +1,4 @@
-package com.emmettito.models.Turns;
+package com.emmettito.tickettoride.views.GameActivity.Turns;
 
 public interface Turn {
     void enterChat();

@@ -1,6 +1,6 @@
-package com.emmettito.models.Turns;
+package com.emmettito.tickettoride.views.GameActivity.Turns;
 
-public class MyTurnDrewCard implements Turn {
+public class MyTurnNoAction implements Turn {
     @Override
     public void enterChat() {
 
