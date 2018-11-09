@@ -1,37 +1,37 @@
 package com.emmettito.models.CommandModels;
 
 public class Commands {
-    private Class commandType;
-    private String requestJson;
-    private String resultJson;
+    private Command command;
+    private Object request;
+    private Object result;
 
-    public Commands(Class commandType, String requestJson, String resultJson) {
-        this.commandType = commandType;
-        this.requestJson = requestJson;
-        this.resultJson = resultJson;
+    public Commands(Command command, Object request, Object result) {
+        this.command = command;
+        this.request = request;
+        this.result = result;
     }
 
-    public Class getCommandType() {
-        return commandType;
+    public Command getCommand() {
+        return command;
     }
 
-    public String getRequestJson() {
-        return requestJson;
+    public Object getRequest() {
+        return request;
     }
 
-    public String getResultJson() {
-        return resultJson;
+    public Object getResult() {
+        return result;
     }
 
-    public void setCommandType(Class commandType) {
-        this.commandType = commandType;
+    public void setCommand(Command command) {
+        this.command = command;
     }
 
-    public void setRequestJson(String requestJson) {
-        this.requestJson = requestJson;
+    public void setRequest(Object request) {
+        this.request = request;
     }
 
-    public void setResutJson(String resultJson) {
-        this.resultJson = resultJson;
+    public void setResult(Object result) {
+        this.result = result;
     }
 }

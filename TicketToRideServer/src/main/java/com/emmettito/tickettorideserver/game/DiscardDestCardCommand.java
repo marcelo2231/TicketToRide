@@ -1,5 +1,6 @@
 package com.emmettito.tickettorideserver.game;
 
+import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
@@ -32,9 +33,9 @@ public class DiscardDestCardCommand implements IGameCommand {
         result.setSuccess(true);
         result.setMessage("Successfully discarded train card.");
 
-        String serializedRequest = new Serializer().serialize(commandModel);
-        String serializedResult = new Serializer().serialize(result);
-        gameDatabase.addCommand(commandModel.getGameName(), this.getClass(), serializedRequest, serializedResult);
+        String description = "example";
+        Command command = new Command(commandModel.getPlayerName(), this.getClass(), description);
+        gameDatabase.addCommand(commandModel.getGameName(), command, commandModel, result);
         return result;
     }
 }

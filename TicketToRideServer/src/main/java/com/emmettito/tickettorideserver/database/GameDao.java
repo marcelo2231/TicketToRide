@@ -1,5 +1,6 @@
 package com.emmettito.tickettorideserver.database;
 
+import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.Commands;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -121,45 +122,23 @@ public class GameDao {
         }
         ArrayList<Commands> newList = new ArrayList<>(commands.subList(currentIndex, commands.size()));
 
-        /**
-         *
-         *
-         * Currently the commands only store the command name. A player name and description will need to be added.
-         *
-         *
-         *
-         */
-
-
         ArrayList<String[]> listOfCommands = new ArrayList<>();
         for(Commands c : newList){
             String[] commandStuff = new String[3];
-            commandStuff[0] = "Current player name";
-            commandStuff[1] = c.getCommandType().toString();
-            commandStuff[2] = "Description of the command";
+            commandStuff[0] = "Player: " + c.getCommand().getPlayerName();
+            commandStuff[1] = "Command: " + c.getCommand().getCommandType().toString();
+            commandStuff[2] = "Description: " + c.getCommand().getDescription();
             listOfCommands.add(commandStuff);
         }
-
-        /**
-         *
-         *
-         * 
-         *
-         * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-         *
-         *
-         *
-         *
-         */
 
         return listOfCommands;
     }
 
-    public void addCommand(String gameName, Class commandType, String requestJson, String resultJson){
+    public void addCommand(String gameName, Command command, Object request, Object result){
         // Get Game
         Game game = gameDao.getGame(gameName);
 
-        Commands newCommads = new Commands(commandType, requestJson, resultJson);
+        Commands newCommads = new Commands(command, request, result);
 
         game.getCommands().add(newCommads);
     }

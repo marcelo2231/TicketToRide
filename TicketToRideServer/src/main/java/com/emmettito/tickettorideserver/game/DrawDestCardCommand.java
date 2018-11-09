@@ -1,6 +1,7 @@
 package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.Cards.DestinationCard;
+import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
 import com.emmettito.models.Results.DrawDestCardResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
@@ -40,9 +41,9 @@ public class DrawDestCardCommand implements IGameCommand{
         result.setMessage("Successfully draw dest card.");
 
         // Add to command list
-        String serializedRequest = new Serializer().serialize(commandModel);
-        String serializedResult = new Serializer().serialize(result);
-        gameDatabase.addCommand(commandModel.getGameName(), this.getClass(), serializedRequest, serializedResult);
+        String description = "example";
+        Command command = new Command(commandModel.getPlayerName(), this.getClass(), description);
+        gameDatabase.addCommand(commandModel.getGameName(), command, commandModel, result);
         return result;
     }
 }
