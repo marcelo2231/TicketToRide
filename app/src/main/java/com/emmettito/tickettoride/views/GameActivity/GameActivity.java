@@ -27,6 +27,9 @@ import com.emmettito.models.Player;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.GamePresenter;
+import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
+import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
+import com.emmettito.tickettoride.views.GameActivity.Turns.Turn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     private Game game;
     private Button chatButton;
     GamePresenter presenter = new GamePresenter(this);
+    private Turn turnState;
     private Button trainCard1;
     private Button trainCard2;
     private Button trainCard3;
@@ -114,8 +118,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         chatButton.setEnabled(true);
         chatButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                turnState.enterChat((GameActivity)context);
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -125,6 +129,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         leaveGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                turnState.leaveGame((GameActivity)context);
                 //return to the join game screen
                 Toast.makeText(v.getContext(), "Leaving game", Toast.LENGTH_SHORT).show();
                 finish();
@@ -137,6 +142,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         displayCommandsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                turnState.viewCommands((GameActivity)context);
                 /*for(String s : tempCommands){
                     System.out.println(s);
                 }
@@ -160,6 +166,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                turnState.drawFaceDownTrainCard((GameActivity)context);
                 //Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
                 //helper function that makes sure there's cards in the deck
                 if(checkTrainCardDeck()){
@@ -185,6 +192,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         trainCard1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
                 //remove the card from faceUp and add it to the player's hand
                 tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
@@ -262,6 +270,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckDestinationCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                turnState.drawDestCards((GameActivity)context);
                 Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
                 drawDestCard(false);
                 //System.out.printf("This is the number of destination cards: %d", game.getOnePlayer(data.getUser()).getDestinationCards().size());
@@ -280,6 +289,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                turnState.viewDestCard((GameActivity)context);
                 Fragment displayDestCardFragment = new DestCardDisplayFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(android.R.id.content, displayDestCardFragment);
@@ -303,6 +313,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         //activate the draw card buttons if it's the player's turn
         if(game.isPlayerTurn(game.getOnePlayer(data.getUser()))){
+            turnState = new MyTurnNoAction();
+
             deckTrainCards.setEnabled(true);
             trainCard1.setEnabled(true);
             trainCard2.setEnabled(true);
@@ -312,6 +324,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             deckDestinationCards.setEnabled(true);
         }
         else{
+            turnState = new NotMyTurn();
+
             deckTrainCards.setEnabled(false);
             trainCard5.setEnabled(false);
             trainCard4.setEnabled(false);
