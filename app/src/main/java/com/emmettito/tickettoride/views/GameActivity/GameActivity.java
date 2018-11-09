@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.Client;
@@ -70,6 +71,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     private GameActivity mGameActivity;
 
     public Button getDeckTrainCards(){ return deckTrainCards; }
+    public Turn getTurnState(){ return turnState; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +158,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                 */
 
                 Intent intent = new Intent(getApplicationContext(), GameHistoryActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -192,6 +193,12 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         trainCard1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(game.getTrainCardDeck().getFaceUpCards().get(0).getColor().equals(TrainColor.Wild)){
+                    turnState.drawFaceUpLocomotive((GameActivity)context);
+                }
+                else{
+                    turnState.drawFaceUpTrainCard((GameActivity)context);
+                }
 
                 //Toast.makeText(v.getContext(), "Drawing face-up card 1", Toast.LENGTH_SHORT).show();
                 //remove the card from faceUp and add it to the player's hand
