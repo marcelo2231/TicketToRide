@@ -1,6 +1,10 @@
 package com.emmettito.tickettoride.presenters;
 
+import android.graphics.drawable.Drawable;
+import android.widget.Button;
+
 import com.emmettito.models.Cards.DestinationCardDeck;
+import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
@@ -11,6 +15,7 @@ import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
+import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
@@ -91,5 +96,23 @@ public class GamePresenter implements Observer {
         return newIndex;
     }
 
+    public void drawFaceUpTrainCard(GameActivity gameActivity, Game game, TrainCard oldCard, int trainCardIndex, Button trainButton){
+        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(oldCard);
+        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+        gameActivity.addTrainCardToPlayer(oldCard);
+
+        if(gameActivity.checkTrainCardDeck()){
+            TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
+            game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, newCard);
+            trainButton.setBackground(gameActivity.updateFaceUpCard(newCard));
+            gameActivity.getDeckTrainCards().setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+        }
+        else{
+            trainButton.setBackgroundColor(0x00);
+            trainButton.setBackgroundResource(android.R.drawable.btn_default);
+            game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
+            trainButton.setEnabled(false);
+        }
+    }
 
 }
