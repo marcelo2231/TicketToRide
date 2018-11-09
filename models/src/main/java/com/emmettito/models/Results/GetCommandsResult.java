@@ -1,12 +1,14 @@
 package com.emmettito.models.Results;
 
+import com.emmettito.models.CommandModels.Command;
+
 import java.util.ArrayList;
 
 public class GetCommandsResult {
     /** Variables */
     private Boolean success;
     private String message;
-    private ArrayList<String[]> data;
+    private ArrayList<Command> data;
 
     /** Constructors */
     public GetCommandsResult() {
@@ -14,7 +16,7 @@ public class GetCommandsResult {
         message = "Default Message";
     }
 
-    public GetCommandsResult(Boolean success, ArrayList<String[]> data) {
+    public GetCommandsResult(Boolean success, ArrayList<Command> data) {
 
         this.success = success;
         this.data = data;
@@ -33,7 +35,7 @@ public class GetCommandsResult {
     public String getMessage() {
         return message;
     }
-    public ArrayList<String[]> getData() {
+    public ArrayList<Command> getData() {
         return data;
     }
 
@@ -44,7 +46,7 @@ public class GetCommandsResult {
     public void setMessage(String message) {
         this.message = message;
     }
-    public void setData(ArrayList<String[]> data) {
+    public void setData(ArrayList<Command> data) {
         this.data = data;
     }
 

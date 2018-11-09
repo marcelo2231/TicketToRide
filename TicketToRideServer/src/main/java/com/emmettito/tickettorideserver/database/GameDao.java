@@ -1,9 +1,9 @@
 package com.emmettito.tickettorideserver.database;
 
 import com.emmettito.models.CommandModels.Command;
-import com.emmettito.models.CommandModels.Commands;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.tickettorideserver.communication.Serializer;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
@@ -104,13 +104,13 @@ public class GameDao {
         return game.getPlayerTurnIndex();
     }
 
-    public ArrayList<String[]> getCommands(String gameName, int currentIndex) throws Exception{
+    public ArrayList<Command> getCommands(String gameName, int currentIndex) throws Exception{
         // Get Game
         Game game = gameDao.getGame(gameName);
 
         if (game == null) { throw new Exception("Invalid game name."); }
 
-        ArrayList<Commands> commands = game.getCommands();
+        ArrayList<Command> commands = game.getCommands();
 
         if (commands == null) { throw new Exception("Commands list is null"); }
 
@@ -120,27 +120,14 @@ public class GameDao {
         if(currentIndex == commands.size()){
             throw new Exception("You are up to date");
         }
-        ArrayList<Commands> newList = new ArrayList<>(commands.subList(currentIndex, commands.size()));
 
-        ArrayList<String[]> listOfCommands = new ArrayList<>();
-        for(Commands c : newList){
-            String[] commandStuff = new String[3];
-            commandStuff[0] = "Player: " + c.getCommand().getPlayerName();
-            commandStuff[1] = "Command: " + c.getCommand().getCommandType().toString();
-            commandStuff[2] = "Description: " + c.getCommand().getDescription();
-            listOfCommands.add(commandStuff);
-        }
-
-        return listOfCommands;
+        return new ArrayList<>(commands.subList(currentIndex, commands.size()));
     }
 
-    public void addCommand(String gameName, Command command, Object request, Object result){
+    public void addCommand(String gameName, Command command){
         // Get Game
         Game game = gameDao.getGame(gameName);
-
-        Commands newCommads = new Commands(command, request, result);
-
-        game.getCommands().add(newCommads);
+        game.getCommands().add(command);
     }
 
 }
