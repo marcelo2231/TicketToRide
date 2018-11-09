@@ -103,7 +103,7 @@ public class GameDao {
         return game.getPlayerTurnIndex();
     }
 
-    public ArrayList<String> getCommands(String gameName, int currentIndex) throws Exception{
+    public ArrayList<String[]> getCommands(String gameName, int currentIndex) throws Exception{
         // Get Game
         Game game = gameDao.getGame(gameName);
 
@@ -121,10 +121,37 @@ public class GameDao {
         }
         ArrayList<Commands> newList = new ArrayList<>(commands.subList(currentIndex, commands.size()));
 
-        ArrayList<String> listOfCommands = new ArrayList<>();
+        /**
+         *
+         *
+         * Currently the commands only store the command name. A player name and description will need to be added.
+         *
+         *
+         *
+         */
+
+
+        ArrayList<String[]> listOfCommands = new ArrayList<>();
         for(Commands c : newList){
-            listOfCommands.add(c.getCommandType().toString());
+            String[] commandStuff = new String[3];
+            commandStuff[0] = "Current player name";
+            commandStuff[1] = c.getCommandType().toString();
+            commandStuff[2] = "Description of the command";
+            listOfCommands.add(commandStuff);
         }
+
+        /**
+         *
+         *
+         * 
+         *
+         * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         *
+         *
+         *
+         *
+         */
+
         return listOfCommands;
     }
 

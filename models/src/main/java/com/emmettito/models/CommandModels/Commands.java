@@ -19,7 +19,7 @@ public class Commands {
         return requestJson;
     }
 
-    public String getResutJson() {
+    public String getResultJson() {
         return resultJson;
     }
 

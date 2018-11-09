@@ -1,6 +1,5 @@
 package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.CommandModels.Commands;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
@@ -22,7 +21,7 @@ public class GetCommandsCommand implements IGameCommand {
 
         /** Get chat **/
         GetCommandsResult result = new GetCommandsResult();
-        ArrayList<String> data = gameDatabase.getCommands(commandModel.getGameName(), commandModel.getCurrIndex());
+        ArrayList<String[]> data = gameDatabase.getCommands(commandModel.getGameName(), commandModel.getCurrIndex());
 
         /** Prepare Result **/
         result.setSuccess(true);

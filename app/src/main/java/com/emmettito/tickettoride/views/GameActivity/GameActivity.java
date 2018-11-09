@@ -137,9 +137,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         displayCommandsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Print list of commands and display toast
-
-                for(String s : tempCommands){
+                /*for(String s : tempCommands){
                     System.out.println(s);
                 }
                 ArrayList<String> commands = presenter.getCommands(0);
@@ -149,6 +147,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                     }
                 }
                 Toast.makeText(v.getContext(), "List of commands was printed on your console.", Toast.LENGTH_SHORT).show();
+                */
+
+                Intent intent = new Intent(getApplicationContext(), GameHistoryActivity.class);
+
+                startActivity(intent);
             }
         });
 

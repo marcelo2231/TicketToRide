@@ -1,6 +1,5 @@
 package com.emmettito.tickettoride.presenters;
 
-import android.graphics.drawable.Drawable;
 import android.widget.Button;
 
 import com.emmettito.models.Cards.DestinationCardDeck;
@@ -15,7 +14,6 @@ import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
-import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
@@ -65,7 +63,7 @@ public class GamePresenter implements Observer {
         return result.getData();
     }
 
-    public ArrayList<String> getCommands(int atIndex){
+    public ArrayList<String[]> getCommands(int atIndex){
         facade = ServerFacade.getInstance();
         GetCommandsRequest request = new GetCommandsRequest(client.getGameName(), atIndex);
         GetCommandsResult result = facade.getCommands(request, "10.0.2.2", "8080");
