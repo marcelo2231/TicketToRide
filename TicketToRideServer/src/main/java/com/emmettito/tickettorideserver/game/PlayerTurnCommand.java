@@ -44,7 +44,7 @@ public class PlayerTurnCommand implements IGameCommand{
         Result result = new Result(true, newPosition);
 
         // Add to command list
-        String description = "example";
+        String description = "This player ended his turn.";
         String requestJson = new Serializer().serialize(commandModel);
         String resultJson = new Serializer().serialize(result);
         Command command = new Command(commandModel.getPlayerName(), "PlayerEndTurn", description, requestJson, resultJson);

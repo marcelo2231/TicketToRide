@@ -41,7 +41,7 @@ public class DrawDestCardCommand implements IGameCommand{
         result.setMessage("Successfully draw dest card.");
 
         // Add to command list
-        String description = "example";
+        String description = "Drew destination card with id " + card.getCardID() + " and cities " + card.getCityIDs().getX() + " and " + card.getCityIDs().getY() + ".";
         String requestJson = new Serializer().serialize(commandModel);
         String resultJson = new Serializer().serialize(result);
         Command command = new Command(commandModel.getPlayerName(), "DrawDestCard", description, requestJson, resultJson);
