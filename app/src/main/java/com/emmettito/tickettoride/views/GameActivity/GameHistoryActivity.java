@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
@@ -90,7 +91,7 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
 
         GetCommandsResult result = new Gson().fromJson(newListString, GetCommandsResult.class);
 
-        List<String[]> commandsList = result.getData();
+        List<Command> commandsList = result.getData();
 
         List<String[]> commandsStringsList = new ArrayList<>();
 
@@ -100,7 +101,13 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
 
         if (commandsList.size() > 0) {
             commands.clear();
-            commands.addAll(commandsStringsList);
+            for (Command c : commandsList){
+                String[] temp = new String[3];
+                temp[0] = c.getPlayerName();
+                temp[1] = c.getCommandType();
+                temp[2] = c.getDescription();
+                commands.add(temp);
+            }
         }
     }
 
