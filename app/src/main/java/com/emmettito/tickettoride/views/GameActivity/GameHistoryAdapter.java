@@ -44,7 +44,7 @@ public class GameHistoryAdapter extends RecyclerView.Adapter<com.emmettito.ticke
 
     @Override
     public com.emmettito.tickettoride.views.GameActivity.GameHistoryAdapter.GameHistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_chat_list, parent, false);
+        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_game_history_list, parent, false);
 
         com.emmettito.tickettoride.views.GameActivity.GameHistoryAdapter.GameHistoryViewHolder view = new com.emmettito.tickettoride.views.GameActivity.GameHistoryAdapter.GameHistoryViewHolder(v);
 

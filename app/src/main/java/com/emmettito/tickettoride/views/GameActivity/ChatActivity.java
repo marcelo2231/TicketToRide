@@ -155,6 +155,7 @@ public class ChatActivity extends FragmentActivity implements ChatPresenter.chat
              */
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "You Can't Exit The Chat!", Toast.LENGTH_SHORT).show();
+                presenter.shutDownPoller();
                 finish();
             }
         });

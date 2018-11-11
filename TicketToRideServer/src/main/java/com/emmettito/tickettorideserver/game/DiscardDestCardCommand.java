@@ -33,9 +33,11 @@ public class DiscardDestCardCommand implements IGameCommand {
         result.setSuccess(true);
         result.setMessage("Successfully discarded train card.");
 
-        String description = "example";
-        Command command = new Command(commandModel.getPlayerName(), this.getClass(), description);
-        gameDatabase.addCommand(commandModel.getGameName(), command, commandModel, result);
+        String description = "Destination card (ID: " + commandModel.getCardID() + ") was discarded.";
+        String requestJson = new Serializer().serialize(commandModel);
+        String resultJson = new Serializer().serialize(result);
+        Command command = new Command(commandModel.getPlayerName(), "DiscardDestCard", description, requestJson, resultJson);
+        gameDatabase.addCommand(commandModel.getGameName(), command);
         return result;
     }
 }
