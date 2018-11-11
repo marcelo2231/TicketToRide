@@ -2,20 +2,41 @@ package com.emmettito.models.CommandModels;
 
 public class Command {
     private String playerName;
-    private Class commandType;
+    private String commandType;
     private String description;
+    private String requestJson;
+    private String resultJson;
 
-    public Command(String playerName, Class commandType, String description) {
+    public Command(String playerName, String commandType, String description, String requestJson, String resultJson) {
         this.playerName = playerName;
         this.commandType = commandType;
         this.description = description;
+        this.requestJson = requestJson;
+        this.resultJson = resultJson;
+    }
+
+    public String getRequest() {
+        return requestJson;
+    }
+
+    public String getResult() {
+        return resultJson;
+    }
+
+
+    public void setRequest(String requestJson) {
+        this.requestJson = requestJson;
+    }
+
+    public void setResult(String resultJson) {
+        this.resultJson = resultJson;
     }
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public void setCommandType(Class commandType) {
+    public void setCommandType(String commandType) {
         this.commandType = commandType;
     }
 
@@ -31,7 +52,7 @@ public class Command {
         return playerName;
     }
 
-    public Class getCommandType() {
+    public String getCommandType() {
         return commandType;
     }
 }

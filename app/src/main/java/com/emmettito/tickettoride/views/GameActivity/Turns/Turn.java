@@ -1,14 +1,15 @@
 package com.emmettito.tickettoride.views.GameActivity.Turns;
 
-public interface Turn {
-    void enterChat();
-    void leaveGame();
-    void viewDestCard();
-    //void viewCommands();
+import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
-    void claimRoute();
-    void drawFaceUpLocomotive();
-    void drawFaceDownTrainCard();
-    void drawFaceUpTrainCard();
-    void drawDestCards();
+public interface Turn {
+    void enterChat(GameActivity context);
+    void leaveGame(GameActivity context);
+    void viewDestCard(GameActivity context);
+    void viewCommands(GameActivity context);
+    void claimRoute(GameActivity context);
+    void drawFaceUpLocomotive(GameActivity context);
+    void drawFaceDownTrainCard(GameActivity context);
+    void drawFaceUpTrainCard(GameActivity context);
+    void drawDestCards(GameActivity context);
 }

@@ -2,7 +2,7 @@ package com.emmettito.models;
 
 import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCardDeck;
-import com.emmettito.models.CommandModels.Commands;
+import com.emmettito.models.CommandModels.Command;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -17,7 +17,7 @@ public class Game extends Observable {
     private int playerTurnIndex; // Index of player on ArrayList<Player> players who has the turn
     //private Tuple longestPath; //Tuple(length, Player)
 
-    public ArrayList<Commands> commands;
+    public ArrayList<Command> commands;
 
     //private static Game instance;
 
@@ -163,11 +163,11 @@ public class Game extends Observable {
        return false;
     }
 
-    public ArrayList<Commands> getCommands() {
+    public ArrayList<Command> getCommands() {
         return commands;
     }
 
-    public void setCommands(ArrayList<Commands> commands) {
+    public void setCommands(ArrayList<Command> commands) {
         this.commands = commands;
     }
 }

@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
@@ -70,17 +71,6 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
         exitGameHistoryActivityButton = (Button) findViewById(R.id.exitgamehistorybutton);
         exitGameHistoryActivityButton.setEnabled(true);
         exitGameHistoryActivityButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             * onClick
-             *
-             * This method defines the behavior of the click and is inherited from the
-             * OnClickListener parent class. This implementation finish the activity.
-             *
-             * @pre None
-             *
-             * @post chat activity is closed
-             *
-             */
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "You Can't Exit The Chat!", Toast.LENGTH_SHORT).show();
                 presenter.shutDownPoller();
@@ -122,7 +112,7 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
 
         GetCommandsResult result = new Gson().fromJson(newListString, GetCommandsResult.class);
 
-        List<String[]> commandsList = result.getData();
+        List<Command> commandsList = result.getData();
 
         System.out.println(commandsList);
 
@@ -134,7 +124,13 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
 
         if (commandsList.size() > 0) {
             commands.clear();
-            commands.addAll(commandsList);
+            for (Command c : commandsList){
+                String[] temp = new String[3];
+                temp[0] = c.getPlayerName();
+                temp[1] = c.getCommandType();
+                temp[2] = c.getDescription();
+                commands.add(temp);
+            }
         }
     }
 

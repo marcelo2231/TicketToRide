@@ -5,6 +5,7 @@ import android.widget.Button;
 import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
+import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
@@ -63,7 +64,7 @@ public class GamePresenter implements Observer {
         return result.getData();
     }
 
-    public ArrayList<String[]> getCommands(int atIndex){
+    public ArrayList<Command> getCommands(int atIndex){
         facade = ServerFacade.getInstance();
         GetCommandsRequest request = new GetCommandsRequest(client.getGameName(), atIndex);
         GetCommandsResult result = facade.getCommands(request, "10.0.2.2", "8080");
