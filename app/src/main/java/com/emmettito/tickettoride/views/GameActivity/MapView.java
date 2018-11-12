@@ -19,7 +19,6 @@ import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapView extends View {
@@ -72,6 +71,10 @@ public class MapView extends View {
             Player player = players.get(i);
             String color = getColorHex(player.getColor());
             List<Integer> routes = player.getClaimedRoutes(); // Get user's routes
+
+            if (routes == null) {
+                return;
+            }
 
             for (int j = 0; j < routes.size(); j++) {
                 Route route = allRoutes.get(routes.get(j));

@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
@@ -144,6 +145,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         mGameActivity = this;
         data = Client.getInstance();
+
+        Game game = presenter.getGame();
+
+        data.setGame(game);
+
         // Get players
         final ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
