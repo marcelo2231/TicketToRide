@@ -32,8 +32,6 @@ public class GamePresenter implements Observer {
 
     private GameActivity game;
 
-    private Game gameObject;
-
     public GamePresenter(GameActivity game) {
         this.game = game;
     }
@@ -51,10 +49,8 @@ public class GamePresenter implements Observer {
         }
     }
 
-    public void addGame(Game gameObject) {
-        this.gameObject = gameObject;
-
-        gameObject.addObserver(this);
+    public void addObserver() {
+        client.getGame().addObserver(this);
 
         client.addObserver(this);
     }

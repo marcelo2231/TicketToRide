@@ -135,7 +135,7 @@ public class DeckDao {
         Game game = gameLobbyDao.getGame(gameName);
         for (TrainCard c : deck){
             if (c.getCardID() == cardID){
-                game.getDestinationCardDeck().getDiscardPile().add(c);
+                game.getTrainCardDeck().getDiscardPile().add(c);
                 return deck.remove(c);
             }
         }

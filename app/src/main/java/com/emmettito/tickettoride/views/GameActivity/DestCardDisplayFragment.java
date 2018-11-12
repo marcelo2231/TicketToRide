@@ -69,7 +69,7 @@ public class DestCardDisplayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Client client = Client.getInstance();
-        destCards = client.getGame()
+        destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
 
         View view = inflater.inflate(R.layout.fragment_dest_card_display, container, false);
         // Inflate the layout for this fragment
