@@ -147,7 +147,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         mGameActivity = this;
         data = Client.getInstance();
-        game = new Game();
+        game = presenter.getGame();
         // Get players
         final ArrayList<Player> playerList = presenter.getPlayers();
         setupPlayerList(playerList);
