@@ -7,11 +7,13 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
+import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.GetCommandsResult;
+import com.emmettito.models.Results.GetGameResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
@@ -30,8 +32,6 @@ public class GamePresenter implements Observer {
 
     private GameActivity game;
 
-    private Game gameObject;
-
     public GamePresenter(GameActivity game) {
         this.game = game;
     }
@@ -49,10 +49,8 @@ public class GamePresenter implements Observer {
         }
     }
 
-    public void addGame(Game gameObject) {
-        this.gameObject = gameObject;
-
-        gameObject.addObserver(this);
+    public void addObserver() {
+        client.getGame().addObserver(this);
 
         client.addObserver(this);
     }
@@ -61,6 +59,14 @@ public class GamePresenter implements Observer {
         facade = ServerFacade.getInstance("10.0.2.2", "8080");
         GetPlayersRequest request = new GetPlayersRequest(client.getGameName());
         GetPlayersResult result = facade.getPlayers(request);
+        return result.getData();
+    }
+
+    public Game getGame(){
+        facade = ServerFacade.getInstance();
+        GetGameRequest request = new GetGameRequest();
+        request.setGameName(client.getGameName());
+        GetGameResult result = facade.getGame(request, "10.0.2.2", "8080");
         return result.getData();
     }
 

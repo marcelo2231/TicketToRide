@@ -47,8 +47,13 @@ public class DeckDao {
         List<DestinationCard> availableCards = deck.getAvailableCards();
 
         if(availableCards.size() == 0){
-            throw new Exception("There is no destination card left on deck.");
-
+            deck.setAvailableCards(deck.getDiscardPile());
+            deck.setDiscardPile(new ArrayList<DestinationCard>());
+            deck.shuffle();
+            availableCards = deck.getAvailableCards();
+            if(availableCards.size() == 0) {
+                throw new Exception("There is no destination card left on deck.");
+            }
         }
 
         DestinationCard top = availableCards.get(0);
@@ -63,8 +68,10 @@ public class DeckDao {
 
     public boolean removeDestCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<DestinationCard> deck = getPlayerDestCardDeck(gameName, playerName);
+        Game game = gameLobbyDao.getGame(gameName);
         for (DestinationCard c : deck){
             if (c.getCardID() == cardID){
+                game.getDestinationCardDeck().getDiscardPile().add(c);
                 return deck.remove(c);
             }
         }
@@ -125,8 +132,10 @@ public class DeckDao {
 
     public boolean removeTrainCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<TrainCard> deck = getPlayerTrainCardDeck(gameName, playerName);
+        Game game = gameLobbyDao.getGame(gameName);
         for (TrainCard c : deck){
             if (c.getCardID() == cardID){
+                game.getTrainCardDeck().getDiscardPile().add(c);
                 return deck.remove(c);
             }
         }

@@ -251,7 +251,9 @@ public class DrawDestCardFragment extends Fragment {
                     }
                     else {
                         Client client = Client.getInstance();
-                        client.addDestCards(selected);
+                        ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
+                        destCards.addAll(selected);
+                        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
                         finish();
                     }
                 }
@@ -261,7 +263,9 @@ public class DrawDestCardFragment extends Fragment {
                     }
                     else {
                         Client client = Client.getInstance();
-                        client.addDestCards(selected);
+                        ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
+                        destCards.addAll(selected);
+                        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
                         finish();
                     }
                 }

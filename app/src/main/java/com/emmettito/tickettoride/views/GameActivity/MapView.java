@@ -8,7 +8,9 @@ import android.graphics.Rect;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.emmettito.models.City;
 import com.emmettito.models.Game;
+import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.Player;
 import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Route;
@@ -17,12 +19,9 @@ import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapView extends View {
-
-    private Game game;
 
     private int width;
     private int height;
@@ -33,12 +32,14 @@ public class MapView extends View {
     private float rect_width_padding;
     private float rect_height_padding;
 
-    public MapView(Context context, Game game) {
+    private List<City> allCities;
+    private List<Route> allRoutes;
+
+    public MapView(Context context) {
         super(context);
-        this.game = game;
     }
 
-    public MapView(Context context, int width, int height, Game game) {
+    public MapView(Context context, int width, int height) {
         super(context);
         this.height = height;
         this.width = width;
@@ -50,7 +51,9 @@ public class MapView extends View {
         this.rect_width_padding = 0.02f;
         this.rect_height_padding = 0.01f;
 
-        this.game = game;
+        HardCodedData data = new HardCodedData();
+        allCities = data.getCities();
+        allRoutes = data.getRoutes();
 
         setLayoutParams(new FrameLayout.LayoutParams(this.width,this.height));
     }
@@ -61,17 +64,25 @@ public class MapView extends View {
         setBackgroundResource(R.drawable.ticket_to_ride_map_v2);
 
         Client data = Client.getInstance();
+        Game game = data.getGame();
+        List<Player> players = game.getPlayers();
 
-        List<Integer> routes = data.getTakenRoutes();
-        List<Route> allRoutes = data.getAllRoutes();
+        for (int i = 0; i < players.size(); i++) { // For each user
+            Player player = players.get(i);
+            String color = getColorHex(player.getColor());
+            List<Integer> routes = player.getClaimedRoutes(); // Get user's routes
 
-        for (int i = 0; i < routes.size(); i++) {
-            Route route = allRoutes.get(routes.get(i));
-            List<Space> spaces = route.getSpaces();
-            for (int j = 0; j < spaces.size(); j++) {
-                Space s = spaces.get(j);
-                String color = getColorHex(route.getPlayerColor());
-                drawRect(canvas, s.getX() * width, s.getY() * height, s.getAngle(), color);
+            if (routes == null) {
+                return;
+            }
+
+            for (int j = 0; j < routes.size(); j++) {
+                Route route = allRoutes.get(routes.get(j));
+                List<Space> spaces = route.getSpaces();
+                for (int k = 0; k < spaces.size(); k++) {
+                    Space s = spaces.get(k);
+                    drawRect(canvas, s.getX() * width, s.getY() * height, s.getAngle(), color);
+                }
             }
         }
     }
@@ -93,11 +104,8 @@ public class MapView extends View {
     }
 
     public int onRoute(float x, float  y) {
-        Client data = Client.getInstance();
-        List<Route> routes = data.getAllRoutes();
-
-        for (int i = 0; i < routes.size(); i++) {
-            Route route = routes.get(i);
+        for (int i = 0; i < allRoutes.size(); i++) {
+            Route route = allRoutes.get(i);
             List<Space> spaces = route.getSpaces();
             for (int j = 0; j < spaces.size(); j++) {
                 Space s = spaces.get(j);
@@ -143,21 +151,6 @@ public class MapView extends View {
 
     private String getColorHex(PlayerColor color) {
         int colorID;
-
-        if (color == null) {
-            String currentUser = Client.getInstance().getUser();
-
-            ArrayList<Player> players = game.getPlayers();
-
-            for (int i = 0; i < players.size(); i++) {
-                if (players.get(i).getPlayerName().equals(currentUser)) {
-                    Player currentPlayer = players.get(i);
-
-                    color = currentPlayer.getColor();
-                    break;
-                }
-            }
-        }
 
         if (color != null) {
             switch(color) {
