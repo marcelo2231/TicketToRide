@@ -14,6 +14,7 @@ public class Player {
     private int plasticTrains;
     private ArrayList<DestinationCard> destinationCards;
     private ArrayList<TrainCard> trainCards;
+    private ArrayList<Integer> claimedRoutes;
     private int position;
 
     public Player(String playerName, int playerIndex){
@@ -58,6 +59,10 @@ public class Player {
         return trainCards;
     }
 
+    public ArrayList<Integer> getClaimedRoutes() {
+        return claimedRoutes;
+    }
+
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
@@ -77,6 +82,10 @@ public class Player {
 
     public void setTrainCards(ArrayList<TrainCard> trainCards) {
         this.trainCards = trainCards;
+    }
+
+    public void setClaimedRoutes(ArrayList<Integer> claimedRoutes) {
+        this.claimedRoutes = claimedRoutes;
     }
 
     public void setColor(PlayerColor color) {

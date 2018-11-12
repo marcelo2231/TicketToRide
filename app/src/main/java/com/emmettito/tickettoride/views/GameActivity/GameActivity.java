@@ -112,7 +112,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         transaction.replace(android.R.id.content, displayDestCardFragment);
         transaction.commit();
         //Toast.makeText(v.getContext(), "Open a view to see the player's destination cards", Toast.LENGTH_SHORT).show();
-        game.getOnePlayer(data.getUser()).setDestinationCards(data.getPlayerDestCards());
+        game.getOnePlayer(data.getUser()).getDestinationCards();
         game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
         updatePlayerDisplay();
         updateDestinationCardDeck();
