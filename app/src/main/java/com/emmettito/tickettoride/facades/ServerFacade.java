@@ -4,6 +4,7 @@ package com.emmettito.tickettoride.facades;
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
+import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
@@ -14,6 +15,7 @@ import com.emmettito.models.Results.ChatResult;
 import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.GetCommandsResult;
+import com.emmettito.models.Results.GetGameResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.communication.proxy.GameLobbyProxy;
@@ -64,6 +66,10 @@ public class ServerFacade {
 
     public GetCommandsResult getCommands(GetCommandsRequest request) {
         return gameProxy.getCommands(request);
+    }
+
+    public GetGameResult getGame(GetGameRequest request) {
+        return gameProxy.getGame(request);
     }
 
     public Result login(LoginRequest request) {

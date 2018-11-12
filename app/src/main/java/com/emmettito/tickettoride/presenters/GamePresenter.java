@@ -63,10 +63,10 @@ public class GamePresenter implements Observer {
     }
 
     public Game getGame(){
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
         GetGameRequest request = new GetGameRequest();
         request.setGameName(client.getGameName());
-        GetGameResult result = facade.getGame(request, "10.0.2.2", "8080");
+        GetGameResult result = facade.getGame(request);
         return result.getData();
     }
 
