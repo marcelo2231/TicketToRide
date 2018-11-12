@@ -27,7 +27,7 @@ public class DiscardDestCardCommand implements IGameCommand {
 
         /** Draw card **/
         Result result = new Result();
-        deckDatabase.removeTrainCardFromPlayer(commandModel.getGameName(), commandModel.getPlayerName(), commandModel.getCardID());
+        deckDatabase.removeDestCardFromPlayer(commandModel.getGameName(), commandModel.getPlayerName(), commandModel.getCardID());
 
         /** Prepare Result **/
         result.setSuccess(true);
