@@ -33,7 +33,7 @@ public class ChatPresenter implements Observer {
 
     public ChatPresenter(ChatActivity view) {
         this.view = view;
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ChatPresenter implements Observer {
         request.setPlayerName(client.getUser());
         request.setMessage(message);
 
-        return facade.sendChatMessage(request, "10.0.2.2", "8080");
+        return facade.sendChatMessage(request);
     }
 
     public void startPoller() {

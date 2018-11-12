@@ -58,21 +58,21 @@ public class GamePresenter implements Observer {
     }
 
     public ArrayList<Player> getPlayers(){
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
         GetPlayersRequest request = new GetPlayersRequest(client.getGameName());
-        GetPlayersResult result = facade.getPlayers(request, "10.0.2.2", "8080");
+        GetPlayersResult result = facade.getPlayers(request);
         return result.getData();
     }
 
     public ArrayList<Command> getCommands(int atIndex){
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
         GetCommandsRequest request = new GetCommandsRequest(client.getGameName(), atIndex);
-        GetCommandsResult result = facade.getCommands(request, "10.0.2.2", "8080");
+        GetCommandsResult result = facade.getCommands(request);
         return result.getData();
     }
 
     public int endPlayerTurn(Game game){
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
         PlayerTurnRequest request = new PlayerTurnRequest();
         //gets the name of the player whose turn it is
         request.setPlayerName(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName());

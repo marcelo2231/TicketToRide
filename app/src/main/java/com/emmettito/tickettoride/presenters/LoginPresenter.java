@@ -10,7 +10,7 @@ import java.util.Observer;
 public class LoginPresenter extends Observable{
 
 
-    public interface LoginView extends Observer{
+    public interface LoginView{
 
         void login();
 

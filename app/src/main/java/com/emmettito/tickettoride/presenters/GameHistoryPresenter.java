@@ -32,7 +32,7 @@ public class GameHistoryPresenter implements Observer {
 
     public GameHistoryPresenter(GameHistoryActivity view) {
         this.view = view;
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
     }
 
     @Override

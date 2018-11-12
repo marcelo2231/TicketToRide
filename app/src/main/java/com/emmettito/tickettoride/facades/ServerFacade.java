@@ -2,6 +2,7 @@ package com.emmettito.tickettoride.facades;
 
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
@@ -10,6 +11,7 @@ import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
 import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
 import com.emmettito.models.Results.ChatResult;
+import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetPlayersResult;
@@ -29,43 +31,38 @@ public class ServerFacade {
     private LoginProxy loginProxy;
     private ScoreProxy scoreProxy;
 
-    private ServerFacade() {}
+    private ServerFacade(String host, String port) {
+        gameLobbyProxy = new GameLobbyProxy(host, port);
+        gameProxy = new GameProxy(host, port);
+        loginProxy = new LoginProxy();
+        gameRoomProxy = new GameRoomProxy();
+        scoreProxy = new ScoreProxy();
+    }
 
-    public static ServerFacade getInstance() {
+    public static ServerFacade getInstance(String host, String port) {
         if (instance == null) {
-            instance = new ServerFacade();
+            instance = new ServerFacade(host, port);
         }
-
         return instance;
     }
 
-    public GameLobbyResult createNewGame(CreateGameRequest request, String host, String port) {
-        gameLobbyProxy = new GameLobbyProxy(host, port);
-
+    public GameLobbyResult createNewGame(CreateGameRequest request) {
         return gameLobbyProxy.createGame(request);
     }
 
-    public GameLobbyResult joinGame(JoinGameRequest request, String host, String port) {
-        gameLobbyProxy = new GameLobbyProxy(host, port);
-
+    public GameLobbyResult joinGame(JoinGameRequest request) {
         return gameLobbyProxy.joinGame(request);
     }
 
-    public ChatResult sendChatMessage(ChatRequest request, String host, String port) {
-        gameProxy = new GameProxy(host, port);
-
+    public ChatResult sendChatMessage(ChatRequest request) {
         return gameProxy.sendChatMessage(request);
     }
 
-    public GetPlayersResult getPlayers(GetPlayersRequest request, String host, String port) {
-        gameProxy = new GameProxy(host, port);
-
+    public GetPlayersResult getPlayers(GetPlayersRequest request) {
         return gameProxy.getPlayers(request);
     }
 
-    public GetCommandsResult getCommands(GetCommandsRequest request, String host, String port) {
-        gameProxy = new GameProxy(host, port);
-
+    public GetCommandsResult getCommands(GetCommandsRequest request) {
         return gameProxy.getCommands(request);
     }
 
@@ -97,4 +94,9 @@ public class ServerFacade {
         gameProxy = new GameProxy(host, port);
         return gameProxy.endTurn(request);
     }
+
+    public DrawTrainResult drawTrainCard(DrawTrainRequest request){
+        return gameProxy.drawTrainCard(request);
+    }
 }
+

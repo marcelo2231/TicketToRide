@@ -23,14 +23,25 @@ import com.emmettito.tickettoride.views.LobbyActivity.LobbyActivity;
 import java.util.Observable;
 import java.util.Observer;
 
-public class LoginActivity extends FragmentActivity implements LoginPresenter.LoginView, Observer {
+/**
+ * This class is the first activity created upon starting the app.
+ * The client and facade are singleton objects to control access to the server and limit the amount of clients that are created and used.
+ * When a login or register attempt is successful, this class creates and calls a new LobbyActivity
+ */
+public class LoginActivity extends FragmentActivity implements LoginPresenter.LoginView{
 
     private Client client;
 
-    private LoginPresenter presenter;
-
     private ServerFacade facade;
 
+    /**
+     * This method creates the first page of the app, which is the login screen.
+     * It sets the orientation of the screen to landscape, initializes some classes that communicate with a server,
+     * sets the layout of the app from the XML file, and creates buttons for logging in and registering. When the buttons
+     * are pressed, call either the login or register method
+     *
+     * @param savedInstanceState the saved instance state of the app.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +57,7 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
 
         client = Client.getInstance();
 
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setEnabled(true);
@@ -67,9 +78,17 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         });
     }
 
+    /**
+     * We are not implementing the back button for this activity
+     */
     @Override
     public void onBackPressed() {}
 
+    /**
+     * This method fills and returns a LoginRequest object when the login button is pressed.
+     *
+     * @return the LoginRequest object containing the username and password that was entered by the user.
+     */
     private LoginRequest getLoginRequest() {
         LoginRequest request = new LoginRequest();
 
@@ -82,6 +101,11 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         return request;
     }
 
+    /**
+     * This method creates and returns a RegisterRequest object when the register button is pressed.
+     *
+     * @return the RegisterRequest object that contains the username and password entered by the user
+     */
     private RegisterRequest getRegisterRequest() {
         RegisterRequest request = new RegisterRequest();
 
@@ -94,6 +118,12 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         return request;
     }
 
+    /**
+     * This method is overridden from the Login Interface. When login is called, the request is created and sent to the server facade.
+     * The facade returns a generic Result object from the server, which contains a success boolean with an authorization token or an error string.
+     * An error string prompts an android toast with the error message.
+     * When it returns successfully, call the switchToLobby method.
+     */
     @Override
     public void login() {
         LoginRequest request = getLoginRequest();
@@ -114,6 +144,11 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         }
     }
 
+    /**
+     * This method creates a RegisterRequest object, then sends it to the server facade.
+     * The facade returns a result object, and if successful, calls the switchToLobby method.
+     * When is fails, an android toast displays the error message.
+     */
     @Override
     public void register() {
         RegisterRequest request = getRegisterRequest();
@@ -134,13 +169,13 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
         }
     }
 
+    /**
+     * This creates and starts a new Intent for a LobbyActivity.
+     * It is only called when login or register is successful.
+     */
     private void switchToLobby() {
         Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
         startActivity(intent);
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
-
-    }
 }

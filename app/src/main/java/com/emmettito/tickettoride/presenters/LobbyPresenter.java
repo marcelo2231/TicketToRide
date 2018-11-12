@@ -33,7 +33,7 @@ public class LobbyPresenter implements Observer {
 
     public LobbyPresenter(GameListFragment view) {
         this.view = view;
-        facade = ServerFacade.getInstance();
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
     }
 
     public void update(Observable obj, Object arg) {
@@ -52,7 +52,7 @@ public class LobbyPresenter implements Observer {
 
         //return proxy.createGame(request);
 
-        return facade.createNewGame(request, "10.0.2.2", "8080");
+        return facade.createNewGame(request);
     }
 
     public GameLobbyResult joinGame(String gameName, String username) {
@@ -64,7 +64,7 @@ public class LobbyPresenter implements Observer {
 
         //return proxy.joinGame(request);
 
-        return facade.joinGame(request, "10.0.2.2", "8080");
+        return facade.joinGame(request);
     }
 
     public interface lobbyView {

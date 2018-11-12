@@ -1,10 +1,12 @@
 package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Results.ChatResult;
+import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
@@ -109,5 +111,25 @@ public class GameProxy {
             return result;
         }
         return gson.fromJson(resultString, Result.class);
+    }
+
+    public DrawTrainResult drawTrainCard(DrawTrainRequest request){
+        String requestString = gson.toJson(request);
+        String resultString = "";
+        String url = "http://" + serverHost + ":" + serverPort + "/game/drawtraincard";
+
+        try{
+            resultString = client.execute(url, "POST", requestString).get();
+        }catch (Exception e){
+            e.printStackTrace();
+            resultString = "Error: could not draw Train card";
+        }
+
+        if(resultString.equalsIgnoreCase("Error: could not draw Train card")){
+            DrawTrainResult result = new DrawTrainResult();
+            result.setMessage(resultString);
+            return result;
+        }
+        return gson.fromJson(resultString, DrawTrainResult.class);
     }
 }
