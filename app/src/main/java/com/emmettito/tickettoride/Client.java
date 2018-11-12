@@ -3,6 +3,7 @@ package com.emmettito.tickettoride;
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.City;
+import com.emmettito.models.Game;
 import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Route;
@@ -15,30 +16,19 @@ public class Client extends Observable {
 
     private static Client client = null;
 
-    String token;
-    String user;
-    String gameName;
+    private String token;
+    private String user;
+    private int playerID;
 
-    private List<City> allCities;
-    private List<Route> allRoutes;
+    private Game game;
+    private String gameName;
 
-    private List<Integer> takenRoutes;
-
-    private List<TrainCard> playerTrainCards;
-    private ArrayList<DestinationCard> playerDestinationCards;
 
     private Client() {
         token = null;
         user = null;
         gameName = null;
-
-        HardCodedData data = new HardCodedData();
-        allCities = data.getCities();
-        allRoutes = data.getRoutes();
-
-        takenRoutes = new ArrayList<>();
-        playerTrainCards = new ArrayList<>();
-        playerDestinationCards = new ArrayList<>();
+        game = null;
     }
 
     public static Client getInstance() {
@@ -57,10 +47,6 @@ public class Client extends Observable {
         this.token = token;
     }
 
-    public void deleteToken() {
-        this.token = null;
-    }
-
     public String getUser() {
         return user;
     }
@@ -69,8 +55,12 @@ public class Client extends Observable {
         this.user = user;
     }
 
-    public void userToken() {
-        this.user = null;
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
     }
 
     public String getGameName() {
@@ -85,69 +75,11 @@ public class Client extends Observable {
         this.gameName = null;
     }
 
-    /*
-    MapView data
-     */
-
-    public List<City> getAllCities() {
-        return allCities;
+    public Game getGame() {
+        return game;
     }
 
-    public List<Route> getAllRoutes() {
-        return allRoutes;
+    public void setGame(Game game) {
+        this.game = game;
     }
-
-    public List<Integer> getTakenRoutes() {
-        return takenRoutes;
-    }
-
-    public void addToTakenRoutes(int routeID) {
-        takenRoutes.add(routeID);
-    }
-
-    public void changeRouteColor(int routeID, PlayerColor color) {
-        Route route = getAllRoutes().get(routeID);
-        route.setPlayerColor(color);
-        getAllRoutes().set(routeID, route); //replaces the route with an updated (colored) one
-    }
-
-    /*
-    Player's Train Cards
-     */
-
-    public List<TrainCard> getPlayerTrainCards() {
-        return playerTrainCards;
-    }
-
-    public void addTrainCard(TrainCard card) {
-        playerTrainCards.add(card);
-    }
-
-    public void removeTrainCard(TrainCard card) {
-        playerTrainCards.remove(card);
-    }
-
-    /*
-    Player's Destination Cards
-     */
-
-    public ArrayList<DestinationCard> getPlayerDestCards() {
-        return playerDestinationCards;
-    }
-
-    public void addDestCard(DestinationCard card) {
-        playerDestinationCards.add(card);
-    }
-
-    public void addDestCards(List<DestinationCard> cards) {
-        playerDestinationCards.addAll(cards);
-
-        setChanged();
-        notifyObservers(cards);
-    }
-
-    public void removeDestCard(DestinationCard card) {
-        playerDestinationCards.remove(card);
-    }
-
 }
