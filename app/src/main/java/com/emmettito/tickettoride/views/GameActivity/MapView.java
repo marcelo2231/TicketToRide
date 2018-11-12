@@ -8,7 +8,9 @@ import android.graphics.Rect;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.emmettito.models.City;
 import com.emmettito.models.Game;
+import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.Player;
 import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Route;
@@ -33,6 +35,9 @@ public class MapView extends View {
     private float rect_width_padding;
     private float rect_height_padding;
 
+    private List<City> allCities;
+    private List<Route> allRoutes;
+
     public MapView(Context context, Game game) {
         super(context);
         this.game = game;
@@ -52,6 +57,10 @@ public class MapView extends View {
 
         this.game = game;
 
+        HardCodedData data = new HardCodedData();
+        allCities = data.getCities();
+        allRoutes = data.getRoutes();
+
         setLayoutParams(new FrameLayout.LayoutParams(this.width,this.height));
     }
 
@@ -61,6 +70,10 @@ public class MapView extends View {
         setBackgroundResource(R.drawable.ticket_to_ride_map_v2);
 
         Client data = Client.getInstance();
+
+
+
+
 
         List<Integer> routes = data.getTakenRoutes();
         List<Route> allRoutes = data.getAllRoutes();
@@ -74,6 +87,10 @@ public class MapView extends View {
                 drawRect(canvas, s.getX() * width, s.getY() * height, s.getAngle(), color);
             }
         }
+
+
+
+
     }
 
     private void drawCircle(Canvas canvas, float x, float y, String color) {
@@ -93,11 +110,8 @@ public class MapView extends View {
     }
 
     public int onRoute(float x, float  y) {
-        Client data = Client.getInstance();
-        List<Route> routes = data.getAllRoutes();
-
-        for (int i = 0; i < routes.size(); i++) {
-            Route route = routes.get(i);
+        for (int i = 0; i < allRoutes.size(); i++) {
+            Route route = allRoutes.get(i);
             List<Space> spaces = route.getSpaces();
             for (int j = 0; j < spaces.size(); j++) {
                 Space s = spaces.get(j);
