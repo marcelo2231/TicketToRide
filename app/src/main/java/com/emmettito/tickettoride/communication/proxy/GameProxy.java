@@ -1,12 +1,15 @@
 package com.emmettito.tickettoride.communication.proxy;
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Results.ChatResult;
+import com.emmettito.models.Results.DrawDestCardResult;
 import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetGameResult;
@@ -93,6 +96,52 @@ public class GameProxy {
 
         return gson.fromJson(resultString, GetGameResult.class);
     }
+
+
+    public DrawDestCardResult drawDestCard(DrawDestCardRequest request) {
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        String url = "http://" + serverHost + ":" + serverPort + "/game/drawdestcard";
+
+        try {
+            resultString = client.execute(url, "POST", requestString).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultString = "Error: Could not connect to the server.";
+        }
+
+        if (resultString.equals("Error: Could not connect to the server.")) {
+            DrawDestCardResult result = new DrawDestCardResult();
+            result.setMessage(resultString);
+            return result;
+        }
+
+        return gson.fromJson(resultString, DrawDestCardResult.class);
+    }
+
+    public Result discardDestCard(DiscardCardRequest request) {
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        String url = "http://" + serverHost + ":" + serverPort + "/game/discarddestcard";
+
+        try {
+            resultString = client.execute(url, "POST", requestString).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultString = "Error: Could not connect to the server.";
+        }
+
+        if (resultString.equals("Error: Could not connect to the server.")) {
+            Result result = new Result();
+            result.setMessage(resultString);
+            return result;
+        }
+
+        return gson.fromJson(resultString, Result.class);
+    }
+
 
     public GetCommandsResult getCommands(GetCommandsRequest request) {
         String requestString = gson.toJson(request);

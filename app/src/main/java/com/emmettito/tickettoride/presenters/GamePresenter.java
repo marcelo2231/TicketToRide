@@ -2,16 +2,20 @@ package com.emmettito.tickettoride.presenters;
 
 import android.widget.Button;
 
+import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.Command;
+import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.models.Results.DrawDestCardResult;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetGameResult;
 import com.emmettito.models.Results.GetPlayersResult;
@@ -68,6 +72,25 @@ public class GamePresenter implements Observer {
         request.setGameName(client.getGameName());
         GetGameResult result = facade.getGame(request);
         return result.getData();
+    }
+
+    public DestinationCard drawDestCard(String playerName){
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        DrawDestCardRequest request = new DrawDestCardRequest();
+        request.setGameName(client.getGameName());
+        request.setPlayerName(playerName);
+        DrawDestCardResult result = facade.drawDestCard(request);
+        return result.getData();
+    }
+
+    public boolean discardDestCard(String playerName, int cardID){
+        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        DiscardCardRequest request = new DiscardCardRequest();
+        request.setGameName(client.getGameName());
+        request.setPlayerName(playerName);
+        request.setCardID(cardID);
+        Result result = facade.discardDestCard(request);
+        return result.getSuccess();
     }
 
     public ArrayList<Command> getCommands(int atIndex){

@@ -1,7 +1,10 @@
 package com.emmettito.tickettoride.facades;
 
 
+import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
+import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
@@ -12,6 +15,7 @@ import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
 import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
 import com.emmettito.models.Results.ChatResult;
+import com.emmettito.models.Results.DrawDestCardResult;
 import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.GetCommandsResult;
@@ -70,6 +74,14 @@ public class ServerFacade {
 
     public GetGameResult getGame(GetGameRequest request) {
         return gameProxy.getGame(request);
+    }
+
+    public DrawDestCardResult drawDestCard(DrawDestCardRequest request) {
+        return gameProxy.drawDestCard(request);
+    }
+
+    public Result discardDestCard(DiscardCardRequest request) {
+        return gameProxy.discardDestCard(request);
     }
 
     public Result login(LoginRequest request) {
