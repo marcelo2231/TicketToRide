@@ -21,6 +21,7 @@ import com.emmettito.models.Results.GetGameResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
+import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
@@ -35,6 +36,8 @@ public class GamePresenter implements Observer {
     private ServerFacade facade = null;
 
     private GameActivity game;
+
+    private Poller trainCardPoller;
 
     public GamePresenter(GameActivity game) {
         this.game = game;
@@ -54,9 +57,14 @@ public class GamePresenter implements Observer {
     }
 
     public void addObserver() {
-        client.getGame().addObserver(this);
+        //client.getGame().addObserver(this);
 
-        client.addObserver(this);
+        //client.addObserver(this);
+        //trainCardPoller = new Poller(url, requestString);
+
+        //poller.addObserver(this);
+
+        //poller.start(3);
     }
 
     public ArrayList<Player> getPlayers(){

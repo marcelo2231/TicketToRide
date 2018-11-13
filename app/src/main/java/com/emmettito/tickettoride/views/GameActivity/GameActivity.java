@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -56,6 +57,28 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             updatePlayerDisplay();
         }
     }
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        /**
+         * run
+         *
+         * This method defines the behavior of the Runnable run functionality and is inherited and
+         * overridden from the Runnable parent class. This implementation add a 500 post delay.
+         *
+         * @pre None
+         *
+         * @post handler delays for 500 delayMillis
+         *
+         *
+         */
+        @Override
+        public void run() {
+            updatePlayerDisplay();
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
     private Button chatButton;
     private GamePresenter presenter = new GamePresenter(this);
@@ -152,9 +175,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         // Get players
         final ArrayList<Player> playerList = presenter.getPlayers();
-        setupPlayerList(playerList);
+
+        System.out.println(playerList);
 
         data.getGame().setPlayers(playerList);
+        setupPlayerList(playerList);
 
         setMapViewOnCreateListener();
         setPlayerTrainCards();
@@ -184,6 +209,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             deckDestinationCards.setEnabled(false);
         }
         presenter.addObserver();
+
+        timerHandler.postDelayed(timerRunnable, 500);
 
         //after setting up/inflating, initialize the game-starting processes
         drawDestCard(true);
@@ -222,6 +249,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, drawDestCardFragment);
         transaction.commit();
+
+        data.getGame().getOnePlayer(data.getUser()).setDestinationCards(data.getGame().getOnePlayer(data.getUser()).getDestinationCards());
+        data.getGame().getOnePlayer(data.getUser()).setTrainCards(data.getGame().getOnePlayer(data.getUser()).getTrainCards());
 
         //game.getOnePlayer(data.getUser()).setDestinationCards(data.getPlayerDestCards());
         //System.out.printf("This is the number of destination cards: %d", game.getOnePlayer(data.getUser()).getDestinationCards().size());
@@ -307,7 +337,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                     //tempCommands.add(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName() + ": Draw Train Card Command");
 
                     TrainCard card = data.getGame().getTrainCardDeck().getAvailable().remove(0);
-                    data.getGame().getPlayers().get(data.getGame().getPlayerTurnIndex()).getTrainCards().add(card);
+                    //data.getGame().getPlayers().get(data.getGame().getPlayerTurnIndex()).getTrainCards().add(card);
                     addTrainCardToPlayer(card);
 
 //                    game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
@@ -450,6 +480,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             return;
         }
 
+        //data.getGame().getOnePlayer(data.getUser()).setDestinationCards(data.getGame().getOnePlayer(data.getUser()).getDestinationCards());
+        //data.getGame().getOnePlayer(data.getUser()).setTrainCards(data.getGame().getOnePlayer(data.getUser()).getTrainCards());
+
+
         playerListAdapter.notifyDataSetChanged();
     }
 
@@ -463,6 +497,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     private void setupPlayerList(ArrayList<Player> playerList){
+        if (playerList == null) {
+            return;
+        }
         List<String[]> newPlayersList = new ArrayList<>();
         for (Player p : playerList){
             String[] newPlayer = new String[8];
