@@ -250,11 +250,7 @@ public class DrawDestCardFragment extends Fragment {
                         Toast.makeText(getActivity(), "Please select at least 2 Destination Cards", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Client client = Client.getInstance();
-                        ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
-                        destCards.addAll(selected);
-                        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-                        finish();
+                        finalizeSelect(selected, discarded);
                     }
                 }
                 else {
@@ -262,11 +258,7 @@ public class DrawDestCardFragment extends Fragment {
                         Toast.makeText(getActivity(), "Please select at least 1 Destination Card", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Client client = Client.getInstance();
-                        ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
-                        destCards.addAll(selected);
-                        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-                        finish();
+                        finalizeSelect(selected, discarded);
                     }
                 }
 
@@ -277,6 +269,15 @@ public class DrawDestCardFragment extends Fragment {
         return view;
     }
 
+
+    public void finalizeSelect(ArrayList<DestinationCard> selected, ArrayList<DestinationCard> discarded) {
+        Client client = Client.getInstance();
+        ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
+        destCards.addAll(selected);
+        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
+        client.getGame().getDestinationCardDeck().addCards(discarded);
+        finish();
+    }
 
     /*
      * finish
