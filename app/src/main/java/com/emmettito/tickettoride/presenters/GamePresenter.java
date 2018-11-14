@@ -133,8 +133,8 @@ public class GamePresenter implements Observer {
     }
 
     public void drawFaceUpTrainCard(GameActivity gameActivity, Game game, TrainCard oldCard, int trainCardIndex, Button trainButton){
-        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(oldCard);
-        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+//        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(oldCard);
+//        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
         gameActivity.addTrainCardToPlayer(oldCard);
 
         if(gameActivity.checkTrainCardDeck()){
