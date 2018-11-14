@@ -33,13 +33,12 @@ public class Server {
      */
     public void startServer(int port) {
 
-        System.out.println("Server started on port: " + port + "\n");
-
         try {
             server = HttpServer.create(new InetSocketAddress(port), MAX_WAITING_CONNECTIONS);
+            System.out.println("Server started on port: " + port);
         }
         catch (IOException e) {
-            System.out.println("Error: failed to start server on port: " + port + "\n");
+            System.out.println("Error: failed to start server on port: " + port);
             e.printStackTrace();
             return;
         }
@@ -47,15 +46,12 @@ public class Server {
         server.setExecutor(null); // Using default "executor"
 
         /** Create ServerZero.Handlers */
-        System.out.println("Creating contexts.");
         server.createContext("/", new DefaultHandler());
         server.createContext("/user", new UserHandler());
         server.createContext("/game", new GameHandler());
         server.createContext("/gamelobby", new GameLobbyHandler());
 
         /**  Start ServerZero */
-        System.out.println("Starting Server");
         server.start();
-        System.out.println("Server started");
     }
 }

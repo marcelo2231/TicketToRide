@@ -17,7 +17,7 @@ public class Game extends Observable {
     private int playerTurnIndex; // Index of player on ArrayList<Player> players who has the turn
     //private Tuple longestPath; //Tuple(length, Player)
 
-    public ArrayList<Command> commands;
+    private ArrayList<Command> commands;
 
     //private static Game instance;
 

@@ -1,5 +1,5 @@
 package com.emmettito.models.Cards;
 
 public enum TrainColor {
-    Red, Green, Blue, Orange, Yellow, Pink, Black, White, Wild
+    Wild, Pink, Red, Orange, Yellow, Green, Blue, Black, White
 }

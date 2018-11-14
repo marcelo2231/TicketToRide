@@ -1,12 +1,22 @@
 package com.emmettito.tickettoride.views.GameActivity.Turns;
 
+import android.widget.Button;
+import android.widget.Toast;
+
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
 public class MyTurnDrewCard implements Turn {
 
-    public MyTurnDrewCard(){}
+    private Client data;
+
+    private String error;
+
+    public MyTurnDrewCard(){
+        data = Client.getInstance();
+    }
 
     @Override
     public void enterChat(GameActivity context) {
@@ -30,29 +40,33 @@ public class MyTurnDrewCard implements Turn {
 
     @Override
     public void claimRoute(GameActivity context, int routeID) {
-        // TODO: ALERT USER THEY CAN NOT CLAIM THE ROUTE
+        error = "You must select another train card.";
+        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void drawFaceUpTrainCard(GameActivity context, TrainCard card) {
-        // if card is not wild
+    public void drawFaceUpTrainCard(GameActivity context, Button button, int buttonIndex) {
+        TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
+
         if (card.getColor() != TrainColor.Wild) {
-            // TODO: DO SOMETHING WITH CARD
+            context.drawFaceUpTrainCard(button, buttonIndex);
             context.setTurnState(new NotMyTurn());
         }
         else {
-            // TODO: ALERT USER THAT THEY SELECT THE WILD CARD
+            error = "You cannot pick another wild card.";
+            Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void drawFaceDownTrainCard(GameActivity context, TrainCard card) {
-        // TODO: DO SOMETHING WITH CARD
+    public void drawFaceDownTrainCard(GameActivity context) {
+        context.drawFaceDownTrainCard();
         context.setTurnState(new NotMyTurn());
     }
 
     @Override
     public void drawDestCards(GameActivity context) {
-        // TODO: ALERT USER THAT THEY CAN NOT SELECT DESTINATION CARDS
+        String error = "You must select another train card.";
+        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

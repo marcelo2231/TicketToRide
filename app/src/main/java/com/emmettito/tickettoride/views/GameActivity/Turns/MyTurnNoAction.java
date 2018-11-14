@@ -1,12 +1,26 @@
 package com.emmettito.tickettoride.views.GameActivity.Turns;
 
+import android.widget.Button;
+import android.widget.Toast;
+
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
+import com.emmettito.models.Route;
+import com.emmettito.models.Tuple;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+
+import java.util.List;
 
 public class MyTurnNoAction implements Turn {
 
-    public MyTurnNoAction(){}
+    private Client data;
+
+    private String error;
+
+    public MyTurnNoAction(){
+        data = Client.getInstance();
+    }
 
     @Override
     public void enterChat(GameActivity context) {
@@ -36,32 +50,34 @@ public class MyTurnNoAction implements Turn {
             context.setTurnState(new NotMyTurn());
         }
         else {
-            // TODO: ALERT USER THEY CAN NOT CLAIM THE ROUTE
+            Tuple route = data.getAllRoutes().get(routeID).getCities();
+            error = "You can't claim the route from " + route.getX() + " to " + route.getY();
+            Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void drawFaceUpTrainCard(GameActivity context, TrainCard card) {
-        // if card is not wild
+    public void drawFaceUpTrainCard(GameActivity context, Button button, int buttonIndex) {
+        TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
+        context.drawFaceUpTrainCard(button, buttonIndex);
+
         if (card.getColor() != TrainColor.Wild) {
-            // TODO: DO SOMETHING WITH CARD
             context.setTurnState(new MyTurnDrewCard());
         }
         else {
-            // TODO: DO SOMETHING WITH CARD
             context.setTurnState(new NotMyTurn());
         }
     }
 
     @Override
-    public void drawFaceDownTrainCard(GameActivity context, TrainCard card) {
-        // TODO: DO SOMETHING WITH CARD
+    public void drawFaceDownTrainCard(GameActivity context) {
+        context.drawFaceDownTrainCard();
         context.setTurnState(new MyTurnDrewCard());
     }
 
     @Override
     public void drawDestCards(GameActivity context) {
-        // TODO: DO SOMETHING WITH DESTINATION CARDS
+        context.drawDestCard(false);
         context.setTurnState(new NotMyTurn());
     }
 }
