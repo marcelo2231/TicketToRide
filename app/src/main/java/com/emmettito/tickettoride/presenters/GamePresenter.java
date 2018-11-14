@@ -50,7 +50,17 @@ public class GamePresenter implements Observer {
 
         Game newGame = result.getData();
 
-        client.setGame(newGame);
+        Game currentGame = client.getGame();
+
+        currentGame.setTrainCardDeck(newGame.getTrainCardDeck());
+        currentGame.setDestinationCardDeck(newGame.getDestinationCardDeck());
+
+        Player currentPlayer = currentGame.getOnePlayer(client.getUser());
+
+        currentGame.setPlayers(newGame.getPlayers());
+        currentGame.setOnePlayer(currentPlayer);
+
+        //client.setGame(newGame);
     }
 
     public void startPoller() {
