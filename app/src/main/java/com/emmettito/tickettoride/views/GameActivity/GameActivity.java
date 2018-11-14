@@ -246,9 +246,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         @Override
         public void onClick(View v) {
-            TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().remove(buttonIndex);
-            presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, buttonIndex, trainCardButton);
-            updatePlayerDisplay();
+            turnState.drawFaceUpTrainCard((GameActivity) context, trainCardButton, buttonIndex);
         }
     }
 
@@ -260,19 +258,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(v.getContext(), "Drawing train card", Toast.LENGTH_SHORT).show();
-                //helper function that makes sure there's cards in the deck
-                if(checkTrainCardDeck()){
-                    TrainCardDeck deck = data.getGame().getTrainCardDeck();
-                    TrainCard card = deck.getAvailable().remove(0);
-                    addTrainCardToPlayer(card);
-
-                    deckTrainCards.setText(String.valueOf(deck.getSizeAvailable()));
-                    updatePlayerDisplay();
-                }
-                else{
-                    Toast.makeText(v.getContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
-                }
+                turnState.drawFaceDownTrainCard((GameActivity)context);
             }
         });
 
@@ -284,6 +270,27 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
             trainCardButton.setBackground(updateFaceUpCard(deck.getFaceUpCards().get(i)));
         }
+    }
+
+    // SHOULD ONLY BE CALLED BY THE TURN STATES
+    public void drawFaceDownTrainCard() {
+        if(checkTrainCardDeck()){
+            TrainCardDeck deck = data.getGame().getTrainCardDeck();
+            TrainCard card = deck.getAvailable().remove(0);
+            addTrainCardToPlayer(card);
+            deckTrainCards.setText(String.valueOf(deck.getSizeAvailable()));
+            updatePlayerDisplay();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // SHOULD ONLY BE CALLED BY THE TURN STATES
+    public void drawFaceUpTrainCard(Button button, int buttonIndex) {
+        TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().remove(buttonIndex);
+        presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, buttonIndex, button);
+        updatePlayerDisplay();
     }
 
     /*
@@ -302,16 +309,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             @Override
             public void onClick(View v) {
                 turnState.drawDestCards((GameActivity)context);
-                Toast.makeText(v.getContext(), "Drawing 3 destination cards", Toast.LENGTH_SHORT).show();
-                drawDestCard(false);
-
-                updatePlayerDisplay();
-                updateDestinationCardDeck();
             }
         });
     }
 
-    private void drawDestCard(boolean isFirstTime) {
+    public void drawDestCard(boolean isFirstTime) {
         Fragment drawDestCardFragment = new DrawDestCardFragment();
         ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
         ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(data.getGame().getDestinationCardDeck().drawnThreeCards());
@@ -319,13 +321,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, drawDestCardFragment);
         transaction.commit();
-
-//        Game game = data.getGame();
-//        String user = data.getUser();
-//        Player player = game.getOnePlayer(user);
-//
-//        player.setDestinationCards(player.getDestinationCards());
-//        player.setTrainCards(player.getTrainCards());
 
         updatePlayerDisplay();
         updateDestinationCardDeck();

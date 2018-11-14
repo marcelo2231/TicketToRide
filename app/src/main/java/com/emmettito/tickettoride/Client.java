@@ -23,12 +23,18 @@ public class Client extends Observable {
     private Game game;
     private String gameName;
 
+    private List<City> allCities;
+    private List<Route> allRoutes;
 
     private Client() {
         token = null;
         user = null;
         gameName = null;
         game = null;
+
+        HardCodedData data = new HardCodedData();
+        allCities = data.getCities();
+        allRoutes = data.getRoutes();
     }
 
     public static Client getInstance() {
@@ -81,5 +87,21 @@ public class Client extends Observable {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public List<City> getAllCities() {
+        return allCities;
+    }
+
+    public void setAllCities(List<City> allCities) {
+        this.allCities = allCities;
+    }
+
+    public List<Route> getAllRoutes() {
+        return allRoutes;
+    }
+
+    public void setAllRoutes(List<Route> allRoutes) {
+        this.allRoutes = allRoutes;
     }
 }

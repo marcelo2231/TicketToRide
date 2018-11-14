@@ -10,7 +10,6 @@ import android.widget.FrameLayout;
 
 import com.emmettito.models.City;
 import com.emmettito.models.Game;
-import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.Player;
 import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Route;
@@ -32,6 +31,8 @@ public class MapView extends View {
     private float rect_width_padding;
     private float rect_height_padding;
 
+    Client data;
+
     private List<City> allCities;
     private List<Route> allRoutes;
 
@@ -51,9 +52,9 @@ public class MapView extends View {
         this.rect_width_padding = 0.02f;
         this.rect_height_padding = 0.01f;
 
-        HardCodedData data = new HardCodedData();
-        allCities = data.getCities();
-        allRoutes = data.getRoutes();
+        data = Client.getInstance();
+        allCities = data.getAllCities();
+        allRoutes = data.getAllRoutes();
 
         setLayoutParams(new FrameLayout.LayoutParams(this.width,this.height));
     }
@@ -63,7 +64,6 @@ public class MapView extends View {
         super.onDraw(canvas);
         setBackgroundResource(R.drawable.ticket_to_ride_map_v2);
 
-        Client data = Client.getInstance();
         Game game = data.getGame();
         List<Player> players = game.getPlayers();
 
