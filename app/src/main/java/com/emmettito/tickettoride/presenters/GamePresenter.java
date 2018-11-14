@@ -3,9 +3,7 @@ package com.emmettito.tickettoride.presenters;
 import android.widget.Button;
 
 import com.emmettito.models.Cards.DestinationCard;
-import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
-import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
@@ -24,6 +22,7 @@ import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -37,7 +36,7 @@ public class GamePresenter implements Observer {
 
     private GameActivity game;
 
-    private Poller trainCardPoller;
+    private Poller poller;
 
     public GamePresenter(GameActivity game) {
         this.game = game;
@@ -45,26 +44,28 @@ public class GamePresenter implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        game.updatePlayerDisplay();
+        Gson gson = new Gson();
+        String resultString = (String) o;
+        GetGameResult result = gson.fromJson(resultString, GetGameResult.class);
 
-        if(o.getClass().equals(TrainCardDeck.class)) {
-            game.updateCardDeck();
-        }
+        Game newGame = result.getData();
 
-        if (o.getClass().equals(DestinationCardDeck.class)) {
-            game.updateDestinationCardDeck();
-        }
+        client.setGame(newGame);
     }
 
-    public void addObserver() {
+    public void startPoller() {
         //client.getGame().addObserver(this);
 
         //client.addObserver(this);
-        //trainCardPoller = new Poller(url, requestString);
+        GetGameRequest request = new GetGameRequest();
+        request.setGameName(client.getGameName());
 
-        //poller.addObserver(this);
+        String requestString = new Gson().toJson(request);
+        poller = new Poller("http://10.0.2.2:8080/game/getgame", requestString);
 
-        //poller.start(3);
+        poller.addObserver(this);
+
+        poller.start(3);
     }
 
     public ArrayList<Player> getPlayers(){
