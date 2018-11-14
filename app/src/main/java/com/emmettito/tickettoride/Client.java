@@ -22,6 +22,7 @@ public class Client extends Observable {
 
     private Game game;
     private String gameName;
+    private String ipAddress;
 
     private List<City> allCities;
     private List<Route> allRoutes;
@@ -31,6 +32,7 @@ public class Client extends Observable {
         user = null;
         gameName = null;
         game = null;
+        ipAddress = "10.0.2.2";
 
         HardCodedData data = new HardCodedData();
         allCities = data.getCities();
@@ -103,5 +105,13 @@ public class Client extends Observable {
 
     public void setAllRoutes(List<Route> allRoutes) {
         this.allRoutes = allRoutes;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }
