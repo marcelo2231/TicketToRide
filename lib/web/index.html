@@ -193,6 +193,13 @@
                 "{\"gameName\":\"My Game\", \"playerName\":\"username\"}");
         }
 
+        function drawfaceuptraincommand() {
+            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("handleBox").value = "/game/drawfaceuptraincard";
+            document.getElementById("requestBox").value = formatJson(
+                "{\"gameName\":\"My Game\", \"playerName\":\"username\", \"cardIndex\":\"0\"}");
+        }
+
         function drawtrain() {
             window.scrollTo(0, document.body.scrollHeight);
             document.getElementById("handleBox").value = "/game/drawtraincard";
@@ -351,10 +358,13 @@
                     card.
                 </li>
                 <li>
-                    <a href="javascript:drawdestcard()">/game/drawdestcard</a> This API draw destination card.
+                    <a href="javascript:drawdestcommand()">/game/drawdestcard</a> This API draw destination card.
                 </li>
                 <li>
                     <a href="javascript:drawtraincommand()">/game/drawtraincard</a> This API draw train card.
+                </li>
+                <li>
+                    <a href="javascript:drawfaceuptraincommand()">/game/drawfaceuptraincard</a> This API draw faced up train card.
                 </li>
                 <li>
                     <a href="javascript:discardtraincommand()">/game/discardtraincard</a> This API discards train card from player hand.

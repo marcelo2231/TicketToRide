@@ -52,6 +52,9 @@ public class GameHandler implements HttpHandler {
                 case "drawtraincard":
                     result = new DrawTrainCommand().execute(input, authToken);
                     break;
+                case "drawfaceuptraincard":
+                    result = new DrawFaceUpTrainCommand().execute(input, authToken);
+                    break;
                 case "claimroute":
                     result = new ClaimRouteCommand().execute(input, authToken);
                     break;
