@@ -30,6 +30,8 @@ public class GameRoomProxy {
 
         clientCommunicator = new ClientCommunicator();
 
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/quitgame";
 
         QuitGameRequest request = new QuitGameRequest();
@@ -60,6 +62,9 @@ public class GameRoomProxy {
 
         clientCommunicator = new ClientCommunicator();
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/startgame";
 
         StartGameRequest request = new StartGameRequest();
@@ -84,6 +89,9 @@ public class GameRoomProxy {
 
         clientCommunicator = new ClientCommunicator();
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame"; // TODO: FIX URL
 
         String responseBody;

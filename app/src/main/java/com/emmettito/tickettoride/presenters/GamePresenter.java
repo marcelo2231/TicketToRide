@@ -68,14 +68,14 @@ public class GamePresenter implements Observer {
     }
 
     public ArrayList<Player> getPlayers(){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         GetPlayersRequest request = new GetPlayersRequest(client.getGameName());
         GetPlayersResult result = facade.getPlayers(request);
         return result.getData();
     }
 
     public Game getGame(){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         GetGameRequest request = new GetGameRequest();
         request.setGameName(client.getGameName());
         GetGameResult result = facade.getGame(request);
@@ -83,7 +83,7 @@ public class GamePresenter implements Observer {
     }
 
     public DestinationCard drawDestCard(String playerName){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         DrawDestCardRequest request = new DrawDestCardRequest();
         request.setGameName(client.getGameName());
         request.setPlayerName(playerName);
@@ -92,7 +92,7 @@ public class GamePresenter implements Observer {
     }
 
     public boolean discardDestCard(String playerName, int cardID){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         DiscardCardRequest request = new DiscardCardRequest();
         request.setGameName(client.getGameName());
         request.setPlayerName(playerName);
@@ -102,20 +102,20 @@ public class GamePresenter implements Observer {
     }
 
     public ArrayList<Command> getCommands(int atIndex){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         GetCommandsRequest request = new GetCommandsRequest(client.getGameName(), atIndex);
         GetCommandsResult result = facade.getCommands(request);
         return result.getData();
     }
 
     public int endPlayerTurn(Game game){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         PlayerTurnRequest request = new PlayerTurnRequest();
         //gets the name of the player whose turn it is
         request.setPlayerName(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName());
         request.setGameName(game.getGameName());
         request.setGameIndex(game.getPlayerTurnIndex());
-        Result result = facade.endTurn(request, "10.0.2.2", "8080");
+        Result result = facade.endTurn(request, client.getIpAddress(), "8080");
         int newIndex = -1;
         try{
             newIndex = (int) result.getData();

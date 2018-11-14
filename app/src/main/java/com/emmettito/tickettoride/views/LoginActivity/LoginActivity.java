@@ -57,7 +57,7 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
 
         client = Client.getInstance();
 
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setEnabled(true);

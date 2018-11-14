@@ -124,7 +124,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
 
     public void startPoller() {
         polling = true;
-        presenter.startPoller("http://10.0.2.2:8080/gamelobby/getPlayers", this);
+        presenter.startPoller("http://" + client.getIpAddress() + ":8080/gamelobby/getPlayers", this);
         timerRunnable.run();
     }
 

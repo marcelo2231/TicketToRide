@@ -19,7 +19,7 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
     public ClientCommunicator() {
        client = Client.getInstance();
-       host = "http://" + "10.0.2.2" + ":" + "8080";
+       host = "http://" + client.getIpAddress() + ":" + "8080";
     }
 
     private HttpURLConnection getConnection(URL url, String requestType, boolean doOutput) throws java.io.IOException {

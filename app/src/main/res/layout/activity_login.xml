@@ -69,6 +69,7 @@
         <EditText
             android:id="@+id/ipEditText"
             android:layout_width="152dp"
+            android:text="10.0.2.2"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/ipTextView"
             android:layout_below="@+id/ipTextView"

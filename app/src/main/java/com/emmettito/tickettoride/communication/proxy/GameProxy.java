@@ -15,6 +15,7 @@ import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetGameResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.models.Results.Result;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
@@ -34,6 +35,9 @@ public class GameProxy {
         String requestString = gson.toJson(request);
         String resultString = "";
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/chat";
 
         try {
@@ -57,6 +61,9 @@ public class GameProxy {
         String requestString = gson.toJson(request);
         String resultString = "";
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/getplayers";
 
         try {
@@ -79,6 +86,9 @@ public class GameProxy {
         String requestString = gson.toJson(request);
         String resultString = "";
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/getgame";
 
         try {
@@ -102,6 +112,9 @@ public class GameProxy {
         String requestString = gson.toJson(request);
         String resultString = "";
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/drawdestcard";
 
         try {
@@ -124,6 +137,9 @@ public class GameProxy {
         String requestString = gson.toJson(request);
         String resultString = "";
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/discarddestcard";
 
         try {
@@ -147,6 +163,9 @@ public class GameProxy {
         String requestString = gson.toJson(request);
         String resultString = "";
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/getcommands";
 
         try {
@@ -169,6 +188,9 @@ public class GameProxy {
         String requestString = gson.toJson(request);
         String resultString = "";
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/playerturn";
 
         try{
@@ -189,6 +211,9 @@ public class GameProxy {
     public DrawTrainResult drawTrainCard(DrawTrainRequest request){
         String requestString = gson.toJson(request);
         String resultString = "";
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/game/drawtraincard";
 
         try{

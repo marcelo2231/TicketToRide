@@ -3,6 +3,7 @@ package com.emmettito.tickettoride.communication.proxy;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
@@ -20,6 +21,9 @@ public class GameLobbyProxy {
     public GameLobbyResult createGame(CreateGameRequest request) {
         String requestString = gson.toJson(request);
 
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/creategame";
 
         return sendRequest(url, requestString, "POST");
@@ -27,6 +31,9 @@ public class GameLobbyProxy {
 
     public GameLobbyResult joinGame(JoinGameRequest request) {
         String requestString = gson.toJson(request);
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
         String url = "http://" + serverHost + ":" + serverPort + "/gamelobby/joingame";
 
         return sendRequest(url, requestString, "POST");
