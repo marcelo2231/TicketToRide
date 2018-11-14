@@ -88,6 +88,9 @@ public class GameHandler implements HttpHandler {
                 case "getgame":
                     result = new GetGameCommand().execute(input, authToken);
                     break;
+                case "setgame":
+                    result = new SetGameCommand().execute(input, authToken);
+                    break;
                 case "getcommands":
                     result = new GetCommandsCommand().execute(input, authToken);
                     break;
