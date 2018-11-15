@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -660,7 +659,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     public void endTurn() {
-        presenter.endPlayerTurn(data.getGame());
+        data.getGame().setPlayerTurnIndex(presenter.endPlayerTurn(data.getGame()));
+        presenter.startPoller();
     }
 
     public void checkIfOurTurn() {
@@ -672,6 +672,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
             if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
                 setTurnState(new MyTurnNoAction());
+                presenter.shutDownPoller();
             }
         }
     }

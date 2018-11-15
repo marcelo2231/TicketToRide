@@ -162,4 +162,8 @@ public class GamePresenter implements Observer {
         }
     }
 
+    public void shutDownPoller() {
+        poller.shutdown();
+    }
+
 }

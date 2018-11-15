@@ -95,6 +95,10 @@ public class Game extends Observable {
         return playerTurnIndex;
     }
 
+    public void setPlayerTurnIndex(int playerTurnIndex) {
+        this.playerTurnIndex = playerTurnIndex;
+    }
+
     public Player getOnePlayer(String userName) {
         boolean found = false;
         int index = 0;
