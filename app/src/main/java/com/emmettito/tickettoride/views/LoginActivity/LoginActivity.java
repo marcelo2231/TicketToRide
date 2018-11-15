@@ -57,7 +57,7 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
 
         client = Client.getInstance();
 
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setEnabled(true);
@@ -94,9 +94,11 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
 
         EditText usernameSpace = (EditText) findViewById(R.id.usernameEditText);
         EditText passwordSpace = (EditText) findViewById(R.id.passwordEditText);
+        EditText ipSpace = (EditText) findViewById(R.id.ipEditText);
 
         request.setUsername(usernameSpace.getText().toString());
         request.setPassword(passwordSpace.getText().toString());
+        client.setIpAddress(ipSpace.getText().toString());
 
         return request;
     }
@@ -126,6 +128,9 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
      */
     @Override
     public void login() {
+        EditText ipSpace = (EditText) findViewById(R.id.ipEditText);
+        client.setIpAddress(ipSpace.getText().toString());
+
         LoginRequest request = getLoginRequest();
         Result result = facade.login(request);
 
@@ -151,6 +156,9 @@ public class LoginActivity extends FragmentActivity implements LoginPresenter.Lo
      */
     @Override
     public void register() {
+        EditText ipSpace = (EditText) findViewById(R.id.ipEditText);
+        client.setIpAddress(ipSpace.getText().toString());
+
         RegisterRequest request = getRegisterRequest();
         Result result = facade.register(request);
 

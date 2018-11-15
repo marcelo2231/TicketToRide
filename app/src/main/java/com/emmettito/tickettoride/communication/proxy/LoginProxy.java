@@ -6,6 +6,7 @@ import com.emmettito.models.CommandModels.UserCommands.LoginRequest;
 import com.emmettito.models.CommandModels.UserCommands.LogoutRequest;
 import com.emmettito.models.CommandModels.UserCommands.RegisterRequest;
 import com.emmettito.models.Results.Result;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.ClientCommunicator;
 import com.google.gson.Gson;
 
@@ -23,7 +24,8 @@ public class LoginProxy {
     public Result login(LoginRequest request) {
 
         client = new ClientCommunicator();
-
+        Client clientInstance = Client.getInstance();
+        host = "http://" + clientInstance.getIpAddress() + ":8080";
         String url = host + "/user/login";
 
         String resultBody;
@@ -31,6 +33,9 @@ public class LoginProxy {
 
         try {
             resultBody = client.execute(url, "POST", requestBody).get();
+            if (resultBody.contains("error") || resultBody.contains("Error")){
+                throw new Exception("Error: " + resultBody);
+            }
         } catch (Exception e) {
             resultBody = null;
         }
@@ -46,6 +51,8 @@ public class LoginProxy {
 
         client = new ClientCommunicator();
 
+        Client clientInstance = Client.getInstance();
+        host = "http://" + clientInstance.getIpAddress() + ":8080";
         String url = host + "/user/register";
 
         String resultBody;
@@ -53,6 +60,9 @@ public class LoginProxy {
 
         try {
             resultBody = client.execute(url, "POST", requestBody).get();
+            if (resultBody.contains("error") || resultBody.contains("Error")){
+                throw new Exception("Error: " + resultBody);
+            }
         } catch (Exception e) {
             resultBody = null;
             Log.w("myApp", "failed: " + e.toString());
@@ -70,6 +80,8 @@ public class LoginProxy {
 
     public Result logout(LogoutRequest request) {
         String requestBody = gson.toJson(request);
+        Client clientInstance = Client.getInstance();
+        host = "http://" + clientInstance.getIpAddress() + ":8080";
         String url = host + "/user/logout";
         String resultBody;
         client = new ClientCommunicator();

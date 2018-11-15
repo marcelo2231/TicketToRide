@@ -121,7 +121,6 @@ public class ServerFacade {
 
     public Result endTurn(PlayerTurnRequest request, String host, String port){
         gameProxy = new GameProxy(host, port);
-        gameProxy = new GameProxy(host, port);
         return gameProxy.endTurn(request);
     }
 

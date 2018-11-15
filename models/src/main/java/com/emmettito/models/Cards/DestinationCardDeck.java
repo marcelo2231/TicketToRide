@@ -23,6 +23,12 @@ public class DestinationCardDeck implements Deck {
         Collections.shuffle(discardPile);
     }
 
+    public void addCards(List<DestinationCard> addCards) {
+        for (int i = 0; i < addCards.size(); i++) {
+            availableCards.add(addCards.get(i));
+        }
+    }
+
     public void setAvailableCards(List<DestinationCard> availableCards) {
         this.availableCards = availableCards;
     }

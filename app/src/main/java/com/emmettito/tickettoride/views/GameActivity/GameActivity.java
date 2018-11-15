@@ -57,9 +57,26 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
     private Turn turnState;
 
+    private GameActivity thisGameActivity;
+
     public void setTurnState(Turn turnState) {
         this.turnState = turnState;
     }
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            //mAdapter.notifyDataSetChanged();
+            thisGameActivity.updatePlayerDisplay();
+            thisGameActivity.updateDestinationCardDeck();
+            thisGameActivity.updateCardDeck();
+            thisGameActivity.updatePlayerTrainCards();
+            thisGameActivity.updateMapView();
+            thisGameActivity.checkIfOurTurn();
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +90,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_game);
+
+        thisGameActivity = this;
 
         data = Client.getInstance();
 
@@ -115,36 +134,14 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 //            deckDestinationCards.setEnabled(false);
         }
 
-        presenter.addObserver();
+        //presenter.addObserver();
         timerHandler.postDelayed(timerRunnable, 500);
 
         //after setting up/inflating, initialize the game-starting processes
         drawDestCard(true);
+        presenter.startPoller();
         startGame();
     }
-
-    // Ongoing timer that will update the display
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        /**
-         * run
-         *
-         * This method defines the behavior of the Runnable run functionality and is inherited and
-         * overridden from the Runnable parent class. This implementation add a 500 post delay.
-         *
-         * @pre None
-         *
-         * @post handler delays for 500 delayMillis
-         *
-         *
-         */
-        @Override
-        public void run() {
-            updatePlayerDisplay();
-            timerHandler.postDelayed(this, 500);
-        }
-    };
 
     @Override
     public void onFragmentInteraction(Uri uri) {}
@@ -457,6 +454,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckDestinationCards.setText(update);
     }
 
+    public void updateMapView() {
+        mapView.invalidate();
+    }
+
     public Button getDeckTrainCards(){ return deckTrainCards; }
 
     // updates the chosen face up card background
@@ -632,4 +633,20 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         updatePlayerDisplay();
     }
 
+    public void endTurn() {
+        presenter.endPlayerTurn(data.getGame());
+    }
+
+    public void checkIfOurTurn() {
+        //System.out.println(turnState.getClass());
+        //System.out.println(data.getGame().getOnePlayer(data.getUser()).getPosition());
+        //System.out.println(data.getGame().getPlayerTurnIndex());
+        if (turnState.getClass().equals(NotMyTurn.class)) {
+            Player currentPlayer = data.getGame().getOnePlayer(data.getUser());
+            Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
+            if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
+                setTurnState(new MyTurnNoAction());
+            }
+        }
+    }
 }

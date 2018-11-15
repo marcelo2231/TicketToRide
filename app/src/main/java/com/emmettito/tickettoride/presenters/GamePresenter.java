@@ -3,9 +3,7 @@ package com.emmettito.tickettoride.presenters;
 import android.widget.Button;
 
 import com.emmettito.models.Cards.DestinationCard;
-import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
-import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
@@ -24,6 +22,7 @@ import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -37,7 +36,7 @@ public class GamePresenter implements Observer {
 
     private GameActivity game;
 
-    private Poller trainCardPoller;
+    private Poller poller;
 
     public GamePresenter(GameActivity game) {
         this.game = game;
@@ -45,37 +44,49 @@ public class GamePresenter implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        game.updatePlayerDisplay();
+        Gson gson = new Gson();
+        String resultString = (String) o;
+        GetGameResult result = gson.fromJson(resultString, GetGameResult.class);
 
-        if(o.getClass().equals(TrainCardDeck.class)) {
-            game.updateCardDeck();
-        }
+        Game newGame = result.getData();
 
-        if (o.getClass().equals(DestinationCardDeck.class)) {
-            game.updateDestinationCardDeck();
-        }
+        //currentGame.setTrainCardDeck(newGame.getTrainCardDeck());
+        //currentGame.setDestinationCardDeck(newGame.getDestinationCardDeck());
+
+        Player currentPlayer = client.getGame().getOnePlayer(client.getUser());
+
+        //currentGame.setPlayers(newGame.getPlayers());
+        //currentGame.setOnePlayer(currentPlayer);
+
+        client.setGame(newGame);
+        client.getGame().setOnePlayer(currentPlayer);
+
     }
 
-    public void addObserver() {
+    public void startPoller() {
         //client.getGame().addObserver(this);
 
         //client.addObserver(this);
-        //trainCardPoller = new Poller(url, requestString);
+        GetGameRequest request = new GetGameRequest();
+        request.setGameName(client.getGameName());
 
-        //poller.addObserver(this);
+        String requestString = new Gson().toJson(request);
+        poller = new Poller("http://10.0.2.2:8080/game/getgame", requestString);
 
-        //poller.start(3);
+        poller.addObserver(this);
+
+        poller.start(1);
     }
 
     public ArrayList<Player> getPlayers(){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         GetPlayersRequest request = new GetPlayersRequest(client.getGameName());
         GetPlayersResult result = facade.getPlayers(request);
         return result.getData();
     }
 
     public Game getGame(){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         GetGameRequest request = new GetGameRequest();
         request.setGameName(client.getGameName());
         GetGameResult result = facade.getGame(request);
@@ -83,7 +94,7 @@ public class GamePresenter implements Observer {
     }
 
     public DestinationCard drawDestCard(String playerName){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         DrawDestCardRequest request = new DrawDestCardRequest();
         request.setGameName(client.getGameName());
         request.setPlayerName(playerName);
@@ -92,7 +103,7 @@ public class GamePresenter implements Observer {
     }
 
     public boolean discardDestCard(String playerName, int cardID){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         DiscardCardRequest request = new DiscardCardRequest();
         request.setGameName(client.getGameName());
         request.setPlayerName(playerName);
@@ -102,20 +113,20 @@ public class GamePresenter implements Observer {
     }
 
     public ArrayList<Command> getCommands(int atIndex){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         GetCommandsRequest request = new GetCommandsRequest(client.getGameName(), atIndex);
         GetCommandsResult result = facade.getCommands(request);
         return result.getData();
     }
 
     public int endPlayerTurn(Game game){
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
         PlayerTurnRequest request = new PlayerTurnRequest();
         //gets the name of the player whose turn it is
         request.setPlayerName(game.getPlayers().get(game.getPlayerTurnIndex()).getPlayerName());
         request.setGameName(game.getGameName());
         request.setGameIndex(game.getPlayerTurnIndex());
-        Result result = facade.endTurn(request, "10.0.2.2", "8080");
+        Result result = facade.endTurn(request, client.getIpAddress(), "8080");
         int newIndex = -1;
         try{
             newIndex = (int) result.getData();

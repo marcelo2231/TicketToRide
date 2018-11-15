@@ -3,6 +3,7 @@ package com.emmettito.tickettoride.presenters;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
 import com.emmettito.models.Results.GameLobbyResult;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.LobbyActivity.GameListFragment;
@@ -12,6 +13,7 @@ import java.util.Observer;
 
 public class LobbyPresenter implements Observer {
 
+    private Client client = Client.getInstance();
     //private List<Observer> observers;
     private Poller poller;
     private ServerFacade facade = null;
@@ -23,7 +25,7 @@ public class LobbyPresenter implements Observer {
      *
      */
 
-    String url = "http://10.0.2.2:8080/gamelobby/getgames";
+    String url = "http://" + client.getIpAddress() + ":8080/gamelobby/getgames";
 
     /**
      *
@@ -33,7 +35,7 @@ public class LobbyPresenter implements Observer {
 
     public LobbyPresenter(GameListFragment view) {
         this.view = view;
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
     }
 
     public void update(Observable obj, Object arg) {
@@ -48,7 +50,7 @@ public class LobbyPresenter implements Observer {
         request.setGameName(gameName);
         request.setUsername(username);
 
-        //GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
+        //GameLobbyProxy proxy = new GameLobbyProxy(client.getIpAddress(), "8080");
 
         //return proxy.createGame(request);
 
@@ -60,7 +62,7 @@ public class LobbyPresenter implements Observer {
         request.setGameName(gameName);
         request.setUsername(username);
 
-        //GameLobbyProxy proxy = new GameLobbyProxy("10.0.2.2", "8080");
+        //GameLobbyProxy proxy = new GameLobbyProxy(client.getIpAddress(), "8080");
 
         //return proxy.joinGame(request);
 
