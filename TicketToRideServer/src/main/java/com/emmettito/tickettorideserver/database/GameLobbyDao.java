@@ -62,15 +62,11 @@ public class GameLobbyDao {
         return null;
     }
 
-    public Game setGame(Game game) {
-        for (Game g : dbInstance.activeGame) {
-            if (g.getGameName().equals(game.getGameName())) {
-                g = game;
-            }
-        }
-        for (Game g : dbInstance.gameLobby) {
-            if (g.getGameName().equals(game.getGameName())) {
-                g = game;
+    public Game setGame(Game game) throws Exception{
+        for (Game g : dbInstance.activeGame){
+            if(g.getGameName().equals(game.getGameName())){
+                dbInstance.activeGame.remove(g);
+                dbInstance.activeGame.add(game);
             }
         }
         return null;
