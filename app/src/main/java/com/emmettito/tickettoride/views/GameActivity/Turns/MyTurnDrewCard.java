@@ -51,6 +51,7 @@ public class MyTurnDrewCard implements Turn {
         if (card.getColor() != TrainColor.Wild) {
             context.drawFaceUpTrainCard(button, buttonIndex);
             context.setTurnState(new NotMyTurn());
+            context.endTurn();
         }
         else {
             error = "You cannot pick another wild card.";
@@ -62,6 +63,7 @@ public class MyTurnDrewCard implements Turn {
     public void drawFaceDownTrainCard(GameActivity context) {
         context.drawFaceDownTrainCard();
         context.setTurnState(new NotMyTurn());
+        context.endTurn();
     }
 
     @Override

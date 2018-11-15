@@ -62,19 +62,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
-
-        /**
-         * run
-         *
-         * This method defines the behavior of the Runnable run functionality and is inherited and
-         * overridden from the Runnable parent class. This implementation add a 500 post delay.
-         *
-         * @pre None
-         *
-         * @post handler delays for 500 delayMillis
-         *
-         *
-         */
         @Override
         public void run() {
             //mAdapter.notifyDataSetChanged();
@@ -83,6 +70,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             thisGameActivity.updateCardDeck();
             thisGameActivity.updatePlayerTrainCards();
             thisGameActivity.updateMapView();
+            thisGameActivity.checkIfOurTurn();
             timerHandler.postDelayed(this, 500);
         }
     };
@@ -528,4 +516,20 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         mapView.invalidate();
     }
 
+    public void endTurn() {
+        presenter.endPlayerTurn(data.getGame());
+    }
+
+    public void checkIfOurTurn() {
+        //System.out.println(turnState.getClass());
+        //System.out.println(data.getGame().getOnePlayer(data.getUser()).getPosition());
+        //System.out.println(data.getGame().getPlayerTurnIndex());
+        if (turnState.getClass().equals(NotMyTurn.class)) {
+            Player currentPlayer = data.getGame().getOnePlayer(data.getUser());
+            Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
+            if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
+                setTurnState(new MyTurnNoAction());
+            }
+        }
+    }
 }

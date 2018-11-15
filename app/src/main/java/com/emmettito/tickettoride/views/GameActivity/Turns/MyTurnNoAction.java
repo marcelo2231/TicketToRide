@@ -5,12 +5,9 @@ import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
-import com.emmettito.models.Route;
 import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
-
-import java.util.List;
 
 public class MyTurnNoAction implements Turn {
 
@@ -48,6 +45,7 @@ public class MyTurnNoAction implements Turn {
         if (context.canClaimRoute(routeID)) {
             context.claimRoute(routeID);
             context.setTurnState(new NotMyTurn());
+            context.endTurn();
         }
         else {
             Tuple route = data.getAllRoutes().get(routeID).getCities();
@@ -66,6 +64,7 @@ public class MyTurnNoAction implements Turn {
         }
         else {
             context.setTurnState(new NotMyTurn());
+            context.endTurn();
         }
     }
 
@@ -79,5 +78,6 @@ public class MyTurnNoAction implements Turn {
     public void drawDestCards(GameActivity context) {
         context.drawDestCard(false);
         context.setTurnState(new NotMyTurn());
+        context.endTurn();
     }
 }

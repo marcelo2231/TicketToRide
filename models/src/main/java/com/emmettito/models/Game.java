@@ -151,9 +151,7 @@ public class Game extends Observable {
 
     public void incrementTurnIndex(){
         playerTurnIndex++;
-        if(playerTurnIndex >= players.size()){
-            playerTurnIndex = 0;
-        }
+        playerTurnIndex = playerTurnIndex % players.size();
     }
 
     public boolean isPlayerTurn(Player player){
