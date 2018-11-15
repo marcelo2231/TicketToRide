@@ -2,6 +2,7 @@ package com.emmettito.tickettoride;
 
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.models.City;
 import com.emmettito.models.Game;
 import com.emmettito.models.HardCoded.HardCodedData;
@@ -26,6 +27,8 @@ public class Client extends Observable {
 
     private List<City> allCities;
     private List<Route> allRoutes;
+
+    private TrainColor tempColorChoice;
 
     private Client() {
         token = null;
@@ -113,5 +116,17 @@ public class Client extends Observable {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public TrainColor getTempColorChoice() {
+        return tempColorChoice;
+    }
+
+    public void setTempColorChoice(TrainColor color) {
+        this.tempColorChoice = color;
+    }
+
+    public void resetTempColorChoice() {
+        this.tempColorChoice = null;
     }
 }

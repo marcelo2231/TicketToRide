@@ -18,8 +18,6 @@ public class MyTurnNoAction implements Turn {
 
     private Client data;
 
-    private String error;
-
     public MyTurnNoAction(){
         data = Client.getInstance();
     }
@@ -46,17 +44,19 @@ public class MyTurnNoAction implements Turn {
 
     @Override
     public void claimRoute(GameActivity context, int routeID) {
-        if (context.canClaimRoute(routeID)) {
-            context.claimRoute(routeID);
+        if (data.getTempColorChoice() == null) {
+            String error = "You need to select which color of card to use.";
+            Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        TrainColor chosen_color = data.getTempColorChoice();
+
+        if (context.canClaimRoute(routeID, chosen_color)) {
+            context.claimRoute(routeID, chosen_color);
+            data.resetTempColorChoice();
             context.setTurnState(new NotMyTurn());
             context.endTurn();
-        }
-        else {
-            Tuple route = data.getAllRoutes().get(routeID).getCities();
-            City city_x = data.getAllCities().get((int)route.getX());
-            City city_y = data.getAllCities().get((int)route.getY());
-            error = "You cannot claim the route from " + city_x.getName() + " to " + city_y.getName();
-            Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }
 
