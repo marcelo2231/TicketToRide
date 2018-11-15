@@ -5,11 +5,13 @@ import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
+import com.emmettito.models.City;
 import com.emmettito.models.Route;
 import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MyTurnNoAction implements Turn {
@@ -44,14 +46,15 @@ public class MyTurnNoAction implements Turn {
 
     @Override
     public void claimRoute(GameActivity context, int routeID) {
-
         if (context.canClaimRoute(routeID)) {
             context.claimRoute(routeID);
             context.setTurnState(new NotMyTurn());
         }
         else {
             Tuple route = data.getAllRoutes().get(routeID).getCities();
-            error = "You can't claim the route from " + route.getX() + " to " + route.getY();
+            City city_x = data.getAllCities().get((int)route.getX());
+            City city_y = data.getAllCities().get((int)route.getY());
+            error = "You cannot claim the route from " + city_x.getName() + " to " + city_y.getName();
             Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }

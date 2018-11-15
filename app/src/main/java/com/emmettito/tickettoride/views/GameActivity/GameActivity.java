@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,10 @@ import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
+import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.models.Route;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.GamePresenter;
@@ -432,11 +435,17 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     public void updatePlayerDisplay() {
         setPlayerList(data.getGame().getPlayers());
 
-        if (playerListAdapter == null) {
-            return;
+        if (playerListAdapter != null) {
+            playerListAdapter.notifyDataSetChanged();
         }
 
-        playerListAdapter.notifyDataSetChanged();
+        if (playerTrainCardsAdapter != null) {
+            playerTrainCardsAdapter.notifyDataSetChanged();
+        }
+
+        if (mapView != null) {
+            mapView.invalidate();
+        }
     }
 
     public void updateCardDeck() {
@@ -503,16 +512,124 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     Claiming a route
 
      */
+    private int numOfColor(TrainColor color, List<TrainCard> cards) {
+        int num = 0;
 
-    public boolean canClaimRoute(int routeID) {
+        for (int i = 0; i < cards.size(); i++) {
+            if (cards.get(i).getColor() == color) {
+                num++;
+            }
+        }
+
+        return num;
+    }
+
+    private void removeTrainCardsFromPlayer(int count, TrainColor color) {
+        Player player = data.getGame().getOnePlayer(data.getUser());
+        List<TrainCard> cards = player.getTrainCards();
+        for (int i = 0; i < count; i++) {
+            for (int j = 0; j < cards.size(); j++) {
+                if (cards.get(j).getColor() == color) {
+                    cards.remove(j);
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean isRouteAvailable(int routeID) {
+        if (isRouteTaken(routeID)) {
+            return false;
+        }
+
+        Route route = data.getAllRoutes().get(routeID);
+        int double_route = route.getDoubleRoute();
+
+        if (double_route != -1) { // if the route has a double route
+            int num_players = data.getGame().getPlayers().size();
+            final int MIN_NUM_FOR_DOUBLE = 3;
+
+            if (num_players < MIN_NUM_FOR_DOUBLE) {
+                return !isRouteTaken(double_route);
+            }
+            else {
+                Player player = data.getGame().getOnePlayer(data.getUser());
+                return !player.getClaimedRoutes().contains(double_route);
+            }
+        }
+
+
+        return true;
+    }
+
+    private boolean isRouteTaken(int routeID) {
+        List<Player> players = data.getGame().getPlayers();
+
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            Log.w("DEBUGGING", "i: " + i + ", Player: " + player.toString());
+
+            List<Integer> routes = player.getClaimedRoutes();
+            if (routes.contains(routeID)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
-    public void claimRoute(int routeID) {
-        // TODO: send to server get routeID
-        // TODO: add route to temp array so that user's can see claiming the route immediately
+    public boolean canClaimRoute(int routeID) {
+        if (!isRouteAvailable(routeID)) {
+            return false;
+        }
 
-        mapView.invalidate();
+        Route route = data.getAllRoutes().get(routeID);
+
+        TrainColor route_color = route.getTrainColor();
+        int route_size = route.getSpaces().size();
+
+        Player player = data.getGame().getOnePlayer(data.getUser());
+        List<TrainCard> cards = player.getTrainCards();
+
+        int num_color = numOfColor(route_color, cards);
+        int num_wilds = numOfColor(TrainColor.Wild, cards);
+
+        if (num_color >= route_size) {
+            return true;
+        }
+        else if (num_color + num_wilds >= route_size) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void claimRoute(int routeID) {
+        Route route = data.getAllRoutes().get(routeID);
+
+        TrainColor route_color = route.getTrainColor();
+        int route_size = route.getSpaces().size();
+
+        Player player = data.getGame().getOnePlayer(data.getUser());
+        List<TrainCard> cards = player.getTrainCards();
+
+        int num_color = numOfColor(route_color, cards);
+
+        if (num_color >= route_size) {
+            removeTrainCardsFromPlayer(route_size, route_color);
+        }
+        else {
+            removeTrainCardsFromPlayer(num_color, route_color);
+            removeTrainCardsFromPlayer(route_size - num_color, TrainColor.Wild);
+        }
+
+        player.getClaimedRoutes().add(routeID);
+
+        // TODO: add points
+        // TODO: send to server
+
+        updatePlayerDisplay();
     }
 
 }

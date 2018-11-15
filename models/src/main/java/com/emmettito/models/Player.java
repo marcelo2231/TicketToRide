@@ -5,8 +5,6 @@ import com.emmettito.models.Cards.TrainCard;
 
 import java.util.ArrayList;
 
-//import java.awt.Color;
-
 public class Player {
     private String playerName;
     private PlayerColor color;
@@ -20,9 +18,10 @@ public class Player {
     public Player(String playerName, int playerIndex){
         this.playerName = playerName;
         this.points = 0;
-        plasticTrains = 45;
+        this.plasticTrains = 45;
         this.trainCards = new ArrayList<>();
-        destinationCards = new ArrayList<>();
+        this.destinationCards = new ArrayList<>();
+        this.claimedRoutes = new ArrayList<>();
         this.color = PlayerColor.values()[playerIndex];
         this.position = playerIndex + 1; // Indexes start from 0, position starts from 1
     }
@@ -94,5 +93,12 @@ public class Player {
 
     public void setPlasticTrains(int plasticTrains) {
         this.plasticTrains = plasticTrains;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: " + playerName + ", Points: " + points + ", Trains: " + plasticTrains + ", # Claimed Routes: " + claimedRoutes.size());
+        return sb.toString();
     }
 }
