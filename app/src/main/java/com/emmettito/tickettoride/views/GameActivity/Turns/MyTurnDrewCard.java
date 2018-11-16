@@ -6,70 +6,84 @@ import android.widget.Toast;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.tickettoride.Client;
-import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.presenters.GamePresenter;
 
 public class MyTurnDrewCard implements Turn {
 
     private Client data;
 
+    private boolean done;
+
     private String error;
 
     public MyTurnDrewCard(){
         data = Client.getInstance();
+        done = false;
     }
 
     @Override
-    public void enterChat(GameActivity context) {
-        context.enterChat();
+    public void enterChat(GamePresenter context) {
+        context.getGameActivity().enterChat();
     }
 
     @Override
-    public void leaveGame(GameActivity context) {
-        context.leaveGame();
+    public void leaveGame(GamePresenter context) {
+        context.getGameActivity().leaveGame();
     }
 
     @Override
-    public void viewDestCard(GameActivity context) {
-        context.viewDestCard();
+    public void viewDestCard(GamePresenter context) {
+        context.getGameActivity().viewDestCard();
     }
 
     @Override
-    public void viewCommands(GameActivity context) {
-        context.viewCommands();
+    public void viewCommands(GamePresenter context) {
+        context.getGameActivity().viewCommands();
     }
 
     @Override
-    public void claimRoute(GameActivity context, int routeID) {
+    public void claimRoute(GamePresenter context, int routeID) {
         error = "You must select another train card.";
-        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        context.displayToast(error);
     }
 
     @Override
-    public void drawFaceUpTrainCard(GameActivity context, Button button, int buttonIndex) {
+    public void drawFaceUpTrainCard(GamePresenter context, Button button, int buttonIndex) {
+        if (done) {
+            return;
+        }
+        done = true;
+
         TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
 
         if (card.getColor() != TrainColor.Wild) {
-            context.drawFaceUpTrainCard(button, buttonIndex);
+            context.getGameActivity().drawFaceUpTrainCard(button, buttonIndex);
             context.setTurnState(new NotMyTurn());
             context.endTurn();
         }
         else {
+            done = false;
             error = "You cannot pick another wild card.";
-            Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+            context.displayToast(error);
         }
     }
 
     @Override
-    public void drawFaceDownTrainCard(GameActivity context) {
-        if (context.drawFaceDownTrainCard()) {
+    public void drawFaceDownTrainCard(GamePresenter context) {
+        if (done) {
+            return;
+        }
+        done = true;
+
+        if (context.getGameActivity().drawFaceDownTrainCard()) {
             context.setTurnState(new NotMyTurn());
             context.endTurn();
         }
     }
 
     @Override
-    public void drawDestCards(GameActivity context) {
+    public void drawDestCards(GamePresenter context) {
         String error = "You must select another train card.";
-        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        context.displayToast(error);
     }
 }

@@ -57,13 +57,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
     private  MapView mapView = null;
 
-    private Turn turnState;
-
     private GameActivity thisGameActivity;
-
-    public void setTurnState(Turn turnState) {
-        this.turnState = turnState;
-    }
 
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
@@ -122,21 +116,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         playerListAdapter = new PlayerInfoAdapter(players);
         playerListRecycle.setAdapter(playerListAdapter);
 
-
-        // activate the draw card buttons if it's the player's turn
-        Player player = game.getOnePlayer(data.getUser());
-
-        if(game.isPlayerTurn(player)){
-            turnState = new MyTurnNoAction();
-//            deckTrainCards.setEnabled(true); // TODO: Buttons should always be enabled, but the actions should depend on the turn state functionality
-//            deckDestinationCards.setEnabled(true);
-        }
-        else{
-            turnState = new NotMyTurn();
-//            deckTrainCards.setEnabled(false);
-//            deckDestinationCards.setEnabled(false);
-        }
-
         //presenter.addObserver();
         timerHandler.postDelayed(timerRunnable, 500);
 
@@ -175,7 +154,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         chatButton.setEnabled(true);
         chatButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                turnState.enterChat((GameActivity)context);
+                presenter.enterChat();
             }
         });
 
@@ -184,7 +163,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         leaveGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.leaveGame((GameActivity)context);
+                presenter.leaveGame();
             }
         });
 
@@ -193,7 +172,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         displayCommandsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.viewCommands((GameActivity)context);
+                presenter.viewCommands();
             }
         });
 
@@ -202,7 +181,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.viewDestCard((GameActivity)context);
+                presenter.viewDestCard();
             }
         });
     }
@@ -249,7 +228,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         @Override
         public void onClick(View v) {
-            turnState.drawFaceUpTrainCard((GameActivity) context, trainCardButton, buttonIndex);
+            presenter.drawFaceUpTrainCard(trainCardButton, buttonIndex);
         }
     }
 
@@ -261,7 +240,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.drawFaceDownTrainCard((GameActivity)context);
+                presenter.drawFaceDownTrainCard();
             }
         });
 
@@ -314,7 +293,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckDestinationCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.drawDestCards((GameActivity)context);
+                presenter.drawDestCards();
             }
         });
     }
@@ -360,7 +339,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                     int routeID = mapView.onRoute(event.getX(), event.getY());
 
                     if (routeID != -1) {
-                        turnState.claimRoute((GameActivity)context, routeID);
+                        presenter.claimRoute(routeID);
                     }
                 }
                 return true;
@@ -545,155 +524,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         else return false;
     }
 
-    /*
-
-    Claiming a route
-
-     */
-    // SHOULD ONLY BE CALLED BY THE TURN STATES
-    private int numOfColor(TrainColor color, List<TrainCard> cards) {
-        int num = 0;
-
-        for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).getColor() == color) {
-                num++;
-            }
-        }
-
-        return num;
-    }
-
-    // SHOULD ONLY BE CALLED BY THE TURN STATES
-    private void removeTrainCardsFromPlayer(int count, TrainColor color) {
-        Player player = data.getGame().getOnePlayer(data.getUser());
-        List<TrainCard> cards = player.getTrainCards();
-        for (int i = 0; i < count; i++) {
-            for (int j = 0; j < cards.size(); j++) {
-                if (cards.get(j).getColor() == color) {
-                    cards.remove(j);
-                    break;
-                }
-            }
-        }
-    }
-
-    // SHOULD ONLY BE CALLED BY THE TURN STATES
-    private boolean isRouteAvailable(int routeID) {
-        if (isRouteTaken(routeID)) {
-            return false;
-        }
-
-        Route route = data.getAllRoutes().get(routeID);
-        int double_route = route.getDoubleRoute();
-
-        if (double_route != -1) { // if the route has a double route
-            int num_players = data.getGame().getPlayers().size();
-            final int MIN_NUM_FOR_DOUBLE = 3;
-
-            if (num_players < MIN_NUM_FOR_DOUBLE) {
-                return !isRouteTaken(double_route);
-            }
-            else {
-                Player player = data.getGame().getOnePlayer(data.getUser());
-                return !player.getClaimedRoutes().contains(double_route);
-            }
-        }
-
-
-        return true;
-    }
-
-    // SHOULD ONLY BE CALLED BY THE TURN STATES
-    private boolean isRouteTaken(int routeID) {
-        List<Player> players = data.getGame().getPlayers();
-
-        for (int i = 0; i < players.size(); i++) {
-            Player player = players.get(i);
-            List<Integer> routes = player.getClaimedRoutes();
-            if (routes.contains(routeID)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    // SHOULD ONLY BE CALLED BY THE TURN STATES
-    public boolean canClaimRoute(int routeID, TrainColor chosen_color) {
-        if (!isRouteAvailable(routeID)) {
-            Tuple cities = data.getAllRoutes().get(routeID).getCities();
-            City city_x = data.getAllCities().get((int)cities.getX());
-            City city_y = data.getAllCities().get((int)cities.getY());
-            String error = "You cannot claim the route from " + city_x.getName() + " to " + city_y.getName();
-            Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        Route route = data.getAllRoutes().get(routeID);
-
-        TrainColor route_color = route.getTrainColor();
-
-        if (route_color != null) { //
-            if (route_color != chosen_color) {
-                String error = "The chosen color does not match the color required for this route.";
-                Toast.makeText(this,  error, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-
-        int route_size = route.getSpaces().size();
-
-        Player player = data.getGame().getOnePlayer(data.getUser());
-        List<TrainCard> cards = player.getTrainCards();
-
-        int num_color = numOfColor(chosen_color, cards);
-        int num_wilds = numOfColor(TrainColor.Wild, cards);
-
-        if (num_color >= route_size) {
-            return true;
-        }
-        else if (num_color + num_wilds >= route_size) {
-            return true;
-        }
-        else {
-            String error = "You do not have sufficient train cards to claim this route.";
-            Toast.makeText(this,  error, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-
-    /**
-     * @pre assumes that the route is claimable and the player has sufficient train cards;
-     * should only be called after canClaimRoute returns true.
-     *
-     * SHOULD ONLY BE CALLED BY THE TURN STATES
-     */
-    public void claimRoute(int routeID, TrainColor chosen_color) {
-        Route route = data.getAllRoutes().get(routeID);
-
-        int route_size = route.getSpaces().size();
-
-        Player player = data.getGame().getOnePlayer(data.getUser());
-        List<TrainCard> cards = player.getTrainCards();
-
-        int num_color = numOfColor(chosen_color, cards);
-
-        if (num_color >= route_size) {
-            removeTrainCardsFromPlayer(route_size, chosen_color);
-        }
-        else {
-            removeTrainCardsFromPlayer(num_color, chosen_color);
-            removeTrainCardsFromPlayer(route_size - num_color, TrainColor.Wild);
-        }
-
-        player.getClaimedRoutes().add(routeID);
-        player.setPoints(player.getPoints() + route.getPointValue());
-
-        // TODO: send to server
-
-        updatePlayerDisplay();
-    }
-
     public void endTurn() {
         data.getGame().setPlayerTurnIndex(presenter.endPlayerTurn(data.getGame()));
         presenter.startPoller();
@@ -703,11 +533,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         //System.out.println(turnState.getClass());
         //System.out.println(data.getGame().getOnePlayer(data.getUser()).getPosition());
         //System.out.println(data.getGame().getPlayerTurnIndex());
-        if (turnState.getClass().equals(NotMyTurn.class)) {
+        if (presenter.getTurnState().getClass().equals(NotMyTurn.class)) {
             Player currentPlayer = data.getGame().getOnePlayer(data.getUser());
             Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
             if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
-                setTurnState(new MyTurnNoAction());
+                presenter.setTurnState(new MyTurnNoAction());
                 //presenter.shutDownPoller();
             }
         }
