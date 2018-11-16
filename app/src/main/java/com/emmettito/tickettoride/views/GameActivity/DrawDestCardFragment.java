@@ -103,6 +103,8 @@ public class DrawDestCardFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private GamePresenter presenter = null;
+
     /*
      * DrawDestCardFragment is intentionally left blank as pre fragment requirements
      */
@@ -284,14 +286,8 @@ public class DrawDestCardFragment extends Fragment {
         Client client = Client.getInstance();
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
-        if (mFirstTime) {
-            
-        }
-        else {
-            client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-            client.getGame().getDestinationCardDeck().addCards(discarded);
-        }
-
+        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
+        client.getGame().getDestinationCardDeck().addCards(discarded);
         finish();
     }
 
@@ -305,6 +301,10 @@ public class DrawDestCardFragment extends Fragment {
      */
     public void finish() {
         super.onResume();
+        if (presenter != null) {
+            Client client = Client.getInstance();
+            presenter.setGame(client.getGame());
+        }
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
@@ -395,5 +395,9 @@ public class DrawDestCardFragment extends Fragment {
             mDrawnCard3 = cards.get(2);
             //System.out.println(mDrawnCard3.toString());
         }
+    }
+
+    public void setPresenter(GamePresenter presenter) {
+        this.presenter = presenter;
     }
 }

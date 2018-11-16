@@ -8,6 +8,7 @@ import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
+import com.emmettito.models.CommandModels.GameCommands.SetGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Results.ChatResult;
 import com.emmettito.models.Results.DrawDestCardResult;
@@ -278,5 +279,28 @@ public class GameProxy {
             return result;
         }
         return gson.fromJson(resultString, DrawTrainResult.class);
+    }
+
+    public Result setGame(SetGameRequest request) {
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
+        String url = "http://" + serverHost + ":" + serverPort + "/game/setgame";
+
+        try{
+            resultString = client.execute(url, "POST", requestString).get();
+        }catch (Exception e){
+            e.printStackTrace();
+            resultString = "Error: could not set game";
+        }
+
+        if(resultString.equalsIgnoreCase("Error: could not set game")){
+            Result result = new Result();
+            result.setMessage(resultString);
+            return result;
+        }
+        return gson.fromJson(resultString, Result.class);
     }
 }
