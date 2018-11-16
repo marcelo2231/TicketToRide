@@ -536,12 +536,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
                 presenter.setTurnState(new MyTurnNoAction());
                 //presenter.shutDownPoller();
+                createDialog("Your Turn");
             }
         }
     }
 
     public void createDialog(String message) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
 
         AlertDialog dialog = alertDialogBuilder.setMessage(message).
                 setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {

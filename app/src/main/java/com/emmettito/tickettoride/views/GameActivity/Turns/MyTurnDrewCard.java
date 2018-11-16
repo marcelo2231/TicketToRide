@@ -1,7 +1,6 @@
 package com.emmettito.tickettoride.views.GameActivity.Turns;
 
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
@@ -59,6 +58,7 @@ public class MyTurnDrewCard implements Turn {
         if (card.getColor() != TrainColor.Wild) {
             context.getGameActivity().drawFaceUpTrainCard(button, buttonIndex);
             context.setTurnState(new NotMyTurn());
+            context.getGameActivity().createDialog("Your Turn Is Over.");
             context.endTurn();
         }
         else {
@@ -77,6 +77,7 @@ public class MyTurnDrewCard implements Turn {
 
         if (context.getGameActivity().drawFaceDownTrainCard()) {
             context.setTurnState(new NotMyTurn());
+            context.getGameActivity().createDialog("Your Turn Is Over.");
             context.endTurn();
         }
     }

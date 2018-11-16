@@ -58,6 +58,7 @@ public class MyTurnNoAction implements Turn {
             context.claimRoute(routeID, chosen_color);
             data.resetTempColorChoice();
             context.setTurnState(new NotMyTurn());
+            context.getGameActivity().createDialog("Your Turn Is Over.");
             context.endTurn();
         } else {
             done = false;
@@ -79,6 +80,7 @@ public class MyTurnNoAction implements Turn {
         }
         else {
             context.setTurnState(new NotMyTurn());
+            context.getGameActivity().createDialog("Your Turn Is Over.");
             context.endTurn();
         }
     }
@@ -104,6 +106,7 @@ public class MyTurnNoAction implements Turn {
 
         context.drawDestCard(false);
         context.setTurnState(new NotMyTurn());
+        context.getGameActivity().createDialog("Your Turn Is Over.");
         context.endTurn();
     }
 }
