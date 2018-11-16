@@ -250,7 +250,7 @@ public class DrawDestCardFragment extends Fragment {
 
                 if (mFirstTime) {
                     if (selected.size() < 2) {
-                        Toast.makeText(getActivity(), "Please select at least 2 Destination Cards", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please select at least 2 Destination Cards (first turn rule)", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         finalizeSelect(selected, discarded);
