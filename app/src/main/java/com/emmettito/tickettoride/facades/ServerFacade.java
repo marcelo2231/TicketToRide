@@ -9,6 +9,7 @@ import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
+import com.emmettito.models.CommandModels.GameCommands.SetGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
@@ -138,6 +139,11 @@ public class ServerFacade {
     public Result discardTrainCard(DiscardCardRequest request) {
         gameProxy = new GameProxy(host, port);
         return gameProxy.discardTrainCard(request);
+    }
+
+    public Result setGame(SetGameRequest request) {
+        gameProxy = new GameProxy(host, port);
+        return gameProxy.setGame(request);
     }
 }
 

@@ -29,6 +29,7 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.GamePresenter;
@@ -248,7 +249,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     public boolean drawFaceDownTrainCard() {
         try {
             TrainCard card = data.getGame().getTrainCardDeck().getAvailable().remove(0);
-            presenter.drawTrainCard((GameActivity) context, card);
+            //presenter.drawTrainCard((GameActivity) context, card);
+            addTrainCardToPlayer(card);
+            Result result = presenter.setGame(data.getGame());
+
+            //Do something with result maybe
         } catch (IndexOutOfBoundsException e) {
             notifyDeckEmpty();
             return false;
@@ -266,7 +271,12 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         else {
             newCard = null;
         }
-        presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
+        data.getGame().getTrainCardDeck().getFaceUpCards().set(buttonIndex, newCard);
+        addTrainCardToPlayer(card);
+
+        presenter.setGame(data.getGame());
+
+        //presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
         updatePlayerDisplay();
         updateFaceUpCards();
     }
@@ -300,6 +310,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
         List<DestinationCard> drawnCards = new ArrayList<>();
 
+        ((DrawDestCardFragment) drawDestCardFragment).setPresenter(presenter);
+
+
         //Draw three cards from the server
         drawnCards.add(presenter.drawDestCard(data.getUser()));
         drawnCards.add(presenter.drawDestCard(data.getUser()));
@@ -310,6 +323,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(android.R.id.content, drawDestCardFragment);
         transaction.commit();
+
+        presenter.setGame(data.getGame());
 
         updatePlayerDisplay();
         updateDestinationCardDeck();

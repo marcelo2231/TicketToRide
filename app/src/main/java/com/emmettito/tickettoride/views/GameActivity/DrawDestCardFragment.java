@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.GamePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,8 @@ public class DrawDestCardFragment extends Fragment {
     private Button finishButton;
 
     private OnFragmentInteractionListener mListener;
+
+    private GamePresenter presenter = null;
 
     /*
      * DrawDestCardFragment is intentionally left blank as pre fragment requirements
@@ -284,7 +287,7 @@ public class DrawDestCardFragment extends Fragment {
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
         client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-        ///client.getGame().getDestinationCardDeck().addCards(discarded);
+        client.getGame().getDestinationCardDeck().addCards(discarded);
         finish();
     }
 
@@ -298,6 +301,10 @@ public class DrawDestCardFragment extends Fragment {
      */
     public void finish() {
         super.onResume();
+        if (presenter != null) {
+            Client client = Client.getInstance();
+            presenter.setGame(client.getGame());
+        }
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
@@ -388,5 +395,9 @@ public class DrawDestCardFragment extends Fragment {
             mDrawnCard3 = cards.get(2);
             //System.out.println(mDrawnCard3.toString());
         }
+    }
+
+    public void setPresenter(GamePresenter presenter) {
+        this.presenter = presenter;
     }
 }
