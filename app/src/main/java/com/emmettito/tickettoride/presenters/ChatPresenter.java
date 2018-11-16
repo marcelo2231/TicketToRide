@@ -23,7 +23,7 @@ public class ChatPresenter implements Observer {
      *
      */
 
-    String url = "http://10.0.2.2:8080/game/getchat";
+    String url = "http://"+client.getIpAddress()+":8080/game/getchat";
 
     /**
      *
@@ -33,7 +33,7 @@ public class ChatPresenter implements Observer {
 
     public ChatPresenter(ChatActivity view) {
         this.view = view;
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
     }
 
     @Override

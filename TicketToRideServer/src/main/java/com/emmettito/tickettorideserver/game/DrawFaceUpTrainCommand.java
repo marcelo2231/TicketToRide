@@ -32,7 +32,7 @@ public class DrawFaceUpTrainCommand  implements IGameCommand{
         /** Draw card **/
         DrawTrainResult result = new DrawTrainResult();
         TrainCard card = deckDatabase.removeFaceUpTrainCardFromDeck(commandModel.getGameName(), commandModel.getCardIndex());
-        deckDatabase.addTrainCardToPlayer(commandModel.getGameName(), commandModel.getPlayerName(), card);
+        //deckDatabase.addTrainCardToPlayer(commandModel.getGameName(), commandModel.getPlayerName(), card);
 
         if(card == null){
             throw new Exception("Unable to draw card");
@@ -41,10 +41,10 @@ public class DrawFaceUpTrainCommand  implements IGameCommand{
         /** Prepare Result **/
         result.setSuccess(true);
         result.setData(card);
-        result.setMessage("Successfully draw dest card.");
+        result.setMessage("Successfully drew train card.");
 
         // Add to command list
-        String description = "Drew destination card with id " + card.getCardID() + " and color " + card.getColor().toString() + ".";
+        String description = "Drew train card with id " + card.getCardID() + " and color " + card.getColor().toString() + ".";
         String requestJson = new Serializer().serialize(commandModel);
         String resultJson = new Serializer().serialize(result);
         Command command = new Command(commandModel.getPlayerName(), "DrawFaceUpTrainCard", description, requestJson, resultJson);

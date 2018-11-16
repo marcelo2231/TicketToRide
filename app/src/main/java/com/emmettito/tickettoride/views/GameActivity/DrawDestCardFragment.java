@@ -17,7 +17,6 @@ import android.widget.ToggleButton;
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.presenters.GamePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -271,12 +270,21 @@ public class DrawDestCardFragment extends Fragment {
     }
 
 
+    /****
+     *
+     *
+     * Cards are currently not being discarded or sent back to the server at all. This will need to be changed at some point.
+     *
+     *
+     *
+     */
+
     public void finalizeSelect(ArrayList<DestinationCard> selected, ArrayList<DestinationCard> discarded) {
         Client client = Client.getInstance();
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
         client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-//        client.getGame().getDestinationCardDeck().addCards(discarded); old client side way of doing things
+        ///client.getGame().getDestinationCardDeck().addCards(discarded);
         finish();
     }
 
@@ -378,7 +386,7 @@ public class DrawDestCardFragment extends Fragment {
             mDrawnCard1 = cards.get(0);
             mDrawnCard2 = cards.get(1);
             mDrawnCard3 = cards.get(2);
-            System.out.println(mDrawnCard3.toString());
+            //System.out.println(mDrawnCard3.toString());
         }
     }
 }

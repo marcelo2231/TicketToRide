@@ -18,9 +18,9 @@
             android:layout_alignStart="@+id/usernameEditText"
             android:layout_gravity="start"
             android:layout_marginTop="20dp"
-            android:text="Username:"
+            android:text="Username"
             android:textColor="@android:color/black"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/usernameEditText"
@@ -41,9 +41,9 @@
             android:layout_alignStart="@+id/usernameEditText"
             android:layout_below="@+id/usernameEditText"
             android:layout_gravity="start"
-            android:text="Password:"
+            android:text="Password"
             android:textColor="@android:color/black"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -54,6 +54,29 @@
             android:layout_gravity="fill_horizontal"
             android:inputType="textPassword"
             android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/ipTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/ipEditText"
+            android:layout_alignTop="@+id/usernameTextView"
+            android:layout_gravity="start"
+            android:text="Server Address"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/ipEditText"
+            android:layout_width="152dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/usernameTextView"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:text="10.0.2.2"
+            android:textAlignment="textEnd" />
 
         <Button
             android:id="@+id/registerButton"

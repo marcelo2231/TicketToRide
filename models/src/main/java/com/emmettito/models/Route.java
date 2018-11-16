@@ -11,19 +11,16 @@ public class Route {
     private Tuple cities;
     private List<Space> spaces;
     private int pointValue;
-    private Boolean isDoubleRoute;
+    private int doubleRoute;
     private TrainColor trainColor; //the required train color
-    private PlayerColor playerColor; //the color of the player who played there
 
-    public Route(int ID, Tuple cities, List<Space> spaces, boolean isDoubleRoute, TrainColor c1, PlayerColor c2) {
+    public Route(int ID, Tuple cities, List<Space> spaces, int doubleRoute, TrainColor c1) {
         this.ID = ID;
         this.cities = cities;
         this.spaces = spaces;
-        this.isDoubleRoute = isDoubleRoute;
+        this.doubleRoute = doubleRoute;
         this.trainColor = c1;
-        this.playerColor = c2;
-
-        calculatePointValue(spaces.size());
+        this.pointValue = calculatePointValue(spaces.size());
     }
 
     public int getID() {
@@ -42,24 +39,15 @@ public class Route {
         return pointValue;
     }
 
-    public Boolean isDoubleRoute() {
-        return isDoubleRoute;
+    public int getDoubleRoute() {
+        return doubleRoute;
     }
 
     public TrainColor getTrainColor() {
         return trainColor;
     }
 
-    public PlayerColor getPlayerColor() {
-        return playerColor;
-    }
-
-    public void setPlayerColor(PlayerColor playerColor) {
-        this.playerColor = playerColor;
-    }
-
     private int calculatePointValue(int length){
-
         //longest route length is 6
         switch (length){
             case 1: return 1;

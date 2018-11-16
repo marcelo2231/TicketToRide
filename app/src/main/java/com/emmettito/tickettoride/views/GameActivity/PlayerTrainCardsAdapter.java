@@ -10,17 +10,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Cards.TrainColor;
+import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 
 import java.util.List;
 
 public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCardsAdapter.PlayerTrainCardsHolder>  {
 
-    private List<TrainCard> data;
+    private Client data;
+    private List<TrainCard> cards;
 
     class PlayerTrainCardsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView trainCard;
-        public String color = "";
+//        public String color = "";
+        public TrainColor color;
 
         public PlayerTrainCardsHolder(View v) {
             super(v);
@@ -30,12 +34,14 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
 
         @Override
         public void onClick(View view) {
-            Log.w("adapter", color);
+            Log.w("adapter", color.toString());
+            data.setTempColorChoice(color);
         }
     }
 
     public PlayerTrainCardsAdapter(List<TrainCard> playerTrainCards) {
-        data = playerTrainCards;
+        cards = playerTrainCards;
+        data = Client.getInstance();
     }
 
     @Override
@@ -47,8 +53,8 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
     @Override
     public void onBindViewHolder(PlayerTrainCardsHolder holder, int position) {
         int trainColor;
-        TrainCard card = data.get(position);
-        holder.color = card.getColor().toString();
+        TrainCard card = cards.get(position);
+        holder.color = card.getColor();
 
         switch (card.getColor()) {
             case Red: trainColor = R.drawable.red_train_card; break;
@@ -69,7 +75,7 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return cards.size();
     }
 
     /*@Override

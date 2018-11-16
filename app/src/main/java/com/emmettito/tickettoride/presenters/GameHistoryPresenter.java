@@ -22,7 +22,7 @@ public class GameHistoryPresenter implements Observer {
      *
      */
 
-    String url = "http://10.0.2.2:8080/game/getcommands";
+    String url = "http://"+client.getIpAddress()+":8080/game/getcommands";
 
     /**
      *
@@ -32,7 +32,7 @@ public class GameHistoryPresenter implements Observer {
 
     public GameHistoryPresenter(GameHistoryActivity view) {
         this.view = view;
-        facade = ServerFacade.getInstance("10.0.2.2", "8080");
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GameHistoryPresenter implements Observer {
         request.setPlayerName(client.getUser());
         request.setMessage(message);
 
-        return facade.sendChatMessage(request, "10.0.2.2", "8080");
+        return facade.sendChatMessage(request, client.getIpAddress(), "8080");
     }*/
 
     public void startPoller() {

@@ -1,10 +1,8 @@
 package com.emmettito.tickettoride.views.GameActivity.Turns;
 
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.emmettito.models.Cards.TrainCard;
-import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.presenters.GamePresenter;
 
 public class NotMyTurn implements Turn {
 
@@ -15,46 +13,46 @@ public class NotMyTurn implements Turn {
     }
 
     @Override
-    public void enterChat(GameActivity context) {
-        context.enterChat();
+    public void enterChat(GamePresenter context) {
+        context.getGameActivity().enterChat();
     }
 
     @Override
-    public void leaveGame(GameActivity context) {
-        context.leaveGame();
+    public void leaveGame(GamePresenter context) {
+        context.getGameActivity().leaveGame();
     }
 
     @Override
-    public void viewDestCard(GameActivity context) {
-        context.viewDestCard();
+    public void viewDestCard(GamePresenter context) {
+        context.getGameActivity().viewDestCard();
     }
 
     @Override
-    public void viewCommands(GameActivity context) {
-        context.viewCommands();
+    public void viewCommands(GamePresenter context) {
+        context.getGameActivity().viewCommands();
     }
 
     @Override
-    public void claimRoute(GameActivity context, int routeID) {
+    public void claimRoute(GamePresenter context, int routeID) {
         // the user can not claim a route, context does not change
-        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        context.displayToast(error);
     }
 
     @Override
-    public void drawFaceUpTrainCard(GameActivity context, Button button, int buttonIndex) {
+    public void drawFaceUpTrainCard(GamePresenter context, Button button, int buttonIndex) {
         // the user can not draw a card, context does not change
-        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        context.displayToast(error);
     }
 
     @Override
-    public void drawFaceDownTrainCard(GameActivity context) {
+    public void drawFaceDownTrainCard(GamePresenter context) {
         // the user can not draw a card, context does not change
-        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        context.displayToast(error);
     }
 
     @Override
-    public void drawDestCards(GameActivity context) {
+    public void drawDestCards(GamePresenter context) {
         // the user can not draw destination cards, context does not change
-        Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        context.displayToast(error);
     }
 }

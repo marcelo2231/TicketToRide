@@ -95,6 +95,10 @@ public class Game extends Observable {
         return playerTurnIndex;
     }
 
+    public void setPlayerTurnIndex(int playerTurnIndex) {
+        this.playerTurnIndex = playerTurnIndex;
+    }
+
     public Player getOnePlayer(String userName) {
         boolean found = false;
         int index = 0;
@@ -151,9 +155,7 @@ public class Game extends Observable {
 
     public void incrementTurnIndex(){
         playerTurnIndex++;
-        if(playerTurnIndex >= players.size()){
-            playerTurnIndex = 0;
-        }
+        playerTurnIndex = playerTurnIndex % players.size();
     }
 
     public boolean isPlayerTurn(Player player){

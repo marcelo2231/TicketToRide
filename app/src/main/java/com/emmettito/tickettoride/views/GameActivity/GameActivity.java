@@ -1,6 +1,8 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
@@ -32,7 +34,6 @@ import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.GamePresenter;
 import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
-import com.emmettito.tickettoride.views.GameActivity.Turns.Turn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +54,23 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
     private  MapView mapView = null;
 
-    private Turn turnState;
+    private GameActivity thisGameActivity;
 
-    public void setTurnState(Turn turnState) {
-        this.turnState = turnState;
-    }
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            //mAdapter.notifyDataSetChanged();
+            thisGameActivity.updatePlayerDisplay();
+            thisGameActivity.updateDestinationCardDeck();
+            thisGameActivity.updateCardDeck();
+            thisGameActivity.updatePlayerTrainCards();
+            thisGameActivity.updateMapView();
+            thisGameActivity.checkIfOurTurn();
+            thisGameActivity.updateFaceUpCards();
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +84,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_game);
+
+        thisGameActivity = this;
 
         data = Client.getInstance();
 
@@ -98,51 +113,14 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         playerListAdapter = new PlayerInfoAdapter(players);
         playerListRecycle.setAdapter(playerListAdapter);
 
-
-        // activate the draw card buttons if it's the player's turn
-        Player player = game.getOnePlayer(data.getUser());
-
-        if(game.isPlayerTurn(player)){
-            turnState = new MyTurnNoAction();
-//            deckTrainCards.setEnabled(true); // TODO: Buttons should always be enabled, but the actions should depend on the turn state functionality
-//            deckDestinationCards.setEnabled(true);
-        }
-        else{
-            turnState = new NotMyTurn();
-//            deckTrainCards.setEnabled(false);
-//            deckDestinationCards.setEnabled(false);
-        }
-
-        presenter.addObserver();
+        //presenter.addObserver();
         timerHandler.postDelayed(timerRunnable, 500);
 
         //after setting up/inflating, initialize the game-starting processes
         drawDestCard(true);
+        presenter.startPoller();
         startGame();
     }
-
-    // Ongoing timer that will update the display
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        /**
-         * run
-         *
-         * This method defines the behavior of the Runnable run functionality and is inherited and
-         * overridden from the Runnable parent class. This implementation add a 500 post delay.
-         *
-         * @pre None
-         *
-         * @post handler delays for 500 delayMillis
-         *
-         *
-         */
-        @Override
-        public void run() {
-            updatePlayerDisplay();
-            timerHandler.postDelayed(this, 500);
-        }
-    };
 
     @Override
     public void onFragmentInteraction(Uri uri) {}
@@ -173,7 +151,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         chatButton.setEnabled(true);
         chatButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                turnState.enterChat((GameActivity)context);
+                presenter.enterChat();
             }
         });
 
@@ -182,7 +160,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         leaveGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.leaveGame((GameActivity)context);
+                presenter.leaveGame();
             }
         });
 
@@ -191,7 +169,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         displayCommandsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.viewCommands((GameActivity)context);
+                presenter.viewCommands();
             }
         });
 
@@ -200,7 +178,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         viewDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.viewDestCard((GameActivity)context);
+                presenter.viewDestCard();
             }
         });
     }
@@ -247,7 +225,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         @Override
         public void onClick(View v) {
-            turnState.drawFaceUpTrainCard((GameActivity) context, trainCardButton, buttonIndex);
+            presenter.drawFaceUpTrainCard(trainCardButton, buttonIndex);
         }
     }
 
@@ -259,39 +237,42 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckTrainCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.drawFaceDownTrainCard((GameActivity)context);
+                presenter.drawFaceDownTrainCard();
             }
         });
 
-        final int NUM_TRAIN_CARD_BUTTONS = 5; // Avoids "magic numbers"
-
-        for (int i = 0; i < NUM_TRAIN_CARD_BUTTONS; i++) {
-            int resId = getResources().getIdentifier("trainCard" + (i + 1), "id", getPackageName());
-            Button trainCardButton = findViewById(resId);
-            trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
-            trainCardButton.setBackground(updateFaceUpCard(deck.getFaceUpCards().get(i)));
-        }
+        updateFaceUpCards();
     }
 
     // SHOULD ONLY BE CALLED BY THE TURN STATES
-    public void drawFaceDownTrainCard() {
-        if(checkTrainCardDeck()){
-            TrainCardDeck deck = data.getGame().getTrainCardDeck();
-            TrainCard card = deck.getAvailable().remove(0);
-            addTrainCardToPlayer(card);
-            deckTrainCards.setText(String.valueOf(deck.getSizeAvailable()));
-            updatePlayerDisplay();
+    public boolean drawFaceDownTrainCard() {
+        try {
+            TrainCard card = data.getGame().getTrainCardDeck().getAvailable().remove(0);
+            presenter.drawTrainCard((GameActivity) context, card);
+        } catch (IndexOutOfBoundsException e) {
+            notifyDeckEmpty();
+            return false;
         }
-        else{
-            Toast.makeText(getApplicationContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
-        }
+        return true;
     }
 
     // SHOULD ONLY BE CALLED BY THE TURN STATES
     public void drawFaceUpTrainCard(Button button, int buttonIndex) {
-        TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().remove(buttonIndex);
-        presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, buttonIndex, button);
+        TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
+        TrainCard newCard;
+        if (checkTrainCardDeck()) {
+            newCard = data.getGame().getTrainCardDeck().getAvailable().remove(0);
+        }
+        else {
+            newCard = null;
+        }
+        presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
         updatePlayerDisplay();
+        updateFaceUpCards();
+    }
+
+    public void notifyDeckEmpty() {
+        Toast.makeText(getApplicationContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -309,19 +290,21 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckDestinationCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnState.drawDestCards((GameActivity)context);
+                presenter.drawDestCards();
             }
         });
     }
 
     public void drawDestCard(boolean isFirstTime) {
-        String currUserName = data.getUser();
         Fragment drawDestCardFragment = new DrawDestCardFragment();
         ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
-        List<DestinationCard> threeCards = new ArrayList<>();
-        threeCards.add(presenter.drawDestCard(currUserName));
-        threeCards.add(presenter.drawDestCard(currUserName));
-        threeCards.add(presenter.drawDestCard(currUserName));
+        List<DestinationCard> drawnCards = new ArrayList<>();
+
+        //Draw three cards from the server
+        drawnCards.add(presenter.drawDestCard(data.getUser()));
+        drawnCards.add(presenter.drawDestCard(data.getUser()));
+        drawnCards.add(presenter.drawDestCard(data.getUser()));
+
         ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(data.getGame().getDestinationCardDeck().drawnThreeCards());
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -353,7 +336,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                     int routeID = mapView.onRoute(event.getX(), event.getY());
 
                     if (routeID != -1) {
-                        turnState.claimRoute((GameActivity)context, routeID);
+                        presenter.claimRoute(routeID);
                     }
                 }
                 return true;
@@ -438,11 +421,17 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     public void updatePlayerDisplay() {
         setPlayerList(data.getGame().getPlayers());
 
-        if (playerListAdapter == null) {
-            return;
+        if (playerListAdapter != null) {
+            playerListAdapter.notifyDataSetChanged();
         }
 
-        playerListAdapter.notifyDataSetChanged();
+        if (playerTrainCardsAdapter != null) {
+            playerTrainCardsAdapter.notifyDataSetChanged();
+        }
+
+        if (mapView != null) {
+            mapView.invalidate();
+        }
     }
 
     public void updateCardDeck() {
@@ -454,10 +443,38 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         deckDestinationCards.setText(update);
     }
 
+    public void updateMapView() {
+        mapView.invalidate();
+    }
+
     public Button getDeckTrainCards(){ return deckTrainCards; }
+
+    public void updateFaceUpCards() {
+        TrainCardDeck deck = data.getGame().getTrainCardDeck();
+        final int NUM_TRAIN_CARD_BUTTONS = 5; // Avoids "magic numbers"
+
+        for (int i = 0; i < NUM_TRAIN_CARD_BUTTONS; i++) {
+            int resId = getResources().getIdentifier("trainCard" + (i + 1), "id", getPackageName());
+            Button trainCardButton = findViewById(resId);
+            trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
+            Drawable background = updateFaceUpCard(deck.getFaceUpCards().get(i));
+
+            if (background == null) {
+                trainCardButton.setBackgroundColor(0x00);
+                trainCardButton.setBackgroundResource(android.R.drawable.btn_default);
+                //game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
+                trainCardButton.setEnabled(false);
+                continue;
+            }
+            trainCardButton.setBackground(background);
+        }
+    }
 
     // updates the chosen face up card background
     public Drawable updateFaceUpCard(TrainCard card){
+        if (card == null) {
+            return null;
+        }
         switch (card.getColor()){
             case Wild:
                 return getDrawable(R.drawable.wild_train_card);
@@ -504,21 +521,38 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         else return false;
     }
 
-    /*
-
-    Claiming a route
-
-     */
-
-    public boolean canClaimRoute(int routeID) {
-        return false;
+    public void endTurn() {
+        data.getGame().setPlayerTurnIndex(presenter.endPlayerTurn(data.getGame()));
+        presenter.startPoller();
     }
 
-    public void claimRoute(int routeID) {
-        // TODO: send to server get routeID
-        // TODO: add route to temp array so that user's can see claiming the route immediately
-
-        mapView.invalidate();
+    public void checkIfOurTurn() {
+        //System.out.println(turnState.getClass());
+        //System.out.println(data.getGame().getOnePlayer(data.getUser()).getPosition());
+        //System.out.println(data.getGame().getPlayerTurnIndex());
+        if (presenter.getTurnState().getClass().equals(NotMyTurn.class)) {
+            Player currentPlayer = data.getGame().getOnePlayer(data.getUser());
+            Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
+            if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
+                presenter.setTurnState(new MyTurnNoAction());
+                //presenter.shutDownPoller();
+                createDialog("Your Turn");
+            }
+        }
     }
 
+    public void createDialog(String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
+
+        AlertDialog dialog = alertDialogBuilder.setMessage(message).
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Close window without doing anything else
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
+    }
 }

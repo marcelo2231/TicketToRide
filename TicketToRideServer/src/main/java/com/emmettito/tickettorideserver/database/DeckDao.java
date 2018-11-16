@@ -125,7 +125,26 @@ public class DeckDao {
         return top;
     }
 
-    public TrainCard removeFaceUpTrainCardFromDeck(String gameName, int cardIndex) throws Exception{
+    public TrainCard removeFaceUpTrainCardFromDeck(String gameName, int cardIndex) throws Exception {
+        TrainCardDeck deck = getTrainCardDeck(gameName);
+        List<TrainCard> faceUpCards = deck.getFaceUpCards();
+
+        // Remove card from top
+        TrainCard result = faceUpCards.get(cardIndex);
+        //faceUpCards.remove(cardIndex);
+        faceUpCards.set(cardIndex, null);
+
+        try {
+            TrainCard card = removeTopTrainCardFromDeck(gameName);
+            faceUpCards.set(cardIndex, card);
+        } catch (Exception e) {
+            // There is no card left on deck, and discard pile, do nothing.
+        }
+
+        return result;
+    }
+
+    /*public TrainCard removeFaceUpTrainCardFromDeck(String gameName, int cardIndex) throws Exception{
         TrainCardDeck deck = getTrainCardDeck(gameName);
         List<TrainCard> faceUpCards = deck.getFaceUpCards();
 
@@ -146,7 +165,7 @@ public class DeckDao {
         }
 
         return result;
-    }
+    }*/
 
     public boolean addTrainCardToPlayer(String gameName, String playerName, TrainCard card) throws Exception{
         ArrayList<TrainCard> deck = getPlayerTrainCardDeck(gameName , playerName);
