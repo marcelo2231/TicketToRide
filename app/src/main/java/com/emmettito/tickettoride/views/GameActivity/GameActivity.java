@@ -481,7 +481,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     public void updateMapView() {
-        mapView.invalidate();
+        if(mapView != null) {
+            mapView.invalidate();
+        }
     }
 
     public Button getDeckTrainCards(){ return deckTrainCards; }
