@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
+import com.emmettito.tickettoride.presenters.GamePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -275,7 +276,7 @@ public class DrawDestCardFragment extends Fragment {
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
         client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-        client.getGame().getDestinationCardDeck().addCards(discarded);
+//        client.getGame().getDestinationCardDeck().addCards(discarded); old client side way of doing things
         finish();
     }
 

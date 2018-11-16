@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.Game;
@@ -314,8 +315,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     public void drawDestCard(boolean isFirstTime) {
+        String currUserName = data.getUser();
         Fragment drawDestCardFragment = new DrawDestCardFragment();
         ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
+        List<DestinationCard> threeCards = new ArrayList<>();
+        threeCards.add(presenter.drawDestCard(currUserName));
+        threeCards.add(presenter.drawDestCard(currUserName));
+        threeCards.add(presenter.drawDestCard(currUserName));
         ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(data.getGame().getDestinationCardDeck().drawnThreeCards());
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
