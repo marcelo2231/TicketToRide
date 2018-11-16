@@ -2,15 +2,16 @@ package com.emmettito.tickettoride.views.GameActivity.Turns;
 
 import android.widget.Button;
 
-import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.presenters.GamePresenter;
+
 
 public interface Turn {
-    void enterChat(GameActivity context);
-    void leaveGame(GameActivity context);
-    void viewDestCard(GameActivity context);
-    void viewCommands(GameActivity context);
-    void claimRoute(GameActivity context, int routeID);
-    void drawFaceUpTrainCard(GameActivity context, Button button, int buttonIndex);
-    void drawFaceDownTrainCard(GameActivity context);
-    void drawDestCards(GameActivity context);
+    void enterChat(GamePresenter context);
+    void leaveGame(GamePresenter context);
+    void viewDestCard(GamePresenter context);
+    void viewCommands(GamePresenter context);
+    void claimRoute(GamePresenter context, int routeID);
+    void drawFaceUpTrainCard(GamePresenter context, Button button, int buttonIndex);
+    void drawFaceDownTrainCard(GamePresenter context);
+    void drawDestCards(GamePresenter context);
 }

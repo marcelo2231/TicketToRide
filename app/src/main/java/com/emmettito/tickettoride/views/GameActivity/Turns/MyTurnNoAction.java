@@ -1,52 +1,54 @@
 package com.emmettito.tickettoride.views.GameActivity.Turns;
 
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
-import com.emmettito.models.City;
-import com.emmettito.models.Route;
-import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
-import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.presenters.GamePresenter;
 
-import java.util.HashMap;
-import java.util.List;
 
 public class MyTurnNoAction implements Turn {
 
     private Client data;
+    private boolean done;
 
     public MyTurnNoAction(){
         data = Client.getInstance();
+        done = false;
     }
 
     @Override
-    public void enterChat(GameActivity context) {
-        context.enterChat();
+    public void enterChat(GamePresenter context) {
+        context.getGameActivity().enterChat();
     }
 
     @Override
-    public void leaveGame(GameActivity context) {
-        context.leaveGame();
+    public void leaveGame(GamePresenter context) {
+        context.getGameActivity().leaveGame();
     }
 
     @Override
-    public void viewDestCard(GameActivity context) {
-        context.viewDestCard();
+    public void viewDestCard(GamePresenter context) {
+        context.getGameActivity().viewDestCard();
     }
 
     @Override
-    public void viewCommands(GameActivity context) {
-        context.viewCommands();
+    public void viewCommands(GamePresenter context) {
+        context.getGameActivity().viewCommands();
     }
 
     @Override
-    public void claimRoute(GameActivity context, int routeID) {
+    public void claimRoute(GamePresenter context, int routeID) {
+//        if (done) {
+//            return;
+//        }
+//        done = true;
+
         if (data.getTempColorChoice() == null) {
             String error = "You need to select which color of card to use.";
-            Toast.makeText(context.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+            context.displayToast(error);
+            done = false;
             return;
         }
 
@@ -55,35 +57,52 @@ public class MyTurnNoAction implements Turn {
         if (context.canClaimRoute(routeID, chosen_color)) {
             context.claimRoute(routeID, chosen_color);
             data.resetTempColorChoice();
-            context.setTurnState(new NotMyTurn());
-            context.endTurn();
+//            context.setTurnState(new NotMyTurn());
+//            context.endTurn();
+        } else {
+            done = false;
         }
     }
 
     @Override
-    public void drawFaceUpTrainCard(GameActivity context, Button button, int buttonIndex) {
+    public void drawFaceUpTrainCard(GamePresenter context, Button button, int buttonIndex) {
+//        if (done) {
+//            return;
+//        }
+//        done = true;
+
         TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
-        context.drawFaceUpTrainCard(button, buttonIndex);
+        context.getGameActivity().drawFaceUpTrainCard(button, buttonIndex);
 
-        if (card.getColor() != TrainColor.Wild) {
-            context.setTurnState(new MyTurnDrewCard());
-        }
-        else {
-            context.setTurnState(new NotMyTurn());
-            context.endTurn();
-        }
+//        if (card.getColor() != TrainColor.Wild) {
+//            context.setTurnState(new MyTurnDrewCard());
+//        }
+//        else {
+//            context.setTurnState(new NotMyTurn());
+//            context.endTurn();
+//        }
     }
 
     @Override
-    public void drawFaceDownTrainCard(GameActivity context) {
-        context.drawFaceDownTrainCard();
-        context.setTurnState(new MyTurnDrewCard());
+    public void drawFaceDownTrainCard(GamePresenter context) {
+//        if (done) {
+//            return;
+//        }
+//        done = true;
+
+        context.getGameActivity().drawFaceDownTrainCard();
+//        context.setTurnState(new MyTurnDrewCard());
     }
 
     @Override
-    public void drawDestCards(GameActivity context) {
+    public void drawDestCards(GamePresenter context) {
+//        if (done) {
+//            return;
+//        }
+//        done = true;
+
         context.drawDestCard(false);
-        context.setTurnState(new NotMyTurn());
-        context.endTurn();
+//        context.setTurnState(new NotMyTurn());
+//        context.endTurn();
     }
 }
