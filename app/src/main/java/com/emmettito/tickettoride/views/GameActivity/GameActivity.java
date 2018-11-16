@@ -248,7 +248,15 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     // SHOULD ONLY BE CALLED BY THE TURN STATES
     public boolean drawFaceDownTrainCard() {
         try {
-            TrainCard card = data.getGame().getTrainCardDeck().getAvailable().remove(0);
+            TrainCardDeck deck = data.getGame().getTrainCardDeck();
+            if (deck.getAvailable().size() == 0){
+                deck.setAvailable(deck.getDiscardPile());
+                deck.shuffle();
+                if (deck.getAvailable().size() == 0){
+                    throw new IndexOutOfBoundsException("Deck is empty");
+                }
+            }
+            TrainCard card = deck.getAvailable().remove(0);
             //presenter.drawTrainCard((GameActivity) context, card);
             addTrainCardToPlayer(card);
             Result result = presenter.setGame(data.getGame());
