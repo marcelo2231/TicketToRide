@@ -311,28 +311,37 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     public void drawDestCard(boolean isFirstTime) {
-        Fragment drawDestCardFragment = new DrawDestCardFragment();
-        ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
-        List<DestinationCard> drawnCards = new ArrayList<>();
+        if (data.getGame().getDestinationCardDeck().size() < 3) {
+            Toast.makeText(getApplicationContext(), "No available destincation cards!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Fragment drawDestCardFragment = new DrawDestCardFragment();
+            ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
+            List<DestinationCard> drawnCards = new ArrayList<>();
 
-        ((DrawDestCardFragment) drawDestCardFragment).setPresenter(presenter);
+            ((DrawDestCardFragment) drawDestCardFragment).setPresenter(presenter);
 
 
-        //Draw three cards from the server
-        drawnCards.add(presenter.drawDestCard(data.getUser()));
-        drawnCards.add(presenter.drawDestCard(data.getUser()));
-        drawnCards.add(presenter.drawDestCard(data.getUser()));
+            //Draw three cards from the server
+            if (isFirstTime) {
+                drawnCards.add(presenter.drawDestCard(data.getUser()));
+                drawnCards.add(presenter.drawDestCard(data.getUser()));
+                drawnCards.add(presenter.drawDestCard(data.getUser()));
+            } else {
+                drawnCards = data.getGame().getDestinationCardDeck().drawnThreeCards();
+            }
 
-        ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(data.getGame().getDestinationCardDeck().drawnThreeCards());
+            ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(drawnCards);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(android.R.id.content, drawDestCardFragment);
-        transaction.commit();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(android.R.id.content, drawDestCardFragment);
+            transaction.commit();
 
-        presenter.setGame(data.getGame());
+            presenter.setGame(data.getGame());
 
-        updatePlayerDisplay();
-        updateDestinationCardDeck();
+            updatePlayerDisplay();
+            updateDestinationCardDeck();
+        }
     }
 
     /*

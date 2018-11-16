@@ -286,8 +286,17 @@ public class DrawDestCardFragment extends Fragment {
         Client client = Client.getInstance();
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
-        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-        client.getGame().getDestinationCardDeck().addCards(discarded);
+
+
+        if (!mFirstTime) {
+            client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
+            client.getGame().getDestinationCardDeck().addCards(discarded);
+        }
+        else {
+            for (int i = 0; i < discarded.size(); i++) {
+                presenter.discardDestCard(client.getUser(), discarded.get(i).getCardID());
+            }
+        }
         finish();
     }
 
