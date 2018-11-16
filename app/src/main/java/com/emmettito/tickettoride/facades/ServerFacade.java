@@ -4,6 +4,7 @@ package com.emmettito.tickettoride.facades;
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
 import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawFaceUpTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
@@ -127,6 +128,16 @@ public class ServerFacade {
     public DrawTrainResult drawTrainCard(DrawTrainRequest request){
         gameProxy = new GameProxy(host, port);
         return gameProxy.drawTrainCard(request);
+    }
+
+    public DrawTrainResult drawFaceUpTrainCard(DrawFaceUpTrainRequest request) {
+        gameProxy = new GameProxy(host, port);
+        return gameProxy.drawFaceUpTrainCard(request);
+    }
+
+    public Result discardTrainCard(DiscardCardRequest request) {
+        gameProxy = new GameProxy(host, port);
+        return gameProxy.discardTrainCard(request);
     }
 }
 

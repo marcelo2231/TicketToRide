@@ -76,6 +76,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             thisGameActivity.updatePlayerTrainCards();
             thisGameActivity.updateMapView();
             thisGameActivity.checkIfOurTurn();
+            thisGameActivity.updateFaceUpCards();
             timerHandler.postDelayed(this, 500);
         }
     };
@@ -264,35 +265,38 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             }
         });
 
-        final int NUM_TRAIN_CARD_BUTTONS = 5; // Avoids "magic numbers"
-
-        for (int i = 0; i < NUM_TRAIN_CARD_BUTTONS; i++) {
-            int resId = getResources().getIdentifier("trainCard" + (i + 1), "id", getPackageName());
-            Button trainCardButton = findViewById(resId);
-            trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
-            trainCardButton.setBackground(updateFaceUpCard(deck.getFaceUpCards().get(i)));
-        }
+        updateFaceUpCards();
     }
 
     // SHOULD ONLY BE CALLED BY THE TURN STATES
-    public void drawFaceDownTrainCard() {
-        if(checkTrainCardDeck()){
-            TrainCardDeck deck = data.getGame().getTrainCardDeck();
-            TrainCard card = deck.getAvailable().remove(0);
-            addTrainCardToPlayer(card);
-            deckTrainCards.setText(String.valueOf(deck.getSizeAvailable()));
-            updatePlayerDisplay();
+    public boolean drawFaceDownTrainCard() {
+        try {
+            TrainCard card = data.getGame().getTrainCardDeck().getAvailable().remove(0);
+            presenter.drawTrainCard((GameActivity) context, card);
+        } catch (IndexOutOfBoundsException e) {
+            notifyDeckEmpty();
+            return false;
         }
-        else{
-            Toast.makeText(getApplicationContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
-        }
+        return true;
     }
 
     // SHOULD ONLY BE CALLED BY THE TURN STATES
     public void drawFaceUpTrainCard(Button button, int buttonIndex) {
-        TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().remove(buttonIndex);
-        presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, buttonIndex, button);
+        TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
+        TrainCard newCard;
+        if (checkTrainCardDeck()) {
+            newCard = data.getGame().getTrainCardDeck().getAvailable().remove(0);
+        }
+        else {
+            newCard = null;
+        }
+        presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
         updatePlayerDisplay();
+        updateFaceUpCards();
+    }
+
+    public void notifyDeckEmpty() {
+        Toast.makeText(getApplicationContext(), "No available train cards!", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -469,8 +473,32 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
     public Button getDeckTrainCards(){ return deckTrainCards; }
 
+    public void updateFaceUpCards() {
+        TrainCardDeck deck = data.getGame().getTrainCardDeck();
+        final int NUM_TRAIN_CARD_BUTTONS = 5; // Avoids "magic numbers"
+
+        for (int i = 0; i < NUM_TRAIN_CARD_BUTTONS; i++) {
+            int resId = getResources().getIdentifier("trainCard" + (i + 1), "id", getPackageName());
+            Button trainCardButton = findViewById(resId);
+            trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
+            Drawable background = updateFaceUpCard(deck.getFaceUpCards().get(i));
+
+            if (background == null) {
+                trainCardButton.setBackgroundColor(0x00);
+                trainCardButton.setBackgroundResource(android.R.drawable.btn_default);
+                //game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
+                trainCardButton.setEnabled(false);
+                continue;
+            }
+            trainCardButton.setBackground(background);
+        }
+    }
+
     // updates the chosen face up card background
     public Drawable updateFaceUpCard(TrainCard card){
+        if (card == null) {
+            return null;
+        }
         switch (card.getColor()){
             case Wild:
                 return getDrawable(R.drawable.wild_train_card);
@@ -680,7 +708,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
             if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
                 setTurnState(new MyTurnNoAction());
-                presenter.shutDownPoller();
+                //presenter.shutDownPoller();
             }
         }
     }

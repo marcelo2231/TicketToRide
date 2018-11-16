@@ -7,6 +7,8 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawFaceUpTrainRequest;
+import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
@@ -14,6 +16,7 @@ import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.DrawDestCardResult;
+import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.models.Results.GetCommandsResult;
 import com.emmettito.models.Results.GetGameResult;
 import com.emmettito.models.Results.GetPlayersResult;
@@ -143,27 +146,62 @@ public class GamePresenter implements Observer {
         return newIndex;
     }
 
-    public void drawFaceUpTrainCard(GameActivity gameActivity, Game game, TrainCard oldCard, int trainCardIndex, Button trainButton){
+    public void drawFaceUpTrainCard(GameActivity gameActivity, Game game, TrainCard oldCard, TrainCard newCard, int trainCardIndex, Button trainButton){
 //        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(oldCard);
 //        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
         gameActivity.addTrainCardToPlayer(oldCard);
 
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
+        DrawFaceUpTrainRequest request = new DrawFaceUpTrainRequest();
+        request.setGameName(client.getGameName());
+        request.setCardIndex(trainCardIndex);
+        request.setPlayerName(client.getUser());
+        System.out.println(client.getUser());
+        DrawTrainResult result = facade.drawFaceUpTrainCard(request);
+        //gameActivity.addTrainCardToPlayer(result.getData());
+        //return result.getData();
+
+        TrainCard currentTrainCard = getGame().getTrainCardDeck().getFaceUpCards().get(trainCardIndex);
+
+        System.out.println(result.getData());
+        System.out.println(currentTrainCard);
+
+        System.out.println("I ended up getting here don't you know");
+
+        if (currentTrainCard != null) {
+            trainButton.setBackground(gameActivity.updateFaceUpCard(currentTrainCard));
+            System.out.println("This is a place I did get");
+        }
+
         if(gameActivity.checkTrainCardDeck()){
-            TrainCard newCard = game.getTrainCardDeck().getAvailable().remove(0);
-            game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, newCard);
-            trainButton.setBackground(gameActivity.updateFaceUpCard(newCard));
-            gameActivity.getDeckTrainCards().setText(String.valueOf(game.getTrainCardDeck().getSizeAvailable()));
+            client.getGame().getTrainCardDeck().getFaceUpCards().set(trainCardIndex, result.getData());
+            trainButton.setBackground(gameActivity.updateFaceUpCard(result.getData()));
+            gameActivity.updateFaceUpCards();
         }
         else{
             trainButton.setBackgroundColor(0x00);
             trainButton.setBackgroundResource(android.R.drawable.btn_default);
-            game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
+            //game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
             trainButton.setEnabled(false);
         }
     }
 
-    public void shutDownPoller() {
-        poller.shutdown();
+    public void drawTrainCard(GameActivity gameActivity, TrainCard oldCard){
+//        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(oldCard);
+//        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
+        gameActivity.addTrainCardToPlayer(oldCard);
+
+        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
+        DrawTrainRequest request = new DrawTrainRequest();
+        request.setGameName(client.getGameName());
+        request.setPlayerName(client.getUser());
+        DrawTrainResult result = facade.drawTrainCard(request);
+        //return result.getData();
+
+        if(result.getSuccess()){}
+        else{
+            gameActivity.notifyDeckEmpty();
+        }
     }
 
 }

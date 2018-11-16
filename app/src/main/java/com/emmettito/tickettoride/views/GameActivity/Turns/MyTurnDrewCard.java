@@ -61,9 +61,10 @@ public class MyTurnDrewCard implements Turn {
 
     @Override
     public void drawFaceDownTrainCard(GameActivity context) {
-        context.drawFaceDownTrainCard();
-        context.setTurnState(new NotMyTurn());
-        context.endTurn();
+        if (context.drawFaceDownTrainCard()) {
+            context.setTurnState(new NotMyTurn());
+            context.endTurn();
+        }
     }
 
     @Override

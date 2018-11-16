@@ -5,14 +5,8 @@ import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
-import com.emmettito.models.City;
-import com.emmettito.models.Route;
-import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class MyTurnNoAction implements Turn {
 
@@ -76,8 +70,9 @@ public class MyTurnNoAction implements Turn {
 
     @Override
     public void drawFaceDownTrainCard(GameActivity context) {
-        context.drawFaceDownTrainCard();
-        context.setTurnState(new MyTurnDrewCard());
+        if (context.drawFaceDownTrainCard()) {
+            context.setTurnState(new MyTurnDrewCard());
+        }
     }
 
     @Override
