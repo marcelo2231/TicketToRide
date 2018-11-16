@@ -14,7 +14,7 @@ public class TrainCardDeck implements Deck {
         discardPile = new ArrayList<>();
         faceUpCards = new ArrayList<>();
 
-        for(int i = 0; i < 12; i++){
+        for(int i = 0; i < 1; i++){
             available.add(new TrainCard(TrainColor.Red, (i*9)+1));
             available.add(new TrainCard(TrainColor.Orange,  (i*9)+2));
             available.add(new TrainCard(TrainColor.Yellow,  (i*9)+3));

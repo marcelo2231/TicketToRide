@@ -345,7 +345,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             transaction.replace(android.R.id.content, drawDestCardFragment);
             transaction.commit();
 
-            presenter.setGame(data.getGame());
+            //presenter.setGame(data.getGame());
 
             updatePlayerDisplay();
             updateDestinationCardDeck();
