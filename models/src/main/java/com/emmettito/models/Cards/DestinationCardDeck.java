@@ -52,6 +52,10 @@ public class DestinationCardDeck implements Deck {
         }
     }
 
+    public int size() {
+        return availableCards.size();
+    }
+
     public List<DestinationCard> getAvailableCards() {
         return availableCards;
     }

@@ -296,23 +296,32 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     public void drawDestCard(boolean isFirstTime) {
-        Fragment drawDestCardFragment = new DrawDestCardFragment();
-        ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
-        List<DestinationCard> drawnCards = new ArrayList<>();
+        if (data.getGame().getDestinationCardDeck().size() < 3){
 
-        //Draw three cards from the server
-        drawnCards.add(presenter.drawDestCard(data.getUser()));
-        drawnCards.add(presenter.drawDestCard(data.getUser()));
-        drawnCards.add(presenter.drawDestCard(data.getUser()));
+        }
+        else {
+            Fragment drawDestCardFragment = new DrawDestCardFragment();
+            ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
+            List<DestinationCard> drawnCards = new ArrayList<>();
 
-        ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(data.getGame().getDestinationCardDeck().drawnThreeCards());
+            //Draw three cards from the server
+            if (isFirstTime) {
+                drawnCards.add(presenter.drawDestCard(data.getUser()));
+                drawnCards.add(presenter.drawDestCard(data.getUser()));
+                drawnCards.add(presenter.drawDestCard(data.getUser()));
+            } else {
+                drawnCards = data.getGame().getDestinationCardDeck().drawnThreeCards();
+            }
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(android.R.id.content, drawDestCardFragment);
-        transaction.commit();
+            ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(drawnCards);
 
-        updatePlayerDisplay();
-        updateDestinationCardDeck();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(android.R.id.content, drawDestCardFragment);
+            transaction.commit();
+
+            updatePlayerDisplay();
+            updateDestinationCardDeck();
+        }
     }
 
     /*
