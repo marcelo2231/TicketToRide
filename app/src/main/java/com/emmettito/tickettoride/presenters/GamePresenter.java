@@ -30,7 +30,6 @@ import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
-import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 import com.emmettito.tickettoride.views.GameActivity.Turns.Turn;
 import com.google.gson.Gson;
@@ -160,30 +159,23 @@ public class GamePresenter implements Observer {
 //        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
         gameActivity.addTrainCardToPlayer(oldCard);
 
-        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
+        facade = ServerFacade.getInstance(data.getIpAddress(), "8080");
         DrawFaceUpTrainRequest request = new DrawFaceUpTrainRequest();
-        request.setGameName(client.getGameName());
+        request.setGameName(data.getGameName());
         request.setCardIndex(trainCardIndex);
-        request.setPlayerName(client.getUser());
-        System.out.println(client.getUser());
+        request.setPlayerName(data.getUser());
         DrawTrainResult result = facade.drawFaceUpTrainCard(request);
         //gameActivity.addTrainCardToPlayer(result.getData());
         //return result.getData();
 
         TrainCard currentTrainCard = getGame().getTrainCardDeck().getFaceUpCards().get(trainCardIndex);
 
-        System.out.println(result.getData());
-        System.out.println(currentTrainCard);
-
-        System.out.println("I ended up getting here don't you know");
-
         if (currentTrainCard != null) {
             trainButton.setBackground(gameActivity.updateFaceUpCard(currentTrainCard));
-            System.out.println("This is a place I did get");
         }
 
         if(gameActivity.checkTrainCardDeck()){
-            client.getGame().getTrainCardDeck().getFaceUpCards().set(trainCardIndex, result.getData());
+            data.getGame().getTrainCardDeck().getFaceUpCards().set(trainCardIndex, result.getData());
             trainButton.setBackground(gameActivity.updateFaceUpCard(result.getData()));
             gameActivity.updateFaceUpCards();
         }
@@ -200,10 +192,10 @@ public class GamePresenter implements Observer {
 //        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
         gameActivity.addTrainCardToPlayer(oldCard);
 
-        facade = ServerFacade.getInstance(client.getIpAddress(), "8080");
+        facade = ServerFacade.getInstance(data.getIpAddress(), "8080");
         DrawTrainRequest request = new DrawTrainRequest();
-        request.setGameName(client.getGameName());
-        request.setPlayerName(client.getUser());
+        request.setGameName(data.getGameName());
+        request.setPlayerName(data.getUser());
         DrawTrainResult result = facade.drawTrainCard(request);
         //return result.getData();
 

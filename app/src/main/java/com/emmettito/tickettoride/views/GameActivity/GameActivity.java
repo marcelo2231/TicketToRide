@@ -1,6 +1,8 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
@@ -25,18 +27,13 @@ import android.widget.Toast;
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
-import com.emmettito.models.Cards.TrainColor;
-import com.emmettito.models.City;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
-import com.emmettito.models.Route;
-import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.GamePresenter;
 import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
-import com.emmettito.tickettoride.views.GameActivity.Turns.Turn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -541,5 +538,20 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                 //presenter.shutDownPoller();
             }
         }
+    }
+
+    public void createDialog(String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+
+        AlertDialog dialog = alertDialogBuilder.setMessage(message).
+                setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Close window without doing anything else
+                    }
+                }).create();
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.show();
     }
 }
