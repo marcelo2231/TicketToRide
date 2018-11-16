@@ -40,10 +40,10 @@ public class MyTurnNoAction implements Turn {
 
     @Override
     public void claimRoute(GamePresenter context, int routeID) {
-//        if (done) {
-//            return;
-//        }
-//        done = true;
+        if (done) {
+            return;
+        }
+        done = true;
 
         if (data.getTempColorChoice() == null) {
             String error = "You need to select which color of card to use.";
@@ -57,8 +57,8 @@ public class MyTurnNoAction implements Turn {
         if (context.canClaimRoute(routeID, chosen_color)) {
             context.claimRoute(routeID, chosen_color);
             data.resetTempColorChoice();
-//            context.setTurnState(new NotMyTurn());
-//            context.endTurn();
+            context.setTurnState(new NotMyTurn());
+            context.endTurn();
         } else {
             done = false;
         }
@@ -66,29 +66,29 @@ public class MyTurnNoAction implements Turn {
 
     @Override
     public void drawFaceUpTrainCard(GamePresenter context, Button button, int buttonIndex) {
-//        if (done) {
-//            return;
-//        }
-//        done = true;
+        if (done) {
+            return;
+        }
+        done = true;
 
         TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
         context.getGameActivity().drawFaceUpTrainCard(button, buttonIndex);
 
-//        if (card.getColor() != TrainColor.Wild) {
-//            context.setTurnState(new MyTurnDrewCard());
-//        }
-//        else {
-//            context.setTurnState(new NotMyTurn());
-//            context.endTurn();
-//        }
+        if (card.getColor() != TrainColor.Wild) {
+            context.setTurnState(new MyTurnDrewCard());
+        }
+        else {
+            context.setTurnState(new NotMyTurn());
+            context.endTurn();
+        }
     }
 
     @Override
     public void drawFaceDownTrainCard(GamePresenter context) {
-//        if (done) {
-//            return;
-//        }
-//        done = true;
+        if (done) {
+            return;
+        }
+        done = true;
 
         context.getGameActivity().drawFaceDownTrainCard();
 //        context.setTurnState(new MyTurnDrewCard());
@@ -96,13 +96,13 @@ public class MyTurnNoAction implements Turn {
 
     @Override
     public void drawDestCards(GamePresenter context) {
-//        if (done) {
-//            return;
-//        }
-//        done = true;
+        if (done) {
+            return;
+        }
+        done = true;
 
         context.drawDestCard(false);
-//        context.setTurnState(new NotMyTurn());
-//        context.endTurn();
+        context.setTurnState(new NotMyTurn());
+        context.endTurn();
     }
 }

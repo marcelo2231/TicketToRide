@@ -47,8 +47,8 @@ public class GamePresenter implements Observer {
 
     public GamePresenter(GameActivity gameActivity) {
         this.gameActivity = gameActivity;
-//        this.turnState = new NotMyTurn(); // TODO: Nobody should be able to play until everyone has selected their initial destination cards
-        this.turnState = new MyTurnNoAction();
+        this.turnState = new NotMyTurn(); // TODO: Nobody should be able to play until everyone has selected their initial destination cards
+//        this.turnState = new MyTurnNoAction(); // USED FOR DEBUG
     }
 
     @Override
