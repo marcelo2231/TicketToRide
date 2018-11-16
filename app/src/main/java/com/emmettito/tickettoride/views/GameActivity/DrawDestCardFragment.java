@@ -250,7 +250,7 @@ public class DrawDestCardFragment extends Fragment {
 
                 if (mFirstTime) {
                     if (selected.size() < 2) {
-                        Toast.makeText(getActivity(), "Please select at least 2 Destination Cards", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please select at least 2 Destination Cards (first turn rule)", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         finalizeSelect(selected, discarded);
@@ -286,8 +286,17 @@ public class DrawDestCardFragment extends Fragment {
         Client client = Client.getInstance();
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
-        client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-        client.getGame().getDestinationCardDeck().addCards(discarded);
+
+
+        if (!mFirstTime) {
+            client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
+            client.getGame().getDestinationCardDeck().addCards(discarded);
+        }
+        else {
+            for (int i = 0; i < discarded.size(); i++) {
+                presenter.discardDestCard(client.getUser(), discarded.get(i).getCardID());
+            }
+        }
         finish();
     }
 
