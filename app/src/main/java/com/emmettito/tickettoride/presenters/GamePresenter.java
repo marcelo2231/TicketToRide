@@ -80,7 +80,7 @@ public class GamePresenter implements Observer {
         request.setGameName(data.getGameName());
 
         String requestString = new Gson().toJson(request);
-        poller = new Poller("http://10.0.2.2:8080/game/getgame", requestString);
+        poller = new Poller("http://"+data.getIpAddress() +":8080/game/getgame", requestString);
 
         poller.addObserver(this);
 

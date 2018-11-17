@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Cards.TrainCardComparator;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -37,6 +38,7 @@ import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener, DestCardDisplayFragment.OnFragmentInteractionListener {
@@ -259,6 +261,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             TrainCard card = deck.getAvailable().remove(0);
             //presenter.drawTrainCard((GameActivity) context, card);
             addTrainCardToPlayer(card);
+            Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
             Result result = presenter.setGame(data.getGame());
 
             //Do something with result maybe
@@ -281,6 +284,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         }
         data.getGame().getTrainCardDeck().getFaceUpCards().set(buttonIndex, newCard);
         addTrainCardToPlayer(card);
+
+        Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
 
         presenter.setGame(data.getGame());
 
@@ -340,7 +345,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             transaction.replace(android.R.id.content, drawDestCardFragment);
             transaction.commit();
 
-            presenter.setGame(data.getGame());
+            //presenter.setGame(data.getGame());
 
             updatePlayerDisplay();
             updateDestinationCardDeck();
