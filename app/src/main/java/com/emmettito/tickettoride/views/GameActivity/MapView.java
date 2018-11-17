@@ -26,6 +26,8 @@ import java.util.List;
 
 public class MapView extends View {
 
+    GameActivity gameActivity;
+
     private int width;
     private int height;
 
@@ -63,6 +65,8 @@ public class MapView extends View {
 
     public MapView(Context context, int width, int height) {
         super(context);
+        gameActivity = (GameActivity)context;
+
         this.height = height;
         this.width = width;
 
@@ -275,11 +279,10 @@ public class MapView extends View {
     private class SingleDoubleTapListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
-            int val = onRoute(event.getX(), event.getY());
-            if (val != -1) {
-                //State turn stuff lol
+            int routeID = onRoute(event.getX(), event.getY());
 
-                invalidate();
+            if (routeID != -1) {
+                gameActivity.claimRoute(routeID);
             }
 
             return true;

@@ -365,20 +365,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         ViewGroup parent = (ViewGroup)findViewById(R.id.mapFragment).getParent();
         parent.removeAllViews();
         parent.addView(mapView);
+    }
 
-//        mapView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN){
-//                    int routeID = mapView.onRoute(event.getX(), event.getY());
-//
-//                    if (routeID != -1) {
-//                        presenter.claimRoute(routeID);
-//                    }
-//                }
-//                return true;
-//            }
-//        });
+    public void claimRoute(int routeID) {
+        presenter.claimRoute(routeID);
     }
 
     private void setMapViewOnCreateListener() {
