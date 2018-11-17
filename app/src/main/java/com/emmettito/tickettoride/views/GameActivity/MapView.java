@@ -1,14 +1,18 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.emmettito.models.City;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.PlayerColor;
@@ -33,8 +37,25 @@ public class MapView extends View {
 
     Client data;
 
-    private List<City> allCities;
     private List<Route> allRoutes;
+
+    private Bitmap map_background;
+    private Bitmap branding;
+
+    private float mLastTouchX;
+    private float mLastTouchY;
+    private float mPosX;
+    private float mPosY;
+
+    private double cPosX;
+    private double cPosY;
+
+    private ScaleGestureDetector scaleDetector;
+    private GestureDetector tapDetector;
+
+    private float zoom = 1;
+    private float scalePointX;
+    private float scalePointY;
 
     public MapView(Context context) {
         super(context);
@@ -49,11 +70,21 @@ public class MapView extends View {
         this.rect_width = 0.017770035f * width;
         this.rect_height = 0.009953162f * height;
 
-        this.rect_width_padding = 0.02f;
-        this.rect_height_padding = 0.01f;
+        this.rect_width_padding = 0.02f * width;
+        this.rect_height_padding = 0.01f * height;
+
+        scaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+        tapDetector = new GestureDetector(context, new SingleDoubleTapListener());
+
+        map_background = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ticket_to_ride_map_v2), width, height, false);
+        map_background.setHeight(height);
+        map_background.setWidth(width);
+
+        branding = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.branding), width, height, false);
+        branding.setHeight(height);
+        branding.setWidth(width);
 
         data = Client.getInstance();
-        allCities = data.getAllCities();
         allRoutes = data.getAllRoutes();
 
         setLayoutParams(new FrameLayout.LayoutParams(this.width,this.height));
@@ -62,7 +93,13 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        setBackgroundResource(R.drawable.ticket_to_ride_map_v2);
+        canvas.drawBitmap(branding, 0, 0, null);
+
+        canvas.save();
+        canvas.translate(mPosX, mPosY);
+        canvas.scale(zoom, zoom, scalePointX, scalePointY);
+
+        canvas.drawBitmap(map_background, 0, 0, null);
 
         Game game = data.getGame();
         List<Player> players = game.getPlayers();
@@ -85,6 +122,8 @@ public class MapView extends View {
                 }
             }
         }
+
+        canvas.restore();
     }
 
     private void drawCircle(Canvas canvas, float x, float y, String color) {
@@ -104,14 +143,18 @@ public class MapView extends View {
     }
 
     public int onRoute(float x, float  y) {
-        for (int i = 0; i < allRoutes.size(); i++) {
-            Route route = allRoutes.get(i);
+        Client data = Client.getInstance();
+        List<Route> routes = data.getAllRoutes();
+
+        for (int i = 0; i < routes.size(); i++) {
+            Route route = routes.get(i);
             List<Space> spaces = route.getSpaces();
             for (int j = 0; j < spaces.size(); j++) {
                 Space s = spaces.get(j);
-                Tuple t = calcNewPosition((int)x, (int)y, (int)(s.getX() * width), (int)(s.getY() * height), s.getAngle());
+                Tuple t = calcNewPosition((int)(x), (int)(y), (int)((s.getX() * width * zoom) + cPosX), (int)((s.getY() * height * zoom) + cPosY), s.getAngle());
 
                 Rect rect = getRect(s.getX(), s.getY());
+
                 if (rect.contains((int)t.getX(), (int)t.getY())) {
                     return route.getID();
                 }
@@ -122,10 +165,6 @@ public class MapView extends View {
     }
 
     private Tuple calcNewPosition(int x, int y, int rect_x, int rect_y, float degrees) {
-        if (degrees == 0) {
-            return new Tuple(x, y);
-        }
-
         Double rad = Math.toRadians(degrees);
 
         int diff_x = x - rect_x;
@@ -141,10 +180,10 @@ public class MapView extends View {
     }
 
     private Rect getRect(float x, float y) {
-        int left = (int)((x - rect_width_padding) * width);
-        int top = (int)((y - rect_height_padding) * height);
-        int right = (int)((x + rect_width_padding) * width);
-        int bottom = (int)((y + rect_height_padding) * height);
+        int left = (int)((x * width * zoom) + cPosX - (rect_width_padding * zoom));
+        int top = (int)((y * height * zoom) + cPosY - (rect_height_padding * zoom));
+        int right = (int)((x * width * zoom) + cPosX + (rect_width_padding * zoom));
+        int bottom = (int)((y * height * zoom) + cPosY + (rect_height_padding * zoom));
 
         return new Rect(left, top, right, bottom);
     }
@@ -179,6 +218,114 @@ public class MapView extends View {
         }
 
         return getResources().getString(colorID);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        if (tapDetector.onTouchEvent(event)) {
+            return true;
+        }
+
+        // Let the ScaleGestureDetector inspect all events.
+        scaleDetector.onTouchEvent(event);
+
+        final int action = event.getAction();
+
+        switch(action & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN: {
+                final float x = (event.getX() - scalePointX)/zoom;
+                final float y = (event.getY() - scalePointY)/zoom;
+                mLastTouchX = x;
+                mLastTouchY = y;
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: {
+
+                final float x = (event.getX() - scalePointX)/zoom;
+                final float y = (event.getY() - scalePointY)/zoom;
+                // Only move if the ScaleGestureDetector isn't processing a gesture.
+                if (!scaleDetector.isInProgress()) {
+                    final float dx = x - mLastTouchX; // change in X
+                    final float dy = y - mLastTouchY; // change in Y
+                    mPosX += dx;
+                    mPosY += dy;
+                    cPosX += dx;
+                    cPosY += dy;
+                    invalidate();
+                }
+
+                mLastTouchX = x;
+                mLastTouchY = y;
+                break;
+
+            }
+            case MotionEvent.ACTION_UP: {
+                mLastTouchX = 0;
+                mLastTouchY = 0;
+                invalidate();
+                break;
+            }
+            default: break;
+        }
+
+        return true;
+    }
+
+    private class SingleDoubleTapListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent event) {
+            int val = onRoute(event.getX(), event.getY());
+            if (val != -1) {
+                //State turn stuff lol
+
+                invalidate();
+            }
+
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent event) {
+            if (zoom != 1f || mPosX != 0 || mPosY != 0) {
+                mPosX = 0;
+                mPosY = 0;
+                cPosX = 0;
+                cPosY = 0;
+                zoom = 1;
+            }
+            else {
+                scalePointX = event.getX();
+                scalePointY = event.getY();
+                zoom = 1.75f;
+                adjustOrigin();
+            }
+            invalidate();
+            return true;
+        }
+    }
+
+    private void adjustOrigin() {
+        cPosX = (-scalePointX * zoom) + scalePointX + mPosX;
+        cPosY = (-scalePointY * zoom) + scalePointY + mPosY;
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            zoom *= detector.getScaleFactor();
+            scalePointX = detector.getFocusX();
+            scalePointY = detector.getFocusY();
+
+            // Doesn't let the view get too large or too small
+            zoom = Math.max(0.5f, Math.min(zoom, 3.0f));
+
+            // Adjusts the origin for the zoom and pan
+            adjustOrigin();
+
+            invalidate();
+            return true;
+        }
     }
 }
 
