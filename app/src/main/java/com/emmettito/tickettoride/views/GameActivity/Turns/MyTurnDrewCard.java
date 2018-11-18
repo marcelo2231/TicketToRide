@@ -42,7 +42,7 @@ public class MyTurnDrewCard implements Turn {
 
     @Override
     public void claimRoute(GamePresenter context, int routeID) {
-        error = "You must select another train card.";
+        error = "You have already picked a train card. You must select another one.";
         context.displayToast(error);
     }
 
@@ -63,7 +63,7 @@ public class MyTurnDrewCard implements Turn {
         }
         else {
             done = false;
-            error = "You cannot pick another wild card.";
+            error = "You cannot pick a wild card.";
             context.displayToast(error);
         }
     }
@@ -84,7 +84,7 @@ public class MyTurnDrewCard implements Turn {
 
     @Override
     public void drawDestCards(GamePresenter context) {
-        String error = "You must select another train card.";
+        String error = "You have already drawn a train card. You must select another one.";
         context.displayToast(error);
     }
 }
