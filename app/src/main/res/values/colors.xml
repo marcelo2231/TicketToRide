@@ -10,4 +10,5 @@
     <color name="bluePlayer">#6482FA</color>
     <color name="defaultPlayerColor">#90EE90</color>
     <color name="defaultPlayer">#000000</color>
+    <color name="white">#ffffff</color>
 </resources>

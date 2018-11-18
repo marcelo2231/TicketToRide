@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/train_card"
     android:orientation="horizontal"
     android:layout_width="75dp"
     android:layout_height="40dp"
+    android:background="@drawable/back_of_train_card"
     android:gravity="center">
 
-    <ImageView
-        android:id="@+id/trainCardView"
+    <TextView
+        android:id="@+id/train_card_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/back_of_train_card" />
+        android:gravity="center_horizontal"
+        android:text="0"
+        style="@style/TrainCardText" />
 
 </android.widget.LinearLayout>

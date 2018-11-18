@@ -2,8 +2,10 @@ package com.emmettito.models;
 
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Cards.TrainColor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     private String playerName;
@@ -12,6 +14,7 @@ public class Player {
     private int plasticTrains;
     private ArrayList<DestinationCard> destinationCards;
     private ArrayList<TrainCard> trainCards;
+    private ArrayList<Tuple> indexedCards;
     private ArrayList<Integer> claimedRoutes;
     private int position;
 
@@ -21,6 +24,7 @@ public class Player {
         this.plasticTrains = 45;
         this.trainCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
+        this.indexedCards = new ArrayList<>();
         this.claimedRoutes = new ArrayList<>();
         this.color = PlayerColor.values()[playerIndex];
         this.position = playerIndex + 1; // Indexes start from 0, position starts from 1
@@ -93,6 +97,37 @@ public class Player {
 
     public void setPlasticTrains(int plasticTrains) {
         this.plasticTrains = plasticTrains;
+    }
+
+    private int numOfColor(TrainColor color) {
+        int num = 0;
+
+        for (int i = 0; i < trainCards.size(); i++) {
+            if (trainCards.get(i).getColor() == color) {
+                num++;
+            }
+        }
+
+        return num;
+    }
+
+    public List<Tuple> getIndexedCards() {
+        return indexedCards;
+    }
+
+    public void reIndexCards() {
+        ArrayList<Tuple> new_index = new ArrayList<>();
+
+        for (TrainColor color : TrainColor.values()) {
+            int num_color = numOfColor(color);
+
+            if (num_color > 0) {
+                new_index.add(new Tuple(color, num_color));
+            }
+        }
+
+        indexedCards.clear();
+        indexedCards.addAll(new_index);
     }
 
     @Override

@@ -48,7 +48,6 @@ public class GamePresenter implements Observer {
     public GamePresenter(GameActivity gameActivity) {
         this.gameActivity = gameActivity;
         this.turnState = new NotMyTurn(); // TODO: Nobody should be able to play until everyone has selected their initial destination cards
-//        this.turnState = new MyTurnNoAction(); // USED FOR DEBUG
     }
 
     @Override
@@ -59,13 +58,7 @@ public class GamePresenter implements Observer {
 
         Game newGame = result.getData();
 
-        //currentGame.setTrainCardDeck(newGame.getTrainCardDeck());
-        //currentGame.setDestinationCardDeck(newGame.getDestinationCardDeck());
-
         Player currentPlayer = data.getGame().getOnePlayer(data.getUser());
-
-        //currentGame.setPlayers(newGame.getPlayers());
-        //currentGame.setOnePlayer(currentPlayer);
 
         data.setGame(newGame);
         data.getGame().setOnePlayer(currentPlayer);
@@ -73,17 +66,12 @@ public class GamePresenter implements Observer {
     }
 
     public void startPoller() {
-        //client.getGame().addObserver(this);
-
-        //client.addObserver(this);
         GetGameRequest request = new GetGameRequest();
         request.setGameName(data.getGameName());
 
         String requestString = new Gson().toJson(request);
         poller = new Poller("http://"+data.getIpAddress() +":8080/game/getgame", requestString);
-
         poller.addObserver(this);
-
         poller.start(1);
     }
 
@@ -136,81 +124,23 @@ public class GamePresenter implements Observer {
         request.setGameName(game.getGameName());
         request.setGameIndex(game.getPlayerTurnIndex());
         Result result = facade.endTurn(request, data.getIpAddress(), "8080");
-        int newIndex = -1;
+
+        int newIndex;
         try{
             newIndex = (int) result.getData();
-        }catch (Exception e){
-            //testing that it works right
-            if(game.getPlayerTurnIndex()+1 >= game.getPlayers().size()){
+        } catch (Exception e){
+            if(game.getPlayerTurnIndex() + 1 >= game.getPlayers().size()){
                 return 0;
             }
-            return game.getPlayerTurnIndex()+1;
-
-            //if something went wrong, return the original index
-            //return game.getPlayerTurnIndex();
+            return game.getPlayerTurnIndex() + 1;
         }
         return newIndex;
     }
-
-//    public void drawFaceUpTrainCard(GameActivity gameActivity, Game game, TrainCard oldCard, TrainCard newCard, int trainCardIndex, Button trainButton){
-////        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(oldCard);
-////        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
-//        //gameActivity.addTrainCardToPlayer(oldCard);
-//
-//        //facade = ServerFacade.getInstance(data.getIpAddress(), "8080");
-//        //DrawFaceUpTrainRequest request = new DrawFaceUpTrainRequest();
-//        //request.setGameName(data.getGameName());
-//        //request.setCardIndex(trainCardIndex);
-//        //request.setPlayerName(data.getUser());
-//        //DrawTrainResult result = facade.drawFaceUpTrainCard(request);
-//        //gameActivity.addTrainCardToPlayer(result.getData());
-//        //return result.getData();
-//
-//        //TrainCard currentTrainCard = getGame().getTrainCardDeck().getFaceUpCards().get(trainCardIndex);
-//
-//        //if (currentTrainCard != null) {
-//            trainButton.setBackground(gameActivity.updateFaceUpCard(currentTrainCard));
-//        }
-//
-//        if(gameActivity.checkTrainCardDeck()){
-//            data.getGame().getTrainCardDeck().getFaceUpCards().set(trainCardIndex, result.getData());
-//            trainButton.setBackground(gameActivity.updateFaceUpCard(result.getData()));
-//            gameActivity.updateFaceUpCards();
-//        }
-//        else{
-//            trainButton.setBackgroundColor(0x00);
-//            trainButton.setBackgroundResource(android.R.drawable.btn_default);
-//            //game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
-//            trainButton.setEnabled(false);
-//        }
-//    }
-
-    //public void drawTrainCard(GameActivity gameActivity, TrainCard oldCard){
-//        game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards().add(oldCard);
-//        game.getPlayers().get(game.getPlayerTurnIndex()).setTrainCards(game.getPlayers().get(game.getPlayerTurnIndex()).getTrainCards());
-        //gameActivity.addTrainCardToPlayer(oldCard);
-
-        //facade = ServerFacade.getInstance(data.getIpAddress(), "8080");
-        //DrawTrainRequest request = new DrawTrainRequest();
-        //request.setGameName(data.getGameName());
-        //request.setPlayerName(data.getUser());
-        //DrawTrainResult result = facade.drawTrainCard(request);
-        //return result.getData();
-
-        //if(result.getSuccess()){}
-        //else{
-        //    gameActivity.notifyDeckEmpty();
-        //}
-    //}
 
     public void endTurn() {
         data.getGame().setPlayerTurnIndex(endPlayerTurn(data.getGame()));
         startPoller();
     }
-
-
-
-
 
     /*
 
@@ -415,6 +345,7 @@ public class GamePresenter implements Observer {
             removeTrainCardsFromPlayer(route_size - num_color, TrainColor.Wild);
         }
 
+        player.reIndexCards();
         player.getClaimedRoutes().add(routeID);
         player.setPoints(player.getPoints() + route.getPointValue());
         player.setPlasticTrains(player.getPlasticTrains() - route.getSpaces().size());

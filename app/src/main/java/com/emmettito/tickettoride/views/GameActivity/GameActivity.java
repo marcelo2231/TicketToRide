@@ -28,6 +28,7 @@ import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardComparator;
 import com.emmettito.models.Cards.TrainCardDeck;
+import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.Result;
@@ -261,6 +262,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             TrainCard card = deck.getAvailable().remove(0);
             //presenter.drawTrainCard((GameActivity) context, card);
             addTrainCardToPlayer(card);
+
+            String aan = "a";
+            if (card.getColor() == TrainColor.Orange) {
+                aan = "an";
+            }
+            Toast.makeText(this, "You drew " + aan + " " + card.getColor().toString().toLowerCase() + " card", Toast.LENGTH_SHORT).show();
+
             Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
             Result result = presenter.setGame(data.getGame());
 
@@ -286,7 +294,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         addTrainCardToPlayer(card);
 
         Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
-
         presenter.setGame(data.getGame());
 
         //presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
@@ -426,11 +433,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         RecyclerView trainCardsView = findViewById(R.id.playerTrainCards);
         LinearLayoutManager mgr = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         trainCardsView.setLayoutManager(mgr);
-        playerTrainCardsAdapter = new PlayerTrainCardsAdapter(data.getGame().getOnePlayer(data.getUser()).getTrainCards());
+        playerTrainCardsAdapter = new PlayerTrainCardsAdapter(data.getGame().getOnePlayer(data.getUser()).getIndexedCards());
         trainCardsView.setAdapter(playerTrainCardsAdapter);
     }
 
     private void updatePlayerTrainCards() {
+        Player player = data.getGame().getOnePlayer(data.getUser());
+        player.reIndexCards();
         playerTrainCardsAdapter.notifyDataSetChanged();
     }
 
@@ -453,6 +462,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         }
 
         if (playerTrainCardsAdapter != null) {
+            Player player = data.getGame().getOnePlayer(data.getUser());
+            player.reIndexCards();
             playerTrainCardsAdapter.notifyDataSetChanged();
         }
 

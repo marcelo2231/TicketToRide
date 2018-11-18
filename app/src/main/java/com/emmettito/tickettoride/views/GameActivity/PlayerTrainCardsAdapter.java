@@ -8,27 +8,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
+import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCardsAdapter.PlayerTrainCardsHolder>  {
 
     private Client data;
-    private List<TrainCard> cards;
+    private List<Tuple> cards_sorted;
 
     class PlayerTrainCardsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView trainCard;
-//        public String color = "";
+
+        public LinearLayout train_card;
+        public TextView text;
+
         public TrainColor color;
+        public int count;
 
         public PlayerTrainCardsHolder(View v) {
             super(v);
-            trainCard = v.findViewById(R.id.trainCardView);
+            train_card = v.findViewById(R.id.train_card);
+            text = v.findViewById(R.id.train_card_count);
             v.setOnClickListener(this);
         }
 
@@ -36,27 +44,33 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
         public void onClick(View view) {
             Log.w("adapter", color.toString());
             data.setTempColorChoice(color);
+            Toast.makeText(view.getContext(), "You've selected the color " + color.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public PlayerTrainCardsAdapter(List<TrainCard> playerTrainCards) {
-        cards = playerTrainCards;
+    public PlayerTrainCardsAdapter(List<Tuple> playerTrainCards) {
+        cards_sorted = playerTrainCards;
         data = Client.getInstance();
     }
 
     @Override
-    public PlayerTrainCardsAdapter.PlayerTrainCardsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_player_train_cards, parent, false);
+    public PlayerTrainCardsAdapter.PlayerTrainCardsHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        LinearLayout v = (LinearLayout) LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_player_train_cards, viewGroup, false);
         return new PlayerTrainCardsHolder(v);
     }
 
     @Override
     public void onBindViewHolder(PlayerTrainCardsHolder holder, int position) {
-        int trainColor;
-        TrainCard card = cards.get(position);
-        holder.color = card.getColor();
+        Tuple t = cards_sorted.get(position);
+        TrainColor color = (TrainColor)t.getX();
+        int count = (int)t.getY();
 
-        switch (card.getColor()) {
+        holder.color = color;
+        holder.count = count;
+
+        int trainColor;
+
+        switch (color) {
             case Red: trainColor = R.drawable.red_train_card; break;
             case Pink: trainColor = R.drawable.pink_train_card; break;
             case Orange: trainColor = R.drawable.orange_train_card; break;
@@ -69,24 +83,15 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
             default: trainColor = R.drawable.back_of_train_card; break;
         }
 
-        Drawable trainImage = holder.trainCard.getResources().getDrawable(trainColor);
-        holder.trainCard.setBackground(trainImage);
+        Drawable trainImage = holder.train_card.getResources().getDrawable(trainColor);
+        holder.train_card.setBackground(trainImage);
+        holder.text.setText(String.valueOf(count));
+
     }
 
     @Override
     public int getItemCount() {
-        return cards.size();
+        return cards_sorted.size();
     }
-
-    /*@Override
-    public void onClick(View view) {
-        System.out.println("This");
-        PlayerTrainCardsHolder holder = (PlayerTrainCardsHolder) view.getTag();
-        if (view.getId() == holder.trainCard.getId()) {
-            data.remove(holder.getAdapterPosition());
-
-            notifyDataSetChanged();
-        }
-    }*/
 }
 
