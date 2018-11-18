@@ -13,41 +13,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".views.LoginActivity.LoginActivity"
+        <activity
+            android:name=".views.LoginActivity.LoginActivity"
             android:label="LoginActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.LobbyActivity.LobbyActivity"
             android:label="LobbyActivity"
-            android:screenOrientation="landscape">
-        </activity>
-
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".views.GameRoomActivity.GameRoomActivity"
             android:label="GameRoomActivity"
-            android:screenOrientation="landscape">
-        </activity>
-
-        <activity android:name=".views.GameActivity.GameActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".views.GameActivity.GameActivity"
             android:label="GameActivity"
-            android:screenOrientation="landscape">
-        </activity>
-
-        <activity android:name=".views.GameActivity.ChatActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".views.GameActivity.ChatActivity"
             android:label="ChatActivity"
-            android:screenOrientation="landscape">
-        </activity>
-
-        <activity android:name=".views.GameActivity.GameHistoryActivity"
-                  android:label="GameHistoryActivity"
-                  android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".views.GameActivity.GameHistoryActivity"
+            android:label="GameHistoryActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".views.GameActivity.DrawDestCardActivity"></activity>
     </application>
+
 </manifest>
