@@ -4,6 +4,7 @@ import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardDeck;
+import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class DeckDao {
     private static Database dbInstance = Database.getInstance();
     GameLobbyDao gameLobbyDao = new GameLobbyDao();
     GameDao gameDao = new GameDao();
+    private int numShuffles = 0;
 
     /** Destination Card Deck **/
     public DestinationCardDeck getDestCardDeck(String gameName) throws Exception{
@@ -182,5 +184,46 @@ public class DeckDao {
             }
         }
         throw new Exception("Train card is not in deck");
+    }
+
+    public int getNumShuffles(){ return numShuffles; }
+
+    //when there are 3 or more wild cards faceUp, the 5 faceUp cards are discarded, then the top 5 cards are placed faceUp
+    public boolean reShuffleFaceUpCards(String gameName) throws Exception{
+        int NUM_FACEUP_CARDS = 5;
+        TrainCardDeck deck = getTrainCardDeck(gameName);
+
+        //discard non-null cards
+        for(int i = 0; i < NUM_FACEUP_CARDS; i++){
+            TrainCard oldCard = deck.getFaceUpCards().get(i);
+            if(oldCard != null) {
+                deck.getDiscardPile().add(oldCard);
+            }
+        }
+        ///reset the faceUp array and wild counter
+        ArrayList<TrainCard> newFaceUps = new ArrayList<>();
+        deck.setFaceUpCards(newFaceUps);
+        deck.setNumFaceUpWilds(0);
+
+        //take the top 5 cards and place them faceUp
+        int numWilds = 0;
+        for(int i = 0; i < NUM_FACEUP_CARDS; i++){
+            if (!deck.getAvailable().isEmpty()) {
+                TrainCard newCard = deck.getAvailable().remove(0);
+                deck.getFaceUpCards().add(newCard);
+                if(newCard.getColor() == TrainColor.Wild){
+                    numWilds = deck.getNumFaceUpWilds();
+                    deck.setNumFaceUpWilds(++numWilds);
+                }
+            }
+        }
+        //only shuffle a maximum of 6 times when there's wilds again after shuffling
+        numShuffles++;
+        if(deck.getNumFaceUpWilds() >= 3){
+            if(numShuffles < 5) {
+                reShuffleFaceUpCards(gameName);
+            }
+        }
+        return true;
     }
 }

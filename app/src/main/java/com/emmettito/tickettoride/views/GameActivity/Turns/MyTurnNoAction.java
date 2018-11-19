@@ -82,7 +82,10 @@ public class MyTurnNoAction implements Turn {
         if (card.getColor() != TrainColor.Wild) {
             context.setTurnState(new MyTurnDrewCard());
         }
-        else {
+        else {            //decrement the number of wilds in the faceUp array
+            int numWilds = data.getGame().getTrainCardDeck().getNumFaceUpWilds();
+            data.getGame().getTrainCardDeck().setNumFaceUpWilds(--numWilds);
+
             context.setTurnState(new NotMyTurn());
             context.getGameActivity().createDialog("Your Turn Is Over.");
             context.endTurn();

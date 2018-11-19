@@ -147,6 +147,11 @@ public class ServerFacade {
         return gameProxy.setGame(request);
     }
 
+    public Result shuffleFaceUpCards(String gameName){
+        gameProxy = new GameProxy(host, port);
+        return gameProxy.shuffleFaceUpCards(gameName);
+    }
+
     public Result endGame(EndGameRequest request) {
         gameProxy = new GameProxy(host, port);
         return gameProxy.endGame(request);

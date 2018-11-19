@@ -8,6 +8,7 @@ public class TrainCardDeck implements Deck {
     private List<TrainCard> available;
     private List<TrainCard> faceUpCards;
     private List<TrainCard> discardPile;
+    private int numFaceUpWilds = 0;
 
     public TrainCardDeck(){
         available = new ArrayList<>();
@@ -33,6 +34,10 @@ public class TrainCardDeck implements Deck {
 
         //take the first 5 cards and place them face-up
         for(int i = 0; i < 5; i++){
+            //record the number of faceUp wild cards
+            if(available.get(i).getColor() == (TrainColor.Wild)){
+                numFaceUpWilds++;
+            }
             faceUpCards.add(available.get(i));
             available.remove(i);
         }
@@ -70,5 +75,13 @@ public class TrainCardDeck implements Deck {
 
     public void setFaceUpCards(List<TrainCard> faceUpCards) {
         this.faceUpCards = faceUpCards;
+    }
+
+    public void setNumFaceUpWilds(int num){
+        this.numFaceUpWilds = num;
+    }
+
+    public int getNumFaceUpWilds(){
+        return numFaceUpWilds;
     }
 }

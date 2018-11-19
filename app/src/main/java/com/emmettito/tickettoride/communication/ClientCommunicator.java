@@ -84,7 +84,7 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
 
         try {
 
-            System.out.println(urlString);
+           // System.out.println(urlString);
 
             URL url = new URL(urlString);
 

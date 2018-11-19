@@ -10,11 +10,13 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -38,6 +40,7 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -222,7 +225,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         private Button trainCardButton;
         private int buttonIndex;
 
-        public TrainCardClickListener(Button trainCardButton, int buttonIndex) {
+        private TrainCardClickListener(Button trainCardButton, int buttonIndex) {
             this.trainCardButton = trainCardButton;
             this.buttonIndex = buttonIndex;
         }
@@ -267,7 +270,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             if (card.getColor() == TrainColor.Orange) {
                 aan = "an";
             }
-            Toast.makeText(this, "You drew " + aan + " " + card.getColor().toString().toLowerCase() + " card", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You drew " + aan + " " + card.getColor().toString().toLowerCase() + " train card", Toast.LENGTH_SHORT).show();
 
             Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
             Result result = presenter.setGame(data.getGame());
@@ -284,8 +287,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     public void drawFaceUpTrainCard(Button button, int buttonIndex) {
         TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
         TrainCard newCard;
-        if (checkTrainCardDeck()) {
+        if (!data.getGame().getTrainCardDeck().getAvailable().isEmpty()) {
             newCard = data.getGame().getTrainCardDeck().getAvailable().remove(0);
+            //increment the number of faceUp wilds if the new card is a wild
+            if(newCard.getColor() == TrainColor.Wild){
+                int numWilds = data.getGame().getTrainCardDeck().getNumFaceUpWilds();
+                data.getGame().getTrainCardDeck().setNumFaceUpWilds(++numWilds);
+            }
         }
         else {
             newCard = null;
@@ -299,6 +307,21 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         //presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
         updatePlayerDisplay();
         updateFaceUpCards();
+        //if there's more than 3 wilds face-up, tell the server to shuffle them
+        if(data.getGame().getTrainCardDeck().getNumFaceUpWilds() >= 3) {
+            Toast.makeText(getApplicationContext(), "3 face-up wild cards; shuffling them back in", Toast.LENGTH_SHORT).show();
+            shuffleFaceUpCards();
+        }
+    }
+
+    private void shuffleFaceUpCards() {
+        if(presenter.shuffleFaceUpCards()){
+            Toast.makeText(getApplicationContext(), "Successfully re-shuffled the face-up cards", Toast.LENGTH_SHORT).show();
+            updateFaceUpCards();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Couldn't shuffle the face-up cards", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void notifyDeckEmpty() {
@@ -513,7 +536,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             int resId = getResources().getIdentifier("trainCard" + (i + 1), "id", getPackageName());
             Button trainCardButton = findViewById(resId);
             trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
-            Drawable background = updateFaceUpCard(deck.getFaceUpCards().get(i));
+            Drawable background = null;
+            if(deck.getFaceUpCards().get(i) != null) {
+                background = updateFaceUpCard(deck.getFaceUpCards().get(i));
+            }
 
             if (background == null) {
                 trainCardButton.setBackgroundColor(0x00);
