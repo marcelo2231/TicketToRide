@@ -41,29 +41,29 @@ public class FinalResultsActivity extends Activity {
     public void onBackPressed() {}
 
     private void setFinalResultsRecyclerView() {
-        Client data = Client.getInstance();
-        Game game = new Game();
-        ArrayList<Player> players = new ArrayList<>();
-
-        Player p1 = new Player("Emmett", 0);
-        p1.setColor(PlayerColor.Red);
-        p1.setPoints(50);
-        ArrayList<DestinationCard> cards = new ArrayList<>();
-        DestinationCard card = new DestinationCard(0, 0, null, 1, null, 55);
-        cards.add(card);
-        p1.setDestinationCards(cards);
-        Player p2 = new Player("Marcelo", 1);
-        p2.setColor(PlayerColor.Green);
-        ArrayList<Integer> routes = new ArrayList<>();
-        routes.add(0);
-        p2.setClaimedRoutes(routes);
-        p2.setPoints(50);
-
-        players.add(p1);
-        players.add(p2);
-
-        game.setPlayers(players);
-        data.setGame(game);
+//        Client data = Client.getInstance();
+//        Game game = new Game();
+//        ArrayList<Player> players = new ArrayList<>();
+//
+//        Player p1 = new Player("Emmett", 0);
+//        p1.setColor(PlayerColor.Red);
+//        p1.setPoints(50);
+//        ArrayList<DestinationCard> cards = new ArrayList<>();
+//        DestinationCard card = new DestinationCard(0, 0, null, 1, null, 55);
+//        cards.add(card);
+//        p1.setDestinationCards(cards);
+//        Player p2 = new Player("Marcelo", 1);
+//        p2.setColor(PlayerColor.Green);
+//        ArrayList<Integer> routes = new ArrayList<>();
+//        routes.add(0);
+//        p2.setClaimedRoutes(routes);
+//        p2.setPoints(50);
+//
+//        players.add(p1);
+//        players.add(p2);
+//
+//        game.setPlayers(players);
+//        data.setGame(game);
 
         ArrayList<PlayerFinalResults> results = getResults();
 
