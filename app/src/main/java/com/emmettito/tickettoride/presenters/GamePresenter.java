@@ -10,6 +10,7 @@ import com.emmettito.models.City;
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
+import com.emmettito.models.CommandModels.GameCommands.EndGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
@@ -32,7 +33,6 @@ import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 import com.emmettito.tickettoride.views.GameActivity.Turns.Turn;
 import com.google.gson.Gson;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -351,6 +351,11 @@ public class GamePresenter implements Observer {
         player.setPoints(player.getPoints() + route.getPointValue());
         player.setPlasticTrains(player.getPlasticTrains() - route.getSpaces().size());
 
+        if (player.getPlasticTrains() <= 2 && data.getGame().getEndingPlayer().equals("")) {
+            data.getGame().setLastTurn(true);
+            data.getGame().setEndingPlayer(player.getPlayerName());
+        }
+
         // TODO: needs to send updates to the server
         setGame(data.getGame());
 
@@ -366,6 +371,14 @@ public class GamePresenter implements Observer {
         SetGameRequest request = new SetGameRequest();
         request.setGame(game);
         return facade.setGame(request);
+    }
+
+    public Result endGame() {
+        facade = ServerFacade.getInstance(data.getIpAddress(), "8080");
+        EndGameRequest request = new EndGameRequest();
+        request.setGameName(data.getGame().getGameName());
+        request.setPlayerName(data.getUser());
+        return facade.endGame(request);
     }
 
 }

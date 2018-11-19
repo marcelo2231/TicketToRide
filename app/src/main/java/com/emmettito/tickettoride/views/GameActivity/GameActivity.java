@@ -10,13 +10,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -40,7 +38,6 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -580,9 +577,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         else return false;
     }
 
-    public void endTurn() {
-        data.getGame().setPlayerTurnIndex(presenter.endPlayerTurn(data.getGame()));
-        presenter.startPoller();
+    public void endGame() {
+        //data.getGame().setPlayerTurnIndex(presenter.endPlayerTurn(data.getGame()));
+        //presenter.startPoller();
+
+        presenter.endGame();
     }
 
     public void checkIfOurTurn() {
@@ -593,6 +592,15 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             Player currentPlayer = data.getGame().getOnePlayer(data.getUser());
             Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
             if (currentPlayer.getPosition() == currentPlayerIndex + 1) {
+                if (data.getGame().isLastTurn()) {
+                    if (data.getGame().getEndingPlayer().equals(data.getUser())) {
+                        endGame();
+                        return;
+                    }
+                    else {
+                        Toast.makeText(this, "Final Round", Toast.LENGTH_LONG).show();
+                    }
+                }
                 presenter.setTurnState(new MyTurnNoAction());
                 //presenter.shutDownPoller();
                 createDialog("Your Turn");

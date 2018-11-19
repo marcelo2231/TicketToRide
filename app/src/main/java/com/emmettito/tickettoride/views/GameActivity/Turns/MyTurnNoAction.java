@@ -16,6 +16,10 @@ public class MyTurnNoAction implements Turn {
     public MyTurnNoAction(){
         data = Client.getInstance();
         done = false;
+
+        if (data.getGame().isLastTurn()) {
+
+        }
     }
 
     @Override

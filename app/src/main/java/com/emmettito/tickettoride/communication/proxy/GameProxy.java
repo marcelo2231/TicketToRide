@@ -5,6 +5,7 @@ import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawFaceUpTrainRequest;
 import com.emmettito.models.CommandModels.GameCommands.DrawTrainRequest;
+import com.emmettito.models.CommandModels.GameCommands.EndGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetCommandsRequest;
 import com.emmettito.models.CommandModels.GameCommands.GetGameRequest;
 import com.emmettito.models.CommandModels.GameCommands.PlayerTurnRequest;
@@ -297,6 +298,29 @@ public class GameProxy {
         }
 
         if(resultString.equalsIgnoreCase("Error: could not set game")){
+            Result result = new Result();
+            result.setMessage(resultString);
+            return result;
+        }
+        return gson.fromJson(resultString, Result.class);
+    }
+
+    public Result endGame(EndGameRequest request) {
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        Client clientInstance = Client.getInstance();
+        serverHost = clientInstance.getIpAddress();
+        String url = "http://" + serverHost + ":" + serverPort + "/game/endgame";
+
+        try{
+            resultString = client.execute(url, "POST", requestString).get();
+        }catch (Exception e){
+            e.printStackTrace();
+            resultString = "Error: could not end game";
+        }
+
+        if(resultString.equalsIgnoreCase("Error: could not end game")){
             Result result = new Result();
             result.setMessage(resultString);
             return result;

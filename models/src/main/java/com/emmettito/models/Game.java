@@ -15,6 +15,9 @@ public class Game extends Observable {
     private TrainCardDeck trainCardDeck;
     private ArrayList<Tuple> Chat;
     private int playerTurnIndex; // Index of player on ArrayList<Player> players who has the turn
+    private boolean isLastTurn = false;
+    private boolean isGameOver = false;
+    private String endingPlayer = "";
     //private Tuple longestPath; //Tuple(length, Player)
 
     private ArrayList<Command> commands;
@@ -38,6 +41,30 @@ public class Game extends Observable {
 
         return instance;
     }*/
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.isGameOver = gameOver;
+    }
+
+    public boolean isLastTurn() {
+        return isLastTurn;
+    }
+
+    public void setLastTurn(boolean lastTurn) {
+        this.isLastTurn = lastTurn;
+    }
+
+    public String getEndingPlayer() {
+        return endingPlayer;
+    }
+
+    public void setEndingPlayer(String endingPlayer) {
+        this.endingPlayer = endingPlayer;
+    }
 
     /** Setters **/
     public void setGameName(String gameName) {
