@@ -1,5 +1,6 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -38,6 +40,7 @@ import com.emmettito.tickettoride.presenters.GamePresenter;
 import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,7 +82,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -326,15 +329,22 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     public void drawDestCard(boolean isFirstTime) {
+        data.setGamePresenter(presenter);
         if (data.getGame().getDestinationCardDeck().size() < 3) {
             Toast.makeText(getApplicationContext(), "No available destincation cards!", Toast.LENGTH_SHORT).show();
         }
         else {
-            Fragment drawDestCardFragment = new DrawDestCardFragment();
-            ((DrawDestCardFragment) drawDestCardFragment).setIsFirst(isFirstTime);
+            Activity drawDestCardActivity = new DrawDestCardActivity();
+            Bundle bundle = new Bundle();
+            Intent intent = new Intent(getApplicationContext(), DrawDestCardActivity.class);
+//            ((DrawDestCardActivity) DrawDestCardActivity).setIsFirst(isFirstTime);
             List<DestinationCard> drawnCards = new ArrayList<>();
+            intent.putExtra("isFirst", isFirstTime);
 
-            ((DrawDestCardFragment) drawDestCardFragment).setPresenter(presenter);
+//            ((DrawDestCardActivity) DrawDestCardActivity).setPresenter(presenter);
+            //((DrawDestCardActivity) drawDestCardActivity).setPresenter(presenter);
+
+            //bundle.putSerializable("presenter", presenter);
 
 
             //Draw three cards from the server
@@ -345,12 +355,21 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             } else {
                 drawnCards = data.getGame().getDestinationCardDeck().drawnThreeCards();
             }
+//            for(int i = 0; i < drawnCards.size(); i++) {
+//                String string = "card" + i;
+//                bundle.putSerializable(string, drawnCards.get(i));
+//            }
 
-            ((DrawDestCardFragment) drawDestCardFragment).setDrawnDestCards(drawnCards);
+//            ((DrawDestCardActivity) DrawDestCardActivity).setDrawnDestCards(drawnCards);
+            //((DrawDestCardActivity) drawDestCardActivity).setDrawnDestCards(drawnCards);
+//
 
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(android.R.id.content, drawDestCardFragment);
-            transaction.commit();
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.replace(android.R.id.content, DrawDestCardActivity);
+//            transaction.commit();
+
+            //intent.putExtras(bundle);
+            startActivity(intent);
 
             //presenter.setGame(data.getGame());
 
@@ -594,5 +613,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         dialog.show();
+    }
+
+    public GamePresenter getPresenter() {
+        return presenter;
     }
 }

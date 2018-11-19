@@ -8,6 +8,7 @@ import com.emmettito.models.Game;
 import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Route;
+import com.emmettito.tickettoride.presenters.GamePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,16 @@ public class Client extends Observable {
     private int playerID;
 
     private Game game;
+    private GamePresenter gamePresenter;
+
+    public GamePresenter getGamePresenter() {
+        return gamePresenter;
+    }
+
+    public void setGamePresenter(GamePresenter gamePresenter) {
+        this.gamePresenter = gamePresenter;
+    }
+
     private String gameName;
     private String ipAddress;
 

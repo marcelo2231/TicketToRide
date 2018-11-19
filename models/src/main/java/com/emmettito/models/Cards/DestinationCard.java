@@ -4,6 +4,7 @@ import com.emmettito.models.City;
 import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.Tuple;
 
+import java.io.Serializable;
 
 
 public class DestinationCard implements Card {

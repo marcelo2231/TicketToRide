@@ -43,7 +43,10 @@
             android:name=".views.GameActivity.GameHistoryActivity"
             android:label="GameHistoryActivity"
             android:screenOrientation="landscape"></activity>
-        <activity android:name=".views.GameActivity.DrawDestCardActivity"></activity>
+        <activity
+            android:name=".views.GameActivity.DrawDestCardActivity"
+            android:label="DrawDestCardActivity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

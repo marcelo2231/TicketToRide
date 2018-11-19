@@ -32,6 +32,7 @@ import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 import com.emmettito.tickettoride.views.GameActivity.Turns.Turn;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
