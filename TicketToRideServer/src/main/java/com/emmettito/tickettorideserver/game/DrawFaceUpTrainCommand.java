@@ -21,6 +21,16 @@ public class DrawFaceUpTrainCommand  implements IGameCommand{
         }catch(Exception e){
             throw new Exception("DrawTrainCommand: command was null, please, make sure to set the DrawTrainCommandModel.");
         }
+
+        /**Check if this is a shuffle command; card index will be -1 and will have a null player name**/
+        if(commandModel.getCardIndex() == -1 && commandModel.getPlayerName() == null){
+            DrawTrainResult result = new DrawTrainResult();
+            result.setSuccess(deckDatabase.reShuffleFaceUpCards(commandModel.getGameName()));
+            String message = "Reshuffled " + deckDatabase.getNumShuffles() + " time(s)";
+            result.setMessage(message);
+            return result;
+        }
+
         /** Validate **/
         if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");

@@ -303,4 +303,29 @@ public class GameProxy {
         }
         return gson.fromJson(resultString, Result.class);
     }
+
+    public Result shuffleFaceUpCards(String gameName){
+        //use a drawFaceUpCard request, but with a null player name and card index of -1
+        DrawFaceUpTrainRequest request = new DrawFaceUpTrainRequest();
+        request.setGameName(gameName);
+        request.setPlayerName(null);
+        request.setCardIndex(-1);
+        String requestString = gson.toJson(request);
+        String resultString = "";
+
+        Client instance = Client.getInstance();
+        serverHost = instance.getIpAddress();
+        String url = "http://" + serverHost +":" + serverPort + "/game/drawfaceuptraincard";
+
+        try{
+            resultString = client.execute(url, "POST", requestString).get();
+        }catch (Exception e){
+            e.printStackTrace();
+            resultString = "Error: server couldn't shuffle the face-up cards";
+            Result result = new Result();
+            result.setMessage(resultString);
+            return result;
+        }
+        return gson.fromJson(resultString, Result.class);
+    }
 }

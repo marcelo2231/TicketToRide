@@ -368,4 +368,9 @@ public class GamePresenter implements Observer {
         return facade.setGame(request);
     }
 
+    public boolean shuffleFaceUpCards(){
+        facade = ServerFacade.getInstance(data.getIpAddress(), "8080");
+        return facade.shuffleFaceUpCards(data.getGameName()).getSuccess();
+    }
+
 }
