@@ -386,4 +386,8 @@ public class GamePresenter implements Observer {
         return facade.endGame(request);
     }
 
+    public void shutDownPoller() {
+        poller.shutdown();
+    }
+
 }

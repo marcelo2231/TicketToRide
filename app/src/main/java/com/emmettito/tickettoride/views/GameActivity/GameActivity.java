@@ -10,13 +10,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -37,10 +35,10 @@ import com.emmettito.models.Results.Result;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.GamePresenter;
+import com.emmettito.tickettoride.views.FinalResultsActivity.FinalResultsActivity;
 import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,21 +57,27 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     private RecyclerView.Adapter playerListAdapter;
     private RecyclerView.Adapter playerTrainCardsAdapter;
 
+    private boolean isRunning;
+
     private  MapView mapView = null;
 
     private GameActivity thisGameActivity;
 
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
+    final Handler timerHandler = new Handler();
+    final Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
+            if (!isRunning) {
+                return;
+            }
+            System.out.println("\n\n\n\nSDFSDFSDFSDFSDF\n\n\n\n\n");
             //mAdapter.notifyDataSetChanged();
+            thisGameActivity.checkIfOurTurn();
             thisGameActivity.updatePlayerDisplay();
             thisGameActivity.updateDestinationCardDeck();
             thisGameActivity.updateCardDeck();
             thisGameActivity.updatePlayerTrainCards();
             thisGameActivity.updateMapView();
-            thisGameActivity.checkIfOurTurn();
             thisGameActivity.updateFaceUpCards();
             timerHandler.postDelayed(this, 500);
         }
@@ -122,6 +126,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         //presenter.addObserver();
         timerHandler.postDelayed(timerRunnable, 500);
+        isRunning = true;
 
         //after setting up/inflating, initialize the game-starting processes
         drawDestCard(true);
@@ -351,7 +356,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     public void drawDestCard(boolean isFirstTime) {
         data.setGamePresenter(presenter);
         if (data.getGame().getDestinationCardDeck().size() < 3) {
-            Toast.makeText(getApplicationContext(), "No available destincation cards!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "No available destination cards!", Toast.LENGTH_SHORT).show();
         }
         else {
             Activity drawDestCardActivity = new DrawDestCardActivity();
@@ -607,13 +612,34 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         //data.getGame().setPlayerTurnIndex(presenter.endPlayerTurn(data.getGame()));
         //presenter.startPoller();
 
+        timerHandler.removeCallbacks(timerRunnable);
+        isRunning = false;
+
+        presenter.shutDownPoller();
+
         presenter.endGame();
+
+        data.getGame().setGameOver(true);
+
+        presenter.setGame(data.getGame());
+
+        System.out.println("I got here");
+
+        Intent intent = new Intent(getApplicationContext(), FinalResultsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void checkIfOurTurn() {
         //System.out.println(turnState.getClass());
         //System.out.println(data.getGame().getOnePlayer(data.getUser()).getPosition());
         //System.out.println(data.getGame().getPlayerTurnIndex());
+
+        if (data.getGame().isGameOver()) {
+            endGame();
+            return;
+        }
+
         if (presenter.getTurnState().getClass().equals(NotMyTurn.class)) {
             Player currentPlayer = data.getGame().getOnePlayer(data.getUser());
             Integer currentPlayerIndex = data.getGame().getPlayerTurnIndex();
