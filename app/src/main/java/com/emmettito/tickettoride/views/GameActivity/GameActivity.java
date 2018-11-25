@@ -70,7 +70,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             if (!isRunning) {
                 return;
             }
-            System.out.println("\n\n\n\nSDFSDFSDFSDFSDF\n\n\n\n\n");
+            //System.out.println("\n\n\n\nSDFSDFSDFSDFSDF\n\n\n\n\n");
             //mAdapter.notifyDataSetChanged();
             thisGameActivity.checkIfOurTurn();
             thisGameActivity.updatePlayerDisplay();
@@ -106,7 +106,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         // Get players
         final ArrayList<Player> playerList = presenter.getPlayers();
 
-        System.out.println(playerList);
+        //System.out.println(playerList);
 
         game.setPlayers(playerList);
         setPlayerList(playerList);
@@ -623,7 +623,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         presenter.setGame(data.getGame());
 
-        System.out.println("I got here");
+        //System.out.println("I got here");
 
         Intent intent = new Intent(getApplicationContext(), FinalResultsActivity.class);
         startActivity(intent);

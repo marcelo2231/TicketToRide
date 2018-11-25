@@ -5,6 +5,7 @@ import com.emmettito.models.HardCoded.HardCodedData;
 import com.emmettito.models.Player;
 import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Route;
+import com.emmettito.models.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +73,86 @@ public class PlayerFinalResults {
 
     private boolean didPlayerCompleteRoute(List<Route> all_routes, List<Integer> claimed_routes, DestinationCard dest_card) {
 
-//        Route route = allRoutes.get();
-        //TODO: There will probably need to be a recursive function
-        return false;
-    }
+        Tuple cityIDs = dest_card.getCityIDs();
+        int startCity = ((Double) cityIDs.getX()).intValue();
+        int endCity = ((Double) cityIDs.getY()).intValue();
 
+        System.out.printf("This is the starting city: %s\n", startCity);
+        System.out.printf("This is the ending city: %s\n", endCity);
+
+        //City startCity = (City) cities.getX();
+        //City endCity = (City) cities.getY();
+
+        List<Route> routesClaimed = new ArrayList<>();
+
+        List<Integer> currentCities = new ArrayList<>();
+        ArrayList<Integer> endingCities = new ArrayList<>();
+
+        for (int i = 0; i < claimed_routes.size(); i++) {
+            int cityID = claimed_routes.get(i);
+
+            Route currentRoute = all_routes.get(cityID);
+            Tuple routeCities = currentRoute.getCities();
+
+            int city1 = (Integer) routeCities.getX();
+            int city2 = (Integer) routeCities.getY();
+
+            System.out.printf("This is city 1 from the player's claimed route: %s\n", city1);
+            System.out.printf("This is city 2 from the player's claimed route: %s\n", city2);
+
+            if (city1 == startCity) {
+                currentCities.add(city2);
+            }
+            else if (city2 == startCity) {
+                currentCities.add(city1);
+            }
+            else {
+                if (city1 == endCity || city2 == endCity) {
+                    endingCities.add(city1);
+                }
+                routesClaimed.add(currentRoute);
+            }
+        }
+
+        System.out.printf("This is the number of currentCities: %s\n", currentCities.size());
+
+        if (currentCities.size() == 0 || endingCities.size() == 0) {        //One or both of the cities is unreachable
+            return false;
+        }
+
+        while (currentCities.size() > 0) {
+            Integer currentCity = currentCities.remove(0);
+
+            System.out.printf("This is the current city: %s\n", currentCity);
+
+            if (currentCity == endCity) {
+                return true;        //Path exists from start city to end city
+            }
+
+            for (int i = 0; i < routesClaimed.size(); i++) {
+                Route thisRoute = routesClaimed.get(i);
+                Tuple routeCities = thisRoute.getCities();
+                int city1 = (Integer) routeCities.getX();
+                int city2 = (Integer) routeCities.getY();
+
+                System.out.printf("While loop city 1: %s\n", city1);
+                System.out.printf("While loop city 2: %s\n", city2);
+
+                if (currentCity == city1) {
+                    currentCities.add(city2);
+                    routesClaimed.remove(i);
+                    i--;
+                }
+                else if (currentCity == city2) {
+                    currentCities.add(city1);
+                    routesClaimed.remove(i);
+                    i--;
+                }
+            }
+        }
+
+        return false;   //No path exists
+    }
     /*
 
     Getters
