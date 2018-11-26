@@ -77,8 +77,8 @@ public class PlayerFinalResults {
         int startCity = ((Double) cityIDs.getX()).intValue();
         int endCity = ((Double) cityIDs.getY()).intValue();
 
-        System.out.printf("This is the starting city: %s\n", startCity);
-        System.out.printf("This is the ending city: %s\n", endCity);
+        //System.out.printf("This is the starting city: %s\n", startCity);
+        //System.out.printf("This is the ending city: %s\n", endCity);
 
         //City startCity = (City) cities.getX();
         //City endCity = (City) cities.getY();
@@ -97,8 +97,8 @@ public class PlayerFinalResults {
             int city1 = (Integer) routeCities.getX();
             int city2 = (Integer) routeCities.getY();
 
-            System.out.printf("This is city 1 from the player's claimed route: %s\n", city1);
-            System.out.printf("This is city 2 from the player's claimed route: %s\n", city2);
+            //System.out.printf("This is city 1 from the player's claimed route: %s\n", city1);
+            //System.out.printf("This is city 2 from the player's claimed route: %s\n", city2);
 
             if (city1 == startCity) {
                 currentCities.add(city2);
@@ -114,7 +114,7 @@ public class PlayerFinalResults {
             }
         }
 
-        System.out.printf("This is the number of currentCities: %s\n", currentCities.size());
+        //System.out.printf("This is the number of currentCities: %s\n", currentCities.size());
 
         if (currentCities.size() == 0 || endingCities.size() == 0) {        //One or both of the cities is unreachable
             return false;
@@ -123,7 +123,7 @@ public class PlayerFinalResults {
         while (currentCities.size() > 0) {
             Integer currentCity = currentCities.remove(0);
 
-            System.out.printf("This is the current city: %s\n", currentCity);
+            //System.out.printf("This is the current city: %s\n", currentCity);
 
             if (currentCity == endCity) {
                 return true;        //Path exists from start city to end city
@@ -135,8 +135,8 @@ public class PlayerFinalResults {
                 int city1 = (Integer) routeCities.getX();
                 int city2 = (Integer) routeCities.getY();
 
-                System.out.printf("While loop city 1: %s\n", city1);
-                System.out.printf("While loop city 2: %s\n", city2);
+                //System.out.printf("While loop city 1: %s\n", city1);
+                //System.out.printf("While loop city 2: %s\n", city2);
 
                 if (currentCity == city1) {
                     currentCities.add(city2);
