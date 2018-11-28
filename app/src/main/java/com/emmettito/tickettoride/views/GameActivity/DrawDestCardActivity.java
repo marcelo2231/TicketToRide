@@ -73,13 +73,13 @@ public class DrawDestCardActivity extends AppCompatActivity {
 
 
         List<DestinationCard> drawnCards = new ArrayList<>();
-        if (mFirstTime) {
+//        if (mFirstTime) {
             drawnCards.add(presenter.drawDestCard(client.getUser()));
             drawnCards.add(presenter.drawDestCard(client.getUser()));
             drawnCards.add(presenter.drawDestCard(client.getUser()));
-        } else {
-            drawnCards = client.getGame().getDestinationCardDeck().drawnThreeCards();
-        }
+//        } else {
+//            drawnCards = client.getGame().getDestinationCardDeck().drawnThreeCards();
+//        }
 
         this.mDrawnCard1 = drawnCards.get(0);
         this.mDrawnCard2 = drawnCards.get(1);
