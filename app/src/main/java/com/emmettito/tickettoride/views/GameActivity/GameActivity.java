@@ -47,8 +47,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
     private GamePresenter presenter = new GamePresenter(this);
 
+    public final static int DRAW_DEST_CARD_ACTIVITY = 69;
+
     private Client data;
-    private Context context = this;
 
     private Button deckTrainCards;
     private Button deckDestinationCards;
@@ -70,8 +71,6 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
             if (!isRunning) {
                 return;
             }
-            //System.out.println("\n\n\n\nSDFSDFSDFSDFSDF\n\n\n\n\n");
-            //mAdapter.notifyDataSetChanged();
             thisGameActivity.checkIfOurTurn();
             thisGameActivity.updatePlayerDisplay();
             thisGameActivity.updateDestinationCardDeck();
@@ -130,8 +129,25 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
         //after setting up/inflating, initialize the game-starting processes
         drawDestCard(true);
-        presenter.startPoller();
-        startGame();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case DRAW_DEST_CARD_ACTIVITY:
+                //you just got back from activity B - deal with resultCode
+                //use data.getExtra(...) to retrieve the returned data
+                if (!data.getBooleanExtra("isFirst", false)) {
+                    createDialog("Your Turn Is Over.");
+                    presenter.setTurnState(new NotMyTurn());
+                    presenter.endTurn();
+                }
+                else {
+                    presenter.startPoller();
+                    startGame();
+                }
+                break;
+        }
     }
 
     @Override
@@ -395,7 +411,8 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 //            transaction.commit();
 
             //intent.putExtras(bundle);
-            startActivity(intent);
+//            startActivity(intent);
+            startActivityForResult(intent, DRAW_DEST_CARD_ACTIVITY);
 
             //presenter.setGame(data.getGame());
 

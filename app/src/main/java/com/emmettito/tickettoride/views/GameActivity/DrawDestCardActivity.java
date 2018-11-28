@@ -2,6 +2,8 @@ package com.emmettito.tickettoride.views.GameActivity;
 
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -160,7 +162,7 @@ public class DrawDestCardActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Please select at least 2 Destination Cards (first turn rule)", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        finalizeSelect(selected, discarded);
+                        finalizeSelect(selected, discarded, mFirstTime);
                     }
                 }
                 else {
@@ -168,7 +170,7 @@ public class DrawDestCardActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Please select at least 1 Destination Card", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        finalizeSelect(selected, discarded);
+                        finalizeSelect(selected, discarded, mFirstTime);
                     }
                 }
 
@@ -176,7 +178,7 @@ public class DrawDestCardActivity extends AppCompatActivity {
         });
     }
 
-    public void finalizeSelect(ArrayList<DestinationCard> selected, ArrayList<DestinationCard> discarded) {
+    public void finalizeSelect(ArrayList<DestinationCard> selected, ArrayList<DestinationCard> discarded, Boolean isFirstTime) {
         Client client = Client.getInstance();
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
@@ -194,6 +196,9 @@ public class DrawDestCardActivity extends AppCompatActivity {
 
         presenter.setGame(client.getGame());
 
+        Intent intent = new Intent();
+        intent.putExtra("isFirst", isFirstTime);
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
     /**

@@ -112,8 +112,8 @@ public class MyTurnNoAction implements Turn {
         done = true;
 
         context.drawDestCard(false);
-        context.setTurnState(new NotMyTurn());
-        context.getGameActivity().createDialog("Your Turn Is Over.");
-        context.endTurn();
+//        context.setTurnState(new NotMyTurn());
+//        context.getGameActivity().createDialog("Your Turn Is Over.");
+//        context.endTurn();
     }
 }
