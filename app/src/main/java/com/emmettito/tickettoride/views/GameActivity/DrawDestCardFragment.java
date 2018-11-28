@@ -316,8 +316,7 @@ public class DrawDestCardFragment extends Fragment {
         }
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
-
-
+    
     /*
      * onAttach
      *

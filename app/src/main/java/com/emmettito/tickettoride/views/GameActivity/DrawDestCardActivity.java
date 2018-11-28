@@ -185,6 +185,21 @@ public class DrawDestCardActivity extends AppCompatActivity {
 
         finish();
     }
+    /**
+     * onBackPressed
+     *
+     * This method defines the behavior of the Android back button and is inherited and overridden
+     * from the FragmentActivity parent class. This implementation disables the back button.
+     *
+     * @pre None
+     *
+     * @post None
+     *
+     *
+     */
+    @Override
+    public void onBackPressed() {}
+
 
     public void setIsFirst(boolean isFirst) {
         this.mFirstTime = isFirst;
