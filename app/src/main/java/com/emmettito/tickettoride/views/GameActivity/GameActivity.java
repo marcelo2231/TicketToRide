@@ -374,13 +374,13 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
 
 
             //Draw three cards from the server
-            if (isFirstTime) {
-                drawnCards.add(presenter.drawDestCard(data.getUser()));
-                drawnCards.add(presenter.drawDestCard(data.getUser()));
-                drawnCards.add(presenter.drawDestCard(data.getUser()));
-            } else {
-                drawnCards = data.getGame().getDestinationCardDeck().drawnThreeCards();
-            }
+//            if (isFirstTime) {
+//                drawnCards.add(presenter.drawDestCard(data.getUser()));
+//                drawnCards.add(presenter.drawDestCard(data.getUser()));
+//                drawnCards.add(presenter.drawDestCard(data.getUser()));
+//            } else {
+//                drawnCards = data.getGame().getDestinationCardDeck().drawnThreeCards();
+//            }
 //            for(int i = 0; i < drawnCards.size(); i++) {
 //                String string = "card" + i;
 //                bundle.putSerializable(string, drawnCards.get(i));

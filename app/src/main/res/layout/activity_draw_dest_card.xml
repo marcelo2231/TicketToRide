@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.GameActivity.DrawDestCardActivity">
-    android:background="@color/colorPrimary">
+    tools:context=".views.GameActivity.DrawDestCardActivity"
+    android:background="#80808080">
+    <!--android:background="@color/colorPrimary">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!- TODO: Update blank fragment layout -->
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
