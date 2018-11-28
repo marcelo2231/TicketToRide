@@ -292,6 +292,11 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     // SHOULD ONLY BE CALLED BY THE TURN STATES
     public void drawFaceUpTrainCard(Button button, int buttonIndex) {
         TrainCard card = data.getGame().getTrainCardDeck().getFaceUpCards().get(buttonIndex);
+        //decrement the number of wilds if the drawn card is a wild
+        if(card.getColor()== TrainColor.Wild){
+            int numWilds = data.getGame().getTrainCardDeck().getNumFaceUpWilds();
+            data.getGame().getTrainCardDeck().setNumFaceUpWilds(--numWilds);
+        }
         TrainCard newCard;
         if (!data.getGame().getTrainCardDeck().getAvailable().isEmpty()) {
             newCard = data.getGame().getTrainCardDeck().getAvailable().remove(0);
