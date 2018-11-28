@@ -34,11 +34,6 @@ public class DeckDao {
         return deck;
     }
 
-    public void shuffleDestCard(String gameName) throws Exception{
-        DestinationCardDeck deck = getDestCardDeck(gameName);
-        deck.shuffle();
-    }
-
     public boolean addDestCardToBottomDeck(String gameName, DestinationCard card) throws Exception{
         DestinationCardDeck deck = getDestCardDeck(gameName);
         return deck.getAvailableCards().add(card);
@@ -145,29 +140,7 @@ public class DeckDao {
 
         return result;
     }
-
-    /*public TrainCard removeFaceUpTrainCardFromDeck(String gameName, int cardIndex) throws Exception{
-        TrainCardDeck deck = getTrainCardDeck(gameName);
-        List<TrainCard> faceUpCards = deck.getFaceUpCards();
-
-        if(faceUpCards.size() < cardIndex + 1){
-            throw new Exception("Invalid index(" + cardIndex + "), there are only " + faceUpCards.size() + " cards faced up. Index must be between 0 and " +
-                    (faceUpCards.size() - 1) + ".");
-        }
-
-        // Remove card from top
-        TrainCard result = faceUpCards.get(cardIndex);
-        faceUpCards.remove(cardIndex);
-
-        try{
-            TrainCard card = removeTopTrainCardFromDeck(gameName);
-            faceUpCards.add(card);
-        }catch(Exception e){
-            // There is no card left on deck, and discard pile, do nothing.
-        }
-
-        return result;
-    }*/
+    
 
     public boolean addTrainCardToPlayer(String gameName, String playerName, TrainCard card) throws Exception{
         ArrayList<TrainCard> deck = getPlayerTrainCardDeck(gameName , playerName);
