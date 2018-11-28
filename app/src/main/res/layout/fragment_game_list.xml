@@ -7,7 +7,7 @@
               android:layout_marginTop="25dp"
               android:layout_marginBottom="25dp"
               android:layout_width="350dp"
-              android:layout_height="150dp"
+              android:layout_height="match_parent"
               android:background="#80808080">
 
     <LinearLayout
