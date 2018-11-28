@@ -182,15 +182,15 @@ public class DrawDestCardActivity extends AppCompatActivity {
         destCards.addAll(selected);
 
 
-        if (!mFirstTime) {
+//        if (!mFirstTime) {
             client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
             client.getGame().getDestinationCardDeck().addCards(discarded);
-        }
-        else {
+//        }
+//        else {
             for (int i = 0; i < discarded.size(); i++) {
                 presenter.discardDestCard(client.getUser(), discarded.get(i).getCardID());
             }
-        }
+//        }
 
         presenter.setGame(client.getGame());
 
