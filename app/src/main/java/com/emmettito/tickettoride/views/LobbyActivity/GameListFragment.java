@@ -119,6 +119,7 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
                         if (Integer.parseInt(games.get(i)[1]) < 5) {
                             joinGame(games.get(i)[0], clientInstance.getUser());
+                            finish();
                         }
                         else {
                             Toast.makeText(getContext(), "Game room is full. Please choose another game.", Toast.LENGTH_SHORT).show();
@@ -177,6 +178,15 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
         presenter.startPoller();
 
         return view;
+    }
+
+    public void finish() {
+        super.onResume();
+        /*if (presenter != null) {
+            Client client = Client.getInstance();
+            presenter.setGame(client.getGame());
+        }*/
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     @Override

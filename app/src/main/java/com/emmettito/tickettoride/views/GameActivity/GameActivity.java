@@ -172,6 +172,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         leaveGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.shutDownPoller();
                 presenter.leaveGame();
             }
         });
