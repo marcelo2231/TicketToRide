@@ -75,13 +75,13 @@ public class DrawDestCardActivity extends AppCompatActivity {
 
 
         List<DestinationCard> drawnCards = new ArrayList<>();
-        if (mFirstTime) {
+//        if (mFirstTime) {
             drawnCards.add(presenter.drawDestCard(client.getUser()));
             drawnCards.add(presenter.drawDestCard(client.getUser()));
             drawnCards.add(presenter.drawDestCard(client.getUser()));
-        } else {
-            drawnCards = client.getGame().getDestinationCardDeck().drawnThreeCards();
-        }
+//        } else {
+//            drawnCards = client.getGame().getDestinationCardDeck().drawnThreeCards();
+//        }
 
         this.mDrawnCard1 = drawnCards.get(0);
         this.mDrawnCard2 = drawnCards.get(1);
@@ -184,15 +184,15 @@ public class DrawDestCardActivity extends AppCompatActivity {
         destCards.addAll(selected);
 
 
-        if (!mFirstTime) {
+//        if (!mFirstTime) {
             client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
             client.getGame().getDestinationCardDeck().addCards(discarded);
-        }
-        else {
+//        }
+//        else {
             for (int i = 0; i < discarded.size(); i++) {
                 presenter.discardDestCard(client.getUser(), discarded.get(i).getCardID());
             }
-        }
+//        }
 
         presenter.setGame(client.getGame());
 
