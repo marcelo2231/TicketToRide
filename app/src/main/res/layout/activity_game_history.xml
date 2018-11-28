@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginEnd="25dp"
-            android:text="@string/exit_chat_button"/>
+            android:text="@string/exit_game_history_button"/>
 
     </LinearLayout>
 </LinearLayout>
