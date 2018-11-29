@@ -17,6 +17,7 @@ public class Player {
     private ArrayList<Tuple> indexedCards;
     private ArrayList<Integer> claimedRoutes;
     private int position;
+    private boolean hasPickedDestinationCards = false;
 
     public Player(String playerName, int playerIndex){
         this.playerName = playerName;
@@ -135,5 +136,13 @@ public class Player {
         StringBuilder sb = new StringBuilder();
         sb.append("Name: " + playerName + ", Points: " + points + ", Trains: " + plasticTrains + ", # Claimed Routes: " + claimedRoutes.size());
         return sb.toString();
+    }
+
+    public boolean isHasPickedDestinationCards() {
+        return hasPickedDestinationCards;
+    }
+
+    public void setHasPickedDestinationCards(boolean hasPickedDestinationCards) {
+        this.hasPickedDestinationCards = hasPickedDestinationCards;
     }
 }
