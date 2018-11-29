@@ -46,6 +46,7 @@ public class StartGameCommand implements IGameLobbyCommand {
 
         /** Move to active game **/
         gameLobbyDatabase.removeGame(currGame.getGameName());
+        currGame.setStarted(true);
         gameLobbyDatabase.addActiveGame(currGame);
 
         /** Add 4 Train Cards per player **/

@@ -73,7 +73,14 @@ public class GameLobbyDao {
     }
 
     public ArrayList<Game> getGames(){
-        return dbInstance.gameLobby;
+        ArrayList<Game> games = new ArrayList<>();
+        for(Game g : dbInstance.gameLobby){
+            games.add(g);
+        }
+        for(Game g : dbInstance.activeGame){
+            games.add(g);
+        }
+        return games;
     }
 
     public ArrayList<Game> getActiveGames(){
