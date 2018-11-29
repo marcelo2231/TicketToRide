@@ -241,7 +241,7 @@ public class GamePresenter implements Observer {
 
         if (double_route != -1) { // if the route has a double route
             int num_players = data.getGame().getPlayers().size();
-            final int MIN_NUM_FOR_DOUBLE = 3;
+            final int MIN_NUM_FOR_DOUBLE = 4;
 
             if (num_players < MIN_NUM_FOR_DOUBLE) {
                 return !isRouteTaken(double_route);
