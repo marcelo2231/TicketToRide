@@ -21,7 +21,7 @@ public class Player {
     public Player(String playerName, int playerIndex){
         this.playerName = playerName;
         this.points = 0;
-        this.plasticTrains = 45;
+        this.plasticTrains = 5;
         this.trainCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
         this.indexedCards = new ArrayList<>();
