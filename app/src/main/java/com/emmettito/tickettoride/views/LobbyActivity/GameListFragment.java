@@ -18,6 +18,7 @@ import com.emmettito.models.Results.GetGamesResult;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.LobbyPresenter;
+import com.emmettito.tickettoride.views.GameActivity.GameActivity;
 import com.emmettito.tickettoride.views.GameRoomActivity.GameRoomActivity;
 import com.google.gson.Gson;
 
@@ -70,7 +71,10 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
             tempList[0] = item.getGameName();
             tempList[1] = Integer.toString(item.getPlayers().size());
 
-            if (tempList[1].equals("1") || tempList[1].equals("0")) {
+            if (item.isStarted()){
+                tempList[2] = "GameStarted";
+            }
+            else if (tempList[1].equals("1") || tempList[1].equals("0")) {
                 tempList[2] = "Waiting for players";
             }
             else if (tempList[1].equals("5")) {
@@ -118,7 +122,7 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
                         if (Integer.parseInt(games.get(i)[1]) < 5) {
-                            joinGame(games.get(i)[0], clientInstance.getUser());
+                            joinGame(games.get(i)[0], clientInstance.getUser(),games.get(i)[2]);
                             finish();
                         }
                         else {
@@ -198,9 +202,15 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
 
     public void createNewGame(String gameName, String username){}
 
-    public void joinGame(String gameName, String username) {
+    public void joinGame(String gameName, String username, String hasStarted) {
         presenter.shutDownPoller();
 
+        if(hasStarted.equals("GameStarted")){
+            Intent intent = new Intent(getActivity(), GameActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         GameLobbyResult result = presenter.joinGame(gameName, username);
 
         String token = result.getRenewedAuthToken();

@@ -97,6 +97,6 @@ public class NewGameFragment extends Fragment implements LobbyPresenter.lobbyVie
         startActivity(intent);
     }
 
-    public void joinGame(String gameName, String username){}
+    public void joinGame(String gameName, String username , String hadStarted){}
 
 }

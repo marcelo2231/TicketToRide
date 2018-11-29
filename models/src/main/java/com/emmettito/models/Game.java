@@ -18,6 +18,7 @@ public class Game extends Observable {
     private boolean isLastTurn = false;
     private boolean isGameOver = false;
     private String endingPlayer = "";
+    private boolean started = false;
     //private Tuple longestPath; //Tuple(length, Player)
 
     private ArrayList<Command> commands;
@@ -198,5 +199,13 @@ public class Game extends Observable {
 
     public void setCommands(ArrayList<Command> commands) {
         this.commands = commands;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 }

@@ -72,7 +72,7 @@ public class LobbyPresenter implements Observer {
     public interface lobbyView {
         void createNewGame(String gameName, String username);
 
-        void joinGame(String gameName, String username);
+        void joinGame(String gameName, String username, String hasStarted);
     }
 
     public void startPoller() {

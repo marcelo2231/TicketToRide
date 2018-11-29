@@ -128,7 +128,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         isRunning = true;
 
         //after setting up/inflating, initialize the game-starting processes
-        drawDestCard(true);
+        if (!playerList.get(data.getPlayerID()).isHasPickedDestinationCards()){
+            playerList.get(data.getPlayerID()).setHasPickedDestinationCards(true);
+            drawDestCard(true);
+        }
     }
 
     @Override

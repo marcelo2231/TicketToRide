@@ -114,7 +114,7 @@ public class FinalResultsActivity extends Activity {
     }
 
     private void determineWinner(List<PlayerFinalResults> results) {
-        int most_points = 0;
+        int most_points = -999999;
         ArrayList<Integer> winners = new ArrayList<>(); // could have a tie
 
         // determines the winner(s)

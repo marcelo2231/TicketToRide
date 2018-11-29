@@ -41,6 +41,9 @@ public class TrainCardDeck implements Deck {
             faceUpCards.add(available.get(i));
             available.remove(i);
         }
+        if(numFaceUpWilds >= 3){
+            resetFaceUpCards();
+        }
     }
 
     @Override
@@ -83,5 +86,30 @@ public class TrainCardDeck implements Deck {
 
     public int getNumFaceUpWilds(){
         return numFaceUpWilds;
+    }
+
+    private void resetFaceUpCards(){
+        //discard the 5 face-up cards
+        for(int i = 0; i < 5; i++){
+            TrainCard oldCard = getFaceUpCards().get(i);
+            getDiscardPile().add(oldCard);
+        }
+        //reset the counters
+        ArrayList<TrainCard> newFaceUps = new ArrayList<>();
+        setFaceUpCards(newFaceUps);
+        setNumFaceUpWilds(0);
+        //replace the top 5 cards
+        int numWilds = 0;
+        for(int i = 0; i < 5; i++){
+            TrainCard newCard = getAvailable().remove(i);
+            getFaceUpCards().add(newCard);
+            if(newCard.getColor() == TrainColor.Wild){
+                numWilds = getNumFaceUpWilds();
+                setNumFaceUpWilds(++numWilds);
+            }
+        }
+        if(getNumFaceUpWilds() >= 3){
+            resetFaceUpCards();
+        }
     }
 }
