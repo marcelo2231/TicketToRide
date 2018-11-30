@@ -73,6 +73,8 @@ public class DrawDestCardActivity extends AppCompatActivity {
         this.mFirstTime = getIntent().getBooleanExtra("isFirst", false);
         this.presenter = client.getGamePresenter();
 
+        //client.setGame(presenter.getGame());
+
 
         List<DestinationCard> drawnCards = new ArrayList<>();
 //        if (mFirstTime) {
@@ -82,6 +84,8 @@ public class DrawDestCardActivity extends AppCompatActivity {
 //        } else {
 //            drawnCards = client.getGame().getDestinationCardDeck().drawnThreeCards();
 //        }
+
+        //client.setGame(presenter.getGame());
 
         this.mDrawnCard1 = drawnCards.get(0);
         this.mDrawnCard2 = drawnCards.get(1);

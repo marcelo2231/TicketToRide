@@ -89,7 +89,7 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
 
         mAdapter = new GameHistoryAdapter(commands, clientInstance.getUser());
         recycle.setAdapter(mAdapter);
-        timerHandler.postDelayed(timerRunnable, 500);
+        timerHandler.postDelayed(timerRunnable, 1000);
         presenter = new GameHistoryPresenter(this);
         presenter.startPoller();
     }
@@ -97,7 +97,7 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
     public void update(Object arg) {
         String newListString = (String) arg;
 
-        System.out.println("I got here");
+        //System.out.println("I got here");
 
         System.out.println(dataString);
         System.out.println(newListString);
@@ -106,7 +106,7 @@ public class GameHistoryActivity extends FragmentActivity implements GameHistory
             return;
         }
 
-        System.out.println("This ias fsdf");
+        //System.out.println("This ias fsdf");
 
         dataString = newListString;
 
