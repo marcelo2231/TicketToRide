@@ -86,12 +86,14 @@
             android:layout_width="match_parent"
             android:gravity="left"
             android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/train-card-icon"
-                android:layout_width="0dp"
-                android:layout_height="10dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/back_of_train_card_v2" />
+                android:text="TC"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="9dp" />
 
             <TextView
                 android:id="@+id/player_train_cards"
@@ -102,12 +104,15 @@
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
-            <ImageView
-                android:id="@+id/dest-card-icon"
-                android:layout_width="0dp"
-                android:layout_height="10dp"
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/back_of_dest_card_v2" />
+                android:text="DC"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="9dp" />
 
             <TextView
                 android:id="@+id/player_dest_cards"

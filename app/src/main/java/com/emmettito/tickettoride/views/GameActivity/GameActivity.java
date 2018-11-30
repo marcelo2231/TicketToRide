@@ -367,7 +367,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
 
     private void setDestinationCardDeck() {
         String numberOfDestinationCards = Integer.toString(data.getGame().getDestinationCardDeck().getAvailableCards().size());
-        String destinationCardButtonText = numberOfDestinationCards + "\nDestination";
+        String destinationCardButtonText = numberOfDestinationCards;
 
         deckDestinationCards = (Button) findViewById(R.id.deckDestinationCards);
         deckDestinationCards.setText(destinationCardButtonText);
@@ -548,7 +548,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
     }
 
     public void updateDestinationCardDeck() {
-        String update = String.valueOf(data.getGame().getDestinationCardDeck().getAvailableCards().size()) + "\nDestination";
+        String update = String.valueOf(data.getGame().getDestinationCardDeck().getAvailableCards().size());
         deckDestinationCards.setText(update);
     }
 
