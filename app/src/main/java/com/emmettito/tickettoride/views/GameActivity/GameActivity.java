@@ -1,9 +1,6 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
@@ -43,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameActivity extends FragmentActivity implements DrawDestCardFragment.OnFragmentInteractionListener, DestCardDisplayFragment.OnFragmentInteractionListener {
+public class GameActivity extends FragmentActivity implements DestCardDisplayFragment.OnFragmentInteractionListener {
 
     private GamePresenter presenter = new GamePresenter(this);
 
@@ -124,14 +121,16 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         playerListRecycle.setAdapter(playerListAdapter);
 
         //presenter.addObserver();
-        timerHandler.postDelayed(timerRunnable, 500);
-        isRunning = true;
+        presenter.startPoller();
 
         //after setting up/inflating, initialize the game-starting processes
         if (!playerList.get(data.getPlayerID()).isHasPickedDestinationCards()){
             playerList.get(data.getPlayerID()).setHasPickedDestinationCards(true);
             drawDestCard(true);
         }
+
+        timerHandler.postDelayed(timerRunnable, 500);
+        isRunning = true;
     }
 
     @Override
@@ -146,9 +145,10 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                     presenter.endTurn();
                 }
                 else {
-                    presenter.startPoller();
-                    startGame();
+                    //startGame();
                 }
+                //presenter.startPoller();
+
                 break;
         }
     }
@@ -191,6 +191,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
         leaveGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isRunning = false;
                 presenter.shutDownPoller();
                 presenter.leaveGame();
             }
@@ -687,7 +688,7 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
     }
 
     public void createDialog(String message) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
+        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
 
         AlertDialog dialog = alertDialogBuilder.setMessage(message).
                 setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -698,7 +699,9 @@ public class GameActivity extends FragmentActivity implements DrawDestCardFragme
                 }).create();
 
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.show();
+        dialog.show();*/
+
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     public GamePresenter getPresenter() {

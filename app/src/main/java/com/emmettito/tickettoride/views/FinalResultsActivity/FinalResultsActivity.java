@@ -5,22 +5,20 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
-import com.emmettito.models.Cards.DestinationCard;
-import com.emmettito.models.Game;
 import com.emmettito.models.Player;
-import com.emmettito.models.PlayerColor;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.views.GameActivity.PlayerInfoAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FinalResultsActivity extends Activity {
+    private Button leaveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +32,16 @@ public class FinalResultsActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_final_results);
+
+        leaveButton = (Button) findViewById(R.id.leaveButton);
+        leaveButton.setEnabled(true);
+        leaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         setFinalResultsRecyclerView();
     }
 

@@ -97,6 +97,7 @@ public class GamePresenter implements Observer {
         request.setGameName(data.getGameName());
         request.setPlayerName(playerName);
         DrawDestCardResult result = facade.drawDestCard(request);
+        System.out.println(result.getData().toString());
         return result.getData();
     }
 
