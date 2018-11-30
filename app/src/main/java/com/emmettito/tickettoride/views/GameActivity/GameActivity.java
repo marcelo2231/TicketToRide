@@ -571,14 +571,20 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             Button trainCardButton = findViewById(resId);
             trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
             Drawable background = null;
-            if(deck.getFaceUpCards().get(i) != null) {
+            if(deck.getFaceUpCards().size() <= i){
+                trainCardButton.setBackgroundColor(0x00);
+                trainCardButton.setBackgroundResource(android.R.drawable.btn_default);
+                trainCardButton.setEnabled(false);
+                trainCardButton.setBackground(null);
+                return;
+            }
+            if (deck.getFaceUpCards().get(i) != null) {
                 background = updateFaceUpCard(deck.getFaceUpCards().get(i));
             }
 
             if (background == null) {
                 trainCardButton.setBackgroundColor(0x00);
                 trainCardButton.setBackgroundResource(android.R.drawable.btn_default);
-                //game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
                 trainCardButton.setEnabled(false);
                 continue;
             }
