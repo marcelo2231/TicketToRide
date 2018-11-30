@@ -50,6 +50,11 @@ public class GameLobbyDao {
                 return g;
             }
         }
+        for (Game g : dbInstance.endedGame) {
+            if (g.getGameName().equals(gameName)) {
+                return g;
+            }
+        }
         return null;
     }
 
@@ -93,8 +98,18 @@ public class GameLobbyDao {
         if (!dbInstance.gameLobby.remove(toBeRemoved)) { throw new NotFound(); }
     }
 
+    public void removeActiveGame(String gameName) throws NotFound {
+        Game toBeRemoved = getGame(gameName);
+        if (toBeRemoved == null){ throw new NotFound(); }
+        if (!dbInstance.activeGame.remove(toBeRemoved)) { throw new NotFound(); }
+    }
+
     public void addActiveGame(Game newGame) { //two active games can have the same name
         dbInstance.activeGame.add(newGame);
+    }
+
+    public void addEndedGame(Game endedGame) {
+        dbInstance.endedGame.add(endedGame);
     }
 
 

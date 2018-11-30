@@ -13,6 +13,7 @@ public class GetActiveGamesCommand implements IGameLobbyCommand {
         games = gameLobbyDatabase.getActiveGames();
 
         if (games == null){
+
             games = new ArrayList<>();
         }
 

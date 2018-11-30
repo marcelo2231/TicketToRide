@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.emmettito.models.Game;
+import com.emmettito.models.Player;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.GetGamesResult;
 import com.emmettito.tickettoride.Client;
@@ -40,11 +41,16 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
 
     private Client clientInstance = Client.getInstance();
 
+    private boolean isRunning = false;
+
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
 
         @Override
         public void run() {
+            if (!isRunning) {
+                return;
+            }
             mAdapter.notifyDataSetChanged();
             timerHandler.postDelayed(this, 500);
         }
@@ -73,6 +79,21 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
 
             if (item.isStarted()){
                 tempList[2] = "GameStarted";
+
+                ArrayList<Player> players = item.getPlayers();
+
+                boolean playerInGame = false;
+
+                for (int i = 0; i < players.size(); i++) {
+                    if (players.get(i).getPlayerName().equals(clientInstance.getUser())) {
+                        playerInGame = true;
+                        break;
+                    }
+                }
+
+                if (!playerInGame) {
+                    continue;
+                }
             }
             else if (tempList[1].equals("1") || tempList[1].equals("0")) {
                 tempList[2] = "Waiting for players";
@@ -87,10 +108,10 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
             gamesListStrings.add(tempList);
         }
 
-        if (gamesListStrings.size() > 0) {
+        //if (gamesListStrings.size() > 0) {
                 games.clear();
                 games.addAll(gamesListStrings);
-        }
+        //}
     }
 
     @Override
@@ -174,6 +195,7 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
         recycle.setAdapter(mAdapter);
 
         timerHandler.postDelayed(timerRunnable, 500);
+        isRunning = true;
 
         presenter = new LobbyPresenter(this);
 
@@ -204,6 +226,9 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
 
     public void joinGame(String gameName, String username, String hasStarted) {
         presenter.shutDownPoller();
+        isRunning = false;
+
+        clientInstance.setGameName(gameName);
 
         if(hasStarted.equals("GameStarted")){
             Intent intent = new Intent(getActivity(), GameActivity.class);
@@ -211,6 +236,8 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
             finish();
             return;
         }
+
+        //clientInstance.setGameName(gameName);
         GameLobbyResult result = presenter.joinGame(gameName, username);
 
         String token = result.getRenewedAuthToken();

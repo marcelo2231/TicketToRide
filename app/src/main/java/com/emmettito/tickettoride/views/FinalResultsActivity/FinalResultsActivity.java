@@ -43,6 +43,12 @@ public class FinalResultsActivity extends Activity {
         });
 
         setFinalResultsRecyclerView();
+
+        Client data = Client.getInstance();
+        data.setGame(null);
+        //data.getGame().setStarted(false);
+        //data.getGame().setGameOver(false);
+        //data.getGame().setLastTurn(false);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommands.EndGameRequest;
+import com.emmettito.models.Game;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
@@ -23,6 +24,10 @@ public class EndGameCommand implements IGameCommand{
 
         // TODO: Store data on Database
 
+        //gameLobbyDatabase.removeActiveGame(commandModel.getGameName());
+        Game game = gameLobbyDatabase.getGame(commandModel.getGameName());
+        gameLobbyDatabase.removeActiveGame(game.getGameName());
+        gameLobbyDatabase.addEndedGame(game);
 
 
         return new Result();

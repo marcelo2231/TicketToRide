@@ -21,6 +21,7 @@ public class Database {
     /** Stored Variables **/
     public ArrayList<Game> gameLobby = new ArrayList<>();
     public ArrayList<Game> activeGame = new ArrayList<>();
+    public ArrayList<Game> endedGame = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
     public ArrayList<AuthToken> tokens = new ArrayList<>();
 }

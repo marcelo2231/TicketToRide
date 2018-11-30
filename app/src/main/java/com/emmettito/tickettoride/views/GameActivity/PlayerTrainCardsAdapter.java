@@ -6,18 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.models.Tuple;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCardsAdapter.PlayerTrainCardsHolder>  {
@@ -62,6 +59,8 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
     @Override
     public void onBindViewHolder(PlayerTrainCardsHolder holder, int position) {
         Tuple t = cards_sorted.get(position);
+        System.out.println(t.getX());
+        System.out.println(t.getX().getClass());
         TrainColor color = (TrainColor)t.getX();
         int count = (int)t.getY();
 

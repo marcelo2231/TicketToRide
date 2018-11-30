@@ -72,6 +72,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             thisGameActivity.updatePlayerDisplay();
             thisGameActivity.updateDestinationCardDeck();
             thisGameActivity.updateCardDeck();
+
             thisGameActivity.updatePlayerTrainCards();
             thisGameActivity.updateMapView();
             thisGameActivity.updateFaceUpCards();
@@ -162,6 +163,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
     @Override
     public void onResume() {
         super.onResume();
+        //data.setGame(presenter.getGame());
         updatePlayerDisplay();
         updateDestinationCardDeck();
     }
@@ -644,13 +646,15 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
 
         presenter.shutDownPoller();
 
-        presenter.endGame();
+        System.out.println("And here");
 
         data.getGame().setGameOver(true);
 
         presenter.setGame(data.getGame());
 
-        //System.out.println("I got here");
+        presenter.endGame();
+
+        System.out.println("I got here");
 
         Intent intent = new Intent(getApplicationContext(), FinalResultsActivity.class);
         startActivity(intent);
@@ -663,6 +667,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         //System.out.println(data.getGame().getPlayerTurnIndex());
 
         if (data.getGame().isGameOver()) {
+            System.out.println("I made it here");
             endGame();
             return;
         }

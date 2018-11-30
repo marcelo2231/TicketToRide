@@ -11,9 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,16 +19,13 @@ import com.emmettito.models.Player;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.models.Results.GetPlayersResult;
 import com.emmettito.tickettoride.Client;
+import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.communication.proxy.GameRoomProxy;
 import com.emmettito.tickettoride.presenters.GameRoomPresenter;
+import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Observable;
-
-import com.emmettito.tickettoride.R;
-import com.emmettito.tickettoride.views.GameActivity.GameActivity;
-import com.emmettito.tickettoride.views.LobbyActivity.GameListAdapter;
-import com.google.gson.Gson;
 
 /*import android.support.v7.app.AppCompatActivity;*/
 
@@ -157,6 +152,7 @@ public class GameRoomActivity extends Activity implements GameRoomPresenter.Game
     public void leaveGame() {
 
         if (proxy.leaveGame()) {
+            stopPoller();
             finish();
         }
         else {
