@@ -332,6 +332,9 @@ public class GamePresenter implements Observer {
     public void claimRoute(int routeID, TrainColor chosen_color) {
         Route route = data.getAllRoutes().get(routeID);
 
+        String city1 = data.getAllCities().get((Integer) route.getCities().getX()).getName();
+        String city2 = data.getAllCities().get((Integer) route.getCities().getY()).getName();
+
         int route_size = route.getSpaces().size();
 
         Player player = data.getGame().getOnePlayer(data.getUser());
@@ -356,6 +359,13 @@ public class GamePresenter implements Observer {
             data.getGame().setLastTurn(true);
             data.getGame().setEndingPlayer(player.getPlayerName());
         }
+
+        String description = "Claimed route " + routeID + " from " + city1 + " to " + city2 + ".";
+        Command command = new Command(data.getUser(), "ClaimedRoute", description, "", "");
+        //gameDatabase.addCommand(commandModel.getGameName(), command);
+
+        data.getGame().getCommands().add(command);
+        //presenter.setGame(data.getGame());
 
         // TODO: needs to send updates to the server
         setGame(data.getGame());

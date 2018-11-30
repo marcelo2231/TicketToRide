@@ -26,6 +26,7 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.Cards.TrainCardComparator;
 import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.Cards.TrainColor;
+import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.Result;
@@ -303,6 +304,13 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
             Result result = presenter.setGame(data.getGame());
 
+            String description = "Drew face down train card with id " + card.getCardID() + " and color " + card.getColor().toString() + ".";
+            Command command = new Command(data.getUser(), "DrawFaceDownTrainCard", description, "", "");
+            //gameDatabase.addCommand(commandModel.getGameName(), command);
+
+            data.getGame().getCommands().add(command);
+            presenter.setGame(data.getGame());
+
             //Do something with result maybe
         } catch (IndexOutOfBoundsException e) {
             notifyDeckEmpty();
@@ -336,6 +344,13 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         addTrainCardToPlayer(card);
 
         Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
+
+        String description = "Drew face up train card with position " + buttonIndex + ", id " + card.getCardID() + ", and color " + card.getColor().toString() + ".";
+        Command command = new Command(data.getUser(), "DrawFaceUpTrainCard", description, "", "");
+        //gameDatabase.addCommand(commandModel.getGameName(), command);
+
+        data.getGame().getCommands().add(command);
+        presenter.setGame(data.getGame());
 
         updatePlayerDisplay();
         updateFaceUpCards();
@@ -720,4 +735,12 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
     public GamePresenter getPresenter() {
         return presenter;
     }
+
+    //public void addCommand(String description) {
+        //String description = "Drew train card with id " + card.getCardID() + " and color " + card.getColor().toString() + ".";
+        //String requestJson = new Serializer().serialize(commandModel);
+        //String resultJson = new Serializer().serialize(result);
+        //Command command = new Command(commandModel.getPlayerName(), "DrawTrainCard", description, requestJson, resultJson);
+        //gameDatabase.addCommand(commandModel.getGameName(), command);
+    //}
 }
