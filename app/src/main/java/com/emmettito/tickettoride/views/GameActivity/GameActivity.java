@@ -325,7 +325,8 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             //increment the number of faceUp wilds if the new card is a wild
             if(newCard.getColor() == TrainColor.Wild){
                 int numWilds = data.getGame().getTrainCardDeck().getNumFaceUpWilds();
-                data.getGame().getTrainCardDeck().setNumFaceUpWilds(++numWilds);
+                numWilds++;
+                data.getGame().getTrainCardDeck().setNumFaceUpWilds(numWilds);
             }
         }
         else {
@@ -335,16 +336,17 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         addTrainCardToPlayer(card);
 
         Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
-        presenter.setGame(data.getGame());
 
-        //presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
         updatePlayerDisplay();
         updateFaceUpCards();
+        presenter.setGame(data.getGame());
+
         //if there's more than 3 wilds face-up, tell the server to shuffle them
         if(data.getGame().getTrainCardDeck().getNumFaceUpWilds() >= 3) {
             Toast.makeText(getApplicationContext(), "3 face-up wild cards; shuffling them back in", Toast.LENGTH_SHORT).show();
             shuffleFaceUpCards();
         }
+        System.out.println("number of wilds after shuffling = " + data.getGame().getTrainCardDeck().getNumFaceUpWilds());
     }
 
     private void shuffleFaceUpCards() {
@@ -369,7 +371,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
 
     private void setDestinationCardDeck() {
         String numberOfDestinationCards = Integer.toString(data.getGame().getDestinationCardDeck().getAvailableCards().size());
-        String destinationCardButtonText = numberOfDestinationCards + "\nDestination";
+        String destinationCardButtonText = numberOfDestinationCards;
 
         deckDestinationCards = (Button) findViewById(R.id.deckDestinationCards);
         deckDestinationCards.setText(destinationCardButtonText);
@@ -550,7 +552,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
     }
 
     public void updateDestinationCardDeck() {
-        String update = String.valueOf(data.getGame().getDestinationCardDeck().getAvailableCards().size()) + "\nDestination";
+        String update = String.valueOf(data.getGame().getDestinationCardDeck().getAvailableCards().size());
         deckDestinationCards.setText(update);
     }
 
@@ -571,14 +573,20 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             Button trainCardButton = findViewById(resId);
             trainCardButton.setOnClickListener(new TrainCardClickListener(trainCardButton, i));
             Drawable background = null;
-            if(deck.getFaceUpCards().get(i) != null) {
+            if(deck.getFaceUpCards().size() <= i){
+                trainCardButton.setBackgroundColor(0x00);
+                trainCardButton.setBackgroundResource(android.R.drawable.btn_default);
+                trainCardButton.setEnabled(false);
+                trainCardButton.setBackground(null);
+                return;
+            }
+            if (deck.getFaceUpCards().get(i) != null) {
                 background = updateFaceUpCard(deck.getFaceUpCards().get(i));
             }
 
             if (background == null) {
                 trainCardButton.setBackgroundColor(0x00);
                 trainCardButton.setBackgroundResource(android.R.drawable.btn_default);
-                //game.getTrainCardDeck().getFaceUpCards().add(trainCardIndex, null);
                 trainCardButton.setEnabled(false);
                 continue;
             }

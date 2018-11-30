@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wooden_background">
@@ -86,13 +85,14 @@
             android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/back_of_train_card"/>
+            android:background="@drawable/back_of_train_card_v2"/>
 
         <Button
             android:id="@+id/trainCard1"
             android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
             android:layout_below="@+id/TrainCardsDeck"/>
 
         <Button
@@ -100,6 +100,7 @@
             android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
             android:layout_below="@+id/trainCard1"/>
 
         <Button
@@ -107,6 +108,7 @@
             android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
             android:layout_below="@id/trainCard2"/>
 
         <Button
@@ -114,6 +116,7 @@
             android:layout_width="75dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
             android:layout_below="@+id/trainCard3"/>
 
         <Button
@@ -121,15 +124,16 @@
             android:layout_width="75dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
             android:layout_below="@id/trainCard4"/>
 
         <Button
             android:id="@+id/deckDestinationCards"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/trainCard5"
-            android:background="@drawable/back_of_dest_card"/>
+            android:background="@drawable/back_of_dest_card_v2"/>
         </RelativeLayout>
 
     </LinearLayout>
@@ -145,18 +149,18 @@
             android:id="@+id/playerTrainCards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/viewDestinationCardsButton"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_vertical"
             android:orientation="horizontal"
             android:scrollbars="horizontal"/>
 
         <Button
             android:id="@+id/viewDestinationCardsButton"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/back_of_dest_card"
-            android:text="Player's Destination Cards"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/back_of_dest_card_v2"
             />
 
     </RelativeLayout>
