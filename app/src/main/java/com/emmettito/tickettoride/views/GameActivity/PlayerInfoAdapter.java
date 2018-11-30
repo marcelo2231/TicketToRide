@@ -78,16 +78,16 @@ public class PlayerInfoAdapter extends RecyclerView.Adapter<PlayerInfoAdapter.Pl
                 holder.player_color.setBackgroundResource(R.color.yellowPlayer);
                 break;
         }
-        holder.player_points.setText(data.get(position)[2]);
+        holder.player_points.setText("  " + data.get(position)[2]);
         //holder.player_position.setText(data.get(position)[3]);
         holder.player_train_cards.setText(data.get(position)[4]);
         holder.player_dest_cards.setText(data.get(position)[5]);
-        holder.player_trains.setText(data.get(position)[6]);
+        holder.player_trains.setText("  " + data.get(position)[6]);
         if (data.get(position)[7].equals(data.get(position)[3])) // if playerTurn == position
         {
-            holder.player_name.setText("*" + data.get(position)[1] + "*");
+            holder.player_name.setText("  *" + data.get(position)[1] + "*");
         }else{
-            holder.player_name.setText(data.get(position)[1]);
+            holder.player_name.setText("  " + data.get(position)[1]);
         }
 
         holder.itemView.setSelected(selectedPosition == position);

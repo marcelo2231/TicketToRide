@@ -59,8 +59,6 @@ public class PlayerTrainCardsAdapter extends RecyclerView.Adapter<PlayerTrainCar
     @Override
     public void onBindViewHolder(PlayerTrainCardsHolder holder, int position) {
         Tuple t = cards_sorted.get(position);
-        System.out.println(t.getX());
-        System.out.println(t.getX().getClass());
         TrainColor color = (TrainColor)t.getX();
         int count = (int)t.getY();
 

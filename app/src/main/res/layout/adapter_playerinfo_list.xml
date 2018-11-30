@@ -22,8 +22,8 @@
             android:id="@+id/player_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="[Username]"
-            android:textAlignment="center"
+            android:text="  [Username]"
+            android:textAlignment="viewStart"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_weight="1"
             android:textSize="9dp" />
@@ -38,18 +38,16 @@
                 android:id="@+id/player_points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:textAlignment="textEnd"
+                android:text="  0"
+                android:textAlignment="viewStart"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text=" Points"
-                android:textAlignment="textStart"
+                android:textAlignment="viewStart"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
         </LinearLayout>
@@ -64,18 +62,16 @@
                 android:id="@+id/player_trains"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:textAlignment="textEnd"
+                android:text="  0"
+                android:textAlignment="viewStart"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text=" Trains"
-                android:textAlignment="textStart"
+                android:textAlignment="viewStart"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
         </LinearLayout>
@@ -89,8 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TC"
+                android:text="  TC  "
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
@@ -99,7 +94,6 @@
                 android:id="@+id/player_train_cards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="0"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -108,8 +102,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="DC"
+                android:text="  DC  "
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
@@ -118,7 +111,6 @@
                 android:id="@+id/player_dest_cards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="0"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
