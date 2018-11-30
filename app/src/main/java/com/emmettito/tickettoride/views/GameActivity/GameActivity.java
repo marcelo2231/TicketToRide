@@ -323,7 +323,8 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             //increment the number of faceUp wilds if the new card is a wild
             if(newCard.getColor() == TrainColor.Wild){
                 int numWilds = data.getGame().getTrainCardDeck().getNumFaceUpWilds();
-                data.getGame().getTrainCardDeck().setNumFaceUpWilds(++numWilds);
+                numWilds++;
+                data.getGame().getTrainCardDeck().setNumFaceUpWilds(numWilds);
             }
         }
         else {
@@ -333,16 +334,17 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         addTrainCardToPlayer(card);
 
         Collections.sort(data.getGame().getOnePlayer(data.getUser()).getTrainCards(), new TrainCardComparator());
-        presenter.setGame(data.getGame());
 
-        //presenter.drawFaceUpTrainCard((GameActivity) context, data.getGame(), card, newCard, buttonIndex, button);
         updatePlayerDisplay();
         updateFaceUpCards();
+        presenter.setGame(data.getGame());
+
         //if there's more than 3 wilds face-up, tell the server to shuffle them
         if(data.getGame().getTrainCardDeck().getNumFaceUpWilds() >= 3) {
             Toast.makeText(getApplicationContext(), "3 face-up wild cards; shuffling them back in", Toast.LENGTH_SHORT).show();
             shuffleFaceUpCards();
         }
+        System.out.println("number of wilds after shuffling = " + data.getGame().getTrainCardDeck().getNumFaceUpWilds());
     }
 
     private void shuffleFaceUpCards() {
