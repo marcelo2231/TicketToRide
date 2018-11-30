@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:minWidth="25px"
     android:minHeight="25px"
     android:layout_width="95dp"
@@ -15,31 +17,40 @@
         android:background="@color/defaultPlayerColor"
         android:gravity="left"
         android:id="@+id/player_background">
+
         <TextView
-            android:text="Spot Open"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_width="wrap_content"
+            android:id="@+id/player_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="9dp"
-            android:id="@+id/player_name" />
+            android:text="[Username]"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_weight="1"
+            android:textSize="9dp" />
         <LinearLayout
             android:orientation="horizontal"
             android:minWidth="25px"
             android:layout_width="match_parent"
             android:gravity="left"
             android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/player_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="0"
+                android:textAlignment="textEnd"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="9dp"
-                android:id="@+id/player_points" />
+                android:textSize="9dp" />
+
             <TextView
-                android:text=" Points"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" Points"
+                android:textAlignment="textStart"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="9dp" />
         </LinearLayout>
         <LinearLayout
@@ -48,19 +59,25 @@
             android:layout_width="match_parent"
             android:gravity="left"
             android:layout_height="wrap_content">
+
             <TextView
-                android:text="Trains: "
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/player_trains"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="9dp"/>
-            <TextView
+                android:layout_weight="1"
                 android:text="0"
+                android:textAlignment="textEnd"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="9dp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="9dp"
-                android:id="@+id/player_trains" />
+                android:layout_weight="1"
+                android:text=" Trains"
+                android:textAlignment="textStart"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="9dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,32 +86,42 @@
             android:layout_width="match_parent"
             android:gravity="left"
             android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/train-card-icon"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/back_of_train_card_v2" />
+
             <TextView
-                android:text="TC: "
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/player_train_cards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="9dp" />
-            <TextView
+                android:layout_weight="1"
                 android:text="0"
+                android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="9dp"
-                android:id="@+id/player_train_cards" />
-            <TextView
-                android:text="  DC: "
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textSize="9dp" />
+            <ImageView
+                android:id="@+id/dest-card-icon"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/back_of_dest_card_v2" />
+
             <TextView
-                android:text="0"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/player_dest_cards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="9dp"
-                android:id="@+id/player_dest_cards" />
+                android:layout_weight="1"
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="9dp" />
+
+
         </LinearLayout>
+
     </LinearLayout>
+
 </android.widget.LinearLayout>
