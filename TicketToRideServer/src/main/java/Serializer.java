@@ -40,6 +40,8 @@ public class Serializer {
     /*
     Game game = new Game();
 
+    System.out.println(game);
+
     String serializedGame = new Serializer().serialize(game);
 
     System.out.println(serializedGame);
