@@ -1,6 +1,9 @@
 package com.emmettito.tickettorideserver;
 
-import com.emmettito.tickettorideserver.communication.handlers.*;
+import com.emmettito.tickettorideserver.communication.handlers.DefaultHandler;
+import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
+import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
+import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
