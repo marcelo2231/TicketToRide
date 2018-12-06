@@ -141,6 +141,9 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             case DRAW_DEST_CARD_ACTIVITY:
                 //you just got back from activity B - deal with resultCode
                 //use data.getExtra(...) to retrieve the returned data
+                if (data == null) {
+                    break;
+                }
                 if (!data.getBooleanExtra("isFirst", false)) {
                     createDialog("Your Turn Is Over.");
                     presenter.setTurnState(new NotMyTurn());
@@ -194,6 +197,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         leaveGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timerHandler.removeCallbacks(timerRunnable);
                 isRunning = false;
                 presenter.shutDownPoller();
                 presenter.leaveGame();
@@ -393,7 +397,11 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         deckDestinationCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.drawDestCards();
+                boolean successful = presenter.drawDestCards();
+
+                if (!successful) {
+                    Toast.makeText(getApplicationContext(), "Error: Could not connect to server. Can't draw Destination Cards.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -690,7 +698,6 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         //System.out.println(data.getGame().getPlayerTurnIndex());
 
         if (data.getGame().isGameOver()) {
-            System.out.println("I made it here");
             endGame();
             return;
         }

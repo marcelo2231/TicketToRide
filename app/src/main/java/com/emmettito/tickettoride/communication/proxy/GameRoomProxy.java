@@ -47,6 +47,10 @@ public class GameRoomProxy {
             return false;
         }
 
+        if (responseBody.contains("Error")) { //Server is down
+            return false;
+        }
+
         Result result = gson.fromJson(responseBody, Result.class);
 
         if (result.getSuccess()) {
@@ -78,6 +82,14 @@ public class GameRoomProxy {
             responseBody = clientCommunicator.execute(url, "POST", requestBody).get();
         } catch (Exception e) {
             return new GameLobbyResult(false, "Error: Could not start the game.");
+        }
+
+        if (responseBody.contains("Error")) { //Server is down
+            GameLobbyResult result = new GameLobbyResult();
+            result.setSuccess(false);
+            result.setMessage("Error: could not connect to server.");
+
+            return result;
         }
 
         Log.w("startGameResult", responseBody);

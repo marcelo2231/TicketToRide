@@ -197,7 +197,6 @@ public class LobbyActivity extends FragmentActivity {
         if (!result.getSuccess()) {
             Toast toast = Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT);
             toast.show();
-            return;
         }
 
         Intent intent = new Intent(this, LoginActivity.class);

@@ -96,6 +96,15 @@ public class LoginProxy {
             return null;
         }
         Log.w("myApp", resultBody);
+
+        if (resultBody.contains("Error")) { //Server is down
+            Result result = new Result();
+            result.setSuccess(false);
+            result.setMessage("Error: could not connect to server.");
+
+            return result;
+        }
+
         return gson.fromJson(resultBody, Result.class);
     }
 }

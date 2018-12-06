@@ -111,7 +111,7 @@ public class ClientCommunicator extends AsyncTask<String, Void, String> {
             return getResponse(http);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return "Error: Could not connect to the server.";

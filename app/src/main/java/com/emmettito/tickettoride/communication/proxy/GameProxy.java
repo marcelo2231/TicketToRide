@@ -50,7 +50,7 @@ public class GameProxy {
             resultString = "Error: Could not connect to the server.";
         }
 
-        if (resultString.equals("Error: Could not connect to the server.")) {
+        if (resultString.contains("Error")) {
             ChatResult result = new ChatResult();
             result.setMessage(resultString);
             return result;
@@ -76,7 +76,7 @@ public class GameProxy {
             resultString = "Error: Could not connect to the server.";
         }
 
-        if (resultString.equals("Error: Could not connect to the server.")) {
+        if (resultString.contains("Error")) {
             GetPlayersResult result = new GetPlayersResult();
             result.setMessage(resultString);
             return result;
@@ -101,7 +101,7 @@ public class GameProxy {
             resultString = "Error: Could not connect to the server.";
         }
 
-        if (resultString.equals("Error: Could not connect to the server.")) {
+        if (resultString.contains("Error")) {
             GetGameResult result = new GetGameResult();
             result.setMessage(resultString);
             return result;
@@ -127,7 +127,7 @@ public class GameProxy {
             resultString = "Error: Could not connect to the server.";
         }
 
-        if (resultString.equals("Error: Could not connect to the server.")) {
+        if (resultString.contains("Error")) {
             DrawDestCardResult result = new DrawDestCardResult();
             result.setMessage(resultString);
             return result;
@@ -152,7 +152,7 @@ public class GameProxy {
             resultString = "Error: Could not connect to the server.";
         }
 
-        if (resultString.equals("Error: Could not connect to the server.")) {
+        if (resultString.contains("Error")) {
             Result result = new Result();
             result.setMessage(resultString);
             return result;
@@ -177,7 +177,7 @@ public class GameProxy {
             resultString = "Error: Could not connect to the server.";
         }
 
-        if (resultString.equals("Error: Could not connect to the server.")) {
+        if (resultString.contains("Error")) {
             Result result = new Result();
             result.setMessage(resultString);
             return result;
@@ -203,7 +203,7 @@ public class GameProxy {
             resultString = "Error: Could not connect to the server.";
         }
 
-        if (resultString.equals("Error: Could not connect to the server.")) {
+        if (resultString.contains("Error")) {
             GetCommandsResult result = new GetCommandsResult();
             result.setMessage(resultString);
             return result;
@@ -228,7 +228,7 @@ public class GameProxy {
             resultString = "Error: could not connect to server";
         }
 
-        if(resultString.equalsIgnoreCase("Error: could not connect to server")){
+        if(resultString.contains("Error")){
             Result result = new Result();
             result.setMessage(resultString);
             return result;
@@ -251,7 +251,7 @@ public class GameProxy {
             resultString = "Error: could not draw Train card";
         }
 
-        if(resultString.equalsIgnoreCase("Error: could not draw Train card")){
+        if(resultString.contains("Error")){
             DrawTrainResult result = new DrawTrainResult();
             result.setMessage(resultString);
             return result;
@@ -274,7 +274,7 @@ public class GameProxy {
             resultString = "Error: could not draw Train card";
         }
 
-        if(resultString.equalsIgnoreCase("Error: could not draw Train card")){
+        if(resultString.contains("Error")){
             DrawTrainResult result = new DrawTrainResult();
             result.setMessage(resultString);
             return result;
@@ -297,7 +297,7 @@ public class GameProxy {
             resultString = "Error: could not set game";
         }
 
-        if(resultString.equalsIgnoreCase("Error: could not set game")){
+        if(resultString.contains("Error")){
             Result result = new Result();
             result.setMessage(resultString);
             return result;
@@ -345,7 +345,7 @@ public class GameProxy {
             resultString = "Error: could not end game";
         }
 
-        if(resultString.equalsIgnoreCase("Error: could not end game")){
+        if(resultString.contains("Error")){
             Result result = new Result();
             result.setMessage(resultString);
             return result;

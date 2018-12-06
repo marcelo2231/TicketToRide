@@ -96,7 +96,6 @@ public class DrawDestCardActivity extends AppCompatActivity {
 //        this.mDrawnCard3 = (DestinationCard) savedInstanceState.getSerializable("card3");
 //        this.presenter = (GamePresenter) savedInstanceState.getSerializable("presenter");
 
-
         destCard1 = (TextView) findViewById(R.id.destCard1);
         destCard1.setText(mDrawnCard1.toString());
         destCard2 = (TextView) findViewById(R.id.destCard2);

@@ -45,6 +45,7 @@ public class GamePresenter implements Observer {
     private GameActivity gameActivity;
     private Poller poller;
     private Turn turnState;
+    private boolean serverIsDown = false;
 
     public GamePresenter(GameActivity gameActivity) {
         this.gameActivity = gameActivity;
@@ -53,8 +54,25 @@ public class GamePresenter implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        Gson gson = new Gson();
         String resultString = (String) o;
+
+        if (serverIsDown) {
+            if (!resultString.contains("Error")) {
+                serverIsDown = false;
+
+                setGame(data.getGame());
+                endTurn();
+            }
+            else {
+                return;
+            }
+        }
+        else if (resultString.contains("Error")) {
+            serverIsDown = true;
+            return;
+        }
+
+        Gson gson = new Gson();
         GetGameResult result = gson.fromJson(resultString, GetGameResult.class);
 
         Game newGame = result.getData();
@@ -97,7 +115,7 @@ public class GamePresenter implements Observer {
         request.setGameName(data.getGameName());
         request.setPlayerName(playerName);
         DrawDestCardResult result = facade.drawDestCard(request);
-        System.out.println(result.getData().toString());
+        //System.out.println(result.getData().toString());
         return result.getData();
     }
 
@@ -135,6 +153,8 @@ public class GamePresenter implements Observer {
                 return 0;
             }
             return game.getPlayerTurnIndex() + 1;
+
+
         }
         return newIndex;
     }
@@ -190,8 +210,13 @@ public class GamePresenter implements Observer {
         turnState.drawFaceDownTrainCard(this);
     }
 
-    public void drawDestCards() {
+    public boolean drawDestCards() {
+        if (serverIsDown) {
+            return false;
+        }
         turnState.drawDestCards(this);
+
+        return true;
     }
 
     public void claimRoute(int routeID) {
