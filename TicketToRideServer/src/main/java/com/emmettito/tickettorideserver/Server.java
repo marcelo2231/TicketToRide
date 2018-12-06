@@ -22,19 +22,35 @@ public class Server {
      * 1. Port number on which the server will accept client connections. This value is an integer
     in the range 1-65535. EX: 8080
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
+        if (!areArgumentsValid(args)) {
+            return;
+        }
 
-        args = new String[] {"8080", "2"}; // arbitrary args statement used for testing
+        String[] args1 = new String[] {"8080", "2"}; // arbitrary args statement used for testing
+
+        try {
+            initializeDatabases(args);
+        } catch (Exception e) {
+            System.out.println("Error: invalid database type. Exiting.");
+            return;
+        }
 
         Server server = new Server();
-        server.startServer(Integer.parseInt(args[0]));
+        server.startServer(Integer.parseInt(args1[0]));
+
+        System.out.printf("arg1: %s arg2: %s", args[0], args[1]);
+
+        if (args.length == 3) {
+            System.out.println(" args3: " + args[2]);
+        }
     }
 
     /**
      * startServer: starts a new Ticket to Ride Server
      * @param port the port number to start the server at
      */
-    public void startServer(int port) {
+    private void startServer(int port) {
 
         try {
             server = HttpServer.create(new InetSocketAddress(port), MAX_WAITING_CONNECTIONS);
@@ -56,5 +72,38 @@ public class Server {
 
         /**  Start ServerZero */
         server.start();
+    }
+
+    private static boolean isNumeric(String str) {
+        return str.matches("-?\\d+");  //match a number with optional '-' and decimal.
+    }
+
+    private static boolean areArgumentsValid(String args[]) {
+        if (args.length < 2 || args.length > 3) {
+            System.out.println("Usage: ./Server [database_type] [delta_num] (optional) -wipe");
+            return false;
+        }
+
+        if (!isNumeric(args[1])) {
+            System.out.println("Error: argument 2 must be an integer.");
+            return false;
+        }
+
+        if (args[1].equals("-")) {
+            System.out.println("Error: argument 2 must be >= 0.");
+            return false;
+        }
+
+        if (args.length == 3 && !args[2].equals("-wipe")) {
+            System.out.println("Error: invalid third paramater.");
+            System.out.println("Usage: ./Server [database_type] [delta_num] (optional) -wipe");
+            return false;
+        }
+
+        return true;
+    }
+
+    private static void initializeDatabases(String args[]) {
+        //To be implemented
     }
 }
