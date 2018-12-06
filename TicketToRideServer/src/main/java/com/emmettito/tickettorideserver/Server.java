@@ -4,6 +4,11 @@ import com.emmettito.tickettorideserver.communication.handlers.DefaultHandler;
 import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
 import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
 import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
+import com.emmettito.tickettorideserver.database.AbstractDAOFactory;
+import com.emmettito.tickettorideserver.database.Database;
+import com.emmettito.tickettorideserver.database.FactoryProducer;
+import com.emmettito.tickettorideserver.database.IGameDAO;
+import com.emmettito.tickettorideserver.database.IUserDAO;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -32,11 +37,13 @@ public class Server {
         try {
             initializeDatabases(args);
         } catch (Exception e) {
-            System.out.println("Error: invalid database type. Exiting.");
+            String message = e.getMessage();
+            System.out.println(message);
             return;
         }
 
         Server server = new Server();
+
         server.startServer(Integer.parseInt(args1[0]));
 
         System.out.printf("arg1: %s arg2: %s", args[0], args[1]);
@@ -103,7 +110,30 @@ public class Server {
         return true;
     }
 
-    private static void initializeDatabases(String args[]) {
-        //To be implemented
+    private static void initializeDatabases(String args[]) throws Exception {
+        Database database = Database.getInstance();
+        IUserDAO userDAO = database.getUserDAO();
+        IGameDAO gameDAO = database.getGameDAO();
+
+        AbstractDAOFactory factory = FactoryProducer.getFactory(args[0]);
+
+        if (factory == null) {
+            throw new Exception("Error: invalid database type. Exiting.");
+        }
+
+        IUserDAO newUserDAO = factory.getUserDAO();
+        IGameDAO newGameDAO = factory.getGameDAO();
+
+        if (userDAO != null && gameDAO != null && args.length == 2) {   //Data in database, clearing not specified
+            if (newUserDAO.getClass() != userDAO.getClass()) {
+                throw new Exception("Error: Data in database. Cannot change database types without overwriting data. Run with -wipe to clear database.");
+            }
+            else {
+                return;
+            }
+        }
+
+        database.setGameDAO(newGameDAO);
+        database.setUserDAO(newUserDAO);
     }
 }

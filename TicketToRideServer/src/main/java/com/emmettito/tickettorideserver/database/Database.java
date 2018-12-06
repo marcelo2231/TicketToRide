@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class Database {
     /** Constructor and instance **/
     private static Database instance;
+    private IGameDAO gameDAO = null;
+    private IUserDAO userDAO = null;
     private Database(){
     }
     public static Database getInstance(){
@@ -24,4 +26,20 @@ public class Database {
     public ArrayList<Game> endedGame = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
     public ArrayList<AuthToken> tokens = new ArrayList<>();
+
+    public void setGameDAO(IGameDAO dao) {
+        gameDAO = dao;
+    }
+
+    public IGameDAO getGameDAO() {
+        return gameDAO;
+    }
+
+    public void setUserDAO(IUserDAO dao) {
+        userDAO = dao;
+    }
+
+    public IUserDAO getUserDAO() {
+        return userDAO;
+    }
 }
