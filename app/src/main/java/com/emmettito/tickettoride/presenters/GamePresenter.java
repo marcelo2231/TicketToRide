@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.emmettito.models.Cards.DestinationCard;
 import com.emmettito.models.Cards.TrainCard;
+import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.Cards.TrainColor;
 import com.emmettito.models.City;
 import com.emmettito.models.CommandModels.Command;
@@ -263,12 +264,16 @@ public class GamePresenter implements Observer {
 
     // SHOULD ONLY BE CALLED BY THE TURN STATES
     private void removeTrainCardsFromPlayer(int count, TrainColor color) {
-        Player player = data.getGame().getOnePlayer(data.getUser());
+        Game game = data.getGame();
+        TrainCardDeck deck = game.getTrainCardDeck();
+        ArrayList<TrainCard> discardPile = (ArrayList) deck.getDiscardPile();
+        Player player = game.getOnePlayer(data.getUser());
         List<TrainCard> cards = player.getTrainCards();
+
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < cards.size(); j++) {
                 if (cards.get(j).getColor() == color) {
-                    cards.remove(j);
+                    discardPile.add(cards.remove(j));
                     break;
                 }
             }

@@ -337,7 +337,8 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             data.getGame().getTrainCardDeck().setNumFaceUpWilds(--numWilds);
         }
         TrainCard newCard;
-        if (!data.getGame().getTrainCardDeck().getAvailable().isEmpty()) {
+
+        if (checkTrainCardDeck()) {
             newCard = data.getGame().getTrainCardDeck().getAvailable().remove(0);
             //increment the number of faceUp wilds if the new card is a wild
             if(newCard.getColor() == TrainColor.Wild){
@@ -363,7 +364,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
 
         updatePlayerDisplay();
         updateFaceUpCards();
-        presenter.setGame(data.getGame());
+        //presenter.setGame(data.getGame());
 
         //if there's more than 3 wilds face-up, tell the server to shuffle them
         if(data.getGame().getTrainCardDeck().getNumFaceUpWilds() >= 3) {
@@ -554,8 +555,8 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
         cards.add(card);
         Player player = game.getOnePlayer(user);
         player.setTrainCards(cards);
-        game.setOnePlayer(player);
-        data.setGame(game);
+        //game.setOnePlayer(player);
+        //data.setGame(game);
 
         updatePlayerTrainCards();
     }
@@ -671,6 +672,9 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             deck.shuffle(); // TODO: Card shuffling should be done on the server side so all clients have the same deck
             //reset the deck size
             deckTrainCards.setText(String.valueOf(deck.getSizeAvailable()));
+
+            game.setTrainCardDeck(deck);
+
             return true;
         }
         else return false;
