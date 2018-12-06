@@ -4,11 +4,11 @@ public class SQLFactory extends AbstractDAOFactory {
 
     @Override
     public IGameDAO getGameDAO() {
-        return null;
+        return new SQLGameDAO();
     }
 
     @Override
     public IUserDAO getUserDAO() {
-        return null;
+        return new SQLUserDAO();
     }
 }
