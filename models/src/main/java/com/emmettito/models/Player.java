@@ -18,6 +18,7 @@ public class Player {
     private ArrayList<Integer> claimedRoutes;
     private int position;
     private boolean hasPickedDestinationCards = false;
+    private Turn currentTurn;
 
     public Player(String playerName, int playerIndex){
         this.playerName = playerName;
@@ -29,6 +30,7 @@ public class Player {
         this.claimedRoutes = new ArrayList<>();
         this.color = PlayerColor.values()[playerIndex];
         this.position = playerIndex + 1; // Indexes start from 0, position starts from 1
+            this.currentTurn = Turn.MyTurnNoAction;
     }
 
     public void setPosition(int position) {
@@ -73,6 +75,14 @@ public class Player {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public void setTurnState(Turn newTurn) {
+        currentTurn = newTurn;
+    }
+
+    public Turn getTurnState() {
+        return currentTurn;
     }
 
     public void claimRoute(int length, int pointValue){

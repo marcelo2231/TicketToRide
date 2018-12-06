@@ -1,7 +1,6 @@
 package com.emmettito.tickettoride.views.GameActivity;
 
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.emmettito.models.Cards.DestinationCard;
+import com.emmettito.models.Game;
 import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.R;
 import com.emmettito.tickettoride.presenters.GamePresenter;
@@ -186,16 +186,19 @@ public class DrawDestCardActivity extends AppCompatActivity {
         ArrayList<DestinationCard> destCards = client.getGame().getOnePlayer(client.getUser()).getDestinationCards();
         destCards.addAll(selected);
 
+        Game game = client.getGame();
 
 //        if (!mFirstTime) {
-            client.getGame().getOnePlayer(client.getUser()).setDestinationCards(destCards);
-            client.getGame().getDestinationCardDeck().addCards(discarded);
+            game.getOnePlayer(client.getUser()).setDestinationCards(destCards);
+            game.getDestinationCardDeck().addCards(discarded);
 //        }
 //        else {
             for (int i = 0; i < discarded.size(); i++) {
                 presenter.discardDestCard(client.getUser(), discarded.get(i).getCardID());
             }
 //        }
+
+        client.setGame(game);
 
         presenter.setGame(client.getGame());
 

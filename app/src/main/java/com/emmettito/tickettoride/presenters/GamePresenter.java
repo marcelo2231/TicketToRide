@@ -29,6 +29,7 @@ import com.emmettito.tickettoride.Client;
 import com.emmettito.tickettoride.communication.Poller;
 import com.emmettito.tickettoride.facades.ServerFacade;
 import com.emmettito.tickettoride.views.GameActivity.GameActivity;
+import com.emmettito.tickettoride.views.GameActivity.Turns.MyTurnNoAction;
 import com.emmettito.tickettoride.views.GameActivity.Turns.NotMyTurn;
 import com.emmettito.tickettoride.views.GameActivity.Turns.Turn;
 import com.google.gson.Gson;
@@ -176,6 +177,24 @@ public class GamePresenter implements Observer {
 
     public void setTurnState(Turn turnState) {
         this.turnState = turnState;
+
+        Game game = data.getGame();
+
+        Player currentPlayer = game.getOnePlayer(data.getUser());
+
+        if (turnState.getClass().equals(NotMyTurn.class)) {
+            currentPlayer.setTurnState(com.emmettito.models.Turn.NotMyTurn);
+        }
+        else if (turnState.getClass().equals(MyTurnNoAction.class)) {
+            currentPlayer.setTurnState(com.emmettito.models.Turn.MyTurnNoAction);
+        }
+        else {
+            currentPlayer.setTurnState(com.emmettito.models.Turn.MyTurnDrewCard);
+
+        }
+
+        game.setOnePlayer(currentPlayer);
+        //setGame(game);
     }
 
     public void displayToast(String msg) {

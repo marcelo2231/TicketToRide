@@ -312,7 +312,12 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             Command command = new Command(data.getUser(), "DrawFaceDownTrainCard", description, "", "");
             //gameDatabase.addCommand(commandModel.getGameName(), command);
 
-            data.getGame().getCommands().add(command);
+            Game game = data.getGame();
+            ArrayList<Command> commands = game.getCommands();
+            commands.add(command);
+            game.setCommands(commands);
+            game.setTrainCardDeck(deck);
+            data.setGame(game);
             presenter.setGame(data.getGame());
 
             //Do something with result maybe
@@ -547,7 +552,10 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
 
         ArrayList<TrainCard> cards = game.getOnePlayer(user).getTrainCards();
         cards.add(card);
-        game.getOnePlayer(user).setTrainCards(cards);
+        Player player = game.getOnePlayer(user);
+        player.setTrainCards(cards);
+        game.setOnePlayer(player);
+        data.setGame(game);
 
         updatePlayerTrainCards();
     }
