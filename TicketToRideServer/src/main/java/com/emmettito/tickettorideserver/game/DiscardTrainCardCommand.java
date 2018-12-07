@@ -4,13 +4,13 @@ import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DiscardCardRequest;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.DeckDao;
+import com.emmettito.tickettorideserver.database.DeckIMA;
 
 import java.io.InputStream;
 
 public class DiscardTrainCardCommand implements IGameCommand {
     DiscardCardRequest commandModel;
-    DeckDao deckDatabase = new DeckDao();
+    DeckIMA deckDatabase = new DeckIMA();
 
     @Override
     public Result execute(Object obj, String authToken) throws Exception {

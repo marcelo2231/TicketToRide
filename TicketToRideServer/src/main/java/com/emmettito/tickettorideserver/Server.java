@@ -5,10 +5,10 @@ import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
 import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
 import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
 import com.emmettito.tickettorideserver.database.AbstractDAOFactory;
-import com.emmettito.tickettorideserver.database.Database;
 import com.emmettito.tickettorideserver.database.FactoryProducer;
 import com.emmettito.tickettorideserver.database.IGameDAO;
 import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.InternalMemory;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -114,9 +114,7 @@ public class Server {
     }
 
     private void initializeDatabases(String database_type, Boolean wipe) throws Exception {
-        Database database = Database.getInstance();
-        IUserDAO userDAO = database.getUserDAO();
-        IGameDAO gameDAO = database.getGameDAO();
+        InternalMemory database = InternalMemory.getInstance();
 
         AbstractDAOFactory factory = new FactoryProducer().getFactory(database_type);
 
@@ -126,15 +124,6 @@ public class Server {
 
         IUserDAO newUserDAO = factory.getUserDAO();
         IGameDAO newGameDAO = factory.getGameDAO();
-
-        if (userDAO != null && gameDAO != null && !wipe) {   // Data in database, clearing not specified //TODO: is this check for wiping the database valid/needed?
-            if (newUserDAO.getClass() != userDAO.getClass()) {
-                throw new Exception("Error: Data in database. Cannot change database types without overwriting data. Run with -wipe to clear database.");
-            }
-            else {
-                return;
-            }
-        }
 
         database.setGameDAO(newGameDAO);
         database.setUserDAO(newUserDAO);

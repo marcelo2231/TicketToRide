@@ -3,9 +3,9 @@ package com.emmettito.tickettorideserver.database;
 import com.emmettito.models.AuthToken;
 import com.emmettito.models.User;
 
-public class UserDao {
-    /** Database Instance **/
-    private static Database dbInstance = Database.getInstance();
+public class UserIMA {
+    /** InternalMemory Instance **/
+    private static InternalMemory dbInstance = InternalMemory.getInstance();
 
 
     /** Users **/

@@ -6,16 +6,16 @@ import com.emmettito.models.User;
 
 import java.util.ArrayList;
 
-public class Database {
+public class InternalMemory {
     /** Constructor and instance **/
-    private static Database instance;
+    private static InternalMemory instance;
     private IGameDAO gameDAO = null;
     private IUserDAO userDAO = null;
-    private Database(){
+    private InternalMemory(){
     }
-    public static Database getInstance(){
+    public static InternalMemory getInstance(){
         if (instance == null){
-            instance = new Database();
+            instance = new InternalMemory();
         }
         return instance;
     }

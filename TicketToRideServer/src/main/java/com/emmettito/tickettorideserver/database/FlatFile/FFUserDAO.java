@@ -1,17 +1,22 @@
 package com.emmettito.tickettorideserver.database.FlatFile;
 
 import com.emmettito.models.User;
-import com.emmettito.tickettorideserver.database.Database;
+import com.emmettito.tickettorideserver.database.InternalMemory;
 import com.emmettito.tickettorideserver.database.IUserDAO;
 
 import java.util.ArrayList;
 
 public class FFUserDAO implements IUserDAO {
-    Database database = Database.getInstance();
+    InternalMemory database = InternalMemory.getInstance();
 
     @Override
     public boolean addUser(String username, String password) {
         return database.users.add(new User(username, password));
+    }
+
+    @Override
+    public User getUser(String username) {
+        return null;
     }
 
     @Override
@@ -33,7 +38,7 @@ public class FFUserDAO implements IUserDAO {
         database.tokens = new ArrayList<>();
     }
 
-    @Override
+    /*@Override
     public void beginTransaction() {
 
     }
@@ -41,5 +46,5 @@ public class FFUserDAO implements IUserDAO {
     @Override
     public void endTransaction() {
 
-    }
+    }*/
 }

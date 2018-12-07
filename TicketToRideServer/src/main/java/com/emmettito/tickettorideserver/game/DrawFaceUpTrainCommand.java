@@ -5,13 +5,13 @@ import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DrawFaceUpTrainRequest;
 import com.emmettito.models.Results.DrawTrainResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.DeckDao;
+import com.emmettito.tickettorideserver.database.DeckIMA;
 
 import java.io.InputStream;
 
 public class DrawFaceUpTrainCommand  implements IGameCommand{
     DrawFaceUpTrainRequest commandModel;
-    DeckDao deckDatabase = new DeckDao();
+    DeckIMA deckDatabase = new DeckIMA();
 
     @Override
     public DrawTrainResult execute(Object obj, String authToken) throws Exception {
