@@ -12,9 +12,4 @@ public interface IGameDAO {
     boolean addCompletedGame(String gameName);
     Game getGame(String gameName);
     boolean clearGames();
-    boolean addCommand(Command command);
-    boolean clearCommands();
-    List<Command> getCommands();
-    void beginTransation();
-    void endTransaction();
 }

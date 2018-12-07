@@ -24,6 +24,11 @@ public class SQLGameDAO implements IGameDAO {
     }
 
     @Override
+    public boolean clearGames() {
+        return false;
+    }
+
+    @Override
     public boolean removeGame(String gameName) {
         return false;
     }
@@ -33,33 +38,4 @@ public class SQLGameDAO implements IGameDAO {
         return null;
     }
 
-    @Override
-    public boolean addCommand(Command command) {
-        return false;
-    }
-
-    @Override
-    public List<Command> getCommands() {
-        return null;
-    }
-
-    @Override
-    public boolean clearCommands() {
-        return false;
-    }
-
-    @Override
-    public boolean clearGames() {
-        return false;
-    }
-
-    @Override
-    public void beginTransation() {
-
-    }
-
-    @Override
-    public void endTransaction() {
-
-    }
 }
