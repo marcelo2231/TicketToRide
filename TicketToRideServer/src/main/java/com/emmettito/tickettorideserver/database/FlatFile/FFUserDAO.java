@@ -25,8 +25,8 @@ public class FFUserDAO implements IUserDAO {
     }
 
     @Override
-    public boolean checkAuthToken(String authToken) {
-        return false;
+    public boolean checkAuthToken(String username, String authToken) {
+        return true;
     }
 
     @Override
@@ -37,14 +37,4 @@ public class FFUserDAO implements IUserDAO {
         database.users = new ArrayList<>();
         database.tokens = new ArrayList<>();
     }
-
-    /*@Override
-    public void beginTransaction() {
-
-    }
-
-    @Override
-    public void endTransaction() {
-
-    }*/
 }
