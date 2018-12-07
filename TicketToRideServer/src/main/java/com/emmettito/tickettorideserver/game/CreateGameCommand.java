@@ -37,7 +37,7 @@ public class CreateGameCommand implements IGameCommand{
 
         Player newPlayer = new Player(commandModel.getUsername(), 0);
 
-        /** Store data on Database **/
+        /** Store data on InternalMemory **/
         try{
             gameDao.addGame(newGame);
             gameDao.addPlayer(newGame.getGameName(), newPlayer);

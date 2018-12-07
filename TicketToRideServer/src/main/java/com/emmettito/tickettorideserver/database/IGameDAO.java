@@ -5,7 +5,7 @@ import com.emmettito.models.Game;
 
 import java.util.List;
 
-public interface IGameDAO {
+public interface IGameIMA {
     boolean addGame(Game game);
     boolean removeGame(String gameName);
     Game updateGame(String gameName, List<Command> commands);

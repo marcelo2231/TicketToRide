@@ -9,9 +9,9 @@ import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import java.util.ArrayList;
 
-public class GameDao {
+public class GameIMA {
     /** Variables **/
-    private static Database dbInstance = Database.getInstance();
+    private static InternalMemory dbInstance = InternalMemory.getInstance();
 
 
 

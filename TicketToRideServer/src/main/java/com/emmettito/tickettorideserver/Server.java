@@ -5,10 +5,10 @@ import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
 import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
 import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
 import com.emmettito.tickettorideserver.database.AbstractDAOFactory;
-import com.emmettito.tickettorideserver.database.Database;
+import com.emmettito.tickettorideserver.database.InternalMemory;
 import com.emmettito.tickettorideserver.database.FactoryProducer;
-import com.emmettito.tickettorideserver.database.IGameDAO;
-import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.IGameIMA;
+import com.emmettito.tickettorideserver.database.IUserIMA;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -114,7 +114,7 @@ public class Server {
     }
 
     private void initializeDatabases(String database_type, Boolean wipe) throws Exception {
-        Database database = Database.getInstance();
+        InternalMemory database = InternalMemory.getInstance();
 
         AbstractDAOFactory factory = new FactoryProducer().getFactory(database_type);
 

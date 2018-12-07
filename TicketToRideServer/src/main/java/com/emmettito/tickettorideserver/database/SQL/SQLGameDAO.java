@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.database.SQL;
 
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
-import com.emmettito.tickettorideserver.database.IGameDAO;
+import com.emmettito.tickettorideserver.database.IGameIMA;
 import com.google.gson.Gson;
 
 import java.sql.Connection;

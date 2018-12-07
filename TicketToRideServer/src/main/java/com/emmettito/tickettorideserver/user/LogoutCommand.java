@@ -23,7 +23,7 @@ public class LogoutCommand implements IUserCommand{
             throw new Exception("Username null or empty. Please, do not forget to fill out all fields.");
         }
 
-        /** Add User to Database **/
+        /** Add User to InternalMemory **/
         if(!userDatabase.removeAuthToken(commandModel.getUsername())){
             throw new Exception("No user logged in with requested username. Logout failed.");
         }

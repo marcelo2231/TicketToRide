@@ -1,18 +1,18 @@
 package com.emmettito.tickettorideserver.database.SQL;
 
 import com.emmettito.tickettorideserver.database.AbstractDAOFactory;
-import com.emmettito.tickettorideserver.database.IGameDAO;
-import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.IGameIMA;
+import com.emmettito.tickettorideserver.database.IUserIMA;
 
 public class SQLFactory extends AbstractDAOFactory {
 
     @Override
-    public IGameDAO getGameDAO() {
-        return new SQLGameDAO();
+    public IGameIMA getGameDAO() {
+        return new SQLGameIMA();
     }
 
     @Override
-    public IUserDAO getUserDAO() {
-        return new SQLUserDAO();
+    public IUserIMA getUserDAO() {
+        return new SQLUserIMA();
     }
 }

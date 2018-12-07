@@ -1,13 +1,13 @@
 package com.emmettito.tickettorideserver.database.FlatFile;
 
 import com.emmettito.models.User;
-import com.emmettito.tickettorideserver.database.Database;
-import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.InternalMemory;
+import com.emmettito.tickettorideserver.database.IUserIMA;
 
 import java.util.ArrayList;
 
-public class FFUserDAO implements IUserDAO {
-    Database database = Database.getInstance();
+public class FFUserDAO implements IUserIMA {
+    InternalMemory database = InternalMemory.getInstance();
 
     @Override
     public boolean addUser(String username, String password) {
