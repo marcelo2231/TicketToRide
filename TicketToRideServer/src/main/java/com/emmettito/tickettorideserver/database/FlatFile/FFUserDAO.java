@@ -15,6 +15,11 @@ public class FFUserDAO implements IUserDAO {
     }
 
     @Override
+    public User getUser(String username) {
+        return null;
+    }
+
+    @Override
     public String generateAuthToken(String username) {
         return "We know you all hate auth token =D";
     }
@@ -33,7 +38,7 @@ public class FFUserDAO implements IUserDAO {
         database.tokens = new ArrayList<>();
     }
 
-    @Override
+    /*@Override
     public void beginTransaction() {
 
     }
@@ -41,5 +46,5 @@ public class FFUserDAO implements IUserDAO {
     @Override
     public void endTransaction() {
 
-    }
+    }*/
 }

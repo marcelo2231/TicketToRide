@@ -15,6 +15,4 @@ public interface IGameDAO {
     boolean addCommand(Command command);
     boolean clearCommands();
     List<Command> getCommands();
-    void beginTransation();
-    void endTransaction();
 }

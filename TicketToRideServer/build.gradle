@@ -5,6 +5,7 @@ dependencies {
     implementation files('/Users/emmettturley/Documents/JavaPrograms/TicketToRide/lib/gson-2.8.5.jar')
     compile 'com.google.code.gson:gson:2.8.5'
     implementation project(':models')
+    implementation files('/Users/JohnPaul/AndroidStudioProjects/TicketToRide/lib/sqlite-jdbc-3.8.7.jar')
 }
 
 sourceCompatibility = "1.7"

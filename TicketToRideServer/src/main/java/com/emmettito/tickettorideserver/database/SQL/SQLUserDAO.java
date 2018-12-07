@@ -43,9 +43,11 @@ public class SQLUserDAO implements IUserDAO {
 
     public User getUser(String username) {
         User returnValue = null;
+
+        String get = "select * from user where username = ?";
+
         try {
-            beginTransaction();
-            String get = "select * from user where username = ?";
+            connection.setAutoCommit(false);
 
             statement = connection.prepareStatement(get);
             statement.setString(1, username);
@@ -56,7 +58,20 @@ public class SQLUserDAO implements IUserDAO {
             if(!results.next()) {   //User not in database
                 statement.close();
                 connection.rollback();
-                endTransaction();
+                try {
+                    connection.commit();
+                } catch (SQLException e) {
+                    if (connection != null) {
+                        System.err.print("Connection is being rolled back");
+                        connection.rollback();
+                    }
+                } finally {
+                    connection.setAutoCommit(true);
+
+                    if (statement != null) {
+                        statement.close();
+                    }
+                }
                 return null;
             }
 
@@ -66,7 +81,20 @@ public class SQLUserDAO implements IUserDAO {
             returnValue = new User(user, password);
 
             statement.close();
-            endTransaction();
+            try {
+                connection.commit();
+            } catch (SQLException e) {
+                if (connection != null) {
+                    System.err.print("Connection is being rolled back");
+                    connection.rollback();
+                }
+            } finally {
+                connection.setAutoCommit(true);
+
+                if (statement != null) {
+                    statement.close();
+                }
+            }
 
             return returnValue;
 
@@ -94,26 +122,5 @@ public class SQLUserDAO implements IUserDAO {
     @Override
     public void clearDatabase() {
 
-    }
-
-    public void beginTransaction() throws SQLException{
-        connection.setAutoCommit(false);
-    }
-
-    public void endTransaction() throws SQLException {
-        try {
-            connection.commit();
-        } catch (SQLException e) {
-            if (connection != null) {
-                System.err.print("Connection is being rolled back");
-                connection.rollback();
-            }
-        } finally {
-            connection.setAutoCommit(true);
-
-            if (statement != null) {
-                statement.close();
-            }
-        }
     }
 }

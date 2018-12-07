@@ -8,6 +8,4 @@ public interface IUserDAO {
     String generateAuthToken(String username);
     boolean checkAuthToken(String authToken);
     void clearDatabase();
-    //boolean beginTransaction();
-    //boolean endTransaction();
 }

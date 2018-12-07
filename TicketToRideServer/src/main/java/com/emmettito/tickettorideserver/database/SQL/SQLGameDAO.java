@@ -15,7 +15,9 @@ public class SQLGameDAO implements IGameDAO {
 
     private Connection conn;
 
-    public SQLGameDAO(Connection conn) { this.conn = conn; };
+    public SQLGameDAO() {
+        this.conn = null;
+    };
 
 
     @Override
