@@ -17,40 +17,27 @@ import java.net.InetSocketAddress;
 /**Server class: used to serve the Ticket to Ride clients*/
 public class Server {
 
-    /** Variables **/
-    private HttpServer server;
-    private static int MAX_WAITING_CONNECTIONS = 100;
 
-    /**
-     * main: implements the web api commands
-     * @param args accepts the following command-line arguments:
-     * 1. Port number on which the server will accept client connections. This value is an integer
-    in the range 1-65535. EX: 8080
-     */
     public static void main(String[] args) throws Exception {
-        if (!areArgumentsValid(args)) {
-            return;
-        }
-
-        String[] args1 = new String[] {"8080", "2"}; // arbitrary args statement used for testing
-
-        try {
-            initializeDatabases(args);
-        } catch (Exception e) {
-            String message = e.getMessage();
-            System.out.println(message);
-            return;
-        }
-
         Server server = new Server();
 
-        server.startServer(Integer.parseInt(args1[0]));
+        Boolean wipe = server.checkArguments(args);
 
-        System.out.printf("arg1: %s arg2: %s", args[0], args[1]);
+        String database_type = args[0];
+        int delta_num = server.getDeltaNum(args[1]);
 
-        if (args.length == 3) {
-            System.out.println(" args3: " + args[2]);
+        System.out.printf("Database type: %s\nDelta number: %d\n", database_type, delta_num);
+
+        try {
+            server.initializeDatabases(database_type, wipe);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Exiting...");
+            return;
         }
+
+        int port = 8080;
+        server.startServer(port);
     }
 
     /**
@@ -59,7 +46,10 @@ public class Server {
      */
     private void startServer(int port) {
 
+        HttpServer server;
+
         try {
+            int MAX_WAITING_CONNECTIONS = 100;
             server = HttpServer.create(new InetSocketAddress(port), MAX_WAITING_CONNECTIONS);
             System.out.println("Server started on port: " + port);
         }
@@ -81,50 +71,64 @@ public class Server {
         server.start();
     }
 
-    private static boolean isNumeric(String str) {
-        return str.matches("-?\\d+");  //match a number with optional '-' and decimal.
+    private int getDeltaNum(String str) {
+        // We don't want negative numbers and we need a whole number (integer)
+        try {
+            int i = Integer.parseInt(str);
+
+            if (i > 0) {
+                return i;
+            }
+
+            System.out.println("Error: delta_num must be > 0");
+        }
+        catch(Exception e) {
+            System.out.println("Error: delta_num must be an integer");
+        }
+
+        printUsage();
+        System.exit(-1);
+        return -1;
     }
 
-    private static boolean areArgumentsValid(String args[]) {
+    private void printUsage() {
+        System.out.println("Usage: Server database_type delta_num [-wipe]");
+    }
+
+    private boolean checkArguments(String args[]) {
         if (args.length < 2 || args.length > 3) {
-            System.out.println("Usage: ./Server [database_type] [delta_num] (optional) -wipe");
-            return false;
+            printUsage();
+            System.exit(-1);
         }
 
-        if (!isNumeric(args[1])) {
-            System.out.println("Error: argument 2 must be an integer.");
-            return false;
+        if (args.length == 3) {
+            if (args[2].equals("-wipe")) {
+                return true;
+            }
+
+            printUsage();
+            System.out.println("Error: invalid third parameter");
+            System.exit(-1);
         }
 
-        if (args[1].equals("-")) {
-            System.out.println("Error: argument 2 must be >= 0.");
-            return false;
-        }
-
-        if (args.length == 3 && !args[2].equals("-wipe")) {
-            System.out.println("Error: invalid third paramater.");
-            System.out.println("Usage: ./Server [database_type] [delta_num] (optional) -wipe");
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
-    private static void initializeDatabases(String args[]) throws Exception {
+    private void initializeDatabases(String database_type, Boolean wipe) throws Exception {
         Database database = Database.getInstance();
         IUserDAO userDAO = database.getUserDAO();
         IGameDAO gameDAO = database.getGameDAO();
 
-        AbstractDAOFactory factory = FactoryProducer.getFactory(args[0]);
+        AbstractDAOFactory factory = new FactoryProducer().getFactory(database_type);
 
         if (factory == null) {
-            throw new Exception("Error: invalid database type. Exiting.");
+            throw new Exception("Error: invalid database type");
         }
 
         IUserDAO newUserDAO = factory.getUserDAO();
         IGameDAO newGameDAO = factory.getGameDAO();
 
-        if (userDAO != null && gameDAO != null && args.length == 2) {   //Data in database, clearing not specified
+        if (userDAO != null && gameDAO != null && !wipe) {   // Data in database, clearing not specified
             if (newUserDAO.getClass() != userDAO.getClass()) {
                 throw new Exception("Error: Data in database. Cannot change database types without overwriting data. Run with -wipe to clear database.");
             }
