@@ -92,15 +92,14 @@ public class FFGameDAO implements IGameDAO {
         File folder = new File("Games/");
 
         File[] files = folder.listFiles();
-        for (File f : files){
-            try{
+        try{
+            for (File f : files) {
                 f.delete();
-            }catch (Exception e){
-                return false;
             }
+            folder.delete();
+        }catch (Exception e){
+            return false;
         }
-
-        folder.delete();
 
         return true;
     }
