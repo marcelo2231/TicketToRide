@@ -5,10 +5,10 @@ import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
 import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
 import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
 import com.emmettito.tickettorideserver.database.AbstractDAOFactory;
-import com.emmettito.tickettorideserver.database.InternalMemory;
 import com.emmettito.tickettorideserver.database.FactoryProducer;
-import com.emmettito.tickettorideserver.database.IGameIMA;
-import com.emmettito.tickettorideserver.database.IUserIMA;
+import com.emmettito.tickettorideserver.database.IGameDAO;
+import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.InternalMemory;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;

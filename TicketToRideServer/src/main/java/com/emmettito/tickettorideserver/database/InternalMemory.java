@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class InternalMemory {
     /** Constructor and instance **/
     private static InternalMemory instance;
-    private IGameIMA gameDAO = null;
-    private IUserIMA userDAO = null;
+    private IGameDAO gameDAO = null;
+    private IUserDAO userDAO = null;
     private InternalMemory(){
     }
     public static InternalMemory getInstance(){
@@ -27,19 +27,19 @@ public class InternalMemory {
     public ArrayList<User> users = new ArrayList<>();
     public ArrayList<AuthToken> tokens = new ArrayList<>();
 
-    public void setGameDAO(IGameIMA dao) {
+    public void setGameDAO(IGameDAO dao) {
         gameDAO = dao;
     }
 
-    public IGameIMA getGameDAO() {
+    public IGameDAO getGameDAO() {
         return gameDAO;
     }
 
-    public void setUserDAO(IUserIMA dao) {
+    public void setUserDAO(IUserDAO dao) {
         userDAO = dao;
     }
 
-    public IUserIMA getUserDAO() {
+    public IUserDAO getUserDAO() {
         return userDAO;
     }
 }

@@ -1,14 +1,12 @@
 package com.emmettito.tickettorideserver.database.FlatFile;
 
-import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
+import com.emmettito.tickettorideserver.database.IGameDAO;
 import com.emmettito.tickettorideserver.database.InternalMemory;
-import com.emmettito.tickettorideserver.database.IGameIMA;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class FFGameDAO implements IGameIMA {
+public class FFGameDAO implements IGameDAO {
     InternalMemory database = InternalMemory.getInstance();
 
     private Game findActiveGame(String gameName){
@@ -50,9 +48,9 @@ public class FFGameDAO implements IGameIMA {
     }
 
     @Override
-    public Game updateGame(String gameName, List<Command> commands) {
+    public Game updateGame(String gameName, String updatedGame) {
         Game game = findActiveGame(gameName);
-        game.setCommands(new ArrayList<>(commands));
+        //game.setCommands(new ArrayList<>(commands));
         return game;
     }
 
@@ -77,7 +75,7 @@ public class FFGameDAO implements IGameIMA {
     }
 
     @Override
-    public boolean clearGames() {
+    public boolean clearDatabase() {
         try {
             database.gameLobby = new ArrayList<>();
             database.activeGame = new ArrayList<>();
@@ -86,30 +84,5 @@ public class FFGameDAO implements IGameIMA {
         catch(Exception e){
             return false;
         }
-    }
-
-    @Override
-    public boolean addCommand(Command command) {
-        return false;
-    }
-
-    @Override
-    public boolean clearCommands() {
-        return false;
-    }
-
-    @Override
-    public List<Command> getCommands() {
-        return null;
-    }
-
-    @Override
-    public void beginTransation() {
-
-    }
-
-    @Override
-    public void endTransaction() {
-
     }
 }

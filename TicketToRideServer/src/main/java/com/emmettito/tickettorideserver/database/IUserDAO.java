@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.database;
 
 import com.emmettito.models.User;
 
-public interface IUserIMA {
+public interface IUserDAO {
     boolean addUser(String username, String password);
     User getUser(String username);
     String generateAuthToken(String username);

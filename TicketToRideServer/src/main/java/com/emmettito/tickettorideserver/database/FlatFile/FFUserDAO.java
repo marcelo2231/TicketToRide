@@ -2,11 +2,11 @@ package com.emmettito.tickettorideserver.database.FlatFile;
 
 import com.emmettito.models.User;
 import com.emmettito.tickettorideserver.database.InternalMemory;
-import com.emmettito.tickettorideserver.database.IUserIMA;
+import com.emmettito.tickettorideserver.database.IUserDAO;
 
 import java.util.ArrayList;
 
-public class FFUserDAO implements IUserIMA {
+public class FFUserDAO implements IUserDAO {
     InternalMemory database = InternalMemory.getInstance();
 
     @Override
