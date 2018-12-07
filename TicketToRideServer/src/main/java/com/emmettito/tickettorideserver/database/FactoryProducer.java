@@ -31,7 +31,7 @@ public class FactoryProducer {
             return null;
         }
 
-//        if (pluginType.equalsIgnoreCase("sqlite")) {
+//        if (database_type.equalsIgnoreCase("sqlite")) {
 //            return new SQLFactory();
 //        }
 //        else if (pluginType.equalsIgnoreCase("flatfile")) {
