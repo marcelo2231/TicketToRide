@@ -2,14 +2,14 @@ package com.emmettito.tickettorideserver.database.FlatFile;
 
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
-import com.emmettito.tickettorideserver.database.Database;
-import com.emmettito.tickettorideserver.database.IGameDAO;
+import com.emmettito.tickettorideserver.database.InternalMemory;
+import com.emmettito.tickettorideserver.database.IGameIMA;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FFGameDAO implements IGameDAO {
-    Database database = Database.getInstance();
+public class FFGameDAO implements IGameIMA {
+    InternalMemory database = InternalMemory.getInstance();
 
     private Game findActiveGame(String gameName){
         for(Game g : database.activeGame){

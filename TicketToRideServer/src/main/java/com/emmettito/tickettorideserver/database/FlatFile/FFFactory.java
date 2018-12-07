@@ -1,18 +1,18 @@
 package com.emmettito.tickettorideserver.database.FlatFile;
 
 import com.emmettito.tickettorideserver.database.AbstractDAOFactory;
-import com.emmettito.tickettorideserver.database.IGameDAO;
-import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.IGameIMA;
+import com.emmettito.tickettorideserver.database.IUserIMA;
 
 public class FFFactory extends AbstractDAOFactory {
 
     @Override
-    public IUserDAO getUserDAO() {
+    public IUserIMA getUserDAO() {
         return new FFUserDAO();
     }
 
     @Override
-    public IGameDAO getGameDAO() {
+    public IGameIMA getGameDAO() {
         return new FFGameDAO();
     }
 }

@@ -1,10 +1,10 @@
 package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.tickettorideserver.database.GameDao;
-import com.emmettito.tickettorideserver.database.UserDao;
+import com.emmettito.tickettorideserver.database.GameIMA;
+import com.emmettito.tickettorideserver.database.UserIMA;
 
 public interface IGameCommand {
-    GameDao gameDao = new GameDao();
-    UserDao userDao = new UserDao();
+    GameIMA gameDao = new GameIMA();
+    UserIMA userDao = new UserIMA();
     Object execute(Object obj, String authToken) throws Exception ;
 }

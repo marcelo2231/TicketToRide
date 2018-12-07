@@ -6,16 +6,16 @@ import com.emmettito.models.User;
 
 import java.util.ArrayList;
 
-public class Database {
+public class InternalMemory {
     /** Constructor and instance **/
-    private static Database instance;
-    private IGameDAO gameDAO = null;
-    private IUserDAO userDAO = null;
-    private Database(){
+    private static InternalMemory instance;
+    private IGameIMA gameDAO = null;
+    private IUserIMA userDAO = null;
+    private InternalMemory(){
     }
-    public static Database getInstance(){
+    public static InternalMemory getInstance(){
         if (instance == null){
-            instance = new Database();
+            instance = new InternalMemory();
         }
         return instance;
     }
@@ -27,19 +27,19 @@ public class Database {
     public ArrayList<User> users = new ArrayList<>();
     public ArrayList<AuthToken> tokens = new ArrayList<>();
 
-    public void setGameDAO(IGameDAO dao) {
+    public void setGameDAO(IGameIMA dao) {
         gameDAO = dao;
     }
 
-    public IGameDAO getGameDAO() {
+    public IGameIMA getGameDAO() {
         return gameDAO;
     }
 
-    public void setUserDAO(IUserDAO dao) {
+    public void setUserDAO(IUserIMA dao) {
         userDAO = dao;
     }
 
-    public IUserDAO getUserDAO() {
+    public IUserIMA getUserDAO() {
         return userDAO;
     }
 }

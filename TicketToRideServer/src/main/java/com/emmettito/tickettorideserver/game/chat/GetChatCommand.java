@@ -4,7 +4,7 @@ import com.emmettito.models.CommandModels.GameCommands.GetChatRequest;
 import com.emmettito.models.Results.ChatResult;
 import com.emmettito.models.Tuple;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.ChatDao;
+import com.emmettito.tickettorideserver.database.ChatIMA;
 import com.emmettito.tickettorideserver.game.IGameCommand;
 
 import java.io.InputStream;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class GetChatCommand  implements IGameCommand {
     GetChatRequest commandModel;
-    ChatDao chatDatabase = new ChatDao();
+    ChatIMA chatDatabase = new ChatIMA();
 
     @Override
     public ChatResult execute(Object obj, String authToken) throws Exception {

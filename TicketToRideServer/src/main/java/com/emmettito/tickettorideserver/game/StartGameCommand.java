@@ -6,14 +6,14 @@ import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.DeckDao;
+import com.emmettito.tickettorideserver.database.DeckIMA;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
 public class StartGameCommand implements IGameCommand {
     StartGameRequest commandModel;
-    DeckDao deckDao = new DeckDao();
+    DeckIMA deckDao = new DeckIMA();
 
     @Override
     public Object execute(Object obj, String authToken) throws Exception {

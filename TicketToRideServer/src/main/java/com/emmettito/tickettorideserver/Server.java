@@ -5,10 +5,10 @@ import com.emmettito.tickettorideserver.communication.handlers.GameHandler;
 import com.emmettito.tickettorideserver.communication.handlers.GameLobbyHandler;
 import com.emmettito.tickettorideserver.communication.handlers.UserHandler;
 import com.emmettito.tickettorideserver.database.AbstractDAOFactory;
-import com.emmettito.tickettorideserver.database.Database;
+import com.emmettito.tickettorideserver.database.InternalMemory;
 import com.emmettito.tickettorideserver.database.FactoryProducer;
-import com.emmettito.tickettorideserver.database.IGameDAO;
-import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.IGameIMA;
+import com.emmettito.tickettorideserver.database.IUserIMA;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class Server {
         String database_type = args[0];
         int delta_num = server.getDeltaNum(args[1]);
 
-        System.out.printf("Database type: %s\nDelta number: %d\n", database_type, delta_num);
+        System.out.printf("InternalMemory type: %s\nDelta number: %d\n", database_type, delta_num);
 
         try {
             server.initializeDatabases(database_type, wipe);
@@ -114,9 +114,9 @@ public class Server {
     }
 
     private void initializeDatabases(String database_type, Boolean wipe) throws Exception {
-        Database database = Database.getInstance();
-        IUserDAO userDAO = database.getUserDAO();
-        IGameDAO gameDAO = database.getGameDAO();
+        InternalMemory database = InternalMemory.getInstance();
+        IUserIMA userDAO = database.getUserDAO();
+        IGameIMA gameDAO = database.getGameDAO();
 
         AbstractDAOFactory factory = new FactoryProducer().getFactory(database_type);
 
@@ -124,8 +124,8 @@ public class Server {
             throw new Exception("Error: invalid database type");
         }
 
-        IUserDAO newUserDAO = factory.getUserDAO();
-        IGameDAO newGameDAO = factory.getGameDAO();
+        IUserIMA newUserDAO = factory.getUserDAO();
+        IGameIMA newGameDAO = factory.getGameDAO();
 
         if (userDAO != null && gameDAO != null && !wipe) {   // Data in database, clearing not specified //TODO: is this check for wiping the database valid/needed?
             if (newUserDAO.getClass() != userDAO.getClass()) {

@@ -1,7 +1,7 @@
 package com.emmettito.tickettorideserver.database.SQL;
 
 import com.emmettito.models.User;
-import com.emmettito.tickettorideserver.database.IUserDAO;
+import com.emmettito.tickettorideserver.database.IUserIMA;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,12 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SQLUserDAO implements IUserDAO {
+public class SQLUserIMA implements IUserIMA {
     private Connection connection = null;
     private PreparedStatement statement = null;
     private ResultSet results = null;
 
-    SQLUserDAO() {
+    SQLUserIMA() {
         String driver = "org.sqlite.JDBC";
 
         try {

@@ -33,7 +33,7 @@ public class LoginCommand implements IUserCommand{
             throw new Exception("Username or password empty. Please, do not forget to fill out all fields.");
         }
 
-        /** Add User to Database **/
+        /** Add User to InternalMemory **/
         if(!userDatabase.compareUserAndPassword(user)){
             throw new Exception("Username or Password is Invalid. Login Failed.");
         }

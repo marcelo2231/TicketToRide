@@ -22,7 +22,7 @@ public class EndGameCommand implements IGameCommand{
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
-        // TODO: Store data on Database
+        // TODO: Store data on InternalMemory
 
         //gameLobbyDatabase.removeActiveGame(commandModel.getGameName());
         Game game = gameDao.getGame(commandModel.getGameName());

@@ -21,7 +21,7 @@ public class RemoveGameCommand implements IGameCommand {
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
-        // TODO: Store data on Database
+        // TODO: Store data on InternalMemory
 
         return new Result();
     }

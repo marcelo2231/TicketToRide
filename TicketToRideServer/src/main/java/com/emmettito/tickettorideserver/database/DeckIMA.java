@@ -10,15 +10,15 @@ import com.emmettito.models.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeckDao {
+public class DeckIMA {
     /** Variables **/
-    GameDao gameDao = new GameDao();
+    GameIMA mGameIMA = new GameIMA();
 
     private int numShuffles = 0;
 
     /** Destination Card Deck **/
     public DestinationCardDeck getDestCardDeck(String gameName) throws Exception{
-        Game game = gameDao.getActiveGame(gameName);
+        Game game = mGameIMA.getActiveGame(gameName);
         if (game == null) { throw new Exception("Invalid game name."); }
         DestinationCardDeck deck = game.getDestinationCardDeck();
         if (deck == null) { throw new Exception("Destination card Deck is null."); }
@@ -26,7 +26,7 @@ public class DeckDao {
     }
 
     public ArrayList<DestinationCard> getPlayerDestCardDeck(String gameName, String playerName) throws Exception{
-        Player player = gameDao.getPlayer(gameName, playerName);
+        Player player = mGameIMA.getPlayer(gameName, playerName);
         if (player == null) { throw new Exception("Unable to find player on this game."); }
         ArrayList<DestinationCard> deck = player.getDestinationCards();
         if (deck == null) { throw new Exception("Deck is null."); }
@@ -64,7 +64,7 @@ public class DeckDao {
 
     public boolean removeDestCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<DestinationCard> deck = getPlayerDestCardDeck(gameName, playerName);
-        Game game = gameDao.getGame(gameName);
+        Game game = mGameIMA.getGame(gameName);
         for (DestinationCard c : deck){
             if (c.getCardID() == cardID){
                 game.getDestinationCardDeck().getDiscardPile().add(c);
@@ -76,7 +76,7 @@ public class DeckDao {
 
     /** Train Card Deck **/
     public TrainCardDeck getTrainCardDeck(String gameName) throws Exception{
-        Game game = gameDao.getActiveGame(gameName);
+        Game game = mGameIMA.getActiveGame(gameName);
         if (game == null) { throw new Exception("Invalid game name."); }
         TrainCardDeck deck = game.getTrainCardDeck();
         if (deck == null) { throw new Exception("Train card Deck is null."); }
@@ -84,7 +84,7 @@ public class DeckDao {
     }
 
     public ArrayList<TrainCard> getPlayerTrainCardDeck(String gameName, String playerName) throws Exception{
-        Player player = gameDao.getPlayer(gameName, playerName);
+        Player player = mGameIMA.getPlayer(gameName, playerName);
         if (player == null) { throw new Exception("Unable to find player on this game."); }
         ArrayList<TrainCard> deck = player.getTrainCards();
         if (deck == null) { throw new Exception("Deck is null."); }
@@ -148,7 +148,7 @@ public class DeckDao {
 
     public boolean removeTrainCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<TrainCard> deck = getPlayerTrainCardDeck(gameName, playerName);
-        Game game = gameDao.getGame(gameName);
+        Game game = mGameIMA.getGame(gameName);
         for (TrainCard c : deck){
             if (c.getCardID() == cardID){
                 game.getTrainCardDeck().getDiscardPile().add(c);

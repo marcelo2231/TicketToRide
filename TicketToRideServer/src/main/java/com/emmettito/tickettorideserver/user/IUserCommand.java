@@ -1,10 +1,9 @@
 package com.emmettito.tickettorideserver.user;
 
 import com.emmettito.models.Results.Result;
-import com.emmettito.tickettorideserver.database.GameDao;
-import com.emmettito.tickettorideserver.database.UserDao;
+import com.emmettito.tickettorideserver.database.UserIMA;
 
 public interface IUserCommand {
-    UserDao userDatabase = new UserDao();
+    UserIMA userDatabase = new UserIMA();
     Result execute(Object obj) throws Exception ;
 }

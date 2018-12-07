@@ -5,13 +5,13 @@ import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.CommandModels.GameCommands.DrawDestCardRequest;
 import com.emmettito.models.Results.DrawDestCardResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.DeckDao;
+import com.emmettito.tickettorideserver.database.DeckIMA;
 
 import java.io.InputStream;
 
 public class DrawDestCardCommand implements IGameCommand{
     DrawDestCardRequest commandModel;
-    DeckDao deckDatabase = new DeckDao();
+    DeckIMA deckDatabase = new DeckIMA();
     @Override
     public DrawDestCardResult execute(Object obj, String authToken) throws Exception {
         /** Cast Object **/

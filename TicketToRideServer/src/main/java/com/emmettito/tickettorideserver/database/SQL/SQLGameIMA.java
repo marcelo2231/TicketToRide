@@ -2,7 +2,7 @@ package com.emmettito.tickettorideserver.database.SQL;
 
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
-import com.emmettito.tickettorideserver.database.IGameDAO;
+import com.emmettito.tickettorideserver.database.IGameIMA;
 import com.google.gson.Gson;
 
 import java.sql.Connection;
@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SQLGameDAO implements IGameDAO {
+public class SQLGameIMA implements IGameIMA {
 
     private Connection conn;
 
-    public SQLGameDAO(Connection conn) { this.conn = conn; };
+    public SQLGameIMA(Connection conn) { this.conn = conn; };
 
 
     @Override
