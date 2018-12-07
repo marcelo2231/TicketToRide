@@ -1,4 +1,6 @@
-package com.emmettito.tickettorideserver.database;
+package com.emmettito.tickettorideserver.database.SQL;
+
+import com.emmettito.tickettorideserver.database.IUserDAO;
 
 public class SQLUserDAO implements IUserDAO {
 

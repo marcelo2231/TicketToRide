@@ -1,7 +1,8 @@
-package com.emmettito.tickettorideserver.database;
+package com.emmettito.tickettorideserver.database.SQL;
 
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
+import com.emmettito.tickettorideserver.database.IGameDAO;
 
 import java.util.List;
 
