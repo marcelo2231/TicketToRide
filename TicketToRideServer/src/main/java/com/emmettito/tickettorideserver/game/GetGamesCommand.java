@@ -1,16 +1,16 @@
-package com.emmettito.tickettorideserver.gameLobby;
+package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.Game;
 import com.emmettito.models.Results.GetGamesResult;
 
 import java.util.ArrayList;
 
-public class GetGamesCommand implements IGameLobbyCommand {
+public class GetGamesCommand implements IGameCommand {
     @Override
     public GetGamesResult execute(Object obj, String authToken) throws Exception {
         /** Get list of games **/
         ArrayList<Game> games;
-        games = gameLobbyDatabase.getGames();
+        games = gameDao.getGames();
 
         if (games == null){
             games = new ArrayList<>();

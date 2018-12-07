@@ -1,4 +1,4 @@
-package com.emmettito.tickettorideserver.gameLobby;
+package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.GetPlayersRequest;
 import com.emmettito.models.Game;
@@ -9,7 +9,7 @@ import com.emmettito.tickettorideserver.communication.Serializer;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class GetPlayersCommand implements IGameLobbyCommand {
+public class GetPlayersCommand implements IGameCommand {
     GetPlayersRequest commandModel;
 
     @Override
@@ -24,7 +24,7 @@ public class GetPlayersCommand implements IGameLobbyCommand {
 
         /** Get game and validate **/
         String gameName = commandModel.getGameName();
-        Game targetGame = gameLobbyDatabase.getGame(gameName);
+        Game targetGame = gameDao.getGame(gameName);
         GetPlayersResult getPlayersResult = new GetPlayersResult();
 
         if (targetGame.equals(null)) {
@@ -32,7 +32,7 @@ public class GetPlayersCommand implements IGameLobbyCommand {
         }
 
         /** Check if game started **/
-        Game game = gameLobbyDatabase.getActiveGame(commandModel.getGameName());
+        Game game = gameDao.getActiveGame(commandModel.getGameName());
 
         if (game == null){
             // Game have not started, do nothing

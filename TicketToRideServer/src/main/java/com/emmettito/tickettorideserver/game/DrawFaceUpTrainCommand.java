@@ -32,7 +32,7 @@ public class DrawFaceUpTrainCommand  implements IGameCommand{
         }
 
         /** Validate **/
-        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
         if(commandModel.getCardIndex() < 0 || commandModel.getCardIndex() > 4){
@@ -58,7 +58,7 @@ public class DrawFaceUpTrainCommand  implements IGameCommand{
         String requestJson = new Serializer().serialize(commandModel);
         String resultJson = new Serializer().serialize(result);
         Command command = new Command(commandModel.getPlayerName(), "DrawFaceUpTrainCard", description, requestJson, resultJson);
-        gameDatabase.addCommand(commandModel.getGameName(), command);
+        gameDao.addCommand(commandModel.getGameName(), command);
         return result;
     }
 }

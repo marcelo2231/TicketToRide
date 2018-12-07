@@ -1,20 +1,15 @@
-package com.emmettito.tickettorideserver.gameLobby;
+package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.AuthToken;
 import com.emmettito.models.CommandModels.GameLobbyCommands.JoinGameRequest;
-import com.emmettito.models.Game;
 import com.emmettito.models.Player;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.GameLobbyDao;
 
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class JoinGameCommand implements IGameLobbyCommand{
+public class JoinGameCommand implements IGameCommand{
     JoinGameRequest commandModel;
 
     @Override
@@ -27,18 +22,18 @@ public class JoinGameCommand implements IGameLobbyCommand{
         }
 
         /** Validate **/
-        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
+        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
             throw new Exception("Invalid authToken or username. You do not have authorization to execute this command.");
         }
 
         /** Creating a player and adding it to the game **/
         GameLobbyResult result = new GameLobbyResult();
-        ArrayList<Player> players = gameDatabase.getPlayers(commandModel.getGameName());
+        ArrayList<Player> players = gameDao.getPlayers(commandModel.getGameName());
         Player newPlayer = new Player(commandModel.getUsername(), players.size());
 
         try {
-            gameDatabase.addPlayer(commandModel.getGameName(), newPlayer);
-            result.setRenewedAuthToken(userDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
+            gameDao.addPlayer(commandModel.getGameName(), newPlayer);
+            result.setRenewedAuthToken(userDao.generateAuthToken(commandModel.getUsername()).getAuthToken());
         }catch(Exception e){
             throw e;
         }

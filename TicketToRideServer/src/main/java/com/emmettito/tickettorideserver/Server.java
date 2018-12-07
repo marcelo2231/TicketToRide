@@ -17,7 +17,6 @@ import java.net.InetSocketAddress;
 /**Server class: used to serve the Ticket to Ride clients*/
 public class Server {
 
-
     public static void main(String[] args) throws Exception {
         Server server = new Server();
 
@@ -128,7 +127,7 @@ public class Server {
         IUserDAO newUserDAO = factory.getUserDAO();
         IGameDAO newGameDAO = factory.getGameDAO();
 
-        if (userDAO != null && gameDAO != null && !wipe) {   // Data in database, clearing not specified
+        if (userDAO != null && gameDAO != null && !wipe) {   // Data in database, clearing not specified //TODO: is this check for wiping the database valid/needed?
             if (newUserDAO.getClass() != userDAO.getClass()) {
                 throw new Exception("Error: Data in database. Cannot change database types without overwriting data. Run with -wipe to clear database.");
             }

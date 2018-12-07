@@ -1,12 +1,11 @@
-package com.emmettito.tickettorideserver.game;
+package com.emmettito.tickettorideserver.game.chat;
 
 import com.emmettito.models.CommandModels.GameCommands.ChatRequest;
-import com.emmettito.models.Game;
 import com.emmettito.models.Results.ChatResult;
-import com.emmettito.models.Results.Result;
 import com.emmettito.models.Tuple;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.ChatDao;
+import com.emmettito.tickettorideserver.game.IGameCommand;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class ChatCommand implements IGameCommand {
         }
 
         /** Validate **/
-        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 

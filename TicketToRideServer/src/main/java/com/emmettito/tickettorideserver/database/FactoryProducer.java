@@ -1,5 +1,8 @@
 package com.emmettito.tickettorideserver.database;
 
+import com.emmettito.tickettorideserver.database.FlatFile.FFFactory;
+import com.emmettito.tickettorideserver.database.SQL.SQLFactory;
+
 import java.io.File;
 
 public class FactoryProducer {
@@ -34,13 +37,15 @@ public class FactoryProducer {
 
         File plugin = getPlugin(database_type); // TODO: needs to load plugin
 
-//        if (pluginType.equalsIgnoreCase("sqlite")) {
-//            return new SQLFactory();
-//        }
-//        else if (pluginType.equalsIgnoreCase("flatfile")) {
-//            return new FFFactory();
-//        }
+        // TODO: actually use plugin here & get rid of this code:
 
-        return null;    //DAO Type not supported
+        if (database_type.equalsIgnoreCase("sqlite")) {
+            return new SQLFactory();
+        }
+        else if (database_type.equalsIgnoreCase("flatfile")) {
+            return new FFFactory();
+        }
+
+        return null;
     }
 }

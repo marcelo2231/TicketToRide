@@ -18,12 +18,12 @@ public class QuitGameCommand implements IGameCommand {
         }catch(Exception e){
             throw new Exception("ExitGameCommand: command was null, please, make sure to set the QuitGameCommandModel.");
         }
-        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
         /** Get Game **/
-        Game targetGame = gameLobbyDatabase.getGame(commandModel.getGameName());
+        Game targetGame = gameDao.getGame(commandModel.getGameName());
         if (targetGame == null) {
             throw new Exception("Error, game not found");
         }

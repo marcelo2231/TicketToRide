@@ -19,7 +19,7 @@ public class GetGameCommand implements IGameCommand{
         }
 
         /** Get list of games **/
-        Game game = gameLobbyDatabase.getGame(commandModel.getGameName());
+        Game game = gameDao.getGame(commandModel.getGameName());
 
         if (game == null) { throw new Exception("Game not found"); }
 
