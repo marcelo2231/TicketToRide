@@ -22,12 +22,12 @@ public class PlayerTurnCommand implements IGameCommand{
         }
 
         /** Validate **/
-        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
-        Game game = gameLobbyDatabase.getActiveGame(commandModel.getGameName());
-        Player player = gameDatabase.getPlayer(commandModel.getGameName(), commandModel.getPlayerName());
+        Game game = gameDao.getActiveGame(commandModel.getGameName());
+        Player player = gameDao.getPlayer(commandModel.getGameName(), commandModel.getPlayerName());
         if (game == null){
             throw new Exception("Invalid game name.");
         }
@@ -39,7 +39,7 @@ public class PlayerTurnCommand implements IGameCommand{
             throw new Exception("It is not your turn yet!");
         }
 
-        int newPosition = gameDatabase.incrementTurn(commandModel.getGameName());
+        int newPosition = gameDao.incrementTurn(commandModel.getGameName());
 
         Result result = new Result(true, newPosition);
 
@@ -48,7 +48,7 @@ public class PlayerTurnCommand implements IGameCommand{
         String requestJson = new Serializer().serialize(commandModel);
         String resultJson = new Serializer().serialize(result);
         Command command = new Command(commandModel.getPlayerName(), "PlayerEndTurn", description, requestJson, resultJson);
-        gameDatabase.addCommand(commandModel.getGameName(), command);
+        gameDao.addCommand(commandModel.getGameName(), command);
 
         return result;
     }

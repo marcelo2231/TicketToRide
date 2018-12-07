@@ -4,6 +4,8 @@ import com.emmettito.models.CommandModels.GameCommandType;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.game.*;
+import com.emmettito.tickettorideserver.game.chat.ChatCommand;
+import com.emmettito.tickettorideserver.game.chat.GetChatCommand;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -95,7 +97,7 @@ public class GameHandler implements HttpHandler {
                     result = new GetCommandsCommand().execute(input, authToken);
                     break;
                 default:
-                    throw new Exception("Path is invalid. This URL Path does not have permissions to make those changes.");
+                    throw new Exception("This URL path is invalid.");
             }
         }
         catch(Exception e){

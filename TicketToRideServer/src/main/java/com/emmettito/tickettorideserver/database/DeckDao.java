@@ -12,14 +12,13 @@ import java.util.List;
 
 public class DeckDao {
     /** Variables **/
-    private static Database dbInstance = Database.getInstance();
-    GameLobbyDao gameLobbyDao = new GameLobbyDao();
     GameDao gameDao = new GameDao();
+
     private int numShuffles = 0;
 
     /** Destination Card Deck **/
     public DestinationCardDeck getDestCardDeck(String gameName) throws Exception{
-        Game game = gameLobbyDao.getActiveGame(gameName);
+        Game game = gameDao.getActiveGame(gameName);
         if (game == null) { throw new Exception("Invalid game name."); }
         DestinationCardDeck deck = game.getDestinationCardDeck();
         if (deck == null) { throw new Exception("Destination card Deck is null."); }
@@ -65,7 +64,7 @@ public class DeckDao {
 
     public boolean removeDestCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<DestinationCard> deck = getPlayerDestCardDeck(gameName, playerName);
-        Game game = gameLobbyDao.getGame(gameName);
+        Game game = gameDao.getGame(gameName);
         for (DestinationCard c : deck){
             if (c.getCardID() == cardID){
                 game.getDestinationCardDeck().getDiscardPile().add(c);
@@ -77,7 +76,7 @@ public class DeckDao {
 
     /** Train Card Deck **/
     public TrainCardDeck getTrainCardDeck(String gameName) throws Exception{
-        Game game = gameLobbyDao.getActiveGame(gameName);
+        Game game = gameDao.getActiveGame(gameName);
         if (game == null) { throw new Exception("Invalid game name."); }
         TrainCardDeck deck = game.getTrainCardDeck();
         if (deck == null) { throw new Exception("Train card Deck is null."); }
@@ -149,7 +148,7 @@ public class DeckDao {
 
     public boolean removeTrainCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
         ArrayList<TrainCard> deck = getPlayerTrainCardDeck(gameName, playerName);
-        Game game = gameLobbyDao.getGame(gameName);
+        Game game = gameDao.getGame(gameName);
         for (TrainCard c : deck){
             if (c.getCardID() == cardID){
                 game.getTrainCardDeck().getDiscardPile().add(c);

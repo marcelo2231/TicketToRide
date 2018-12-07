@@ -8,11 +8,11 @@ public class FFFactory extends AbstractDAOFactory {
 
     @Override
     public IUserDAO getUserDAO() {
-        return null;
+        return new FFUserDAO();
     }
 
     @Override
     public IGameDAO getGameDAO() {
-        return null;
+        return new FFGameDAO();
     }
 }

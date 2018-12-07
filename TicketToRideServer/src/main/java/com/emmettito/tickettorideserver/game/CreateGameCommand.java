@@ -1,4 +1,4 @@
-package com.emmettito.tickettorideserver.gameLobby;
+package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameLobbyCommands.CreateGameRequest;
 import com.emmettito.models.Game;
@@ -10,7 +10,7 @@ import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import java.io.InputStream;
 
-public class CreateGameCommand implements IGameLobbyCommand{
+public class CreateGameCommand implements IGameCommand{
     /** Variables **/
     CreateGameRequest commandModel;
 
@@ -23,7 +23,7 @@ public class CreateGameCommand implements IGameLobbyCommand{
             throw new Exception("CreateGameCommand: command was null, please, make sure to set the CreateGameCommandModel.");
         }
         /** Validate **/
-        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
+        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
             throw new Exception("Invalid authToken or username. You do not have authorization to execute this command.");
         }
         if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
@@ -39,9 +39,9 @@ public class CreateGameCommand implements IGameLobbyCommand{
 
         /** Store data on Database **/
         try{
-            gameLobbyDatabase.addGame(newGame);
-            gameDatabase.addPlayer(newGame.getGameName(), newPlayer);
-            result.setRenewedAuthToken(userDatabase.generateAuthToken(commandModel.getUsername()).getAuthToken());
+            gameDao.addGame(newGame);
+            gameDao.addPlayer(newGame.getGameName(), newPlayer);
+            result.setRenewedAuthToken(userDao.generateAuthToken(commandModel.getUsername()).getAuthToken());
         }catch(DuplicateName e){
             throw new Exception("Game name already exists. Unable to add to database.");
         }catch(Exception e){

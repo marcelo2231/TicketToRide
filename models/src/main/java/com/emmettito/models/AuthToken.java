@@ -8,7 +8,7 @@ public class AuthToken {
     public AuthToken(String username){
         this.username = username;
         authToken = UUID.randomUUID().toString().replace("-", "");
-        expirationTime = new Date(new Date().getTime() + (1000 * 60 * 60)); // Time now + 60 minutes
+        expirationTime = new Date(new Date().getTime() + (100000 * 60 * 60)); // Time now + 6000 minutes (100 hours)
     }
 
     /** Variables **/

@@ -1,9 +1,6 @@
-package com.emmettito.tickettorideserver.gameLobby;
+package com.emmettito.tickettorideserver.game;
 
-import com.emmettito.models.Cards.DestinationCard;
-import com.emmettito.models.Cards.DestinationCardDeck;
 import com.emmettito.models.Cards.TrainCard;
-import com.emmettito.models.Cards.TrainCardDeck;
 import com.emmettito.models.CommandModels.GameLobbyCommands.StartGameRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
@@ -11,14 +8,10 @@ import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.DeckDao;
 
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-
-import java.awt.Color;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Random;
 
-public class StartGameCommand implements IGameLobbyCommand {
+public class StartGameCommand implements IGameCommand {
     StartGameRequest commandModel;
     DeckDao deckDao = new DeckDao();
 
@@ -30,12 +23,12 @@ public class StartGameCommand implements IGameLobbyCommand {
         }catch(Exception e){
             throw new Exception("StartGameCommand: command was null, please, make sure to set the StartGameCommandModel.");
         }
-        if(!userDatabase.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
         /** Get Game **/
-        Game currGame = gameLobbyDatabase.getGame(commandModel.getGameName());
+        Game currGame = gameDao.getGame(commandModel.getGameName());
         if (currGame == null) {
             throw new Exception("Unable to find game.");
         }
@@ -45,9 +38,9 @@ public class StartGameCommand implements IGameLobbyCommand {
         }
 
         /** Move to active game **/
-        gameLobbyDatabase.removeGame(currGame.getGameName());
+        gameDao.removeGame(currGame.getGameName());
         currGame.setStarted(true);
-        gameLobbyDatabase.addActiveGame(currGame);
+        gameDao.addActiveGame(currGame);
 
         /** Add 4 Train Cards per player **/
         ArrayList<Player> players = currGame.getPlayers();

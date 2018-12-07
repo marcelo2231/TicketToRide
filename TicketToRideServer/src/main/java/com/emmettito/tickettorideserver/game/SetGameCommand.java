@@ -18,7 +18,7 @@ public class SetGameCommand implements IGameCommand{
         }
 
         /** Get list of games **/
-        gameLobbyDatabase.setGame(commandModel.getGame());
+        gameDao.setGame(commandModel.getGame());
 
         /** Prepare Result **/
         Result result = new Result();
