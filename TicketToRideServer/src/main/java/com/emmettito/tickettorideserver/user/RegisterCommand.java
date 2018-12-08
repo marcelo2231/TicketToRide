@@ -25,6 +25,28 @@ public class RegisterCommand implements IUserCommand{
         User newUser = new User(commandModel.getUsername(), commandModel.getPassword());
         AuthToken resultAuthToken;
 
+        checkUserInputs(newUser);
+
+        /** Add User to InternalMemory **/
+        if(userDatabase.getUser(newUser.getUsername()) != null) {
+            throw new Exception("Username already exists. Unable to add to database.");
+        }
+        if(!userDatabase.addUser(newUser)){
+            throw new Exception("Unable to add user to database.");
+        }
+
+        /** Generate new Auth Token **/
+        resultAuthToken = userDatabase.generateAuthToken(newUser.getUsername());
+
+        /** Prepare Result **/
+        Result result = new Result();
+        result.setSuccess(true);
+        result.setMessage("Registered Successfully.");
+        result.setData(resultAuthToken.getAuthToken());
+        return result;
+    }
+
+    private void checkUserInputs(User newUser) throws Exception {
         /** Validate Username **/
         if(newUser.getUsername() == null || newUser.getUsername().isEmpty() ||
                 newUser.getPassword().isEmpty() || newUser.getPassword() == null){
@@ -51,24 +73,5 @@ public class RegisterCommand implements IUserCommand{
                 throw new Exception("Invalid password. Password must not have white space.");
             }
         }
-
-
-        /** Add User to InternalMemory **/
-        if(userDatabase.getUser(newUser.getUsername()) != null) {
-            throw new Exception("Username already exists. Unable to add to database.");
-        }
-        if(!userDatabase.addUser(newUser)){
-            throw new Exception("Unable to add user to database.");
-        }
-
-        /** Generate new Auth Token **/
-        resultAuthToken = userDatabase.generateAuthToken(newUser.getUsername());
-
-        /** Prepare Result **/
-        Result result = new Result();
-        result.setSuccess(true);
-        result.setMessage("Registered Successfully.");
-        result.setData(resultAuthToken.getAuthToken());
-        return result;
     }
 }

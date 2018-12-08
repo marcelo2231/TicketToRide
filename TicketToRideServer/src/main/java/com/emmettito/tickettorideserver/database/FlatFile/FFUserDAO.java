@@ -49,8 +49,8 @@ public class FFUserDAO implements IUserDAO {
     }
 
     @Override
-    public boolean checkAuthToken(String authToken) {
-        return false;
+    public boolean checkAuthToken(String username, String authToken) {
+        return true;
     }
 
     @Override

@@ -6,6 +6,6 @@ public interface IUserDAO {
     boolean addUser(String username, String password);
     User getUser(String username);
     String generateAuthToken(String username);
-    boolean checkAuthToken(String authToken);
+    boolean checkAuthToken(String username, String authToken);
     void clearDatabase();
 }
