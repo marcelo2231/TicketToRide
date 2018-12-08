@@ -46,22 +46,27 @@ public class FFGameDAO implements IGameDAO {
     }
 
     @Override
-    public Game updateGame(String gameName, List<Command> commands) {
-        File[] files = new File("Games/").listFiles();
-        for (File f : files){
-            try{
-                Game game = (Game)serializer.deserialize(new ByteArrayInputStream(f.toString().getBytes()), Game.class);
-                if(game.getGameName().equals(gameName)){
-                    game.setCommands(new ArrayList<>(commands));
-                    removeGame(gameName);
-                    addGame(game);
-                    return game;
-                }
-            }catch (Exception e){
-            }
-        }
+    public Game updateGame(String gameName, String updatedGame) {
         return null;
     }
+
+//    @Override
+//    public Game updateGame(String gameName, List<Command> commands) {
+//        File[] files = new File("Games/").listFiles();
+//        for (File f : files){
+//            try{
+//                Game game = (Game)serializer.deserialize(new ByteArrayInputStream(f.toString().getBytes()), Game.class);
+//                if(game.getGameName().equals(gameName)){
+//                    game.setCommands(new ArrayList<>(commands));
+//                    removeGame(gameName);
+//                    addGame(game);
+//                    return game;
+//                }
+//            }catch (Exception e){
+//            }
+//        }
+//        return null;
+//    }
 
     @Override
     public boolean addCompletedGame(String gameName) {
@@ -85,14 +90,19 @@ public class FFGameDAO implements IGameDAO {
     }
 
     @Override
-    public boolean clearGames() {
-        File dir = new File("Games");
-        try {
-            FileUtils.deleteDirectory(dir);
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+    public boolean clearDatabase() {
+        return false;
     }
+
+//    @Override
+//    public boolean clearGames() {
+//        File dir = new File("Games");
+//        try {
+//            FileUtils.deleteDirectory(dir);
+//            return true;
+//        }
+//        catch (Exception e){
+//            return false;
+//        }
+//    }
 }
