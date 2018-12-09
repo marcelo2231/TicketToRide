@@ -3,7 +3,7 @@ package com.emmettito.tickettorideserver.user;
 import com.emmettito.models.CommandModels.UserCommands.LogoutRequest;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
+
 import java.io.InputStream;
 
 public class LogoutCommand implements IUserCommand{
@@ -24,9 +24,9 @@ public class LogoutCommand implements IUserCommand{
         }
 
         /** Add User to InternalMemory **/
-        if(!userDatabase.removeAuthToken(commandModel.getUsername())){
+        /*if(!userDatabase.removeAuthToken(commandModel.getUsername())){
             throw new Exception("No user logged in with requested username. Logout failed.");
-        }
+        }*/
 
         /** Prepare Result **/
         return new Result(true, "Logout successfully.");

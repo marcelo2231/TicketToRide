@@ -27,8 +27,11 @@ public class RegisterCommand implements IUserCommand{
 
         checkUserInputs(newUser);
 
+        User username = userDatabase.getUser(newUser.getUsername());
+
         /** Add User to InternalMemory **/
-        if(userDatabase.getUser(newUser.getUsername()) != null) {
+        if(username != null) {
+            System.out.println(username.getUsername());
             throw new Exception("Username already exists. Unable to add to database.");
         }
         if(!userDatabase.addUser(newUser)){

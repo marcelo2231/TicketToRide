@@ -1,8 +1,6 @@
 package com.emmettito.tickettorideserver.database;
 
-import com.emmettito.models.AuthToken;
 import com.emmettito.models.Game;
-import com.emmettito.models.User;
 
 import java.util.ArrayList;
 
@@ -24,8 +22,8 @@ public class InternalMemory {
     public ArrayList<Game> gameLobby = new ArrayList<>();
     public ArrayList<Game> activeGame = new ArrayList<>();
     public ArrayList<Game> endedGame = new ArrayList<>();
-    public ArrayList<User> users = new ArrayList<>();
-    public ArrayList<AuthToken> tokens = new ArrayList<>();
+    //public ArrayList<User> users = new ArrayList<>();
+    //public ArrayList<AuthToken> tokens = new ArrayList<>();
 
     public void setGameDAO(IGameDAO dao) {
         gameDAO = dao;

@@ -30,6 +30,9 @@ public class AuthToken {
     }
 
     /** Setters */
+    public void setAuthToken(String token) {
+        authToken = token;
+    }
 
     /** Helpers **/
     public boolean isValid(){
