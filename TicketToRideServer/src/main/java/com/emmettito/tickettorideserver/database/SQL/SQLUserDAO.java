@@ -15,7 +15,7 @@ public class SQLUserDAO implements IUserDAO {
     private PreparedStatement statement = null;
     private ResultSet results = null;
 
-    SQLUserDAO() {
+    public SQLUserDAO() {
         String driver = "org.sqlite.JDBC";
 
         try {
@@ -78,7 +78,7 @@ public class SQLUserDAO implements IUserDAO {
 
             if(!results.next()) {   //User not in database
                 statement.close();
-                connection.rollback();
+                //connection.rollback();
                 return null;
             }
 

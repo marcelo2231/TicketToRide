@@ -7,6 +7,7 @@ dependencies {
     compile 'org.apache.commons:commons-io:1.3.2'
     implementation project(':models')
     implementation files('/Users/JohnPaul/AndroidStudioProjects/TicketToRide/lib/sqlite-jdbc-3.8.7.jar')
+    implementation files('/Users/JohnPaul/AndroidStudioProjects/TicketToRide/plugins/*.jar')
 }
 
 sourceCompatibility = "1.7"
