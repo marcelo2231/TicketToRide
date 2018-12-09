@@ -8,6 +8,8 @@ dependencies {
     implementation project(':models')
     implementation files('/Users/JohnPaul/AndroidStudioProjects/TicketToRide/lib/sqlite-jdbc-3.8.7.jar')
     implementation files('/Users/JohnPaul/AndroidStudioProjects/TicketToRide/plugins/*.jar')
+    implementation files('/Users/JohnPaul/AndroidStudioProjects/TicketToRide/lib/commons-io-2.6.jar')
+    implementation files('/Users/JohnPaul/AndroidStudioProjects/TicketToRide/lib/commons-io-2.6.jar')
 }
 
 sourceCompatibility = "1.7"
