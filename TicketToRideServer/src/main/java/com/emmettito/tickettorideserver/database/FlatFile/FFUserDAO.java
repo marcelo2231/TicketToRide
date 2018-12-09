@@ -2,14 +2,11 @@ package com.emmettito.tickettorideserver.database.FlatFile;
 
 import com.emmettito.models.User;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.database.InternalMemory;
 import com.emmettito.tickettorideserver.database.IUserDAO;
 
-import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 public class FFUserDAO implements IUserDAO {
     Serializer serializer = new Serializer();
@@ -57,7 +54,7 @@ public class FFUserDAO implements IUserDAO {
     public void clearDatabase() {
         File dir = new File("Users");
         try {
-            FileUtils.deleteDirectory(dir);
+            //FileUtils.deleteDirectory(dir);
         }
         catch (Exception e){
         }

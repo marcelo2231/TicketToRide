@@ -1,17 +1,12 @@
 package com.emmettito.tickettorideserver.database.FlatFile;
 
-import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.IGameDAO;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FFGameDAO implements IGameDAO {
     Serializer serializer = new Serializer();
