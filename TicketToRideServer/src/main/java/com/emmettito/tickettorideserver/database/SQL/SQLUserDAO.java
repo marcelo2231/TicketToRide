@@ -146,7 +146,7 @@ public class SQLUserDAO implements IUserDAO {
 
     @Override
     public void clearDatabase() {
-        String drop = "drop table if exists person";
+        String drop = "drop table if exists user";
 
         runUpdate(drop);
 

@@ -30,6 +30,7 @@ public class Server {
         try {
             server.initializeDatabases(database_type, wipe);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
             System.out.println("Exiting...");
             return;
@@ -124,6 +125,12 @@ public class Server {
 
         IUserDAO newUserDAO = factory.getUserDAO();
         IGameDAO newGameDAO = factory.getGameDAO();
+
+        if (wipe) {
+            System.out.println("I got here");
+            newGameDAO.clearDatabase();
+            newUserDAO.clearDatabase();
+        }
 
         database.setGameDAO(newGameDAO);
         database.setUserDAO(newUserDAO);

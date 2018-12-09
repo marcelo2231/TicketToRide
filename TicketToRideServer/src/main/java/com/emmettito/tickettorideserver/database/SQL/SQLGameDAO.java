@@ -5,6 +5,7 @@ import com.emmettito.tickettorideserver.database.IGameDAO;
 import com.google.gson.Gson;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,14 +15,32 @@ public class SQLGameDAO implements IGameDAO {
     private Connection conn;
 
     public SQLGameDAO() {
-        this.conn = null;
+        String driver = "org.sqlite.JDBC";
+
+        try {
+            Class.forName(driver);
+
+            String dbname = "jdbc:sqlite:games.db";     //Name of the database file
+
+            conn = DriverManager.getConnection(dbname);
+
+            String create = "create table if not exists games (gamename text not null primary key, " +
+                    "game blob);";
+
+            PreparedStatement stmt = conn.prepareStatement(create);
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     };
 
 
     @Override
     public boolean addGame(Game game) {
         PreparedStatement stmt = null;
-        String sql = "INSERT INTO `Games` VALUES (?,?);";
+        String sql = "insert games values (?,?)";
         Gson gson = new Gson();
         try {
             stmt = conn.prepareStatement(sql);
@@ -45,7 +64,7 @@ public class SQLGameDAO implements IGameDAO {
     @Override
     public Game getGame(String gameName) {
         PreparedStatement stmt = null;
-        String sql = "SELECT * FROM `Games` WHERE GameID = ?;;";
+        String sql = "select * from games where gamename = ?";
         ResultSet rs = null;
         Gson gson = new Gson();
         try {
@@ -63,7 +82,7 @@ public class SQLGameDAO implements IGameDAO {
     @Override
     public boolean removeGame(String gameName) {
         PreparedStatement stmt = null;
-        String sql = "DELETE from `Games` WHERE gameID = ?;";
+        String sql = "delete from games where gamename = ?";
         Gson gson = new Gson();
         try {
             stmt = conn.prepareStatement(sql);
@@ -81,7 +100,7 @@ public class SQLGameDAO implements IGameDAO {
     @Override
     public Game updateGame(String gameName, String updatedGame) {
         PreparedStatement stmt = null;
-        String sql = "UPDATE `Games` SET Data = ? WHERE gameID = ?";
+        String sql = "update games set game = ? where gamename = ?";
         Gson gson = new Gson();
         try {
             stmt = conn.prepareStatement(sql);
@@ -98,7 +117,7 @@ public class SQLGameDAO implements IGameDAO {
     @Override
     public boolean clearDatabase() {
         PreparedStatement stmt = null;
-        String sql = "Delete from `Games`";
+        String sql = "delete from games";
         try {
             stmt = conn.prepareStatement(sql);
             stmt.execute();
