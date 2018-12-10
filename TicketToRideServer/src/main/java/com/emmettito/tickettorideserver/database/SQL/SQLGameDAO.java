@@ -23,7 +23,7 @@ public class SQLGameDAO implements IGameDAO {
         try {
             Class.forName(driver);
 
-            String dbname = "jdbc:sqlite:" + sqlite_directory + "ttr.db";     //Name of the database file
+            String dbname = "jdbc:sqlite:" + sqlite_directory + "games.db";     //Name of the database file
 
             conn = DriverManager.getConnection(dbname);
 

@@ -23,7 +23,7 @@ public class SQLUserDAO implements IUserDAO {
         try {
             Class.forName(driver);
 
-            String dbname = "jdbc:sqlite:" + sqlite_directory + "ttr.db";     //Name of the database file
+            String dbname = "jdbc:sqlite:" + sqlite_directory + "user.db";     //Name of the database file
 
             connection = DriverManager.getConnection(dbname);
 
@@ -33,7 +33,6 @@ public class SQLUserDAO implements IUserDAO {
             statement = connection.prepareStatement(create);
             statement.executeUpdate();
             statement.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
