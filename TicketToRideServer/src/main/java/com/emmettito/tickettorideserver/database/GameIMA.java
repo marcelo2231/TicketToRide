@@ -150,6 +150,8 @@ public class GameIMA {
         // Get Game
         Game game = getGame(gameName);
 
+        System.out.println("Here");
+
         // Game Validation
         if (game == null){
             throw new Exception("Game does not exist.");
@@ -168,10 +170,14 @@ public class GameIMA {
             }
         }
 
+        System.out.println("There");
+
         // Add newPlayer
         newList.add(newPlayer);
         game.setPlayers(newList);
         Game games = setGame(game);
+
+        System.out.println("Everywhere");
     }
 
     /*public void removePlayer(String gameName, Player targetPlayer) throws Exception{

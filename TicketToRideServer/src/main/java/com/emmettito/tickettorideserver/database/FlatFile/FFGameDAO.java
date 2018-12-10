@@ -3,7 +3,6 @@ package com.emmettito.tickettorideserver.database.FlatFile;
 import com.emmettito.models.Game;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.IGameDAO;
-import java.nio.file.*;
 
 import org.apache.commons.io.FileUtils;
 
@@ -11,6 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -147,11 +148,15 @@ public class FFGameDAO implements IGameDAO {
 
         File file = searchFiles(gameName, direct);
 
+        System.out.println("First");
+
         if (file != null) {
             try{
                 scanner = new Scanner(file).useDelimiter("\\Z");
                 String content = scanner.next();
                 scanner.close();
+
+                System.out.println("Second");
 
                 Game game = (Game)serializer.deserialize(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Game.class);
 
@@ -159,6 +164,8 @@ public class FFGameDAO implements IGameDAO {
             }catch (Exception e){
             }
         }
+
+        System.out.println("Third");
 
         direct = directory + "Active/";
 
@@ -187,25 +194,29 @@ public class FFGameDAO implements IGameDAO {
 
         ArrayList<Game> games = new ArrayList<>();
 
-        if (!onlyActiveGames) {
+        if (!onlyActiveGames && files != null) {
             for (int i = 0; i < files.length; i++) {
                 String gameName = files[i].getName();
                 gameName = gameName.replace(".txt", "");
                 Game game = getGame(gameName);
 
+                System.out.println(gameName);
+                System.out.println(game);
+
                 games.add(game);
             }
         }
 
-        for (int i = 0; i < filesActive.length; i++) {
-            String gameName = filesActive[i].getName();
-            gameName = gameName.replace(".txt", "");
+        if (filesActive != null) {
+            for (int i = 0; i < filesActive.length; i++) {
+                String gameName = filesActive[i].getName();
+                gameName = gameName.replace(".txt", "");
 
-            Game game = getGame(gameName);
+                Game game = getGame(gameName);
 
-            games.add(game);
+                games.add(game);
+            }
         }
-
         return games;
     }
 
