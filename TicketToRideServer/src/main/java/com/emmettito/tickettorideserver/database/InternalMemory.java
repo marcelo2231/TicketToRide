@@ -1,20 +1,33 @@
 package com.emmettito.tickettorideserver.database;
 
 import com.emmettito.models.Game;
+import com.emmettito.tickettorideserver.game.IGameCommand;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class InternalMemory {
     /** Constructor and instance **/
     private static InternalMemory instance;
-    private IGameDAO gameDAO = null;
-    private IUserDAO userDAO = null;
+
+    private IGameDAO gameDAO;
+    private IUserDAO userDAO;
+    private HashMap<String, List<IGameCommand>> gameCommands;
+
+    private InternalMemory() {
+        gameDAO = null;
+        userDAO = null;
+        gameCommands = new HashMap<>();
+    }
 
     public static InternalMemory getInstance(){
         if (instance == null){
             instance = new InternalMemory();
         }
         return instance;
+
+
     }
 
     /** Stored Variables **/
