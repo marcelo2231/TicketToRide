@@ -18,10 +18,12 @@ public class SQLGameDAO implements IGameDAO {
     public SQLGameDAO() {
         String driver = "org.sqlite.JDBC";
 
+        String sqlite_directory = System.getProperty("user.dir") + "/plugins/sqlite/";
+
         try {
             Class.forName(driver);
 
-            String dbname = "jdbc:sqlite:games.db";     //Name of the database file
+            String dbname = "jdbc:sqlite:" + sqlite_directory + "ttr.db";     //Name of the database file
 
             conn = DriverManager.getConnection(dbname);
 
