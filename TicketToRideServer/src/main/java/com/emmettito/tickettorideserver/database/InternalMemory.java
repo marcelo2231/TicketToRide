@@ -9,8 +9,7 @@ public class InternalMemory {
     private static InternalMemory instance;
     private IGameDAO gameDAO = null;
     private IUserDAO userDAO = null;
-    private InternalMemory(){
-    }
+
     public static InternalMemory getInstance(){
         if (instance == null){
             instance = new InternalMemory();
