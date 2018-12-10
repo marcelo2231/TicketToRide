@@ -94,10 +94,14 @@ public class FFGameDAO implements IGameDAO {
 
     @Override
     public Game updateGame(String gameName, String updatedGame) {
-        File gameFile = searchFiles(gameName,directory + "/Active");
+        File gameFile = searchFiles(gameName,directory + "Lobby/");
 
         if (gameFile == null) {
-            return null;
+
+            gameFile = searchFiles(gameName,directory + "Active/");
+            if(gameFile == null) {
+                return null;
+            }
         }
 
         ByteArrayInputStream stream = new ByteArrayInputStream(updatedGame.getBytes(StandardCharsets.UTF_8));
