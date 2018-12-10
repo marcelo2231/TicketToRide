@@ -18,10 +18,12 @@ public class SQLUserDAO implements IUserDAO {
     public SQLUserDAO() {
         String driver = "org.sqlite.JDBC";
 
+        String sqlite_directory = System.getProperty("user.dir") + "/plugins/sqlite/";
+
         try {
             Class.forName(driver);
 
-            String dbname = "jdbc:sqlite:user.db";     //Name of the database file
+            String dbname = "jdbc:sqlite:" + sqlite_directory + "ttr.db";     //Name of the database file
 
             connection = DriverManager.getConnection(dbname);
 
