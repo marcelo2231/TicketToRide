@@ -97,6 +97,7 @@ public class FFGameDAO implements IGameDAO {
             try{
                 scanner = new Scanner(f).useDelimiter("\\Z");
                 String content = scanner.next();
+                scanner.close();
 
                 Game game = (Game)serializer.deserialize(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Game.class);
                 if(game.getGameName().equals(gameName)){
@@ -150,6 +151,7 @@ public class FFGameDAO implements IGameDAO {
             try{
                 scanner = new Scanner(file).useDelimiter("\\Z");
                 String content = scanner.next();
+                scanner.close();
 
                 Game game = (Game)serializer.deserialize(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Game.class);
 
@@ -166,6 +168,7 @@ public class FFGameDAO implements IGameDAO {
             try{
                 scanner = new Scanner(file).useDelimiter("\\Z");
                 String content = scanner.next();
+                scanner.close();
 
                 Game game = (Game)serializer.deserialize(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Game.class);
 
