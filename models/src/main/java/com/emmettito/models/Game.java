@@ -187,10 +187,12 @@ public class Game extends Observable {
     }
 
     public boolean isPlayerTurn(Player player){
-       if (playerTurnIndex == players.indexOf(player)){
-           return true;
-       }
-       return false;
+        Player playerToCheck = getOnePlayer(player.getPlayerName());
+
+        if (playerTurnIndex == players.indexOf(playerToCheck)){
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<Command> getCommands() {

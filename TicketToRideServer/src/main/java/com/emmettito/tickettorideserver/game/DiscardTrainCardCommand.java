@@ -21,7 +21,7 @@ public class DiscardTrainCardCommand implements IGameCommand {
             throw new Exception("DiscardTrainCardCommand: command was null, please, make sure to set the DrawTrainCommandModel.");
         }
         /** Validate **/
-        if (!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())) {
+        if (!userIMA.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())) {
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
@@ -38,7 +38,7 @@ public class DiscardTrainCardCommand implements IGameCommand {
         String requestJson = new Serializer().serialize(commandModel);
         String resultJson = new Serializer().serialize(result);
         Command command = new Command(commandModel.getPlayerName(), "DiscardTrainCard", description, requestJson, resultJson);
-        gameDao.addCommand(commandModel.getGameName(), command);
+        gameIMA.addCommand(commandModel.getGameName(), command);
         return result;
     }
 }

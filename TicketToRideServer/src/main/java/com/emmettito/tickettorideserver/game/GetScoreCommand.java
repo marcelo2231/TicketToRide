@@ -16,7 +16,7 @@ public class GetScoreCommand implements IGameCommand{
         }catch (Exception e){
             throw new Exception("GetScoreCommand: command was null, please, make sure to set the GetScoreCommandModel.");
         }
-        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userIMA.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 

@@ -10,7 +10,7 @@ public class GetActiveGamesCommand implements IGameCommand {
     public GetGamesResult execute(Object obj, String authToken) throws Exception {
         /** Get list of games **/
         ArrayList<Game> games;
-        games = gameDao.getActiveGames();
+        games = gameIMA.getActiveGames();
 
         if (games == null){
 

@@ -1,14 +1,14 @@
 package com.emmettito.tickettorideserver.communication.handlers;
 
 import com.emmettito.models.CommandModels.UserCommandType;
-import com.emmettito.models.CommandModels.UserCommands.*;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
-import com.emmettito.tickettorideserver.user.*;
+import com.emmettito.tickettorideserver.user.LoginCommand;
+import com.emmettito.tickettorideserver.user.LogoutCommand;
+import com.emmettito.tickettorideserver.user.RegisterCommand;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;

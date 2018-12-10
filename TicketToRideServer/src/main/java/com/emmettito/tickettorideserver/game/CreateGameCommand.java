@@ -23,7 +23,7 @@ public class CreateGameCommand implements IGameCommand{
             throw new Exception("CreateGameCommand: command was null, please, make sure to set the CreateGameCommandModel.");
         }
         /** Validate **/
-        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
+        if(!userIMA.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
             throw new Exception("Invalid authToken or username. You do not have authorization to execute this command.");
         }
         if(commandModel.getGameName() == null || commandModel.getGameName().isEmpty()){
@@ -34,17 +34,19 @@ public class CreateGameCommand implements IGameCommand{
         Game newGame = new Game();
         GameLobbyResult result = new GameLobbyResult();
         newGame.setGameName(commandModel.getGameName());
+        newGame.setStarted(false);
 
         Player newPlayer = new Player(commandModel.getUsername(), 0);
 
         /** Store data on InternalMemory **/
         try{
-            gameDao.addGame(newGame);
-            gameDao.addPlayer(newGame.getGameName(), newPlayer);
-            result.setRenewedAuthToken(userDao.generateAuthToken(commandModel.getUsername()).getAuthToken());
+            gameIMA.addGame(newGame, false);
+            gameIMA.addPlayer(newGame.getGameName(), newPlayer);
+            result.setRenewedAuthToken(userIMA.generateAuthToken(commandModel.getUsername()).getAuthToken());
         }catch(DuplicateName e){
             throw new Exception("Game name already exists. Unable to add to database.");
         }catch(Exception e){
+            e.printStackTrace();
             throw e;
         }
 

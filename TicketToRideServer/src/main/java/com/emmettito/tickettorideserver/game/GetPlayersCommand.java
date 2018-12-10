@@ -24,19 +24,27 @@ public class GetPlayersCommand implements IGameCommand {
 
         /** Get game and validate **/
         String gameName = commandModel.getGameName();
-        Game targetGame = gameDao.getGame(gameName);
+        Game targetGame = gameIMA.getGame(gameName);
         GetPlayersResult getPlayersResult = new GetPlayersResult();
 
         if (targetGame.equals(null)) {
             throw new Exception("Game does not exist on database.");
         }
 
-        /** Check if game started **/
-        Game game = gameDao.getActiveGame(commandModel.getGameName());
+        System.out.println("Has the game started: " + targetGame.isStarted());
 
-        if (game == null){
+        /** Check if game started **/
+        Game game = gameIMA.getGame(commandModel.getGameName());
+
+        System.out.println("How about now: " + game.isStarted());
+
+        /*if (game == null){
             // Game have not started, do nothing
         }else{
+            //getPlayersResult.setDidGameStart(true);
+        }*/
+
+        if (game.isStarted()) {
             getPlayersResult.setDidGameStart(true);
         }
 

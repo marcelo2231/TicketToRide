@@ -77,6 +77,7 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
             thisGameActivity.updatePlayerTrainCards();
             thisGameActivity.updateMapView();
             thisGameActivity.updateFaceUpCards();
+            thisGameActivity.checkTrainCardDeck();
             timerHandler.postDelayed(this, 500);
         }
     };
@@ -659,6 +660,10 @@ public class GameActivity extends FragmentActivity implements DestCardDisplayFra
     public boolean checkTrainCardDeck(){
         Game game = data.getGame();
         TrainCardDeck deck = game.getTrainCardDeck();
+
+        if (game.getTrainCardDeck().getNumFaceUpWilds() >= 3) {
+            shuffleFaceUpCards();
+        }
 
         if(deck.getAvailable().size() > 0){
             return true;

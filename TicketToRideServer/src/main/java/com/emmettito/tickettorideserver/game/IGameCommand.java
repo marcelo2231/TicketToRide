@@ -4,7 +4,7 @@ import com.emmettito.tickettorideserver.database.GameIMA;
 import com.emmettito.tickettorideserver.database.UserIMA;
 
 public interface IGameCommand {
-    GameIMA gameDao = new GameIMA();
-    UserIMA userDao = new UserIMA();
+    GameIMA gameIMA = new GameIMA();
+    UserIMA userIMA = new UserIMA();
     Object execute(Object obj, String authToken) throws Exception ;
 }

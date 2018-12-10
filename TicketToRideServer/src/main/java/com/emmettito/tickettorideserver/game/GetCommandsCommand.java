@@ -22,7 +22,7 @@ public class GetCommandsCommand implements IGameCommand {
 
         /** Get chat **/
         GetCommandsResult result = new GetCommandsResult();
-        ArrayList<Command> data = gameDao.getCommands(commandModel.getGameName(), commandModel.getCurrIndex());
+        ArrayList<Command> data = gameIMA.getCommands(commandModel.getGameName(), commandModel.getCurrIndex());
 
         /** Prepare Result **/
         result.setSuccess(true);

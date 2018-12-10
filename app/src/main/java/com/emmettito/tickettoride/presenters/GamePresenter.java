@@ -151,6 +151,7 @@ public class GamePresenter implements Observer {
         try{
             newIndex = (int) result.getData();
         } catch (Exception e){
+            System.out.println("This is very good");
             if(game.getPlayerTurnIndex() + 1 >= game.getPlayers().size()){
                 return 0;
             }
@@ -158,6 +159,7 @@ public class GamePresenter implements Observer {
 
 
         }
+        System.out.println(newIndex);
         return newIndex;
     }
 

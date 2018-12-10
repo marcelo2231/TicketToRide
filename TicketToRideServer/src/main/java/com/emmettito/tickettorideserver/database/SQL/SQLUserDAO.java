@@ -133,7 +133,6 @@ public class SQLUserDAO implements IUserDAO {
 
             if (!results.next()) {
                 statement.close();
-                connection.rollback();
                 return false;
             }
         } catch (SQLException e) {

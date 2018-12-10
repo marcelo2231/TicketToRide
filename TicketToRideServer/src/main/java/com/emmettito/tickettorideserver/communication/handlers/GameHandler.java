@@ -61,6 +61,7 @@ public class GameHandler implements HttpHandler {
                     result = new ClaimRouteCommand().execute(input, authToken);
                     break;
                 case "discardtraincard":
+                    System.out.println("discardtraincard");
                     result = new DiscardTrainCardCommand().execute(input, authToken);
                     break;
                 case "discarddestcard":
@@ -101,6 +102,7 @@ public class GameHandler implements HttpHandler {
             }
         }
         catch(Exception e){
+            e.printStackTrace();
             result = new Result(false, "GameHandler: " + e.getMessage());
         }
         finally {

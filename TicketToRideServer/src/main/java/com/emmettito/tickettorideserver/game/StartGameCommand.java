@@ -23,12 +23,12 @@ public class StartGameCommand implements IGameCommand {
         }catch(Exception e){
             throw new Exception("StartGameCommand: command was null, please, make sure to set the StartGameCommandModel.");
         }
-        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userIMA.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
         /** Get Game **/
-        Game currGame = gameDao.getGame(commandModel.getGameName());
+        Game currGame = gameIMA.getGame(commandModel.getGameName());
         if (currGame == null) {
             throw new Exception("Unable to find game.");
         }
@@ -38,9 +38,9 @@ public class StartGameCommand implements IGameCommand {
         }
 
         /** Move to active game **/
-        gameDao.removeGame(currGame.getGameName());
+        gameIMA.removeGame(currGame.getGameName());
         currGame.setStarted(true);
-        gameDao.addActiveGame(currGame);
+        gameIMA.addGame(currGame, true);
 
         /** Add 4 Train Cards per player **/
         ArrayList<Player> players = currGame.getPlayers();

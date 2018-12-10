@@ -127,7 +127,6 @@ public class Server {
         IGameDAO newGameDAO = factory.getGameDAO();
 
         if (wipe) {
-            System.out.println("I got here");
             newGameDAO.clearDatabase();
             newUserDAO.clearDatabase();
         }

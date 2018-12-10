@@ -18,25 +18,33 @@ public class DeckIMA {
 
     /** Destination Card Deck **/
     public DestinationCardDeck getDestCardDeck(String gameName) throws Exception{
-        Game game = mGameIMA.getActiveGame(gameName);
-        if (game == null) { throw new Exception("Invalid game name."); }
+        Game game = mGameIMA.getGame(gameName);
+        if (game == null) {
+            throw new Exception("Invalid game name.");
+        }
         DestinationCardDeck deck = game.getDestinationCardDeck();
-        if (deck == null) { throw new Exception("Destination card Deck is null."); }
+        if (deck == null) {
+            throw new Exception("Destination card Deck is null.");
+        }
         return deck;
     }
 
     public ArrayList<DestinationCard> getPlayerDestCardDeck(String gameName, String playerName) throws Exception{
         Player player = mGameIMA.getPlayer(gameName, playerName);
-        if (player == null) { throw new Exception("Unable to find player on this game."); }
+        if (player == null) {
+            throw new Exception("Unable to find player on this game.");
+        }
         ArrayList<DestinationCard> deck = player.getDestinationCards();
-        if (deck == null) { throw new Exception("Deck is null."); }
+        if (deck == null) {
+            throw new Exception("Deck is null.");
+        }
         return deck;
     }
 
-    public boolean addDestCardToBottomDeck(String gameName, DestinationCard card) throws Exception{
+    /*public boolean addDestCardToBottomDeck(String gameName, DestinationCard card) throws Exception{
         DestinationCardDeck deck = getDestCardDeck(gameName);
         return deck.getAvailableCards().add(card);
-    }
+    }*/
 
     public DestinationCard removeTopDestCardFromDeck(String gameName) throws Exception{
         DestinationCardDeck deck = getDestCardDeck(gameName);
@@ -54,6 +62,12 @@ public class DeckIMA {
 
         DestinationCard top = availableCards.get(0);
         availableCards.remove(0);
+
+        Game game = mGameIMA.getGame(gameName);
+        deck.setAvailableCards(availableCards);
+        game.setDestinationCardDeck(deck);
+        mGameIMA.setGame(game);
+
         return top;
     }
 
@@ -76,30 +90,38 @@ public class DeckIMA {
 
     /** Train Card Deck **/
     public TrainCardDeck getTrainCardDeck(String gameName) throws Exception{
-        Game game = mGameIMA.getActiveGame(gameName);
-        if (game == null) { throw new Exception("Invalid game name."); }
+        Game game = mGameIMA.getGame(gameName);
+        if (game == null) {
+            throw new Exception("Invalid game name.");
+        }
         TrainCardDeck deck = game.getTrainCardDeck();
-        if (deck == null) { throw new Exception("Train card Deck is null."); }
+        if (deck == null) {
+            throw new Exception("Train card Deck is null.");
+        }
         return deck;
     }
 
     public ArrayList<TrainCard> getPlayerTrainCardDeck(String gameName, String playerName) throws Exception{
         Player player = mGameIMA.getPlayer(gameName, playerName);
-        if (player == null) { throw new Exception("Unable to find player on this game."); }
+        if (player == null) {
+            throw new Exception("Unable to find player on this game.");
+        }
         ArrayList<TrainCard> deck = player.getTrainCards();
-        if (deck == null) { throw new Exception("Deck is null."); }
+        if (deck == null) {
+            throw new Exception("Deck is null.");
+        }
         return deck;
     }
 
-    public void shuffleTrainCard(String gameName) throws Exception{
+    /*public void shuffleTrainCard(String gameName) throws Exception{
         TrainCardDeck deck = getTrainCardDeck(gameName);
         deck.shuffle();
-    }
+    }*/
 
-    public boolean addTrainCardToBottomDeck(String gameName, TrainCard card) throws Exception{
+    /*public boolean addTrainCardToBottomDeck(String gameName, TrainCard card) throws Exception{
         TrainCardDeck deck = getTrainCardDeck(gameName);
         return deck.getAvailable().add(card);
-    }
+    }*/
 
     public TrainCard removeTopTrainCardFromDeck(String gameName) throws Exception{
         TrainCardDeck deck = getTrainCardDeck(gameName);
@@ -118,6 +140,13 @@ public class DeckIMA {
         // Remove card from top
         top = availableCards.get(0);
         availableCards.remove(0);
+
+
+        Game game = mGameIMA.getGame(gameName);
+        deck.setAvailable(availableCards);
+        game.setTrainCardDeck(deck);
+        mGameIMA.setGame(game);
+
         return top;
     }
 
@@ -143,7 +172,15 @@ public class DeckIMA {
 
     public boolean addTrainCardToPlayer(String gameName, String playerName, TrainCard card) throws Exception{
         ArrayList<TrainCard> deck = getPlayerTrainCardDeck(gameName , playerName);
-        return deck.add(card);
+        deck.add(card);
+
+        Player player = mGameIMA.getPlayer(gameName, playerName);
+        player.setTrainCards(deck);
+        Game game = mGameIMA.getGame(gameName);
+        game.setOnePlayer(player);
+        mGameIMA.setGame(game);
+
+        return true;
     }
 
     public boolean removeTrainCardFromPlayer(String gameName, String playerName, int cardID) throws Exception{
@@ -196,6 +233,11 @@ public class DeckIMA {
                 reShuffleFaceUpCards(gameName);
             }
         }
+
+        Game game = mGameIMA.getGame(gameName);
+        game.setTrainCardDeck(deck);
+        mGameIMA.setGame(game);
+
         return true;
     }
 }

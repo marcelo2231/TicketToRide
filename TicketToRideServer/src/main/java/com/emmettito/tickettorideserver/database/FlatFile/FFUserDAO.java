@@ -28,7 +28,7 @@ public class FFUserDAO implements IUserDAO {
         try {
             String gameJson = serializer.serialize(new User(username, password));
             PrintWriter out = new PrintWriter(fileName);
-            System.out.println(gameJson);
+            //System.out.println(gameJson);
             out.println(gameJson);
             out.close();
         }
@@ -41,11 +41,11 @@ public class FFUserDAO implements IUserDAO {
 
     @Override
     public User getUser(String username) {
-        System.out.println(directory);
+        //System.out.println(directory);
         File[] files = new File(directory).listFiles();
 
         for (File f : files){
-            System.out.println(f.getName());
+            //System.out.println(f.getName());
             try{
                 String content = new Scanner(f).useDelimiter("\\Z").next();
 

@@ -22,18 +22,18 @@ public class JoinGameCommand implements IGameCommand{
         }
 
         /** Validate **/
-        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
+        if(!userIMA.authTokenAndUserAreValid(authToken, commandModel.getUsername())){
             throw new Exception("Invalid authToken or username. You do not have authorization to execute this command.");
         }
 
         /** Creating a player and adding it to the game **/
         GameLobbyResult result = new GameLobbyResult();
-        ArrayList<Player> players = gameDao.getPlayers(commandModel.getGameName());
+        ArrayList<Player> players = gameIMA.getPlayers(commandModel.getGameName());
         Player newPlayer = new Player(commandModel.getUsername(), players.size());
 
         try {
-            gameDao.addPlayer(commandModel.getGameName(), newPlayer);
-            result.setRenewedAuthToken(userDao.generateAuthToken(commandModel.getUsername()).getAuthToken());
+            gameIMA.addPlayer(commandModel.getGameName(), newPlayer);
+            result.setRenewedAuthToken(userIMA.generateAuthToken(commandModel.getUsername()).getAuthToken());
         }catch(Exception e){
             throw e;
         }

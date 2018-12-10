@@ -18,16 +18,16 @@ public class EndGameCommand implements IGameCommand{
         }catch (Exception e){
             throw new Exception("EndGameCommand: command was null, please, make sure to set the EndGameCommandModel.");
         }
-        if(!userDao.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        if(!userIMA.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
         }
 
         // TODO: Store data on InternalMemory
 
         //gameLobbyDatabase.removeActiveGame(commandModel.getGameName());
-        Game game = gameDao.getGame(commandModel.getGameName());
-        gameDao.removeActiveGame(game.getGameName());
-        gameDao.addEndedGame(game);
+        Game game = gameIMA.getGame(commandModel.getGameName());
+        gameIMA.removeGame(game.getGameName());
+        gameIMA.addEndedGame(game);
 
 
         return new Result();

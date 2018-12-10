@@ -14,8 +14,12 @@ public class DefaultHandler  implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         String uri = httpExchange.getRequestURI().toString();
         String filePathStr = uri;
-        if (uri.equals("/")) { filePathStr = "lib/web/index.html"; }
-        else{ filePathStr = "data/web" + filePathStr; }
+        if (uri.equals("/")) {
+            filePathStr = "lib/web/index.html";
+        }
+        else{
+            filePathStr = "data/web" + filePathStr;
+        }
 
         Path filePath = FileSystems.getDefault().getPath(filePathStr);
         httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
