@@ -3,6 +3,7 @@ package com.emmettito.tickettorideserver.database.FlatFile;
 import com.emmettito.models.Game;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.IGameDAO;
+import java.nio.file.*;
 
 import org.apache.commons.io.FileUtils;
 
@@ -15,6 +16,9 @@ import java.util.Scanner;
 
 public class FFGameDAO implements IGameDAO {
     Serializer serializer = new Serializer();
+
+    Scanner scanner;
+
 
     String directory = System.getProperty("user.dir") + "/Games/";
 
@@ -55,8 +59,15 @@ public class FFGameDAO implements IGameDAO {
         File file = searchFiles(gameName, direct);
 
         if (file != null) {
-            file.delete();
-            return true;
+            try {
+                String toDelete = direct + gameName + ".txt";
+                scanner.close();
+                Files.deleteIfExists(Paths.get(toDelete));
+                return true;
+            }
+            catch(Exception e){
+                return false;
+            }
         }
 
         direct = directory + "Active/";
@@ -64,8 +75,14 @@ public class FFGameDAO implements IGameDAO {
         file = searchFiles(gameName, direct);
 
         if (file != null) {
-            file.delete();
-            return true;
+            try {
+                String toDelete = direct + gameName + ".txt";
+                Files.deleteIfExists(Paths.get(toDelete));
+                return true;
+            }
+            catch(Exception e){
+                return false;
+            }
         }
 
         return false;
@@ -78,7 +95,8 @@ public class FFGameDAO implements IGameDAO {
         }
         for (File f : files){
             try{
-                String content = new Scanner(f).useDelimiter("\\Z").next();
+                scanner = new Scanner(f).useDelimiter("\\Z");
+                String content = scanner.next();
 
                 Game game = (Game)serializer.deserialize(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Game.class);
                 if(game.getGameName().equals(gameName)){
@@ -94,11 +112,12 @@ public class FFGameDAO implements IGameDAO {
 
     @Override
     public Game updateGame(String gameName, String updatedGame) {
+        boolean isActive = false;
         File gameFile = searchFiles(gameName,directory + "Lobby/");
 
         if (gameFile == null) {
-
             gameFile = searchFiles(gameName,directory + "Active/");
+            isActive = true;
             if(gameFile == null) {
                 return null;
             }
@@ -114,9 +133,9 @@ public class FFGameDAO implements IGameDAO {
             return null;
         }
 
-        gameFile.delete();
+        removeGame(game.getGameName());
 
-        addGame(game, true);
+        addGame(game, isActive);
 
         return null;
     }
@@ -129,7 +148,8 @@ public class FFGameDAO implements IGameDAO {
 
         if (file != null) {
             try{
-                String content = new Scanner(file).useDelimiter("\\Z").next();
+                scanner = new Scanner(file).useDelimiter("\\Z");
+                String content = scanner.next();
 
                 Game game = (Game)serializer.deserialize(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Game.class);
 
@@ -144,7 +164,8 @@ public class FFGameDAO implements IGameDAO {
 
         if (file != null) {
             try{
-                String content = new Scanner(file).useDelimiter("\\Z").next();
+                scanner = new Scanner(file).useDelimiter("\\Z");
+                String content = scanner.next();
 
                 Game game = (Game)serializer.deserialize(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Game.class);
 
