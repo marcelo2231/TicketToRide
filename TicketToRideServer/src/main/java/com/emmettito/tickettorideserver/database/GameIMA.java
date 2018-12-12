@@ -27,13 +27,6 @@ public class GameIMA {
     /* Start of methods moved from the GameLobbyDao */
 
     public void addGame(Game newGame, boolean isActive) throws DuplicateName {
-        /*if (getGame(newGame.getGameName()) != null) {
-            throw new DuplicateName();
-        }
-        else {
-            dbInstance.gameLobby.add(newGame);
-        }*/
-
         IGameDAO dao = dbInstance.getGameDAO();
 
         if (getGame(newGame.getGameName()) != null) {
@@ -44,22 +37,6 @@ public class GameIMA {
     }
 
     public Game getGame(String gameName) {
-        /*for (Game g : dbInstance.gameLobby) {
-            if (g.getGameName().equals(gameName)) {
-                return g;
-            }
-        }
-        for (Game g : dbInstance.activeGame) {
-            if (g.getGameName().equals(gameName)) {
-                return g;
-            }
-        }
-        for (Game g : dbInstance.endedGame) {
-            if (g.getGameName().equals(gameName)) {
-                return g;
-            }
-        }*/
-
         IGameDAO dao = dbInstance.getGameDAO();
 
         Game game = dao.getGame(gameName);
@@ -75,24 +52,7 @@ public class GameIMA {
         return game;
     }
 
-    /*public Game getActiveGame(String gameName) {
-        for (Game g : dbInstance.activeGame) {
-            if (g.getGameName().equals(gameName)) {
-                return g;
-            }
-        }
-        return null;
-    }*/
-
     public Game setGame(Game game) {
-        /*for (Game g : dbInstance.activeGame){
-            if(g.getGameName().equals(game.getGameName())){
-                dbInstance.activeGame.remove(g);
-                dbInstance.activeGame.add(game);
-            }
-        }
-        return null;*/
-
         IGameDAO dao = dbInstance.getGameDAO();
 
         String updatedGame = new Gson().toJson(game);
@@ -101,23 +61,12 @@ public class GameIMA {
     }
 
     public ArrayList<Game> getGames() {
-        /*ArrayList<Game> games = new ArrayList<>();
-        for(Game g : dbInstance.gameLobby){
-            games.add(g);
-        }
-        for(Game g : dbInstance.activeGame){
-            games.add(g);
-        }
-        return games;*/
-
         IGameDAO dao = dbInstance.getGameDAO();
 
         return dao.getGames(false); //Return all games
     }
 
     public ArrayList<Game> getActiveGames(){
-        //return dbInstance.activeGame;
-
         IGameDAO dao = dbInstance.getGameDAO();
 
         return dao.getGames(true); //Return only active games
@@ -132,16 +81,6 @@ public class GameIMA {
             throw new NotFound();
         }
     }
-
-    /*public void removeActiveGame(String gameName) throws NotFound {
-        Game toBeRemoved = getGame(gameName);
-        if (toBeRemoved == null){ throw new NotFound(); }
-        if (!dbInstance.activeGame.remove(toBeRemoved)) { throw new NotFound(); }
-    }*/
-
-    /*public void addActiveGame(Game newGame) { //two active games can have the same name
-        dbInstance.activeGame.add(newGame);
-    }*/
 
     public void addEndedGame(Game endedGame) {
         dbInstance.endedGame.add(endedGame);
@@ -186,24 +125,6 @@ public class GameIMA {
 
         System.out.println("Everywhere");
     }
-
-    /*public void removePlayer(String gameName, Player targetPlayer) throws Exception{
-        // Get Game
-        Game game = getGame(gameName);
-
-        // Game Validation
-        if (game == null){
-            throw new Exception("Game does not exist.");
-        }
-
-        // Get Players
-        ArrayList<Player> newList = game.getPlayers();
-
-        // Players Validation
-        if (newList == null || !newList.remove(targetPlayer)) {
-            throw new NotFound();
-        }
-    }*/
 
     public Player getPlayer(String gameName, String playerName) throws Exception{
         // Get Game
