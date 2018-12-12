@@ -28,7 +28,7 @@ public class Server {
         System.out.printf("Database type: %s\nDelta number: %d\n", database_type, delta_num);
 
         try {
-            server.initializeDatabases(database_type, wipe);
+            server.initializeDatabases(database_type, delta_num, wipe);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -114,7 +114,7 @@ public class Server {
         return false;
     }
 
-    private void initializeDatabases(String database_type, Boolean wipe) throws Exception {
+    private void initializeDatabases(String database_type, int deltaNum, Boolean wipe) throws Exception {
         InternalMemory database = InternalMemory.getInstance();
 
         AbstractDAOFactory factory = new FactoryProducer().getFactory(database_type);
@@ -133,5 +133,7 @@ public class Server {
 
         database.setGameDAO(newGameDAO);
         database.setUserDAO(newUserDAO);
+
+        database.setDeltaNum(deltaNum);
     }
 }

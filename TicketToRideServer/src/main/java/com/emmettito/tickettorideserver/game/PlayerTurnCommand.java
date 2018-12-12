@@ -22,9 +22,9 @@ public class PlayerTurnCommand implements IGameCommand{
         }
 
         /** Validate **/
-        if(!userIMA.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
+        /*if(!userIMA.authTokenAndUserAreValid(authToken, commandModel.getPlayerName())){
             throw new Exception("Invalid authToken or playerName not authorized to user this token. You do not have authorization to execute this command.");
-        }
+        }*/
 
         Game game = gameIMA.getGame(commandModel.getGameName());
         Player player = gameIMA.getPlayer(commandModel.getGameName(), commandModel.getPlayerName());
@@ -36,9 +36,9 @@ public class PlayerTurnCommand implements IGameCommand{
             throw new Exception("Invalid player name.");
         }
 
-        if(!game.isPlayerTurn(player)){
+        /*if(!game.isPlayerTurn(player)){
             throw new Exception("It is not your turn yet!");
-        }
+        }*/
 
         int newPosition = gameIMA.incrementTurn(commandModel.getGameName());
 

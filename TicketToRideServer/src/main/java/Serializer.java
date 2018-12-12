@@ -25,6 +25,7 @@ public class Serializer {
         try {
             return stream.readObject();
         } catch (ClassNotFoundException e) {
+            System.out.println("Things");
             return null;
         }
     }

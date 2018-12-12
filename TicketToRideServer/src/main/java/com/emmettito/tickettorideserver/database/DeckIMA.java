@@ -24,6 +24,7 @@ public class DeckIMA {
         }
         DestinationCardDeck deck = game.getDestinationCardDeck();
         if (deck == null) {
+            System.out.println("No deck!");
             throw new Exception("Destination card Deck is null.");
         }
         return deck;
@@ -50,18 +51,23 @@ public class DeckIMA {
         DestinationCardDeck deck = getDestCardDeck(gameName);
         List<DestinationCard> availableCards = deck.getAvailableCards();
 
+        System.out.println("Got");
+
         if(availableCards.size() == 0){
             deck.setAvailableCards(deck.getDiscardPile());
             deck.setDiscardPile(new ArrayList<DestinationCard>());
             deck.shuffle();
             availableCards = deck.getAvailableCards();
             if(availableCards.size() == 0) {
+                System.out.println("Got here");
                 throw new Exception("There is no destination card left on deck.");
             }
         }
 
         DestinationCard top = availableCards.get(0);
         availableCards.remove(0);
+
+        System.out.println("There");
 
         Game game = mGameIMA.getGame(gameName);
         deck.setAvailableCards(availableCards);

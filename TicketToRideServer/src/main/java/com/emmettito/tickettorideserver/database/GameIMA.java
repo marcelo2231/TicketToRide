@@ -3,12 +3,19 @@ package com.emmettito.tickettorideserver.database;
 import com.emmettito.models.CommandModels.Command;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.models.Tuple;
+import com.emmettito.tickettorideserver.game.IGameCommand;
 import com.google.gson.Gson;
 
+import org.apache.commons.io.IOUtils;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Map;
+
+//import static com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetSerializer.UTF_8;
 
 public class GameIMA {
     /** Variables **/
@@ -271,4 +278,78 @@ public class GameIMA {
         setGame(game);
     }
 
+    public void addDeltaCommand(String gameName, String authToken, Tuple commandTuple) {
+        Map<String, ArrayList<Tuple>> commands = dbInstance.deltaCommands;
+
+        ArrayList<Tuple> list = new ArrayList<>();
+
+        IGameCommand command = (IGameCommand) commandTuple.getX();
+        Object information = commandTuple.getY();
+
+        String requestString = null;
+        try {
+            requestString = IOUtils.toString((InputStream) information);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        information = IOUtils.toInputStream(requestString);
+
+        try {
+            command.execute(information, authToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        commandTuple.setY(IOUtils.toInputStream(requestString));
+
+        if (commands.containsKey(gameName)) {
+            list = commands.get(gameName);
+            list.add(commandTuple);
+        }
+        else {
+            list.add(commandTuple);
+        }
+
+        Game game = getGame(gameName);
+
+        InputStream newStream = null;
+
+        Game newGame = getGame(gameName);
+
+        game.setCommands(newGame.getCommands());
+
+        setGame(game);
+
+        commands.put(gameName, list);
+
+        if (list.size() >= dbInstance.getDeltaNum()) {
+            checkpoint(list, gameName);
+
+            list.clear();
+            list = new ArrayList<>();
+
+            commands.put(gameName, list);
+        }
+    }
+
+    public void checkpoint(ArrayList<Tuple> list, String gameName) {
+        for (int i = 0; i < list.size(); i++ ){
+            Tuple tuple = list.get(i);
+            ArrayList<Command> commands = getGame(gameName).getCommands();
+
+            IGameCommand command = (IGameCommand) tuple.getX();
+            Object information = tuple.getY();
+
+            try {
+                command.execute(information, "");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Game game = getGame(gameName);
+            game.setCommands(commands);
+            setGame(game);
+        }
+    }
 }

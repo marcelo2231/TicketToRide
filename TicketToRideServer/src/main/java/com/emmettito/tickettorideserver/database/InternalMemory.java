@@ -1,6 +1,7 @@
 package com.emmettito.tickettorideserver.database;
 
 import com.emmettito.models.Game;
+import com.emmettito.models.Tuple;
 import com.emmettito.tickettorideserver.game.IGameCommand;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public class InternalMemory {
     private IGameDAO gameDAO;
     private IUserDAO userDAO;
     private HashMap<String, List<IGameCommand>> gameCommands;
+
+    private int deltaNum = 0;
 
     private InternalMemory() {
         gameDAO = null;
@@ -34,6 +37,7 @@ public class InternalMemory {
     //public ArrayList<Game> gameLobby = new ArrayList<>();
     //public ArrayList<Game> activeGame = new ArrayList<>();
     public ArrayList<Game> endedGame = new ArrayList<>();
+    public java.util.Map<String, ArrayList<Tuple>> deltaCommands = new HashMap<>();
     //public ArrayList<User> users = new ArrayList<>();
     //public ArrayList<AuthToken> tokens = new ArrayList<>();
 
@@ -51,5 +55,13 @@ public class InternalMemory {
 
     public IUserDAO getUserDAO() {
         return userDAO;
+    }
+
+    public int getDeltaNum() {
+        return deltaNum;
+    }
+
+    public void setDeltaNum(int deltaNum) {
+        this.deltaNum = deltaNum;
     }
 }
