@@ -4,6 +4,7 @@ import com.emmettito.models.Cards.TrainCard;
 import com.emmettito.models.CommandModels.GameLobbyCommands.StartGameRequest;
 import com.emmettito.models.Game;
 import com.emmettito.models.Player;
+import com.emmettito.models.PlayerColor;
 import com.emmettito.models.Results.GameLobbyResult;
 import com.emmettito.tickettorideserver.communication.Serializer;
 import com.emmettito.tickettorideserver.database.DeckIMA;
@@ -37,13 +38,24 @@ public class StartGameCommand implements IGameCommand {
             throw new Exception("Unable to start game. You must have at least 2 players.");
         }
 
+        ArrayList<Player> players = currGame.getPlayers();
+
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            player.setPosition(i + 1);
+            player.setColor(PlayerColor.values()[player.getPosition() - 1]);
+            players.set(i, player);
+        }
+
+        currGame.setPlayers(players);
+
         /** Move to active game **/
         gameIMA.removeGame(currGame.getGameName());
         currGame.setStarted(true);
         gameIMA.addGame(currGame, true);
 
         /** Add 4 Train Cards per player **/
-        ArrayList<Player> players = currGame.getPlayers();
+        players = currGame.getPlayers();
         for(Player p : players){
             for(int i = 0; i < 4; i++){
                 TrainCard card = deckDao.removeTopTrainCardFromDeck(commandModel.getGameName());

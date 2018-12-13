@@ -142,7 +142,7 @@ public class GameListFragment extends Fragment implements LobbyPresenter.lobbyVi
             public void onClick(View v) {
                 for (int i = 0; i < recycle.getAdapter().getItemCount(); i++) {
                     if (mLayoutManager.findViewByPosition(i).isSelected()) {
-                        if (Integer.parseInt(games.get(i)[1]) < 5) {
+                        if (Integer.parseInt(games.get(i)[1]) < 5 || games.get(i)[2].equals("GameStarted")) {
                             joinGame(games.get(i)[0], clientInstance.getUser(),games.get(i)[2]);
                             finish();
                         }

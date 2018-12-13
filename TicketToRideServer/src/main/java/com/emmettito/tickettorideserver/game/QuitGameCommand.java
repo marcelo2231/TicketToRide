@@ -2,10 +2,12 @@ package com.emmettito.tickettorideserver.game;
 
 import com.emmettito.models.CommandModels.GameCommands.QuitGameRequest;
 import com.emmettito.models.Game;
+import com.emmettito.models.Player;
 import com.emmettito.models.Results.Result;
 import com.emmettito.tickettorideserver.communication.Serializer;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class QuitGameCommand implements IGameCommand {
     QuitGameRequest commandModel;
@@ -34,6 +36,17 @@ public class QuitGameCommand implements IGameCommand {
         }
         else {
             targetGame.removePlayer(commandModel.getPlayerName());
+            ArrayList<Player> players = targetGame.getPlayers();
+
+            /*for (int i = 0; i < players.size(); i++) {
+                Player player = players.get(i);
+                player.setPosition(i + 1);
+                player.setColor(PlayerColor.values()[player.getPosition()]);
+                players.set(i, player);
+            }
+
+            targetGame.setPlayers(players);*/
+
             gameIMA.setGame(targetGame);
         }
 

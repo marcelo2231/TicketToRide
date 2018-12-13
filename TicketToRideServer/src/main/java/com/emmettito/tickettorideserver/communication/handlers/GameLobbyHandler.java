@@ -73,6 +73,7 @@ public class GameLobbyHandler implements HttpHandler {
             }
         }
         catch(Exception e){
+            e.printStackTrace();
             result = new Result(false, "GameLobbyHandler: " + e.getMessage());
         }
         finally {
